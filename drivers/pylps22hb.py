@@ -1,3 +1,8 @@
+"""
+Driver for SPI interface on LPS22HB pressure Sensor.
+February 2018 - Jason Webster
+"""
+
 from __future__ import print_function
 import time
 import wiringpi as wp
@@ -9,7 +14,7 @@ def debug_print(string):
         print("DEBUG: " + string)
 
 
-class ADS1256:
+class LPS22HB:
     """ Wiring Diagram
      +-----+-----+---------+------+---+---Pi 2---+---+------+---------+-----+-----+
      | BCM | wPi |   Name  | Mode | V | Physical | V | Mode | Name    | wPi | BCM |
@@ -40,77 +45,124 @@ class ADS1256:
     """
 
     # These options can be adjusted to facilitate specific operation of the
-    # ADS1256, the defaults are designed to be compatible with the Waveforms
+    # LPS22HB, the defaults are designed to be compatible with the Waveforms
     # High Precision AD/DA board
     SPI_MODE        = 1
     SPI_CHANNEL     = 1
-    SPI_FREQUENCY   = 1000000 # The ADS1256 supports 768kHz to 1.92MHz
-    DRDY_TIMEOUT    = 0.5 # Seconds to wait for DRDY when communicating
-    DATA_TIMEOUT    = 0.00001 # 10uS delay for sending data
-    SCLK_FREQUENCY  = 7680000 # default clock rate is 7.68MHz
+    SPI_FREQUENCY   = 10000000 # The LPS22HB supports 10 MHz
+    #DRDY_TIMEOUT    = 0.5 # Seconds to wait for DRDY when communicating
+    #DATA_TIMEOUT    = 0.00001 # 10uS delay for sending data
 
-    # The RPI GPIO to use for chip select and ready polling
-    CS_PIN      = 15
-    DRDY_PIN    = 11
-    RESET_PIN   = 13
-    PDWN_PIN    = 12
+    # The RPI GPIO to use for chip selects and ready polling
+    # TODO - change to array
+    CS0_PIN     = 33
+    CS1_PIN     = 32
+    CS2_PIN     = 00 #23 - SPI CLK
+    CS3_PIN     = 22
+    CS4_PIN     = 35
+    CS5_PIN     = 36
+    CS6_PIN     = 00 #19 - SPI MOSI
+    CS7_PIN     = 18
+    #DRDY_PIN    = 11
+    #RESET_PIN   = 13
+    #PDWN_PIN    = 12
+
+    """
+    16 bit commands (typically)
+    bit0:     R~W 0 to write to device, 1 to read
+    bit 1-7:  Address AD(6:0) MSb first
+    bit 8-15: Data DI(7:0) or DO(7:0) MSb first
+    """
 
     # Register addresses
-    REG_STATUS  = 0x00
-    REG_MUX     = 0x01
-    REG_ADCON   = 0x02
-    REG_DRATE   = 0x03
-    REG_IO      = 0x04
-    REG_OFC0    = 0x05
-    REG_OFC1    = 0x06
-    REG_OFC2    = 0x07
-    REG_FSC0    = 0x08
-    REG_FSC1    = 0x09
-    REG_FSC2    = 0x0A
-    NUM_REG     = 11
+    REG_INTERRUPT_CFG  = 0x0B #R/W Interrupt register
+    REG_THIS_P_L       = 0x0C #R/W Pressure threshold register
+    REG_THIS_P_H       = 0x0D #R/W Pressure threshold register
+    REG_WHO_AM_I       = 0x0F # R  Who am I
+    REG_CTRL_REG1      = 0x10 #R/W Control register
+    REG_CTRL_REG2      = 0x11 #R/W Control register
+    REG_CTRL_REG3      = 0x12 #R/W Control register
+    REG_FIFO_CTRL      = 0x14 #R/W FIFO configuration register
+    REG_REF_P_XL       = 0x15 #R/W Reference pressure register
+    REG_REF_P_L        = 0x16 #R/W Reference pressure register
+    REG_REF_P_H        = 0x17 #R/W Reference pressure register
+    REG_RPDS_L         = 0x18 #R/W Pressure offset register
+    REG_RPDS_H         = 0x19 #R/W Pressure offset register
+    REG_RES_CONF       = 0x1A #R/W Resolution register
+    REG_INT_SOURCE     = 0x25 # R  Interrupt register
+    REG_FIFO_STATUS    = 0x26 # R  FIFO status register
+    REG_STATUS         = 0x27 # R  Status register
+    REG_PRESS_OUT_XL   = 0x28 # R  Pressure output register
+    REG_PRESS_OUT_L    = 0x29 # R  Pressure output register
+    REG_PRESS_OUT_H    = 0x2A # R  Pressure output register
+    REG_TEMP_OUT_L     = 0x2B # R  Temperature output register
+    REG_TEMP_OUT_H     = 0x2C # R  Temperature output register
+    REG_LPFP_RES       = 0x33 # R  Filter reset register
+    NUM_REG            = 23
 
     """
-    DRATE Register: A/D Data Rate Address 0x03 The 16 valid Data Rate settings are shown below. Make sure to select a
-    valid setting as the invalid settings may produce unpredictable results.
+    CTRL_REG1 Register: 0x10
 
-    Bits 7-0 DR[7: 0]: Data Rate Setting(1)
+    Bit 7:
+        must be set to 0
+    Bits 6-4 ODR[2:0]: Data Rate Setting
+        000 = Power down / one-shot mode enabled (default)
+        001 = 1  Hz
+        010 = 10 Hz
+        011 = 25 Hz
+        100 = 50 Hz
+        101 = 75 Hz
+    Bit 3 EN_LPFP: Enable low-pass filter
+        0 = disabled (default)
+        1 = enabled
+    Bit 1 LPFP_CFG: Low-pass configuration register
+        0 (default)
+    Bit 1 BDU: Block data update
+        0 = continuous update (default)
+        1 = output registers not updated until MSB and LSB have been read
+    Bit 0 SIM: SPI Serial Interface Mode selsction
+        0 = 4-wire (default)
+        1 = 3-wire
 
-        11110000 = 30,000SPS (default)
-        11100000 = 15,000SPS
-        11010000 = 7,500SPS
-        11000000 = 3,750SPS
-        10110000 = 2,000SPS
-        10100001 = 1,000SPS
-        10010010 = 500SPS
-        10000010 = 100SPS
-        01110010 = 60SPS
-        01100011 = 50SPS
-        01010011 = 30SPS
-        01000011 = 25SPS
-        00110011 = 15SPS
-        00100011 = 10SPS
-        00010011 = 5SPS
-        00000011 = 2.5SPS
-
-        (1) for fCLKIN = 7.68MHz. Data rates scale linearly with fCLKIN
     """
     # sample rates
-    DRATE_30000     = 0b11110000 # 30,000SPS (default)
-    DRATE_15000     = 0b11100000 # 15,000SPS
-    DRATE_7500      = 0b11010000 # 7,500SPS
-    DRATE_3750      = 0b11000000 # 3,750SPS
-    DRATE_2000      = 0b10110000 # 2,000SPS
-    DRATE_1000      = 0b10100001 # 1,000SPS
-    DRATE_500       = 0b10010010 # 500SPS
-    DRATE_100       = 0b10000010 # 100SPS
-    DRATE_60        = 0b01110010 # 60SPS
-    DRATE_50        = 0b01100011 # 50SPS
-    DRATE_30        = 0b01010011 # 30SPS
-    DRATE_25        = 0b01000011 # 25SPS
-    DRATE_15        = 0b00110011 # 15SPS
-    DRATE_10        = 0b00100011 # 10SPS
-    DRATE_5         = 0b00010011 # 5SPS
-    DRATE_2_5       = 0b00000011 # 2.5SPS
+    DRATE_0  = 0b000 # 0  Hz (default)
+    DRATE_1  = 0b001 # 1  Hz
+    DRATE_10 = 0b010 # 10 Hz
+    DRATE_25 = 0b011 # 25 Hz
+    DRATE_50 = 0b100 # 50 Hz
+    DRATE_75 = 0b101 # 75 Hz
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     # Commands
     CMD_WAKEUP  = 0x00 # Completes SYNC and exits standby mode

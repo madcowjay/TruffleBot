@@ -1,18 +1,19 @@
-import pyads1256
+from drivers import pyads1256
 import time
 
 # setup ADC
 ads = pyads1256.ADS1256()
 ads.chip_select()
 myid = ads.ReadID()
+print(myid)
 print('ADS1256 ID = ' + hex(myid))
 ads.ConfigADC()
 ads.SyncAndWakeup()
 
-ref_voltage = 4.49
+ref_voltage = 4.5
 
 # sample ADC
-ads.SetInputMux(ads.MUX_AIN0,ads.MUX_AINCOM)  # these two values can be any two ADC Inputs
+ads.SetInputMux(ads.MUX_AIN7,ads.MUX_AINCOM)
 ads.SyncAndWakeup()
 while True:
 	result = (ads.ReadADC())
