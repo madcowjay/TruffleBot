@@ -1,6 +1,6 @@
 """
 Updated 2018/01/18
-  -Fixed bug where output was incorrect in least significant byte when most 
+  -Fixed bug where output was incorrect in least significant byte when most
             significant byte was nonzero due to masking error
   -Added ability to use SPI_CE0 or SPI_CE1 as CS pin
   -Reduced write times by writing all three chars with one write command vs. three
@@ -69,7 +69,7 @@ class DAC8532:
     +------+------+------+------+------+----------------+------+------+------+------+------+------+
     |  0   |  0   |  LDB |  LDA |  X   |  Buffer Select |  PD1 |  PD0 |  D15 |  D14 |  D13 |  D12 |
     +------+------+------+------+------+----------------+------+------+------+------+------+------+
-    
+
     +------+------+------+------+------+----------------+------+------+------+------+------+------+
     | DB11 | DB10 | DB9  | DB8  | DB7  |      DB6       | DB5  | DB4  | DB3  | DB2  | DB1  | DB0  |
     +------+------+------+------+------+----------------+------+------+------+------+------+------+
@@ -101,7 +101,7 @@ class DAC8532:
         spi_success = wp.wiringPiSPISetupMode(self.SPI_CHANNEL, self.SPI_FREQUENCY, self.SPI_MODE)  #JKR
         debug_print('SPI success: ' + str(spi_success))
 
-        
+
     def delayMicroseconds(self, delayus):
         wp.delayMicroseconds(delayus)
 
@@ -128,7 +128,7 @@ class DAC8532:
         debug_print('   Decimal bytes:   %03d %03d %03d' % (byte1, byte2, byte3))
         self.SendString(bytearray((byte1,))+bytearray((byte2,))+bytearray((byte3,)))
         self.chip_release() #only needed if not using CE0 or CE1, but doesn't hurt otherwise
-       
+
     def SendDACBValue(self, newvalue):
         debug_print('Send DAC B: ' + str(int(newvalue)).rjust(5))
         self.chip_select() #only needed if not using CE0 or CE1, but doesn't hurt otherwise
@@ -138,7 +138,7 @@ class DAC8532:
         debug_print('   Decimal bytes:   %03d %03d %03d' % (byte1, byte2, byte3))
         self.SendString(bytearray((byte1,))+bytearray((byte2,))+bytearray((byte3,)))
         self.chip_release() #only needed if not using CE0 or CE1, but doesn't hurt otherwise
-        
+
     def PowerDownDACA(self):  #Powers down DAC A to high impedance
         debug_print('Powering down DAC A')
         self.chip_select() #only needed if not using CE0 or CE1, but doesn't hurt otherwise
@@ -147,7 +147,7 @@ class DAC8532:
         byte3 = (0 & 0xFF)
         self.SendString(bytearray((byte1,))+bytearray((byte2,))+bytearray((byte3,)))
         self.chip_release() #only needed if not using CE0 or CE1, but doesn't hurt otherwise
-        
+
     def PowerDownDACB(self):  #Powers down DAC B to high impedance
         debug_print('Powering down DAC B')
         self.chip_select() #only needed if not using CE0 or CE1, but doesn't hurt otherwise
@@ -155,6 +155,4 @@ class DAC8532:
         byte2 = (0 & 0xFF)
         byte3 = (0 & 0xFF)
         self.SendString(bytearray((byte1,))+bytearray((byte2,))+bytearray((byte3,)))
-        self.chip_release() #only needed if not using CE0 or CE1, but doesn't hurt otherwise       
-        
-        
+        self.chip_release() #only needed if not using CE0 or CE1, but doesn't hurt otherwise

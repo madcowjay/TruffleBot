@@ -1,3 +1,8 @@
+"""
+Note - Python 2 only - Python 3 calls to SendByte result in a segmentation fault
+    -JW
+"""
+
 from __future__ import print_function
 import time
 import wiringpi as wp

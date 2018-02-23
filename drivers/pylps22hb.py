@@ -15,7 +15,7 @@ def debug_print(string):
 
 
 class LPS22HB:
-    """ Wiring Diagram
+    """ Wiring Diagram for Raspberry Pi
      +-----+-----+---------+------+---+---Pi 2---+---+------+---------+-----+-----+
      | BCM | wPi |   Name  | Mode | V | Physical | V | Mode | Name    | wPi | BCM |
      +-----+-----+---------+------+---+----++----+---+------+---------+-----+-----+
@@ -44,32 +44,18 @@ class LPS22HB:
      +-----+-----+---------+------+---+---Pi 2---+---+------+---------+-----+-----+
     """
 
-    # These options can be adjusted to facilitate specific operation of the
-    # LPS22HB, the defaults are designed to be compatible with the Waveforms
-    # High Precision AD/DA board
     SPI_MODE        = 1
     SPI_CHANNEL     = 1
-    SPI_FREQUENCY   = 10000000 # The LPS22HB supports 10 MHz
+    SPI_FREQUENCY   = 10000000 # The LPS22HB supports 10 MHz only
     #DRDY_TIMEOUT    = 0.5 # Seconds to wait for DRDY when communicating
     #DATA_TIMEOUT    = 0.00001 # 10uS delay for sending data
 
-    # The RPI GPIO to use for chip selects and ready polling
-    # TODO - change to array
-    CS0_PIN     = 33
-    CS1_PIN     = 32
-    CS2_PIN     = 00 #23 - SPI CLK
-    CS3_PIN     = 22
-    CS4_PIN     = 35
-    CS5_PIN     = 36
-    CS6_PIN     = 00 #19 - SPI MOSI
-    CS7_PIN     = 18
-    #DRDY_PIN    = 11
-    #RESET_PIN   = 13
-    #PDWN_PIN    = 12
+    # The RPI GPIO to use for chip select - set when initialized
+    CS_PIN = 0
 
     """
     16 bit commands (typically)
-    bit0:     R~W 0 to write to device, 1 to read
+    bit0:     R or W - 0 to write to device, 1 to read
     bit 1-7:  Address AD(6:0) MSb first
     bit 8-15: Data DI(7:0) or DO(7:0) MSb first
     """
@@ -78,7 +64,7 @@ class LPS22HB:
     REG_INTERRUPT_CFG  = 0x0B #R/W Interrupt register
     REG_THIS_P_L       = 0x0C #R/W Pressure threshold register
     REG_THIS_P_H       = 0x0D #R/W Pressure threshold register
-    REG_WHO_AM_I       = 0x0F # R  Who am I
+    REG_WHO_AM_I       = 0x0F # R  Who am I = 0b10110001
     REG_CTRL_REG1      = 0x10 #R/W Control register
     REG_CTRL_REG2      = 0x11 #R/W Control register
     REG_CTRL_REG3      = 0x12 #R/W Control register
@@ -133,14 +119,70 @@ class LPS22HB:
     DRATE_50 = 0b100 # 50 Hz
     DRATE_75 = 0b101 # 75 Hz
 
+    # Initialize the pressure sensors
+    def __init__(self, cs_pin):
+        debug_print('pylps22hb initializing with:')
+        debug_print('   SPI_MODE      = %d' % self.SPI_MODE)
+        debug_print('   SPI_CHANNEL   = %d' % self.SPI_CHANNEL)
+        debug_print('   SPI_FREQUENCY = ' + format(self.SPI_FREQUENCY,','))
+        debug_print('   CS_PIN        = %d' % cs_pin)
 
+        self.CS_PIN = cs_pin
 
+        # Set up the wiringpi object to use physical pin numbers
+        wp.wiringPiSetupPhys()
 
+        # Initialize CS pins
+        wp.pinMode(self.CS_PIN, wp.OUTPUT)
+        wp.digitalWrite(self.CS_PIN, wp.HIGH)
 
+        # Initialize the wiringpi SPI setup
+        #spi_success = wp.wiringPiSPISetup(self.SPI_CHANNEL, self.SPI_FREQUENCY)
+        spi_success = wp.wiringPiSPISetupMode(self.SPI_CHANNEL, self.SPI_FREQUENCY, self.SPI_MODE)  #JKR
+        debug_print("SPI success " + str(spi_success))
 
+    def delayMicroseconds(self, delayus):
+        wp.delayMicroseconds(delayus)
 
+    def chip_select(self):
+        wp.digitalWrite(self.CS_PIN, wp.LOW)
 
+    def chip_release(self):
+        wp.digitalWrite(self.CS_PIN, wp.HIGH)
 
+    #new DAC style
+    def SendString(self, mystring):      #new DAC style
+        if DEBUG:
+            print('DEBUG:    Sending bytes:  ', end=''),
+            for c in mystring:
+                print('\\x%02x' % c, end='')
+            print('')
+        result = wp.wiringPiSPIDataRW(self.SPI_CHANNEL, bytes(mystring))
+
+    #implement 16 bit commands for now
+    #TODO: expand to more
+    def SendData(self, data):
+        debug_print('Send Press Sensor: ' + str(int(data)).rjust(5))
+        self.chip_select() #only needed if not using CE0 or CE1, but doesn't hurt otherwise
+        byte1 = ((self.LOAD_DACA | self.BUFFERSELECT_A) >> 16) & 0xFF
+        byte2 = (int(newvalue) >> 8) & 0xFF
+        debug_print('   Decimal bytes:   %03d %03d %03d' % (byte1, byte2))
+        self.SendString(bytearray((byte1,))+bytearray((byte2,)))
+        self.chip_release() #only needed if not using CE0 or CE1, but doesn't hurt otherwise
+
+    def ReadID(self):
+        """
+        Read the ID from the ADS chip
+        :returns: numeric identifier of the ADS chip
+        """
+        debug_print("ReadID")
+        self.chip_select()
+        byte1 = 0x0F
+        self.SendString(bytearray(byte1))
+        MISObyte = wp.wiringPiSPIDataRW(self.SPI_CHANNEL, chr(0xFF))
+        myid = MISObyte
+        debug_print(" readID: myid = " + str(myid))
+        return (myid)
 
 
 
@@ -290,47 +332,9 @@ class LPS22HB:
     MUX_AINCOM = 0x8
 
 
-    # The RPI GPIO to use for chip select and ready polling
-    def __init__(self):
-        debug_print('pydads1256 initializing with:')
-        debug_print('   SPI_MODE      = %d' % self.SPI_MODE)
-        debug_print('   SPI_CHANNEL   = %d' % self.SPI_CHANNEL)
-        debug_print('   SPI_FREQUENCY = ' + format(self.SPI_FREQUENCY,','))
-        debug_print('   CS_PIN    = %d' %self.CS_PIN)
-        debug_print('   DRDY_PIN  = %d' %self.DRDY_PIN)
-        debug_print('   RESET_PIN = %d' %self.RESET_PIN)
-        debug_print('   PDWN_PIN  = %d' %self.PDWN_PIN)
-        # Set up the wiringpi object to use physical pin numbers
-        wp.wiringPiSetupPhys()
 
-        # Initialize the DRDY pin
-        wp.pinMode(self.DRDY_PIN, wp.INPUT)
 
-        # Initialize the reset pin
-        wp.pinMode(self.RESET_PIN, wp.OUTPUT)
-        wp.digitalWrite(self.RESET_PIN, wp.HIGH)
 
-        # Initialize PDWN pin
-        wp.pinMode(self.PDWN_PIN, wp.OUTPUT)
-        wp.digitalWrite(self.PDWN_PIN, wp.HIGH)
-
-        # Initialize CS pin
-        wp.pinMode(self.CS_PIN, wp.OUTPUT)
-        wp.digitalWrite(self.CS_PIN, wp.HIGH)
-
-        # Initialize the wiringpi SPI setup
-        #spi_success = wp.wiringPiSPISetup(self.SPI_CHANNEL, self.SPI_FREQUENCY)
-        spi_success = wp.wiringPiSPISetupMode(self.SPI_CHANNEL, self.SPI_FREQUENCY, self.SPI_MODE)  #JKR
-        debug_print("SPI success " + str(spi_success))
-
-    def delayMicroseconds(self, delayus):
-        wp.delayMicroseconds(delayus)
-
-    def chip_select(self):
-        wp.digitalWrite(self.CS_PIN, wp.LOW)
-
-    def chip_release(self):
-        wp.digitalWrite(self.CS_PIN, wp.HIGH)
 
     def WaitDRDY(self):
         """
