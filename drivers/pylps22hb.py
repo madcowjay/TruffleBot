@@ -182,6 +182,7 @@ class LPS22HB:
         MISObyte = wp.wiringPiSPIDataRW(self.SPI_CHANNEL, chr(0xFF))
         myid = MISObyte
         debug_print(" readID: myid = " + str(myid))
+        self.chip_release
         return (myid)
 
 
