@@ -1,13 +1,11 @@
 # (very) simple test for DAC - sends a voltage to each channel
-
-from drivers import pydac8532
-
+import time
+from drivers import pylps22hb
 # set up 16 bit DAC
-dac = pydac8532.DAC8532()
 
-# a couple constants/examples
-maxVal  = 1*2**16-1
-value   = .5 * maxVal
-
-dac.SendDACAValue(0)
-dac.SendDACBValue(value)
+my_cs = [33, 32, 37, 22, 35, 36, 38, 18]
+#my_cs = [33]
+lps = []
+for i in range(len(my_cs)):
+    lps.append(pylps22hb.LPS22HB(my_cs[i]))
+    print('Press' + str(i) + ' id: ' + lps[i].ReadID())

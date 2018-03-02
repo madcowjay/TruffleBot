@@ -16,7 +16,7 @@ Updated 2018/01/18
 from __future__ import print_function
 import wiringpi as wp
 
-DEBUG = False
+DEBUG = True
 def debug_print(string):
     if DEBUG:
         print('DEBUG: ' + string)
@@ -60,10 +60,8 @@ class DAC8532:
     SPI_CHANNEL     = 0
     SPI_FREQUENCY   = 250000
     CS_PIN          = 28    # The physical pin to use for chip select and ready polling
-    #DRDY_TIMEOUT    = 0.5 # Seconds to wait for DRDY when communicating
-    #DATA_TIMEOUT    = 0.00001 # 10uS delay for sending data
 
-    """ Register for DAC8532  -JW
+    """ Register for DAC8532
     +------+------+------+------+------+----------------+------+------+------+------+------+------+
     | DB23 | DB22 | DB21 | DB20 | DB19 |      DB18      | DB17 | DB16 | DB15 | DB14 | DB13 | DB12 |
     +------+------+------+------+------+----------------+------+------+------+------+------+------+
