@@ -7,6 +7,8 @@ dac = pydac8532.DAC8532()
 
 # a couple constants/examples
 maxVal  = 1*2**16-1
-value   = .9 * maxVal
-dac.SendDACAValue(0)
-dac.SendDACBValue(value)
+value   = .25 * maxVal
+dac.SendDACAValue(value)
+dac.SendDACBValue(maxVal)
+dac.PowerDownDACA()
+dac.PowerDownDACB()

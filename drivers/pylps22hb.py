@@ -8,7 +8,7 @@ import time
 import wiringpi as wp
 import numpy as np
 
-DEBUG = False
+DEBUG = True
 def debug_print(string):
     if DEBUG:
         print("DEBUG: " + string)

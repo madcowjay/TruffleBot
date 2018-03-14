@@ -59,7 +59,7 @@ class DAC8532:
     SPI_MODE        = 1
     SPI_CHANNEL     = 0
     SPI_FREQUENCY   = 250000
-    CS_PIN          = 28    # The physical pin to use for chip select and ready polling
+    CS_PIN          = 16    # The physical pin to use for chip select and ready polling
 
     """ Register for DAC8532
     +------+------+------+------+------+----------------+------+------+------+------+------+------+

@@ -5,15 +5,15 @@ import time
 ads = pyads1256.ADS1256()
 ads.chip_select()
 myid = ads.ReadID()
-print(myid)
+print('my id is:' + str(myid))
 print('ADS1256 ID = ' + hex(myid))
 ads.ConfigADC()
 ads.SyncAndWakeup()
 
 ref_voltage = 4.5
 
-# sample ADC
-ads.SetInputMux(ads.MUX_AIN7,ads.MUX_AINCOM)
+# sample ADC	
+ads.SetInputMux(ads.MUX_AIN0,ads.MUX_AINCOM)
 ads.SyncAndWakeup()
 while True:
 	result = (ads.ReadADC())
