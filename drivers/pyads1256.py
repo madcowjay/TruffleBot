@@ -5,10 +5,15 @@ Note - Python 2 only - Python 3 calls to SendByte result in a segmentation fault
 
 from __future__ import print_function
 import time
+import os
 import wiringpi as wp
 import numpy as np
 
-DEBUG = True
+if os.environ["blah"] == 'True':
+    DEBUG = True
+else:
+    DEBUG = False
+
 def debug_print(string):
     if DEBUG:
         print("DEBUG: " + string)
@@ -319,12 +324,12 @@ class ADS1256:
         	print(str(mybyte).rjust(3), end='')
         	print(' (hex \\x%02x)' % (mybyte))
         mydata = chr(mybyte)
-        print(mybyte)
-        print(type(mybyte))
-        print(mydata)
-        print(type((mydata)))
-        print('try: %s' % mydata)
-        print('success')
+        # print(mybyte)
+        # print(type(mybyte))
+        # print(mydata)
+        # print(type((mydata)))
+        # print('try: %s' % mydata)
+        # print('success')
         result = wp.wiringPiSPIDataRW(self.SPI_CHANNEL, "%s" % mydata)   # notice workaround for single byte transfers JKR
         #debug_print("    Read " + str(result[1]))
         debug_print('    Received:    ' + str(result))

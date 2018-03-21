@@ -4,11 +4,16 @@ February 2018 - Jason Webster
 """
 
 from __future__ import print_function
+import os
 import time
 import wiringpi as wp
 import numpy as np
 
-DEBUG = True
+if os.environ["blah"] == 'True':
+    DEBUG = True
+else:
+    DEBUG = False
+
 def debug_print(string):
     if DEBUG:
         print("DEBUG: " + string)
@@ -145,9 +150,11 @@ class LPS22HB:
         wp.delayMicroseconds(delayus)
 
     def chip_select(self):
+        debug_print('selecting pin ' + str(self.CS_PIN))
         wp.digitalWrite(self.CS_PIN, wp.LOW)
 
     def chip_release(self):
+        debug_print('releasing pin ' + str(self.CS_PIN))
         wp.digitalWrite(self.CS_PIN, wp.HIGH)
 
     #new DAC style
@@ -168,10 +175,11 @@ class LPS22HB:
         """
         debug_print("ReadID")
         self.chip_select()
+        time.sleep(.2)
         byte1 = 0x8F
         byte2 = 0xFF
         debug_print('   Passing these decimal bytes to SendString:   %03d %03d' % (byte1, byte2))
-        result = self.SendString(bytearray((byte1,)) + bytearray((byte2,)))
+        result = self.SendString(bytearray((byte1,)) + bytearray((byte2,)) + bytearray((byte2,)))
         myid = hex(ord((result[1][1])))
         debug_print(" readID: myid = " + myid)
         self.chip_release()
