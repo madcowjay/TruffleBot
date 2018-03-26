@@ -66,7 +66,7 @@ class LPS22HB:
     """
     READ_MASK  = 0b10000000
     WRITE_MASK = 0b00000000
-    DUMMY_BYTE = 0b01010101
+    DUMMY_BYTE = 0b11111111
 
     # Register addresses
     REG_INTERRUPT_CFG  = 0x0B #R/W Interrupt register
@@ -165,7 +165,7 @@ class LPS22HB:
         if DEBUG:
             print('DEBUG:    Sending bytes:  ', end=''),
             for c in myString:
-                print('c = ' + str(c) + ' or \\x%02x, ' % c, end='')
+                print(str(c) + ' or \\x%02x, ' % c, end='')
             print('')
         result = wp.wiringPiSPIDataRW(self.SPI_CHANNEL, bytes(myString))
         debug_print(" SendString: result = " + str(result))
@@ -181,45 +181,66 @@ class LPS22HB:
         time.sleep(.1)
         byte1 = self.READ_MASK | self.REG_WHO_AM_I
         byte2 = self.DUMMY_BYTE
-        debug_print('   Passing these decimal bytes to SendString:   %03d %03d' % (byte1, byte2))
-        result = self.SendString(bytearray((byte1,)) + bytearray((byte2,)))
+        result = self.SendString(bytearray([byte1,byte2]))
+        self.chip_release()
+        for reg in result[1]:
+            print(format(ord(reg), '08b') + ' = '+ format(ord(reg), '02x'))
         myid = hex(ord((result[1][1])))
         debug_print(" readID: myid = " + myid)
-        self.chip_release()
         return (myid)
 
-    def ReadControlRegisters(self):
+    def ReadRegisters(self):
         """
-        Read the control registers from the LPS chip
-        :returns: #TODO
+        Read all the registers from the LPS chip and displays them on the screen
+        :returns: bytes read from the SPI transfer
         """
-        debug_print("ReadTemp")
-        byte0 = self.READ_MASK | self.REG_INTERRUPT_CFG
-        byte1 = self.READ_MASK | self.REG_CTRL_REG1
-        byte2 = self.READ_MASK | self.REG_CTRL_REG2
-        byte3 = self.READ_MASK | self.REG_CTRL_REG3
-        byte4 = self.DUMMY_BYTE
+        debug_print("ReadRegisters")
+        byte1 = self.READ_MASK | self.REG_INTERRUPT_CFG
+        byte2 = self.DUMMY_BYTE
         self.chip_select()
-        time.sleep(.5)
-        map = '     0B   0C   0D   0E   0F   10   11   12   13   14   15   16   17   18   19   1A   1B   1C   1D   1E   1F   20   21   22   23   24   25   26   27   28   29   2A   2B   2C'
-        # debug_print('   Passing these decimal bytes to SendString:   %03d %03d' % (byte1, byte4))
-        result = self.SendString(bytearray((byte0,)) + bytearray((byte4,)) + bytearray((byte4,)) + bytearray((byte4,))  + bytearray((byte4,))
-                                 + bytearray((byte4,)) + bytearray((byte4,)) + bytearray((byte4,))  + bytearray((byte4,)) + bytearray((byte4,))
-                                 + bytearray((byte4,)) + bytearray((byte4,)) + bytearray((byte4,))  + bytearray((byte4,)) + bytearray((byte4,))
-                                 + bytearray((byte4,)) + bytearray((byte4,)) + bytearray((byte4,))  + bytearray((byte4,)) + bytearray((byte4,))
-                                 + bytearray((byte4,)) + bytearray((byte4,)) + bytearray((byte4,))  + bytearray((byte4,)) + bytearray((byte4,))
-                                 + bytearray((byte4,)) + bytearray((byte4,)) + bytearray((byte4,))  + bytearray((byte4,)) + bytearray((byte4,))
-                                 + bytearray((byte4,)) + bytearray((byte4,)) + bytearray((byte4,))  + bytearray((byte4,)) + bytearray((byte4,)))
-        reges = hex(ord((result[1][1])))
-        start = 0x0A
-        for reg in result[1]:
-            if start == 0x0A:
-                print('   : ' + hex(ord(reg)))
-            else:
-                print(format(int(start), '02x') + ': ' + hex(ord(reg)))
-            start = start + 1
+        time.sleep(.1)
+        result = self.SendString(bytearray([byte1]+41*[byte2]))
         self.chip_release()
-        return (reges)
+        index = 0x0A
+        skip_registers = [0x0A, 0x0E, 0x13] + range(0x1B, 0x25) + range(0x2D, 0x33)
+        for reg in result[1]:
+            if index not in skip_registers:
+                print('  ' + format(int(index), '02X') + ': ' + format(ord(reg), '08b') + ' = '+ format(ord(reg), '02x'), end='')
+                if   index == 0x0B: print(' <----INTERRUPT_CFG')
+                elif index == 0x0F: print(' <--WHO_AM_I')
+                elif index == 0x10: print(' <----CTRL_REG1')
+                elif index == 0x28: print(' <--PRESS_OUT_XL')
+                elif index == 0x29: print(' <--PRESS_OUT_L')
+                elif index == 0x2A: print(' <--PRESS_OUT_H')
+                elif index == 0x2B: print(' <--TEMP_OUT_L')
+                elif index == 0x2C: print(' <--TEMP_OUT_H')
+                else: print('')
+            index += 1
+        return(result)
+
+    def OneShot(self):
+        debug_print('OneShot')
+        self.chip_select()
+        time.sleep(.1)
+        result = self.SendString(bytearray([self.WRITE_MASK | self.REG_CTRL_REG2]+[0x11]))
+        self.chip_release()
+        return(result)
+
+    def SWReset(self):
+        debug_print('SWReset')
+        self.chip_select()
+        time.sleep(.1)
+        result = self.SendString(bytearray([self.WRITE_MASK | self.REG_CTRL_REG2]+[0x14]))
+        self.chip_release()
+        return(result)
+
+    def Boot(self):
+        debug_print('Boot')
+        self.chip_select()
+        time.sleep(.1)
+        result = self.SendString(bytearray([self.WRITE_MASK | self.REG_CTRL_REG2]+[0x90]))
+        self.chip_release()
+        return(result)
 
     def ReadTemp(self):
         """
@@ -227,18 +248,25 @@ class LPS22HB:
         :returns: temperature in 2's complement
         """
         debug_print("ReadTemp")
+
+        # First tell device to take a new measurment
+        self.chip_select()
+        time.sleep(.1)
+        r = self.SendString(bytearray([self.WRITE_MASK | self.REG_CTRL_REG2]+[0x11]))
+
+
         byte1 = self.READ_MASK | self.REG_TEMP_OUT_L
         byte2 = self.READ_MASK | self.REG_TEMP_OUT_H
         byte3 = self.DUMMY_BYTE
         self.chip_select()
-        time.sleep(.5)
-        debug_print('   Passing these decimal bytes to SendString:   %03d %03d' % (byte1, byte3))
+        time.sleep(.1)
+
         result_L = self.SendString(bytearray((byte1,)) + bytearray((byte3,)))
         mytemp_L = hex(ord((result_L[1][1])))
         debug_print(" readTemp: mytemp_L = " + mytemp_L)
 
-        time.sleep(.5)
-        debug_print('   Passing these decimal bytes to SendString:   %03d %03d %03d' % (byte3, byte3, byte3))
+        time.sleep(.1)
+
         result_both = self.SendString(bytearray((byte3,)) + bytearray((byte3,)) + bytearray((byte3,)))
         mytemp_L = hex(ord((result_both[1][1])))
         mytemp_H = hex(ord((result_both[1][2])))

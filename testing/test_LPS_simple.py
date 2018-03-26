@@ -10,7 +10,9 @@ from drivers import pyads1256 #need to make sure it's CS is HIGH
 
 
 #my_cs = [33, 32, 40, 22, 35, 36, 7, 18]
-my_cs = [32, 18]
+#my_cs = [32, 18] #TruffleBot2
+#my_cs = [33, 22, 18] #TruffleBot1
+my_cs = [33]
 ads = pyads1256.ADS1256()
 
 wp.pinMode(26, wp.INPUT)
@@ -27,9 +29,12 @@ ref_voltage = 4.5
 lps = []
 for i in range(len(my_cs)):
     lps.append(pylps22hb.LPS22HB(my_cs[i]))
-    print('Press' + str(i) + ' id:      ' + lps[i].ReadID())
-    #print('Press' + str(i) + ' temp:    ' + lps[i].ReadTemp())
-    print('Press' + str(i) + ' contorl: ' + lps[i].ReadControlRegisters())
+    #print('Press' + str(i) + ' id:      ' + lps[i].ReadID())
+    lps[i].ReadRegisters()
+    lps[i].Boot()
+    lps[i].ReadRegisters()
+    #print(lps[i].OneShot())
+    # lps[i].ReadRegisters()
 
 #sample ADC
 # for j in [ads.MUX_AIN0, ads.MUX_AIN1, ads.MUX_AIN2, ads.MUX_AIN3, ads.MUX_AIN4, ads.MUX_AIN5, ads.MUX_AIN6, ads.MUX_AIN7]:
