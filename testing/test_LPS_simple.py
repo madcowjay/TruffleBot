@@ -9,14 +9,23 @@ os.environ["blah"] = "False"
 from drivers import pylps22hb
 from drivers import pyads1256 #need to make sure it's CS is HIGH
 
-
-my_cs = [33, 32, 40, 22, 35, 36, 7, 18]
-#my_cs = [32, 18] #TruffleBot2
-#my_cs = [33, 22, 18] #TruffleBot1
-
 ads = pyads1256.ADS1256()
 
+wp.wiringPiSetupPhys
+
+#need to set pin 26 as input, because it's tied to MISO on the TruffleBot
 wp.pinMode(26, wp.INPUT)
+
+#set all CS pins high for the pressure sensors, let the initializer reverse that if used.
+all_cs = [33, 32, 40, 22, 35, 36, 7, 18]
+for cs in all_cs:
+	wp.pinMode(cs, wp.OUTPUT)
+	wp.digitalWrite(cs, wp.HIGH)
+
+#my_cs = [33, 32, 40, 22, 35, 36, 7, 18]
+#my_cs = [32, 18] #TruffleBot2
+#my_cs = [33, 22, 18] #TruffleBot1
+my_cs = all_cs
 
 ads.chip_select()
 myid = ads.ReadID()
@@ -31,12 +40,11 @@ for i in range(len(my_cs)):
     lps.append(pylps22hb.LPS22HB(my_cs[i]))
     print('Press' + str(i) + ' id:      ' + lps[i].ReadID()),
     #lps[i].ReadRegisters()
-    #lps[i].Boot()
+    #lps[i].OneShot()
+    #time.sleep(.1)
     #lps[i].ReadRegisters()
-    lps[i].OneShot()
-    time.sleep(.1)
-    print('\ttemperature is: ' + str(lps[i].ReadTemp())),
-    print('\tpressure is:    ' + str(lps[i].ReadPress()))
+    #print('\ttemperature is: ' + str(lps[i].ReadTemp())),
+    #print('\tpressure is:    ' + str(lps[i].ReadPress()))
 
 #sample ADC
 # for j in [ads.MUX_AIN0, ads.MUX_AIN1, ads.MUX_AIN2, ads.MUX_AIN3, ads.MUX_AIN4, ads.MUX_AIN5, ads.MUX_AIN6, ads.MUX_AIN7]:
