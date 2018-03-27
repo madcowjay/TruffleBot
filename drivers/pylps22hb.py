@@ -178,13 +178,13 @@ class LPS22HB:
         """
         debug_print("ReadID")
         self.chip_select()
-        time.sleep(.1)
         byte1 = self.READ_MASK | self.REG_WHO_AM_I
         byte2 = self.DUMMY_BYTE
         result = self.SendString(bytearray([byte1,byte2]))
         self.chip_release()
-        for reg in result[1]:
-            print(format(ord(reg), '08b') + ' = '+ format(ord(reg), '02x'))
+        if DEBUG:
+            for reg in result[1]:
+                print(format(ord(reg), '08b') + ' = '+ format(ord(reg), '02x'))
         myid = hex(ord((result[1][1])))
         debug_print(" readID: myid = " + myid)
         return (myid)
@@ -198,7 +198,6 @@ class LPS22HB:
         byte1 = self.READ_MASK | self.REG_INTERRUPT_CFG
         byte2 = self.DUMMY_BYTE
         self.chip_select()
-        time.sleep(.1)
         result = self.SendString(bytearray([byte1]+41*[byte2]))
         self.chip_release()
         index = 0x0A
@@ -218,10 +217,29 @@ class LPS22HB:
             index += 1
         return(result)
 
+    def ReadTemp(self):
+        debug_print('ReadTemp')
+        self.chip_select()
+        result = self.SendString(bytearray([self.READ_MASK | self.REG_TEMP_OUT_L] + 2*[self.DUMMY_BYTE]))
+        self.chip_release()
+        temp_c = (256*float(ord(result[1][2])) + float(ord(result[1][1])))/100
+        temp_f = 9*temp_c/5 + 32
+        debug_print('temperature in celcius: ' + str(temp_c) + ', temperature in farenheit: ' + str(temp_f))
+        return(temp_c)
+
+    def ReadPress(self):
+        debug_print('ReadPress')
+        self.chip_select()
+        result = self.SendString(bytearray([self.READ_MASK | self.REG_PRESS_OUT_XL] + 3*[self.DUMMY_BYTE]))
+        self.chip_release()
+        press_hPa = (256*256*float(ord(result[1][3])) + 256*float(ord(result[1][2])) + float(ord(result[1][1])))/4096
+        press_atm = .000987 * press_hPa
+        debug_print('pressure in hPa: ' + str(press_hPa) + ', pressure in atmospheres: ' + str(press_atm))
+        return(press_hPa)
+
     def OneShot(self):
         debug_print('OneShot')
         self.chip_select()
-        time.sleep(.1)
         result = self.SendString(bytearray([self.WRITE_MASK | self.REG_CTRL_REG2]+[0x11]))
         self.chip_release()
         return(result)
@@ -229,7 +247,6 @@ class LPS22HB:
     def SWReset(self):
         debug_print('SWReset')
         self.chip_select()
-        time.sleep(.1)
         result = self.SendString(bytearray([self.WRITE_MASK | self.REG_CTRL_REG2]+[0x14]))
         self.chip_release()
         return(result)
@@ -237,39 +254,6 @@ class LPS22HB:
     def Boot(self):
         debug_print('Boot')
         self.chip_select()
-        time.sleep(.1)
         result = self.SendString(bytearray([self.WRITE_MASK | self.REG_CTRL_REG2]+[0x90]))
         self.chip_release()
         return(result)
-
-    def ReadTemp(self):
-        """
-        Read the temperature from the LPS chip
-        :returns: temperature in 2's complement
-        """
-        debug_print("ReadTemp")
-
-        # First tell device to take a new measurment
-        self.chip_select()
-        time.sleep(.1)
-        r = self.SendString(bytearray([self.WRITE_MASK | self.REG_CTRL_REG2]+[0x11]))
-
-
-        byte1 = self.READ_MASK | self.REG_TEMP_OUT_L
-        byte2 = self.READ_MASK | self.REG_TEMP_OUT_H
-        byte3 = self.DUMMY_BYTE
-        self.chip_select()
-        time.sleep(.1)
-
-        result_L = self.SendString(bytearray((byte1,)) + bytearray((byte3,)))
-        mytemp_L = hex(ord((result_L[1][1])))
-        debug_print(" readTemp: mytemp_L = " + mytemp_L)
-
-        time.sleep(.1)
-
-        result_both = self.SendString(bytearray((byte3,)) + bytearray((byte3,)) + bytearray((byte3,)))
-        mytemp_L = hex(ord((result_both[1][1])))
-        mytemp_H = hex(ord((result_both[1][2])))
-        debug_print(" readTemp: mytemp_L = " + mytemp_L + " , mytemp_H = " + mytemp_H)
-        self.chip_release()
-        return (mytemp_L)
