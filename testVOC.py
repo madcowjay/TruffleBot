@@ -1,15 +1,15 @@
-import pydac8532
-import pyads1256
+import drivers.pydac8532
+import drivers.pyads1256
 import time
 import numpy as np
 
 # set up DAC
-dac = pydac8532.DAC8532()
+dac = drivers.pydac8532.DAC8532()
 DAC_ref_voltage = 3.269
 DAC_set_voltage = 1.4 #recommended on datasheet
 
 # setup ADC
-ads = pyads1256.ADS1256()
+ads = drivers.pyads1256.ADS1256()
 ads.chip_select()
 myid = ads.ReadID()
 print('ADS1256 ID = ' + hex(myid))

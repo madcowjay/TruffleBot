@@ -1,6 +1,6 @@
 import drivers.pydac8532
 
-dac = pydac8532.DAC8532()
+dac = drivers.pydac8532.DAC8532()
 
 ref_voltage = 3.269
 

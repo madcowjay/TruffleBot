@@ -3,10 +3,10 @@ import time
 import wiringpi as wp
 import os
 
-import pylps22hb
-import pyads1256 #need to make sure it's CS is HIGH
+import drivers.pylps22hb
+import drivers.pyads1256 #need to make sure it's CS is HIGH
 
-ads = pyads1256.ADS1256()
+ads = drivers.pyads1256.ADS1256()
 
 wp.wiringPiSetupPhys
 
@@ -34,7 +34,7 @@ ref_voltage = 4.5
 
 lps = []
 for i in range(len(my_cs)):
-    lps.append(pylps22hb.LPS22HB(my_cs[i]))
+    lps.append(drivers.pylps22hb.LPS22HB(my_cs[i]))
     print('Press' + str(i) + ' id:      ' + lps[i].ReadID()),
     #lps[i].ReadRegisters()
     #lps[i].OneShot()

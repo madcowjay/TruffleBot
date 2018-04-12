@@ -1,8 +1,8 @@
-import pyads1256
+import drivers.pyads1256
 import time
 
 # setup ADC
-ads = pyads1256.ADS1256()
+ads = drivers.pyads1256.ADS1256()
 ads.chip_select()
 myid = ads.ReadID()
 print('my id is:' + str(myid))

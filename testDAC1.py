@@ -3,7 +3,7 @@
 import drivers.pydac8532
 
 # set up 16 bit DAC
-dac = pydac8532.DAC8532()
+dac = drivers.pydac8532.DAC8532()
 
 # a couple constants/examples
 maxVal  = 1*2**16-1

@@ -2,7 +2,7 @@ import socket
 import sys
 import time
 import os
-import hardware
+import pi_utils.savefile
 import platform
 import numpy as np
 import matplotlib
@@ -81,8 +81,8 @@ boardlookup = { '0000000064cd9be5' : 1,
 IDlookup = dict((v,k) for k, v in boardlookup.items())
 
 #set up instances of Experiment and Log classes, set start time for log
-pe = hardware.PlumeExperiment()
-pl = hardware.PlumeLog(logdirname='gascommlogs')
+pe = pi_utils.savefile.PlumeExperiment()
+pl = pi_utils.savefile.PlumeLog(logdirname='gascommlogs')
 pe.set_parameter('Comment', 'trials with raspberry pi sensor boards and humidifier source')
 
 #set up socket

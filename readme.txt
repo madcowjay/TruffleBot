@@ -12,7 +12,7 @@ The PiManager class in 'connect.py' can do this automatically by running the con
 after properly initiating the PiManager class with the correct directories (the host_project_dir is on the
 main computer, and the client_project_dir is the name of the folder on the pi where the files will be transferred).
 
-The 'hardware' folder contains the definitions of the PlumeLog and PlumeExperiment class. These are
+The 'hpi_utils' folder contains the definitions of the PlumeLog and PlumeExperiment class. These are
 used throughout the host file in order to create a coherent .hdf5 log file to be saved at the end.
 
 The 'datavisualization.py' file is a tool to visualize the traces that are returned from the pis. It can be run
