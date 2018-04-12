@@ -1,4 +1,4 @@
-from drivers import pyads1256
+import pyads1256
 import time
 
 # setup ADC
@@ -12,7 +12,7 @@ ads.SyncAndWakeup()
 
 ref_voltage = 4.5
 
-# sample ADC	
+# sample ADC
 ads.SetInputMux(ads.MUX_AIN0,ads.MUX_AINCOM)
 ads.SyncAndWakeup()
 while True:

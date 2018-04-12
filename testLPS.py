@@ -3,11 +3,8 @@ import time
 import wiringpi as wp
 import os
 
-#Set to True or False for debuggin
-os.environ["blah"] = "False"
-
-from drivers import pylps22hb
-from drivers import pyads1256 #need to make sure it's CS is HIGH
+import pylps22hb
+import pyads1256 #need to make sure it's CS is HIGH
 
 ads = pyads1256.ADS1256()
 
