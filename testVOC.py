@@ -31,10 +31,10 @@ sam_7 = ads.getADCsample(ads.MUX_AINCOM,ads.MUX_AIN4)
 sam_8 = ads.getADCsample(ads.MUX_AINCOM,ads.MUX_AIN7)
 print("Sampled all")
 
-sample = np.array([sam_1,sam_2,sam_3,sam_4,sam_5,sam_6,sam_7,sam_8], dtype='i32')
+sample = np.array([sam_1,sam_2,sam_3,sam_4,sam_5,sam_6,sam_7,sam_8], dtype='int32')
 for c in sample:
-	print c
+	print(c)
 	percentage = float(c)/(2**24)
 	voltage = percentage*2*ADC_ref_voltage
 	print('Result: %d, Percentage: %.2f, Voltage: %.5f' %(c, percentage, voltage))
-#dac.PowerDownDACA()
+dac.PowerDownDACA()
