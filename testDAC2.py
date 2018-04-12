@@ -1,4 +1,4 @@
-import pydac8532
+import drivers.pydac8532
 
 dac = pydac8532.DAC8532()
 
@@ -13,5 +13,3 @@ while set_voltage >= 0:
 	dac.SendDACBValue(to_send)
 
 dac.PowerDownDACB()
-
-

@@ -1,6 +1,6 @@
 # (very) simple test for DAC - sends a voltage to each channel
 
-import pydac8532
+import drivers.pydac8532
 
 # set up 16 bit DAC
 dac = pydac8532.DAC8532()
