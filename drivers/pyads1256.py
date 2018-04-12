@@ -9,10 +9,7 @@ import os
 import wiringpi as wp
 import numpy as np
 
-if os.environ["blah"] == 'True':
-    DEBUG = True
-else:
-    DEBUG = False
+DEBUG = False
 
 def debug_print(string):
     if DEBUG:

@@ -16,7 +16,8 @@ Updated 2018/01/18
 from __future__ import print_function
 import wiringpi as wp
 
-DEBUG = True
+DEBUG = False
+
 def debug_print(string):
     if DEBUG:
         print('DEBUG: ' + string)
