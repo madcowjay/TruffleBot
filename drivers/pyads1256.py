@@ -15,7 +15,6 @@ def debug_print(string):
     if DEBUG:
         print("DEBUG: " + string)
 
-
 class ADS1256:
     """ Wiring Diagram
      +-----+-----+---------+------+---+---Pi 2---+---+------+---------+-----+-----+
@@ -246,7 +245,7 @@ class ADS1256:
 
 
     # The RPI GPIO to use for chip select and ready polling
-    def __init__(self):
+    def __init__(self, *args):
         debug_print('pydads1256 initializing with:')
         debug_print('   SPI_MODE      = %d' % self.SPI_MODE)
         debug_print('   SPI_CHANNEL   = %d' % self.SPI_CHANNEL)
@@ -304,11 +303,23 @@ class ADS1256:
             print("WaitDRDY() Timeout\r\n")
 
     def SendString(self, mystring):
+        """
+        Sends a string to the SPI bus
+        """
         debug_print("  Entered SendString: " + mystring)
-        result = wp.wiringPiSPIDataRW(self.SPI_CHANNEL, mystring)
+        if DEBUG:
+            print('DEBUG:    Sending bytes:  ', end=''),
+            for c in mystring:
+                print('\\x%02x' % c, end='')
+            print('')
+        result = wp.wiringPiSPIDataRW(self.SPI_CHANNEL, bytes(mystring))
         debug_print("    SendString read: " + str(result[1]))
-
-
+                if DEBUG:
+                    print('DEBUG:    Received bytes:  ', end=''),
+                    for c in result[1]:
+                        print('\\x%02x' % c, end='')
+                    print('')
+        return str(result[1])
 
     def SendByte(self, mybyte):
         """
@@ -388,15 +399,17 @@ class ADS1256:
         self.chip_select()
 
         # Send the byte command
-        self.SendByte(self.CMD_RREG | start_reg)
-        self.SendByte(0x00)
+        self.SendString(bytearray((self.CMD_RREG | start_reg, 0x00)))
+        # self.SendByte(self.CMD_RREG | start_reg)
+        # self.SendByte(0x00)
 
         # Wait for appropriate data delay
         self.DataDelay()
 
         # Read the register contents
-        read = self.ReadByte()
-        temp = (str(read))
+        read = self.SendString(bytearray((0x00)))
+        # read = self.ReadByte()
+        # temp = (str(read))
         debug_print('  Read from register: ' + temp)
 
         # Release the SPI bus
