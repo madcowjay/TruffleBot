@@ -405,7 +405,7 @@ class ADS1256:
 
         # Read the register contents
         read = self.SendString(bytearray(num_to_read*(0x00,)))
-        
+
         # Release the SPI bus
         self.chip_release()
 
@@ -561,7 +561,7 @@ class ADS1256:
 
         return total
 
-   def ReadADC_quick(self):
+    def ReadADC_quick(self):
         """
         Reads ADC data, implements:
 
