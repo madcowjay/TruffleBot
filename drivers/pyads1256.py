@@ -9,7 +9,7 @@ import os
 import wiringpi as wp
 import numpy as np
 
-DEBUG = False
+DEBUG = True
 
 def debug_print(string):
     if DEBUG:
@@ -306,20 +306,19 @@ class ADS1256:
         """
         Sends a string to the SPI bus
         """
-        debug_print("  Entered SendString: " + mystring)
+        debug_print("  Entered SendString:")
         if DEBUG:
             print('DEBUG:    Sending bytes:  ', end=''),
             for c in mystring:
                 print('\\x%02x' % c, end='')
             print('')
         result = wp.wiringPiSPIDataRW(self.SPI_CHANNEL, bytes(mystring))
-        debug_print("    SendString read: " + str(result[1]))
-                if DEBUG:
-                    print('DEBUG:    Received bytes:  ', end=''),
-                    for c in result[1]:
-                        print('\\x%02x' % c, end='')
-                    print('')
-        return str(result[1])
+        if DEBUG:
+            print('DEBUG:    Received bytes: ', end=''),
+            for c in result[1]:
+                print('\\x%02x' % c, end='')
+            print('')
+        return result[1]
 
     def SendByte(self, mybyte):
         """
@@ -388,8 +387,8 @@ class ADS1256:
         1st Command Byte: 0001 rrrr where rrrr is the address of the first
         register to read.
 
-        2nd Command Byte: 0000 nnnn where nnnn is the number of bytes to read
-        1. See the Timing Characteristics for the required delay between the
+        2nd Command Byte: 0000 nnnn where nnnn is the number of bytes to read -1.
+        See the Timing Characteristics for the required delay between the
         end of the RREG command and the beginning of shifting data on DOUT: t6.
         """
 
@@ -398,20 +397,15 @@ class ADS1256:
         # Pull the SPI bus low
         self.chip_select()
 
-        # Send the byte command
-        self.SendString(bytearray((self.CMD_RREG | start_reg, 0x00)))
-        # self.SendByte(self.CMD_RREG | start_reg)
-        # self.SendByte(0x00)
+        # Send the command
+        self.SendString(bytearray((self.CMD_RREG | start_reg, 0x00 | num_to_read-1)))
 
         # Wait for appropriate data delay
         self.DataDelay()
 
         # Read the register contents
-        read = self.SendString(bytearray((0x00)))
-        # read = self.ReadByte()
-        # temp = (str(read))
-        debug_print('  Read from register: ' + temp)
-
+        read = self.SendString(bytearray(num_to_read*(0x00,)))
+        
         # Release the SPI bus
         self.chip_release()
 
@@ -459,14 +453,14 @@ class ADS1256:
 
         self.chip_select()
 
-        self.SendByte(self.CMD_WREG | 0x00)  # start write at addr 0x00
+        byte1 = self.CMD_WREG | 0x00        # start write at addr 0x00
+        byte2 = self.REG_DRATE              # end write at addr REG_DRATE
+        byte3 = self.STATUS_AUTOCAL_ENABLE  # status register
+        byte4 = 0x08                        # input channel parameters
+        byte5 = self.AD_GAIN_2              # ADCON control register, gain
+        byte6 = self.DRATE_500              # data rate
 
-        self.SendByte(self.REG_DRATE)  # end write at addr REG_DRATE
-
-        self.SendByte(self.STATUS_AUTOCAL_ENABLE)   # status register
-        self.SendByte(0x08)                         # input channel parameters
-        self.SendByte(self.AD_GAIN_2)               # ADCON control register, gain
-        self.SendByte(self.DRATE_500)               # data rate
+        self.SendString(bytearray((byte1,byte2,byte3,byte4,byte5,byte6)))
 
         self.chip_release()
 
@@ -567,7 +561,7 @@ class ADS1256:
 
         return total
 
-    def ReadADC_quick(self):
+   def ReadADC_quick(self):
         """
         Reads ADC data, implements:
 
@@ -647,6 +641,7 @@ class ADS1256:
         """
         debug_print("ReadID")
         self.WaitDRDY()
-        myid = self.ReadReg(self.REG_STATUS, 1)
-        debug_print(" readID: myid = " + str(myid>>4))
-        return (myid >> 4)
+        bytes = self.ReadReg(self.REG_STATUS, 1)
+        myid  = bytes[0] >> 4
+        debug_print(" readID: myid = " + str(myid))
+        return (myid)
