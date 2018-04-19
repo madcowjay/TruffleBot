@@ -28,14 +28,11 @@ ads.SetInputMux(ads.MUX_AIN1, ads.MUX_AINCOM)
 ads.SyncAndWakeup()
 
 def read(n):
-	i = n
-	while i:
+	while n:
 		result_in_twos_comp = ads.ReadADC()
 		result = -(result_in_twos_comp & 0x800000) | (result_in_twos_comp & 0x7fffff)
 		voltage = (result*2*ref_voltage) / (2**23 - 1) / gain
-		print('Result_in_twos_comp: %x, Result in decimal: %d, Voltage: %.5f' %(result_in_twos_comp, result, voltage))
-		i -= 1
-		res = int(result_in_twos_comp)
-		res = float(res)
-		#print('other way: ' + str(((res-2**23) % 2**24) / 2**24))
-		print('np way:    ' + str(np.mod(res-2**23,2**24)/2**24))
+		res = float(result_in_twos_comp)
+		perc = np.mod(res-2**23,2**24)/2**24)
+		print('Voltage: %.9f, percent of range: %.9f' %(voltage, perc))
+		n -= 1
