@@ -3,10 +3,10 @@ from six.moves import _thread
 import random
 from pi_utils.getch import *
 import os
-from drivers import *
-from colorama import init, Fore, Back, Style
 import drivers.pyads1256
+import drivers.pydac8532
 import drivers.pylps22hb
+from colorama import init, Fore, Back, Style
 import time
 import wiringpi as wp
 import numpy as np
@@ -69,7 +69,7 @@ def print_main_menu():
 	print('x - exit       ')
 	print('---------------------------------------------------------------------------------')
 
-def print_adc_menu:
+def print_adc_menu():
 	os.system('clear')
 	print(Fore.RED)
 	print('---------------------------------------------------------------------------------')
@@ -101,7 +101,7 @@ while True:
 			elif c == '0':
 				ads.SetInputMux(ads.MUX_AIN1, ads.MUX_AINCOM)
 				ads.SyncAndWakeup()
-				input = ("How many samples? ('c' for continuous)"")
+				input = ("How many samples? ('c' for continuous)")
 				read(input)
 
 	elif c == 'l':
