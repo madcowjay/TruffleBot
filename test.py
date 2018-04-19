@@ -88,7 +88,7 @@ while True:
 
 	if   c == 'x':
 		break
-	elif c == '1':
+	elif c == 'a':
 		os.system('clear')
 		print_adc_menu()
 		while True:

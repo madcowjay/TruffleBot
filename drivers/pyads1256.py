@@ -489,12 +489,12 @@ class ADS1256:
         debug_print("sync+wakeup")
 
         self.chip_select()
-        self.SendByte(self.CMD_SYNC)
+        self.SendString(bytearray((self.CMD_SYNC,)))
         self.chip_release()
         self.delayMicroseconds(10)
 
         self.chip_select()
-        self.SendByte(self.CMD_WAKEUP)
+        self.SendString(bytearray((self.CMD_WAKEUP,)))
         self.chip_release()
         self.delayMicroseconds(10)
 
@@ -502,12 +502,12 @@ class ADS1256:
         debug_print("sync+wakeup")
 
         # self.chip_select()
-        self.SendByte(self.CMD_SYNC)
+        self.SendString(bytearray((self.CMD_SYNC,)))
         self.chip_release()
         self.delayMicroseconds(10)
 
         self.chip_select()
-        self.SendByte(self.CMD_WAKEUP)
+        self.SendString(bytearray((self.CMD_WAKEUP,)))
         self.chip_release()
         # self.delayMicroseconds(10)
 
