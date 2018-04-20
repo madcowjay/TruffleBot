@@ -9,7 +9,7 @@ import os
 import wiringpi as wp
 import numpy as np
 
-DEBUG = True
+DEBUG = False
 
 def debug_print(string):
     if DEBUG:
@@ -277,14 +277,18 @@ class ADS1256:
         spi_success = wp.wiringPiSPISetupMode(self.SPI_CHANNEL, self.SPI_FREQUENCY, self.SPI_MODE)  #JKR
         debug_print("SPI success " + str(spi_success))
 
+
     def delayMicroseconds(self, delayus):
         wp.delayMicroseconds(delayus)
+
 
     def chip_select(self):
         wp.digitalWrite(self.CS_PIN, wp.LOW)
 
+
     def chip_release(self):
         wp.digitalWrite(self.CS_PIN, wp.HIGH)
+
 
     def WaitDRDY(self):
         """
@@ -301,6 +305,7 @@ class ADS1256:
 
         if elapsed >= self.DRDY_TIMEOUT:
             print("WaitDRDY() Timeout\r\n")
+
 
     def SendString(self, mystring):
         """
@@ -320,34 +325,27 @@ class ADS1256:
             print('')
         return result[1]
 
-    def SendByte(self, mybyte):
-        """
-        Sends a byte to the SPI bus
-        """
-        debug_print("  Entered SendByte")
-        #debug_print("    Sending: " + str(mybyte) + " (hex " + hex(mybyte) + ")")
-        if DEBUG:
-        	print('DEBUG:     Sending: ', end='')
-        	print(str(mybyte).rjust(3), end='')
-        	print(' (hex \\x%02x)' % (mybyte))
-        mydata = chr(mybyte)
-        # print(mybyte)
-        # print(type(mybyte))
-        # print(mydata)
-        # print(type((mydata)))
-        # print('try: %s' % mydata)
-        # print('success')
-        result = wp.wiringPiSPIDataRW(self.SPI_CHANNEL, "%s" % mydata)   # notice workaround for single byte transfers JKR
-        #debug_print("    Read " + str(result[1]))
-        debug_print('    Received:    ' + str(result))
+    # Deprecated - duplicates SendString, but more slowly for multi-byte transfers
+    # def SendByte(self, mybyte):
+    #     """
+    #     Sends a byte to the SPI bus
+    #     """
+    #     debug_print("Entered SendByte")
+    #     debug_print("Sending: " + str(mybyte) + " (hex " + hex(mybyte) + ")")
+    #     mydata = chr(mybyte)
+    #     result = wp.wiringPiSPIDataRW(self.SPI_CHANNEL, "%s" % mydata)   # notice workaround for single byte transfers JKR
+    #     debug_print("Read " + str(result[1]))
 
-    def ReadByte(self):
-        """
-        Reads a byte from the SPI bus
-        :returns: byte read from the bus
-        """
-        MISObyte = wp.wiringPiSPIDataRW(self.SPI_CHANNEL, chr(0xFF))
-        return ord(MISObyte[1]) #JKR
+
+    # Deprecated - SendString works just fine for receiving
+    # def ReadByte(self):
+    #     """
+    #     Reads a byte from the SPI bus
+    #     :returns: byte read from the bus
+    #     """
+    #     MISObyte = wp.wiringPiSPIDataRW(self.SPI_CHANNEL, chr(0xFF))
+    #     return ord(MISObyte[1]) #JKR
+
 
     def DataDelay(self):
         """
@@ -360,8 +358,9 @@ class ADS1256:
         bus must be minimum 50x SCLK period, this function reads data after
         60 x SCLK period.
         """
-        timeout = (60 / self.SCLK_FREQUENCY)
+        debug_print("  DataDelay")
 
+        timeout = (60 / self.SCLK_FREQUENCY)
 
         start = time.time()
         elapsed = time.time() - start
@@ -391,6 +390,7 @@ class ADS1256:
         See the Timing Characteristics for the required delay between the
         end of the RREG command and the beginning of shifting data on DOUT: t6.
         """
+        debug_print("  ReadReg")
 
         result = []
 
@@ -411,6 +411,7 @@ class ADS1256:
 
         return read
 
+
     def WriteReg(self, start_register, data):
         """
         Writes data to the register, implements:
@@ -430,25 +431,23 @@ class ADS1256:
 
         TODO: Implement multiple register write
         """
+        debug_print("  WriteReg")
 
         # Select the ADS chip
         self.chip_select()
 
-        # Tell the ADS chip which register to start writing at
-        self.SendByte(self.CMD_WREG | start_register)
 
-        # Tell the ADS chip how many additional registers to write
-        self.SendByte(0x00)
+        byte1 = self.CMD_WREG | start_register  # Tell the ADS chip which register to start writing at
+        byte2 = 0x00                            # Tell the ADS chip how many additional registers to write
+        byte3 = data                             # Send the data
 
-        # Send the data
-        self.SendByte(data)
+        self.SendString(bytearray((byte1,byte2,byte3)))
 
         # Release the ADS chip
         self.chip_release()
 
 
     def ConfigADC(self):
-
         debug_print("configuring ADC")
 
         self.chip_select()
@@ -471,19 +470,29 @@ class ADS1256:
         debug_print("setting mux position")
 
         self.chip_select()
-        self.SendByte(self.CMD_WREG | 0x01)
-        self.SendByte(0x00)
-        self.SendByte( (possel<<4) | (negsel<<0) )
+
+        byte1 = self.CMD_WREG | 0x01
+        byte2 = 0x00
+        byte3 = (possel<<4) | (negsel<<0)
+
+        self.SendString(bytearray((byte1,byte2,byte3)))
+
         self.chip_release()
 
-    def SetInputMux_quick(self,possel,negsel):
-        debug_print("setting mux position")
 
-        # self.chip_select()
-        self.SendByte(self.CMD_WREG | 0x01)
-        self.SendByte(0x00)
-        self.SendByte( (possel<<4) | (negsel<<0) )
-        # self.chip_release()
+    def SetInputMux_quick(self,possel,negsel):
+        debug_print("setting mux position (quickly)")
+
+        #self.chip_select()
+
+        byte1 = self.CMD_WREG | 0x01
+        byte2 = 0x00
+        byte3 = (possel<<4) | (negsel<<0)
+
+        self.SendString(bytearray((byte1,byte2,byte3)))
+
+        #self.chip_release()
+
 
     def SyncAndWakeup(self):
         debug_print("sync+wakeup")
@@ -498,8 +507,9 @@ class ADS1256:
         self.chip_release()
         self.delayMicroseconds(10)
 
+
     def SyncAndWakeup_quick(self):
-        debug_print("sync+wakeup")
+        debug_print("sync+wakeup (quickly)")
 
         # self.chip_select()
         self.SendString(bytearray((self.CMD_SYNC,)))
@@ -533,6 +543,7 @@ class ADS1256:
         Timing Characteristics for the required delay between the end of the
         RDATA command and the beginning of shifting data on DOUT: t6
         """
+        debug_print("ReadADC")
 
         # Pull the SPI bus low
         self.chip_select()
@@ -541,25 +552,29 @@ class ADS1256:
         self.WaitDRDY()
 
         # Send the read command
-        self.SendByte(self.CMD_RDATA)
+        self.SendString(bytearray((self.CMD_RDATA,)))
 
         # Wait through the data pause
         self.DataDelay()
 
         # The result is 24 bits
         #result.append(self.ReadByte())
-        result1 = self.ReadByte()
-        result2 = self.ReadByte()
-        result3 = self.ReadByte()
-        debug_print('ReadADC result bytes: ' + hex(result1) + ' ' + hex(result2) + ' ' + hex(result3))
+        #result1 = self.ReadByte()
+        #result2 = self.ReadByte()
+        #result3 = self.ReadByte()
+
+        result = self.SendString(bytearray(3*(0x00,)))
+
+        #debug_print('ReadADC result bytes: ' + hex(result1) + ' ' + hex(result2) + ' ' + hex(result3))
 
         # Release the SPI bus
         self.chip_release()
 
         # Concatenate the bytes
-        total  = (result1 << 16) + (result2 << 8) + result3
+        total  = (result[0] << 16) + (result[1] << 8) + result[2]
 
         return total
+
 
     def ReadADC_quick(self):
         """
@@ -574,6 +589,7 @@ class ADS1256:
         Timing Characteristics for the required delay between the end of the
         RDATA command and the beginning of shifting data on DOUT: t6
         """
+        debug_print("ReadADC (quickly)")
 
         # Pull the SPI bus low
         # self.chip_select()
@@ -588,11 +604,12 @@ class ADS1256:
         self.DataDelay()
 
         # The result is 24 bits
-        #result.append(self.ReadByte())
-        result1 = self.ReadByte()
-        result2 = self.ReadByte()
-        result3 = self.ReadByte()
-        debug_print('ReadADC result bytes: ' + hex(result1) + ' ' + hex(result2) + ' ' + hex(result3))
+        # #result.append(self.ReadByte())
+        # result1 = self.ReadByte()
+        # result2 = self.ReadByte()
+        # result3 = self.ReadByte()
+        # debug_print('ReadADC result bytes: ' + hex(result1) + ' ' + hex(result2) + ' ' + hex(result3))
+        result = self.SendString(bytearray(3*(0x00,)))
 
         # Release the SPI bus
         # self.chip_release()
@@ -602,7 +619,10 @@ class ADS1256:
 
         return total
 
+
     def CycleReadADC(self,sel_list):
+        debug_print("CycleReadADC")
+
         c=0 # init counter var
         data = np.zeros(len(sel_list),dtype='i32') #create an array to hold the sample vars
         self.chip_select()
@@ -623,16 +643,19 @@ class ADS1256:
         self.chip_release()
         return data
 
+
     def getADCsample(self,a_pos,a_neg):
         """
         Gets a sample from the ADC
         NOTE: this is configured to switch devices that all use the common ground
         """
         debug_print('getADCSample')
+
         self.SetInputMux(a_pos,a_neg)
         self.SyncAndWakeup()
         myconversion = int(self.ReadADC())
         return myconversion
+
 
     def ReadID(self):
         """
@@ -640,8 +663,9 @@ class ADS1256:
         :returns: numeric identifier of the ADS chip
         """
         debug_print("ReadID")
+
         self.WaitDRDY()
-        bytes = self.ReadReg(self.REG_STATUS, 1)
-        myid  = bytes[0] >> 4
+        idInBytes = self.ReadReg(self.REG_STATUS, 1)
+        myid  = idInBytes[0] >> 4
         debug_print(" readID: myid = " + str(myid))
         return (myid)
