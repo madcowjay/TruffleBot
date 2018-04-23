@@ -38,6 +38,7 @@ adc_gain = 2
 
 # set up 16 bit DAC
 dac = drivers.pydac8532.DAC8532()
+dac_ref_voltage = 3.3
 dac_max_val  = 1*2**16-1
 dac.SendDACAValue(0)
 dac.SendDACBValue(0)
@@ -91,7 +92,7 @@ def read(n, channels):
 # Prints status of the board in a nice table
 def print_status():
 	print('#########################################################################################')
-	print(' ADC id: {0:d} \tDAC A voltage: {1:d} \tDAC B voltage: {2:d}'.format(myid, daca, dacb))
+	print(' ADC id: {0:d} \t DAC A: {1:d} = {3:d}V \tDAC B: {2:d} = {4:d}V'.format(myid, daca, dacb, daca*dac_ref_voltage/2**16, dacb*dac_ref_voltage/2**16))
 
 def print_main_menu():
 	print(Fore.GREEN)
@@ -99,7 +100,7 @@ def print_main_menu():
 	print('-----------------------------------------------------------------------------------------')
 	print('                                        MAIN MENU')
 	print('')
-	print(' a - ADC menu       d - DAC menu                                         x - exit program')
+	print(' a - ADC menu   d - DAC menu   p - Pressure Sensor menu   c - configure  x - exit program')
 	print('#########################################################################################')
 
 def print_adc_menu():
@@ -198,13 +199,17 @@ while True:
 			if   e == 'x':
 				break
 			elif e == 'a':
-				inp = input('\nEnter new value for DAC A: ')
-				daca = int(inp) #TODO either want entries as percent or voltage
+				set_voltage = input('\nEnter new DC voltage: ')
+				daca = (set_voltage/dac_ref_voltage)*2**16
+				if daca >= 2**16-1:
+					daca = 2**16-1
 				dac.SendDACAValue(daca)
 			elif e == 'b':
-				inp = input('\nEnter new value for DAC B: ')
-				dacb = int(inp) #TODO either want entries as percent or voltage
-				dac.SendDACAValue(dacb)
+				set_voltage = input('\nEnter new DC voltage: ')
+				dacb = (set_voltage/dac_ref_voltage)*2**16
+				if dacb >= 2**16-1:
+					dacb = 2**16-1
+				dac.SendDACBValue(dacb)
 			elif e == 'o':
 				dac.PowerDownDACA()
 				daca = 0
@@ -216,3 +221,4 @@ while True:
 	else:
 		print('Invalid selection')
 print('exiting....')
+print('Powering down DACs')
