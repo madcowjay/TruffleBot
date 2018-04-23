@@ -91,37 +91,40 @@ def read(n, channels):
 
 # Prints status of the board in a nice table
 def print_status():
-	print('#########################################################################################')
-	print(' ADC id: {0:d} \t DAC A: {1:d} = {3:d}V \tDAC B: {2:d} = {4:d}V'.format(myid, daca, dacb, daca*dac_ref_voltage/2**16, dacb*dac_ref_voltage/2**16))
+	print('#########################################################################################' + Style.RESET_ALL)
+	print('      ADC id: {0:d} \t DAC A: {1:d} = {3:f}V      \tDAC B: {2:d} = {4:f}V'.format(myid, daca, dacb, daca*dac_ref_voltage/2**16, dacb*dac_ref_voltage/2**16))
 
 def print_main_menu():
 	print(Fore.GREEN)
 	print_status()
+	print(Style.RESET_ALL)
 	print('-----------------------------------------------------------------------------------------')
-	print('                                        MAIN MENU')
+	print('                                       ' + Back.GREEN + 'MAIN MENU' + Style.RESET_ALL)
 	print('')
 	print(' a - ADC menu   d - DAC menu   p - Pressure Sensor menu   c - configure  x - exit program')
-	print('#########################################################################################')
+	print(Fore.GREEN + '#########################################################################################' + Style.RESET_ALL)
 
 def print_adc_menu():
 	print(Fore.RED)
 	print_status()
+	print(Style.RESET_ALL)
 	print('-----------------------------------------------------------------------------------------')
-	print('                                      main/ ADC MENU')
+	print('                                       ' + Back.RED + 'ADC MENU' + Style.RESET_ALL)
 	print('')
 	print(' 0 - test #0   1 - test #1   2 - test #2   3 - test #3   4 - test #4   5 - test #5')
 	print(' 6 - test #6   7 - test #7   a - test all  r - repeat previous test    x - exit to main')
-	print('#########################################################################################')
+	print(Fore.RED + '#########################################################################################' + Style.RESET_ALL)
 
 def print_dac_menu():
 	print(Fore.BLUE)
 	print_status()
+	print(Style.RESET_ALL)
 	print('-----------------------------------------------------------------------------------------')
-	print('                                      main/ DAC MENU')
+	print('                                       ' + Back.BLUE + 'DAC MENU' + Style.RESET_ALL)
 	print('')
-	print(' a - set voltage on channel A          b -set voltage on channel B ')
-	print(' o - power down channel A              p -power down channel B           x - exit to main')
-	print('#########################################################################################')
+	print(' a - set voltage on channel A          b - set voltage on channel B ')
+	print(' o - power down channel A              p - power down channel B           x - exit to main')
+	print(Fore.BLUE + '#########################################################################################' + Style.RESET_ALL)
 
 while True:
 	print_main_menu()
@@ -191,7 +194,7 @@ while True:
 				elif sensor == 'a':
 					read(inp, [ads.MUX_AIN1, ads.MUX_AIN2, ads.MUX_AIN5, ads.MUX_AIN6, ads.MUX_AIN0, ads.MUX_AIN3, ads.MUX_AIN4, ads.MUX_AIN7])
 			else:
-				print('Invalid selection')
+				print('\nInvalid selection')
 	elif c == 'd':
 		while True:
 			print_dac_menu()
@@ -200,13 +203,13 @@ while True:
 				break
 			elif e == 'a':
 				set_voltage = input('\nEnter new DC voltage: ')
-				daca = (set_voltage/dac_ref_voltage)*2**16
+				daca = int((float(set_voltage)/dac_ref_voltage)*2**16)
 				if daca >= 2**16-1:
 					daca = 2**16-1
 				dac.SendDACAValue(daca)
 			elif e == 'b':
 				set_voltage = input('\nEnter new DC voltage: ')
-				dacb = (set_voltage/dac_ref_voltage)*2**16
+				dacb = int((float(set_voltage)/dac_ref_voltage)*2**16)
 				if dacb >= 2**16-1:
 					dacb = 2**16-1
 				dac.SendDACBValue(dacb)
@@ -217,8 +220,8 @@ while True:
 				dac.PowerDownDACB()
 				dacb = 0
 			else:
-				print('Invalid selection')
+				print('\nInvalid selection')
 	else:
-		print('Invalid selection')
-print('exiting....')
+		print('\nInvalid selection')
+print('\nexiting....')
 print('Powering down DACs')
