@@ -44,22 +44,33 @@ dac.SendDACBValue(0)
 daca = 0
 dacb = 0
 
+# Function to get keyboard interrupts (cross-platform)
 def input_thread(a_list):
 	getch()
 	a_list.append(True)
 
-def read_once():
-	result_in_twos_comp = ads.ReadADC()
-	result = -(result_in_twos_comp & 0x800000) | (result_in_twos_comp & 0x7fffff)
-	voltage = (result*2*adc_ref_voltage) / (2**23 - 1) / adc_gain
-	res = float(result_in_twos_comp)
-	perc = np.mod(res-2**23,2**24)/2**24
-	if voltage < 0:
-		print('Voltage: \t%.9f \tpercent of range: \t%.9f' %(voltage, perc))
+# Read the ADC and display the results
+def read_once(channels):
+	if len(channels) == 1:
+		result_in_twos_comp = ads.getADCsample(channels[0], ads.MUX_AINCOM)
+		result = -(result_in_twos_comp & 0x800000) | (result_in_twos_comp & 0x7fffff)
+		voltage = (result*2*adc_ref_voltage) / (2**23 - 1) / adc_gain
+		res = float(result_in_twos_comp)
+		perc = np.mod(res-2**23,2**24)/2**24
+		if voltage < 0:
+			print('Voltage: \t%.9f \tpercent of range: \t%.9f' %(voltage, perc))
+		else:
+			print('Voltage: \t %.9f \tpercent of range: \t%.9f' %(voltage, perc))
 	else:
-		print('Voltage: \t %.9f \tpercent of range: \t%.9f' %(voltage, perc))
+		voltages = []
+		for channel in channels:
+			result_in_twos_comp = ads.getADCsample(channel, ads.MUX_AINCOM)
+			result = -(result_in_twos_comp & 0x800000) | (result_in_twos_comp & 0x7fffff)
+			voltages.append((result*2*adc_ref_voltage) / (2**23 - 1) / adc_gain)
+		print(voltages)
 
-def read(n):
+# Helper function to read ADC - handles discrete vs. continuous
+def read(n, channels):
 	print(Style.RESET_ALL)
 	if n == 'c':
 		a_list = []
@@ -67,47 +78,49 @@ def read(n):
 		_thread.start_new_thread(input_thread, (a_list,))
 		while not a_list:
 			i += 1
-			read_once()
+			read_once(channels)
 	else:
 		try:
 			j = int(n)
 			while j:
-				read_once()
+				read_once(channels)
 				j -= 1
 		except:
 			pass
 
+# Prints status of the board in a nice table
 def print_status():
+	print('#########################################################################################')
 	print(' ADC id: {0:d} \tDAC A voltage: {1:d} \tDAC B voltage: {2:d}'.format(myid, daca, dacb))
 
 def print_main_menu():
 	print(Fore.GREEN)
+	print_status()
 	print('-----------------------------------------------------------------------------------------')
 	print('                                        MAIN MENU')
-	print_status()
 	print('')
 	print(' a - ADC menu       d - DAC menu                                         x - exit program')
-	print('-----------------------------------------------------------------------------------------')
+	print('#########################################################################################')
 
 def print_adc_menu():
 	print(Fore.RED)
+	print_status()
 	print('-----------------------------------------------------------------------------------------')
 	print('                                      main/ ADC MENU')
-	print_status()
 	print('')
 	print(' 0 - test #0   1 - test #1   2 - test #2   3 - test #3   4 - test #4   5 - test #5')
 	print(' 6 - test #6   7 - test #7   a - test all  r - repeat previous test    x - exit to main')
-	print('-----------------------------------------------------------------------------------------')
+	print('#########################################################################################')
 
 def print_dac_menu():
 	print(Fore.BLUE)
+	print_status()
 	print('-----------------------------------------------------------------------------------------')
 	print('                                      main/ DAC MENU')
-	print_status()
 	print('')
 	print(' a - set voltage on channel A          b -set voltage on channel B ')
 	print(' o - power down channel A              p -power down channel B           x - exit to main')
-	print('-----------------------------------------------------------------------------------------')
+	print('#########################################################################################')
 
 while True:
 	print_main_menu()
@@ -123,95 +136,59 @@ while True:
 				break
 			elif d == '0':
 				sensor = '0'
-				ads.SetInputMux(ads.MUX_AIN1, ads.MUX_AINCOM)
-				ads.SyncAndWakeup()
-				inp = input("How many samples ('c' for continuous)? ")
-				read(inp)
+				inp = input("\nHow many samples ('c' for continuous)? ")
+				read(inp, [ads.MUX_AIN1])
 			elif d == '1':
 				sensor = '1'
-				ads.SetInputMux(ads.MUX_AIN2, ads.MUX_AINCOM)
-				ads.SyncAndWakeup()
-				inp = input("How many samples ('c' for continuous)? ")
-				read(inp)
+				inp = input("\nHow many samples ('c' for continuous)? ")
+				read(inp, [ads.MUX_AIN2])
 			elif d == '2':
 				sensor = '2'
-				ads.SetInputMux(ads.MUX_AIN5, ads.MUX_AINCOM)
-				ads.SyncAndWakeup()
-				inp = input("How many samples ('c' for continuous)? ")
-				read(inp)
+				inp = input("\nHow many samples ('c' for continuous)? ")
+				read(inp, [ads.MUX_AIN5])
 			elif d == '3':
 				sensor = '3'
-				ads.SetInputMux(ads.MUX_AIN6, ads.MUX_AINCOM)
-				ads.SyncAndWakeup()
-				inp = input("How many samples ('c' for continuous)? ")
-				read(inp)
+				inp = input("\nHow many samples ('c' for continuous)? ")
+				read(inp, [ads.MUX_AIN6])
 			elif d == '4':
 				sensor = '4'
-				ads.SetInputMux(ads.MUX_AIN0, ads.MUX_AINCOM)
-				ads.SyncAndWakeup()
-				inp = input("How many samples ('c' for continuous)? ")
-				read(inp)
+				inp = input("\nHow many samples ('c' for continuous)? ")
+				read(inp, [ads.MUX_AIN0])
 			elif d == '5':
 				sensor = '5'
-				ads.SetInputMux(ads.MUX_AIN3, ads.MUX_AINCOM)
-				ads.SyncAndWakeup()
-				inp = input("How many samples ('c' for continuous)? ")
-				read(inp)
+				inp = input("\nHow many samples ('c' for continuous)? ")
+				read(inp, [ads.MUX_AIN3])
 			elif d == '6':
 				sensor = '6'
-				ads.SetInputMux(ads.MUX_AIN4, ads.MUX_AINCOM)
-				ads.SyncAndWakeup()
-				inp = input("How many samples ('c' for continuous)? ")
-				read(inp)
+				inp = input("\nHow many samples ('c' for continuous)? ")
+				read(inp, [ads.MUX_AIN74])
 			elif d == '7':
 				sensor = '7'
-				ads.SetInputMux(ads.MUX_AIN7, ads.MUX_AINCOM)
-				ads.SyncAndWakeup()
-				inp = input("How many samples ('c' for continuous)? ")
-				read(inp)
+				inp = input("\nHow many samples ('c' for continuous)? ")
+				read(inp, [ads.MUX_AIN7])
 			elif d == 'a':
 				sensor = 'a'
-				ads.SetInputMux(ads.MUX_AIN1, ads.MUX_AINCOM)
-				ads.SyncAndWakeup()
-				inp = input("How many samples ('c' for continuous)? ")
-				read(inp)
+				inp = input("\nHow many samples ('c' for continuous)? ")
+				read(inp, [ads.MUX_AIN1, ads.MUX_AIN2, ads.MUX_AIN5, ads.MUX_AIN6, ads.MUX_AIN0, ads.MUX_AIN3, ads.MUX_AIN4, ads.MUX_AIN7])
 			elif d == 'r':
-				if sensor == '0':
-					ads.SetInputMux(ads.MUX_AIN1, ads.MUX_AINCOM)
-					ads.SyncAndWakeup()
-					read(inp)
+				if   sensor == '0':
+					read(inp, [ads.MUX_AIN1])
 				elif sensor == '1':
-					ads.SetInputMux(ads.MUX_AIN2, ads.MUX_AINCOM)
-					ads.SyncAndWakeup()
-					read(inp)
+					read(inp, [ads.MUX_AIN2])
 				elif sensor == '2':
-					ads.SetInputMux(ads.MUX_AIN5, ads.MUX_AINCOM)
-					ads.SyncAndWakeup()
-					read(inp)
+					read(inp, [ads.MUX_AIN5])
 				elif sensor == '3':
-					ads.SetInputMux(ads.MUX_AIN6, ads.MUX_AINCOM)
-					ads.SyncAndWakeup()
-					read(inp)
+					read(inp, [ads.MUX_AIN6])
 				elif sensor == '4':
-					ads.SetInputMux(ads.MUX_AIN0, ads.MUX_AINCOM)
-					ads.SyncAndWakeup()
-					read(inp)
+					read(inp, [ads.MUX_AIN0])
 				elif sensor == '5':
-					ads.SetInputMux(ads.MUX_AIN3, ads.MUX_AINCOM)
-					ads.SyncAndWakeup()
-					read(inp)
+					read(inp, [ads.MUX_AIN3])
 				elif sensor == '6':
-					ads.SetInputMux(ads.MUX_AIN4, ads.MUX_AINCOM)
-					ads.SyncAndWakeup()
-					read(inp)
+					read(inp, [ads.MUX_AIN4])
 				elif sensor == '7':
-					ads.SetInputMux(ads.MUX_AIN7, ads.MUX_AINCOM)
-					ads.SyncAndWakeup()
-					read(inp)
+					read(inp, [ads.MUX_AIN7])
 				elif sensor == 'a':
-					ads.SetInputMux(ads.MUX_AIN1, ads.MUX_AINCOM)
-					ads.SyncAndWakeup()
-					read(inp)
+					read(inp, [ads.MUX_AIN1, ads.MUX_AIN2, ads.MUX_AIN5, ads.MUX_AIN6, ads.MUX_AIN0, ads.MUX_AIN3, ads.MUX_AIN4, ads.MUX_AIN7])
 			else:
 				print('Invalid selection')
 	elif c == 'd':
@@ -221,13 +198,19 @@ while True:
 			if   e == 'x':
 				break
 			elif e == 'a':
-				print('placeholder for a')
+				inp = input('\nEnter new value for DAC A: ')
+				daca = int(inp) #TODO either want entries as percent or voltage
+				dac.SendDACAValue(daca)
 			elif e == 'b':
-				print('placeholder for b')
+				inp = input('\nEnter new value for DAC B: ')
+				dacb = int(inp) #TODO either want entries as percent or voltage
+				dac.SendDACAValue(dacb)
 			elif e == 'o':
-				print('placeholder for o')
+				dac.PowerDownDACA()
+				daca = 0
 			elif e == 'p':
-				print('placeholder for p')
+				dac.PowerDownDACB()
+				dacb = 0
 			else:
 				print('Invalid selection')
 	else:
