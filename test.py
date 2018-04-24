@@ -78,6 +78,7 @@ def read(n, channels):
 		while not a_list:
 			i += 1
 			read_once(channels)
+			time.sleep(.5)
 	else:
 		try:
 			j = int(n)
@@ -222,6 +223,6 @@ while True:
 	else:
 		print('\nInvalid selection')
 print('\nexiting....')
-#dac.PowerDownDACA()
+dac.PowerDownDACA()
 dac.PowerDownDACB()
-print('Powering down DACs')
+print('Powered down DACs')
