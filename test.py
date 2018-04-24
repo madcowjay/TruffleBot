@@ -1,15 +1,11 @@
-# backward compatibility
-from __future__ import print_function
-from six.moves  import _thread
-
 # generic imports
-import os, time
-from colorama import init, Fore, Back, Style
+import os, time, threading
+from   colorama import init, Fore, Back, Style
 import wiringpi as wp
 import numpy as np
 
 # project specific
-from pi_utils.getch1 import *
+from   pi_utils.getch import *
 import drivers.pyads1256
 import drivers.pydac8532
 import drivers.pylps22hb
@@ -76,7 +72,9 @@ def read(n, channels):
 	if n == 'c':
 		a_list = []
 		i = 0
-		_thread.start_new_thread(input_thread, (a_list,))
+	#	_thread.start_new_thread(input_thread, (a_list,))
+		t = threading.Thread(target=input_thread, args=(a_list,))
+		t.start()
 		while not a_list:
 			i += 1
 			read_once(channels)
@@ -224,4 +222,6 @@ while True:
 	else:
 		print('\nInvalid selection')
 print('\nexiting....')
+#dac.PowerDownDACA()
+dac.PowerDownDACB()
 print('Powering down DACs')

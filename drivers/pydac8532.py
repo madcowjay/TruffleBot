@@ -1,4 +1,9 @@
 """
+Updated 2018/04/24
+  -Python3 only supported now
+  -Cleaned up some bytearray stuff for clarity and consistency with pyads1256.py
+                                                        -JW
+
 Updated 2018/01/18
   -Fixed bug where output was incorrect in least significant byte when most
             significant byte was nonzero due to masking error
@@ -12,8 +17,6 @@ Updated 2018/01/18
   -Python2 and Python3 compatible
                                                          -JW
 """
-
-from __future__ import print_function
 import wiringpi as wp
 
 DEBUG = False
@@ -110,13 +113,14 @@ class DAC8532:
     def chip_release(self):
         wp.digitalWrite(self.CS_PIN, wp.HIGH)
 
-    def SendString(self, mystring):
+    def SendBytes(self, mybytearray):
         if DEBUG:
             print('DEBUG:    Sending bytes:  ', end=''),
-            for c in mystring:
+            for c in mybytearray:
+                print(type(c))
                 print('\\x%02x' % c, end='')
             print('')
-        result = wp.wiringPiSPIDataRW(self.SPI_CHANNEL, bytes(mystring))
+        result = wp.wiringPiSPIDataRW(self.SPI_CHANNEL, bytes(mybytearray))
 
     def SendDACAValue(self, newvalue):
         debug_print('Send DAC A: ' + str(int(newvalue)).rjust(5))
@@ -125,7 +129,7 @@ class DAC8532:
         byte2 = (int(newvalue) >> 8) & 0xFF
         byte3 = (int(newvalue)     ) & 0xFF
         debug_print('   Decimal bytes:   %03d %03d %03d' % (byte1, byte2, byte3))
-        self.SendString(bytearray((byte1,))+bytearray((byte2,))+bytearray((byte3,)))
+        self.SendBytes(bytearray((byte1,byte2,byte3)))
         self.chip_release() #only needed if not using CE0 or CE1, but doesn't hurt otherwise
 
     def SendDACBValue(self, newvalue):
@@ -135,7 +139,7 @@ class DAC8532:
         byte2 = (int(newvalue) >> 8) & 0xFF
         byte3 = (int(newvalue)     ) & 0xFF
         debug_print('   Decimal bytes:   %03d %03d %03d' % (byte1, byte2, byte3))
-        self.SendString(bytearray((byte1,))+bytearray((byte2,))+bytearray((byte3,)))
+        self.SendBytes(bytearray((byte1,byte2,byte3)))
         self.chip_release() #only needed if not using CE0 or CE1, but doesn't hurt otherwise
 
     def PowerDownDACA(self):  #Powers down DAC A to high impedance
@@ -144,7 +148,7 @@ class DAC8532:
         byte1 = (((self.LOAD_DACA | self.BUFFERSELECT_A | self.PD1 | self.PD0) >> 16) & 0xFF)
         byte2 = (0 & 0xFF)
         byte3 = (0 & 0xFF)
-        self.SendString(bytearray((byte1,))+bytearray((byte2,))+bytearray((byte3,)))
+        self.SendBytes(bytearray((byte1,byte2,byte3)))
         self.chip_release() #only needed if not using CE0 or CE1, but doesn't hurt otherwise
 
     def PowerDownDACB(self):  #Powers down DAC B to high impedance
@@ -153,5 +157,5 @@ class DAC8532:
         byte1 = (((self.LOAD_DACB | self.BUFFERSELECT_B | self.PD1 | self.PD0) >> 16) & 0xFF)
         byte2 = (0 & 0xFF)
         byte3 = (0 & 0xFF)
-        self.SendString(bytearray((byte1,))+bytearray((byte2,))+bytearray((byte3,)))
+        self.SendBytes(bytearray((byte1,byte2,byte3)))
         self.chip_release() #only needed if not using CE0 or CE1, but doesn't hurt otherwise
