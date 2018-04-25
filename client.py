@@ -32,6 +32,7 @@ def pulser(pattern, duration, padding):
 
 #==========================================================================================================
 # setting up stuff
+print(time.asctime(time.localtime(time.time())))
 
 ## set up adc and dac
 ads = lib.pyads1256.ADS1256()
@@ -83,14 +84,14 @@ while not end_flag:
 		commands = message.split()
 		print(commands)
 
-		if commands[0]=='collect':
+		if commands[0]==b'collect':
 			sample_num = int(commands[1])
 			spacing = float(commands[2])
 			pulse_duration = float(commands[3])
 			padding = float(commands[4])
 
 			#init array to store data
-			data = np.zeros([sample_num,channels],dtype='i32')
+			data = np.zeros([sample_num,channels],dtype='int32')
 
 			#heat the sensors up, pause for a second
 			# print("Heating...")
@@ -129,7 +130,7 @@ while not end_flag:
 				# # dac.SendDACAValue(49151)
 				#
 				# print("saving samples to array")
-				sample = np.array([sam_1,sam_2,sam_3,sam_4,sam_5,sam_6,sam_7,sam_8], dtype='i32')
+				sample = np.array([sam_1,sam_2,sam_3,sam_4,sam_5,sam_6,sam_7,sam_8], dtype='int32')
 				# print("sample array created")
 				data[i] = sample # save the array of samples to the data dict, with key as sample num
 				# print('saved to dict')
