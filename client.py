@@ -160,7 +160,7 @@ while not end_flag:
 
 			#serialize data to be sent over network
 			print(log)
-			with open('/home/pi/gascommproj/sendfile.pickle','wb') as f:
+			with open('/home/pi/TruffleBot/log/sendfile.pickle','wb') as f:
 				pickle.dump(log,f)
 				print('pickled!')
 
