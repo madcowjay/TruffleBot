@@ -243,8 +243,8 @@ def dac_menu():
 	print(sr)
 	print('         a: ADC MENU       ' +bc+fbk+ 'DAC MENU' +sr+ '    p: PRESSURE MENU    c: CONFIG MENU    x: EXIT        ')
 	print('')
-	print(' k: set voltage on channel A          l: set voltage on channel B ')
-	print(' o: power down channel A              p: power down channel B')
+	print('        h: set voltage on channel A          j: power down channel A ')
+	print('        k: set voltage on channel B          l: power down channel B ')
 	print(fc+ '---------------------------------------------------------------------------------------------' +sr)
 	c = getch()
 	if   c == 'x': #exit program
@@ -257,22 +257,22 @@ def dac_menu():
 		pressure_menu()
 	elif c == 'c':
 		config_menu()
-	elif c == 'k':
+	elif c == 'h:
 		set_voltage = input('\nEnter new DC voltage: ')
 		daca = int((float(set_voltage)/dac_ref_voltage)*2**16)
 		if daca >= 2**16-1:
 			daca = 2**16-1
 		dac.SendDACAValue(daca)
-	elif c == 'l':
+	elif c == 'k':
 		set_voltage = input('\nEnter new DC voltage: ')
 		dacb = int((float(set_voltage)/dac_ref_voltage)*2**16)
 		if dacb >= 2**16-1:
 			dacb = 2**16-1
 		dac.SendDACBValue(dacb)
-	elif c == 'o':
+	elif c == 'j':
 		dac.PowerDownDACA()
 		daca = 0
-	elif c == 'p':
+	elif c == 'l':
 		dac.PowerDownDACB()
 		dacb = 0
 	else: print('\nInvalid selection')
@@ -360,8 +360,8 @@ def config_menu():
 	print(sr)
 	print('         a: ADC MENU    d: DAC MENU    p: PRESSURE MENU    ' +br+fbk+ 'CONFIG MENU' +sr+ '    x: EXIT        ')
 	print('')
-	print('                      q: toggle LED1          r: toggle LED2')
-	print('                      w: blink  LED1          t: blink  LED2')
+	print('                      q: toggle LED1 ON     w: toggle LED1 OFF      e: blink LED1')
+	print('                      r: toggle LED1 ON     t: toggle LED1 OFF      y: blink LED1')
 	print(fr+ '---------------------------------------------------------------------------------------------' +sr)
 	c = getch()
 	if   c == 'x': #exit program
@@ -375,23 +375,17 @@ def config_menu():
 	# elif c == 'c':
 	# 	config_menu()
 	elif c == 'q':
-		set_voltage = input('\nEnter new DC voltage: ')
-		daca = int((float(set_voltage)/dac_ref_voltage)*2**16)
-		if daca >= 2**16-1:
-			daca = 2**16-1
-		dac.SendDACAValue(daca)
-	elif c == 'l':
-		set_voltage = input('\nEnter new DC voltage: ')
-		dacb = int((float(set_voltage)/dac_ref_voltage)*2**16)
-		if dacb >= 2**16-1:
-			dacb = 2**16-1
-		dac.SendDACBValue(dacb)
-	elif c == 'o':
-		dac.PowerDownDACA()
-		daca = 0
-	elif c == 'p':
-		dac.PowerDownDACB()
-		dacb = 0
+		ledACT(1,1)
+	elif c == 'w':
+		ledACT(1,0)
+	elif c == 'e':
+		ledACT(1,2)
+	elif c == 'r':
+		ledACT(2,1)
+	elif c == 't':
+		ledACT(2,0)
+	elif c == 'y':
+		ledACT(2,2)
 	else: print('\nInvalid selection')
 
 def myExit():
@@ -399,6 +393,9 @@ def myExit():
 	dac.PowerDownDACA()
 	dac.PowerDownDACB()
 	print('Powered down DACs')
+	ledAct(1,0)
+	ledAct(2,0)
+	print('Turned off LEDs')
 	sys.exit()
 
 while True:

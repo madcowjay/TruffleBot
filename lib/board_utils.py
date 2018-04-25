@@ -15,7 +15,7 @@ gpio.setup(led2,gpio.OUT)
 gpio.setup(tx0, gpio.OUT)
 gpio.setup(tx1, gpio.OUT)
 
-
+# LED Interaction
 bt1_stop = threading.Event()
 bt2_stop = threading.Event()
 
@@ -49,6 +49,7 @@ def ledAct(num, state, period=1):
             bt2 = threading.Thread(target=blink_thread, args=(led2, bt2_stop, period))
             bt2.start()
 
+# Transistor Interaction
 def pulse(port, t):
     if port == 0:
         gpio.output(tx0,gpio.HIGH)
