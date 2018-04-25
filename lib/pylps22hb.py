@@ -182,7 +182,8 @@ class LPS22HB:
         if DEBUG:
             for reg in result[1]:
                 print(format(ord(reg), '08b') + ' = '+ format(ord(reg), '02x'))
-        myid = hex(ord((result[1][1])))
+        #myid = hex(ord((result[1][1])))
+        myid = hex((result[1][1]))
         debug_print(" readID: myid = " + myid)
         return (myid)
 
