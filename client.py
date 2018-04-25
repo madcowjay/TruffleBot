@@ -1,15 +1,15 @@
 import socket, traceback
-import drivers.pyads1256
-import drivers.pydac8532
+import lib.pyads1256
+import lib.pydac8532
 import wiringpi as wp
 import time
-from multiprocessing import Queue
+from   multiprocessing import Queue
 import threading
 import numpy as np
 import os
 import sys
 import pickle
-import drivers.board_utils as bu
+import lib.board_utils as bu
 
 #this is the worker function that runs in a separate thread if the pi is registered to transmit
 def pulser(pattern, duration, padding):
@@ -34,13 +34,13 @@ def pulser(pattern, duration, padding):
 # setting up stuff
 
 ## set up adc and dac
-ads = drivers.pyads1256.ADS1256()
+ads = lib.pyads1256.ADS1256()
 myid = ads.ReadID()
 print('ADS1256 ID = ' + hex(myid))
 ads.ConfigADC()
 ads.SyncAndWakeup()
 
-dac = drivers.pydac8532.DAC8532()
+dac = lib.pydac8532.DAC8532()
 dac.SendDACAValue(0.62 * 2**16)
 
 # pulsing queue

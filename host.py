@@ -2,14 +2,14 @@ import socket
 import sys
 import time
 import os
-import pi_utils.savefile
+import lib.savefile
 import platform
 import numpy as np
 import matplotlib
 matplotlib.use('TkAgg') # to fix MacOsX backend error
-from matplotlib import pyplot as plt
+from   matplotlib import pyplot as plt
 import os
-from connect import PiManager
+from   connect import PiManager
 import threading
 import pickle
 import tempfile
@@ -81,8 +81,8 @@ boardlookup = { '0000000064cd9be5' : 1,
 IDlookup = dict((v,k) for k, v in boardlookup.items())
 
 #set up instances of Experiment and Log classes, set start time for log
-pe = pi_utils.savefile.PlumeExperiment()
-pl = pi_utils.savefile.PlumeLog(logdirname='gascommlogs')
+pe = lib.savefile.PlumeExperiment()
+pl = lib.savefile.PlumeLog(logdirname='gascommlogs')
 pe.set_parameter('Comment', 'trials with raspberry pi sensor boards and humidifier source')
 
 #set up socket
