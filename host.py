@@ -2,6 +2,7 @@
 Updated 2018/04/25
   -Python3 only supported now
   -datavisualiztion removed
+  -board numbers removed (use serial number instead)
                                     -JW
 """
 
@@ -16,7 +17,7 @@ import matplotlib
 matplotlib.use('TkAgg') # to fix MacOsX backend error
 from   matplotlib import pyplot as plt
 import os
-from   connect import PiManager
+from   lib.connect import PiManager
 import threading
 import pickle
 import tempfile
@@ -24,7 +25,7 @@ import queue
 
 #==========================================================================================================
 # sync files, run client on the remote machines
-#host_project_dir='pi_utils' -JW
+#host_project_dir='pi_utils'
 #host_project_dir='/home/pi/TruffleBot'
 client_project_dir='/home/pi/TruffleBot'
 client_file = 'client.py'
@@ -34,7 +35,7 @@ pm = PiManager(client_project_dir)
 # set up queues and listener function to be threaded for each board
 
 dataq = queue.Queue()
-efq = queue.Queue()
+efq   = queue.Queue()
 
 # function to be run in separate thread and listen for network communications
 def listener(response_num):
@@ -70,7 +71,7 @@ def listener(response_num):
 
 #set up instances of Experiment and Log classes, set start time for log
 pe = lib.savefile.PlumeExperiment()
-pl = lib.savefile.PlumeLog(logdirname='gascommlogs')
+pl = lib.savefile.PlumeLog(logdirname='log')
 pe.set_parameter('Comment', 'trials with raspberry pi sensor boards and humidifier source')
 
 #set up socket
@@ -80,6 +81,7 @@ s.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
 s.settimeout(5.0)
 
 #experiment parameters
+iterations = 2 #trials
 duration = 5 #seconds
 samplerate = 2 #hz
 padding = 0 #seconds of silence at beginning and end
@@ -138,7 +140,7 @@ spacing = 1/samplerate
 
 #==========================================================================================================
 # main code
-for trial in range(10): # number of times to do experiment
+for trial in range(iterations): # number of times to do experiment
     # set start time of experiment
     pe.set_start_time()
 
@@ -229,7 +231,7 @@ for trial in range(10): # number of times to do experiment
         pm.ssh.connect(ip, username='pi', password='raspberryB1oE3')
         sftp = pm.ssh.open_sftp()
         with tempfile.TemporaryFile() as fp:
-            sftp.getfo('/home/pi/gascommproj/sendfile.pickle',fp)
+            sftp.getfo('/home/pi/TruffleBot/sendfile.pickle',fp)
             fp.seek(0)
             log = pickle.load(fp,encoding='latin1') #incompatibility of np arrays between python 2(clients) and 3(host) so use latin1 encoding
             data[ip] = log
@@ -237,8 +239,10 @@ for trial in range(10): # number of times to do experiment
 
     #save data in log file, scale the data
     for board in pe.sensors.keys():
-        boardnum = board[-1:]
-        ip = serial_ip[int(serial)]
+        print(board)
+        serial = board[7:]
+        print(serial)
+        ip = ip_serial.inv[serial]
         ret_data = data[ip]['Data']
         savedata = ret_data.astype('float32')
         #scale data to reference 0 = 2**23

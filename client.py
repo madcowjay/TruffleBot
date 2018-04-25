@@ -1,3 +1,10 @@
+"""
+Updated 2018/04/25
+  -Python3 only supported now
+  -added timestamp to log file
+                                    -JW
+"""
+
 import socket, traceback
 import lib.pyads1256
 import lib.pydac8532
