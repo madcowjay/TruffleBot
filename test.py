@@ -21,6 +21,8 @@ sr  = Style.RESET_ALL
 # set up board
 wp.wiringPiSetupPhys
 wp.pinMode(26, wp.INPUT) #I actually snipped this pin off the header, but in case you don't...
+led1_freq = 1 #Hz
+led2_freq = 1 #Hz
 
 # set up pressure sensors: currently just nullify them so they don't talk on the line
 all_cs = [33, 32, 40, 22, 35, 36, 7, 18]
@@ -163,23 +165,25 @@ def print_status():
 def adc_menu():
 	print(fy)
 	print_status()
-	print(sr)
-	print('            ' +by+fbk+ 'ADC MENU' +sr+ '     d: DAC MENU    p: PRESSURE MENU    c: CONFIG MENU    x: EXIT        ')
+	print('---------------------------------------------------------------------------------------------')
+	print('      ' +by+fbk+ 'ADC MENU' +sr+ '   s: PRESSURE MENU   d: DAC MENU   z: BOARD MENU   c: CONFIG MENU   x: EXIT        ')
 	print('')
-	print(' 0: test #0    1: test #1    2: test #2    3: test #3    4: test #4    5: test #5')
-	print(' 6: test #6    7: test #7                  a: test all    r: repeat previous test')
+	print('     0: test #0    1: test #1    2: test #2    3: test #3    4: test #4    5: test #5')
+	print('     6: test #6    7: test #7          a: test all            r: repeat previous test')
 	print(fy+ '---------------------------------------------------------------------------------------------' +sr)
 	c = getch()
-	if   c == 'x': #exit program
-		myExit()
-	# elif c == 'a':
+	# if   c == 'a':
 	# 	adc_menu()
+	if   c == 's':
+		pressure_menu()
 	elif c == 'd':
 		dac_menu()
-	elif c == 'p':
-		pressure_menu()
+	elif c == 'z':
+		board_menu()
 	elif c == 'c':
 		config_menu()
+	elif c == 'x': #exit program
+		myExit()
 	elif c == '0':
 		sensor = '0'
 		inp = input("\nHow many samples ('c' for continuous)? ")
@@ -241,23 +245,25 @@ def dac_menu():
 	while(True):
 		print(fc)
 		print_status()
-		print(sr)
-		print('         a: ADC MENU       ' +bc+fbk+ 'DAC MENU' +sr+ '    p: PRESSURE MENU    c: CONFIG MENU    x: EXIT        ')
+		print('---------------------------------------------------------------------------------------------')
+		print('   a: ADC MENU   p: PRESSURE MENU      ' +bc+fbk+ 'DAC MENU' +sr+ '   z: BOARD MENU   c: CONFIG MENU   x: EXIT        ')
 		print('')
 		print('             h: set voltage on channel A          j: power down channel A ')
-		print('             k: set voltage on channel B          l: power down channel B ')
+		print('             n: set voltage on channel B          m: power down channel B ')
 		print(fc+ '---------------------------------------------------------------------------------------------' +sr)
 		c = getch()
-		if   c == 'x': #exit program
-			myExit()
-		elif c == 'a':
+		if   c == 'a':
 			adc_menu()
+		elif c == 's':
+			pressure_menu()
 		# elif c == 'd':
 		# 	dac_menu()
-		elif c == 'p':
-			pressure_menu()
+		elif c == 'z':
+			board_menu()
 		elif c == 'c':
 			config_menu()
+		elif c == 'x': #exit program
+			myExit()
 		elif c == 'h':
 			set_voltage = input('\nEnter new DC voltage: ')
 			global daca
@@ -265,7 +271,7 @@ def dac_menu():
 			if daca >= 2**16-1:
 				daca = 2**16-1
 			dac.SendDACAValue(daca)
-		elif c == 'k':
+		elif c == 'n':
 			set_voltage = input('\nEnter new DC voltage: ')
 			global dacb
 			dacb = int((float(set_voltage)/dac_ref_voltage)*2**16)
@@ -275,7 +281,7 @@ def dac_menu():
 		elif c == 'j':
 			dac.PowerDownDACA()
 			daca = 0
-		elif c == 'l':
+		elif c == 'm':
 			dac.PowerDownDACB()
 			dacb = 0
 		else: print('\nInvalid selection')
@@ -284,23 +290,25 @@ def pressure_menu():
 	while(True):
 		print(fm)
 		print_status()
-		print(sr)
-		print('         a: ADC MENU    d: DAC MENU       ' +bm+fbk+ 'PRESSURE MENU' +sr+ '    c: CONFIG MENU    x: EXIT        ')
+		print('---------------------------------------------------------------------------------------------')
+		print('   a: ADC MENU      ' +bm+fbk+ 'PRESSURE MENU' +sr+ '   d: DAC MENU   z: BOARD MENU   c: CONFIG MENU   x: EXIT        ')
 		print('')
 		print(' 0: test #0    1: test #1    2: test #2    3: test #3    4: test #4    5: test #5')
 		print(' 6: test #6    7: test #7                  a: test all    r: repeat previous test')
 		print(fm+ '---------------------------------------------------------------------------------------------' +sr)
 		c = getch()
-		if   c == 'x': #exit program
-			myExit()
-		elif c == 'a':
+		if   c == 'a':
 			adc_menu()
+		# elif c == 's':
+		# 	pressure_menu()
 		elif c == 'd':
 			dac_menu()
-		# elif c == 'p':
-		# 	pressure_menu()
+		elif c == 'z':
+			board_menu()
 		elif c == 'c':
 			config_menu()
+		elif c == 'x': #exit program
+			myExit()
 		elif c == '0':
 			sensor = '0'
 			inp = input("\nHow many samples ('c' for continuous)? ")
@@ -358,41 +366,85 @@ def pressure_menu():
 				read_lps(inp, [0,1,2,3,4,5,6,7])
 		else: print('\nInvalid selection')
 
+def board_menu():
+	while(True):
+		print(fg)
+		print_status()
+		print('---------------------------------------------------------------------------------------------')
+		print('   a: ADC MENU     PRESSURE MENU   d: DAC MENU      ' +bg+fbk+ 'BOARD MENU' +sr+ '   c: CONFIG MENU   x: EXIT        ')
+		print('')
+		print('        g: toggle LED1 ON     h: toggle LED1 OFF      j: blink LED1    k: pulse TX0')
+		print('        v: toggle LED1 ON     b: toggle LED1 OFF      n: blink LED1    m: pulse TX1')
+		print(fg+ '---------------------------------------------------------------------------------------------' +sr)
+		c = getch()
+		if   c == 'a':
+			adc_menu()
+		elif c == 's':
+			pressure_menu()
+		elif c == 'd':
+			dac_menu()
+		# elif c == 'z':
+		# 	board_menu()
+		elif c == 'c':
+			config_menu()
+		elif c == 'x': #exit program
+			myExit()
+		elif c == 'g':
+			ledAct(1,1)
+		elif c == 'h':
+			ledAct(1,0)
+		elif c == 'j':
+			global led1_freq
+			ledAct(1,2,led1_freq)
+		elif c == 'v':
+			ledAct(2,1)
+		elif c == 'b':
+			ledAct(2,0)
+		elif c == 'n':
+			global led2_freq
+			ledAct(2,2,led2_freq)
+		elif c == 'k':
+			inp = input("\nFor how long? ")
+			pulse(0,int(inp))
+		elif c == 'm':
+			inp = input("\nFor how long? ")
+			pulse(1,int(inp))
+		else: print('\nInvalid selection')
+
 def config_menu():
+	global led1_freq
+	global led2_freq
 	while(True):
 		print(fr)
 		print_status()
-		print(sr)
-		print('         a: ADC MENU    d: DAC MENU    p: PRESSURE MENU    ' +br+fbk+ 'CONFIG MENU' +sr+ '    x: EXIT        ')
+		print('    LED1 blink frequency: {0} Hz'.format(led1_freq))
+		print('    LED2 blink frequency: {0} Hz'.format(led2_freq))
+		print('---------------------------------------------------------------------------------------------')
+		print('   a: ADC MENU   s: PRESSURE MENU   d: DAC MENU   z: BOARD MENU      ' +br+fbk+ 'CONFIG MENU' +sr+ '   x: EXIT        ')
 		print('')
-		print('                 q: toggle LED1 ON     w: toggle LED1 OFF      e: blink LED1')
-		print('                 r: toggle LED1 ON     t: toggle LED1 OFF      y: blink LED1')
+		print('        f: LED1 frequency')
+		print('        v: LED2 frequency')
 		print(fr+ '---------------------------------------------------------------------------------------------' +sr)
 		c = getch()
-		if   c == 'x': #exit program
-			myExit()
-		elif c == 'a':
+		if   c == 'a':
 			adc_menu()
+		elif c == 's':
+			pressure_menu()
 		elif c == 'd':
 			dac_menu()
-		elif c == 'p':
-			pressure_menu()
+		elif c == 'z':
+			board_menu()
 		# elif c == 'c':
 		# 	config_menu()
-		elif c == 'q':
-			ledAct(1,1)
-		elif c == 'w':
-			ledAct(1,0)
-		elif c == 'e':
-			ledAct(1,2)
-		elif c == 'r':
-			ledAct(2,1)
-		elif c == 't':
-			ledAct(2,0)
-		elif c == 'y':
-			ledAct(2,2)
-		else: print('\nInvalid selection')
+		elif c == 'x': #exit program
+			myExit()
+		elif c == 'f':
 
+			led1_freq = int(input('New frequency: '))
+		elif c == 'v':
+
+			led2_freq = int(input('New frequency: '))
+		else: print('\nInvalid selection')
 def myExit():
 	print('\nexiting....')
 	dac.PowerDownDACA()

@@ -19,16 +19,16 @@ gpio.setup(tx1, gpio.OUT)
 bt1_stop = threading.Event()
 bt2_stop = threading.Event()
 
-def blink_thread(pin, stop_event, period):
+def blink_thread(pin, stop_event, frequency):
     while( not stop_event.is_set() ):
         gpio.output(pin, gpio.HIGH)
-        time.sleep(period)
+        time.sleep(1/frequency)
         gpio.output(pin, gpio.LOW)
-        time.sleep(period)
+        time.sleep(1/frequency)
         pass
 
-def ledAct(num, state, period=1):
-    if num == 1:
+def ledAct(led, state, frequency=1):
+    if led == 1:
         bt1_stop.set()
         if   state == 0: # off
             gpio.output(led1, gpio.LOW)
@@ -36,9 +36,9 @@ def ledAct(num, state, period=1):
             gpio.output(led1, gpio.HIGH)
         elif state == 2: # blink
             bt1_stop.clear()
-            bt1 = threading.Thread(target=blink_thread, args=(led1, bt1_stop, period))
+            bt1 = threading.Thread(target=blink_thread, args=(led1, bt1_stop, frequency))
             bt1.start()
-    else:
+    else: #led = 2
         bt2_stop.set()
         if   state == 0: # off
             gpio.output(led2, gpio.LOW)
@@ -46,7 +46,7 @@ def ledAct(num, state, period=1):
             gpio.output(led2, gpio.HIGH)
         elif state == 2: # blink
             bt2_stop.clear()
-            bt2 = threading.Thread(target=blink_thread, args=(led2, bt2_stop, period))
+            bt2 = threading.Thread(target=blink_thread, args=(led2, bt2_stop, frequency))
             bt2.start()
 
 # Transistor Interaction
