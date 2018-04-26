@@ -231,7 +231,7 @@ for trial in range(iterations): # number of times to do experiment
         pm.ssh.connect(ip, username='pi', password='raspberryB1oE3')
         sftp = pm.ssh.open_sftp()
         with tempfile.TemporaryFile() as fp:
-            sftp.getfo('/home/pi/TruffleBot/sendfile.pickle',fp)
+            sftp.getfo('/home/pi/TruffleBot/log/sendfile.pickle',fp)
             fp.seek(0)
             log = pickle.load(fp,encoding='latin1') #incompatibility of np arrays between python 2(clients) and 3(host) so use latin1 encoding
             data[ip] = log
