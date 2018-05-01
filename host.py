@@ -17,12 +17,13 @@ import matplotlib
 matplotlib.use('TkAgg') # to fix MacOsX backend error
 from   matplotlib import pyplot as plt
 import os
-from   lib.connect import PiManager
 import threading
 import pickle
 import tempfile
 import queue
 
+from   lib.connect import PiManager
+from   lib.getch import *
 #==========================================================================================================
 # sync files, run client on the remote machines
 #host_project_dir='pi_utils'
@@ -31,35 +32,6 @@ client_project_dir='/home/pi/TruffleBot'
 client_file = 'client.py'
 
 pm = PiManager(client_project_dir)
-#==========================================================================================================
-# set up queues and listener function to be threaded for each board
-
-dataq = queue.Queue()
-efq   = queue.Queue()
-
-# function to be run in separate thread and listen for network communications
-def listener(response_num):
-    print('starting listener')
-    end_flag = False
-    end_flag_count = 0
-    data_len = 0
-    #listening loop
-    while end_flag_count < response_num:
-        try:
-            (buf, address) = s.recvfrom(8192)
-            # if len(buf) > 0:
-            response = buf.decode('utf-8')
-            if response!='unknown':
-                if response!='end_flag':
-                    pass
-                else:
-                    end_flag = True
-                    end_flag_count +=1
-                    print('end_flag_count: %s - %s'%(end_flag_count,address))
-                    efq.put(1)
-        except Exception as e:
-            print("Listener: "+str(e))
-    print('listener ended')
 
 # #dictionary to associate serial number with board number
 # boardlookup = { '00000000d7ef3031' : 1,
@@ -199,23 +171,30 @@ for trial in range(iterations): # number of times to do experiment
 
     #==========================================================================================================
 
-    #start the listener in another thread, will listen for end_flags
-    s.settimeout(1)#shorter timeout for recieving to work in long loop
-    t = threading.Thread(target=listener, args=(response_num,))
-    if not t.isAlive():
-        t.start()
-
     #send command to the client to collect data
     pulse_duration = 1; #-JW
     command = 'collect %s %s %s %s'%(num_samples, spacing, pulse_duration, padding)
     s.sendto(command.encode('utf-8'), dest)
     print(command)
 
-    #wait, check the end flag queue to see if the listening processes have ended
-    end_flag_count = 0
-    while end_flag_count < response_num:
-            while not efq.empty():
-                end_flag_count += efq.get()
+    #start the listener in another thread, will listen for end_flags
+    s.settimeout(1)#shorter timeout for recieving to work in long loop+
+    print("starting listener - press 'q' to abort mission")
+    responses_received = 0
+    #listening loop
+    while responses_received < responses_requested:
+        try:
+            (buf, address) = s.recvfrom(8192)
+            # if len(buf) > 0:
+            response = buf.decode('utf-8')
+            if response!='unknown':
+                if response == 'end_flag':
+                    responses_received += 1
+                    print('response received from : %s - total count: %s'%(address, responses_received))
+                else: pass
+        except Exception as e:
+            print("Listener: "+str(e))
+    print('listener ended')
 
     #end experiment
     print('end')

@@ -1,4 +1,10 @@
 """
+Updated 2018/04/28
+  -log file includes errors now
+  -python3 called with -u to flush output
+  -log file back to appending
+                                    -JW
+
 Updated 2018/04/25
   -File/Directory synchronizing removed for now
   -ip addresses hard coded
@@ -17,7 +23,9 @@ import bidict
 class PiManager:
     def __init__(self, client_project_dir):
         #init global variables
-        self.ip_list = ['10.0.0.201','10.0.0.202'] #manual entries -JW
+        #self.ip_list = ['10.0.0.201','10.0.0.202'] #manual entries -JW
+        #self.ip_list = ['10.0.0.202']
+        self.ip_list = ['192.168.1.212']
         self.client_project_dir = client_project_dir
 
         #init paramiko
@@ -80,8 +88,10 @@ class PiManager:
             for ip in self.ip_list:
                 self.ssh.connect(ip, username='pi', password='raspberryB1oE3')
                 if log_file:
-                    self.ssh.exec_command('cd %s && python3 -u %s > log/%s'%(self.client_project_dir,client_file,log_file))
-                    print('%s: starting client file, writing stdio to %s'%(ip,log_file))
+                    print('log: ')
+                    print(log_file)
+                    self.ssh.exec_command('cd %s && python3 -u %s &>> log/%s'%(self.client_project_dir,client_file,log_file))
+                    print('%s: starting client file, writing stdout and stderr to %s'%(ip,log_file))
                 else:
                     self.ssh.exec_command('cd %s && python3 %s'%(self.client_project_dir,client_file))
                     print('%s: starting client file'%ip)

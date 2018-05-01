@@ -58,7 +58,7 @@ pulseq = Queue()
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 s.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
-s.bind(('', 5000))
+bind(('', 5000))
 
 
 #init variables that need it
@@ -83,6 +83,7 @@ except Exception as e:
 
 #listen for commands -- main function
 print("Listening for broadcasts...")
+bu.ledAct(1,2,1) # blink LED 1 at 1 Hz
 end_flag = False
 while not end_flag:
 	try:
@@ -92,6 +93,7 @@ while not end_flag:
 		print(commands)
 
 		if commands[0]==b'collect':
+			bu.ledAct(2,2,4) # blink LED 2 at 4 Hz
 			sample_num = int(commands[1])
 			spacing = float(commands[2])
 			pulse_duration = float(commands[3])
@@ -170,6 +172,8 @@ while not end_flag:
 			pulseq.put('stop')
 			print('end')
 			end_flag=True
+			bu.ledAct(2,0) #turn off LED 2
 
 	except Exception as e:
 			print(e)
+bu.ledAct(1,0)

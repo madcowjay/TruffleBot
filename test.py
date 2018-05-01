@@ -33,10 +33,11 @@ lps = []
 lps_status = []
 for index in range(len(all_cs)):
 	lps.append(lib.pylps22hb.LPS22HB(all_cs[index]))
-	if lps[index].ReadID() == '0C':
+	if lps[index].ReadID() == '0xb1':
 		lps_status.append(fg+' LPS' + str(index) + ' UP ' +sr)
 	else:
 		lps_status.append(fr+'LPS' + str(index) + ' DOWN' +sr)
+lps_rate = 2 # Hz
 
 # set up ADC
 ads = lib.pyads1256.ADS1256()
@@ -48,6 +49,7 @@ ads.ConfigADC()
 ads.SyncAndWakeup()
 adc_ref_voltage = 2.5
 adc_gain = 2
+adc_rate = 2 # Hz
 
 # set up 16 bit DAC
 dac = lib.pydac8532.DAC8532()
@@ -59,34 +61,33 @@ daca = 0
 dacb = 0
 
 # Function to get keyboard interrupts (cross-platform)
-def input_thread(a_list):
+def input_thread(stop_event):
 	getch()
-	a_list.append(True)
+	stop_event.set()
 
 # Helper function to read ADC: handles discrete vs. continuous
-def read_ads(n, channels):
+def read_adc(n, channels):
 	print(sr)
 	if n == 'c':
-		a_list = []
-		i = 0
-	#	_thread.start_new_thread_ads(input_thread, (a_list,))
-		t = threading.Thread(target=input_thread, args=(a_list,))
+		print('press any key to stop')
+		t_stop = threading.Event()
+		t = threading.Thread(target=input_thread, args=(t_stop,))
 		t.start()
-		while not a_list:
-			i += 1
-			read_ads_once(channels)
-			time.sleep(.5)
+		while not ( t_stop.is_set() ):
+			read_adc_once(channels)
+			global adc_rate
+			time.sleep(1/adc_rate)
 	else:
 		try:
 			j = int(n)
 			while j:
-				read_ads_once(channels)
+				read_adc_once(channels)
 				j -= 1
 		except:
 			pass
 
 # Read the ADC and display the results
-def read_ads_once(channels):
+def read_adc_once(channels):
 	if len(channels) == 1:
 		result_in_twos_comp = ads.getADCsample(channels[0], ads.MUX_AINCOM)
 		result = -(result_in_twos_comp & 0x800000) | (result_in_twos_comp & 0x7fffff)
@@ -103,21 +104,20 @@ def read_ads_once(channels):
 			result_in_twos_comp = ads.getADCsample(channel, ads.MUX_AINCOM)
 			result = -(result_in_twos_comp & 0x800000) | (result_in_twos_comp & 0x7fffff)
 			voltages.append((result*2*adc_ref_voltage) / (2**23 - 1) / adc_gain)
-		print(voltages)
+		for v in voltages:
+			print('  {0:+0.9f}'.format(v), end='')
+		print('')
 
 # Helper function to read LPS: handles discrete vs. continuous
 def read_lps(n, channels):
 	print(sr)
 	if n == 'c':
-		a_list = []
-		i = 0
-	#	_thread.start_new_thread_ads(input_thread, (a_list,))
-		t = threading.Thread(target=input_thread, args=(a_list,))
+		t_stop = threading.Event()
+		t = threading.Thread(target=input_thread, args=(t_stop,))
 		t.start()
-		while not a_list:
-			i += 1
+		while not ( t_stop.is_set() ):
 			read_lps_once(channels)
-			time.sleep(.5)
+			time.sleep(1/lps_rate)
 	else:
 		try:
 			j = int(n)
@@ -163,83 +163,86 @@ def print_status():
 	print('     {0}         DAC A: {1} = {3:f}V      \tDAC B: {2} = {4:f}V'.format(adc_status, daca, dacb, daca*dac_ref_voltage/2**16, dacb*dac_ref_voltage/2**16))
 
 def adc_menu():
-	print(fy)
-	print_status()
-	print('---------------------------------------------------------------------------------------------')
-	print('      ' +by+fbk+ 'ADC MENU' +sr+ '   s: PRESSURE MENU   d: DAC MENU   z: BOARD MENU   c: CONFIG MENU   x: EXIT        ')
-	print('')
-	print('     0: test #0    1: test #1    2: test #2    3: test #3    4: test #4    5: test #5')
-	print('     6: test #6    7: test #7          a: test all            r: repeat previous test')
-	print(fy+ '---------------------------------------------------------------------------------------------' +sr)
-	c = getch()
-	# if   c == 'a':
-	# 	adc_menu()
-	if   c == 's':
-		pressure_menu()
-	elif c == 'd':
-		dac_menu()
-	elif c == 'z':
-		board_menu()
-	elif c == 'c':
-		config_menu()
-	elif c == 'x': #exit program
-		myExit()
-	elif c == '0':
-		sensor = '0'
-		inp = input("\nHow many samples ('c' for continuous)? ")
-		read_ads(inp, [ads.MUX_AIN1])
-	elif c == '1':
-		sensor = '1'
-		inp = input("\nHow many samples ('c' for continuous)? ")
-		read_ads(inp, [ads.MUX_AIN2])
-	elif c == '2':
-		sensor = '2'
-		inp = input("\nHow many samples ('c' for continuous)? ")
-		read_ads(inp, [ads.MUX_AIN5])
-	elif c == '3':
-		sensor = '3'
-		inp = input("\nHow many samples ('c' for continuous)? ")
-		read_ads(inp, [ads.MUX_AIN6])
-	elif c == '4':
-		sensor = '4'
-		inp = input("\nHow many samples ('c' for continuous)? ")
-		read_ads(inp, [ads.MUX_AIN0])
-	elif c == '5':
-		sensor = '5'
-		inp = input("\nHow many samples ('c' for continuous)? ")
-		read_ads(inp, [ads.MUX_AIN3])
-	elif c == '6':
-		sensor = '6'
-		inp = input("\nHow many samples ('c' for continuous)? ")
-		read_ads(inp, [ads.MUX_AIN74])
-	elif c == '7':
-		sensor = '7'
-		inp = input("\nHow many samples ('c' for continuous)? ")
-		read_ads(inp, [ads.MUX_AIN7])
-	elif c == 'a':
-		sensor = 'a'
-		inp = input("\nHow many samples ('c' for continuous)? ")
-		read_ads(inp, [ads.MUX_AIN1, ads.MUX_AIN2, ads.MUX_AIN5, ads.MUX_AIN6, ads.MUX_AIN0, ads.MUX_AIN3, ads.MUX_AIN4, ads.MUX_AIN7])
-	elif c == 'r':
-		if   sensor == '0':
-			read_ads(inp, [ads.MUX_AIN1])
-		elif sensor == '1':
-			read_ads(inp, [ads.MUX_AIN2])
-		elif sensor == '2':
-			read_ads(inp, [ads.MUX_AIN5])
-		elif sensor == '3':
-			read_ads(inp, [ads.MUX_AIN6])
-		elif sensor == '4':
-			read_ads(inp, [ads.MUX_AIN0])
-		elif sensor == '5':
-			read_ads(inp, [ads.MUX_AIN3])
-		elif sensor == '6':
-			read_ads(inp, [ads.MUX_AIN4])
-		elif sensor == '7':
-			read_ads(inp, [ads.MUX_AIN7])
-		elif sensor == 'a':
-			read_ads(inp, [ads.MUX_AIN1, ads.MUX_AIN2, ads.MUX_AIN5, ads.MUX_AIN6, ads.MUX_AIN0, ads.MUX_AIN3, ads.MUX_AIN4, ads.MUX_AIN7])
-	else: print('\nInvalid selection')
+	sensor = '0'
+	inp = '1'
+	while True:
+		print(fy)
+		print_status()
+		print('---------------------------------------------------------------------------------------------')
+		print('      ' +by+fbk+ 'ADC MENU' +sr+ '   s: PRESSURE MENU   d: DAC MENU   z: BOARD MENU   c: CONFIG MENU   x: EXIT        ')
+		print('')
+		print('     0: test #0    1: test #1    2: test #2    3: test #3    4: test #4    5: test #5')
+		print('     6: test #6    7: test #7          a: test all            r: repeat previous test')
+		print(fy+ '---------------------------------------------------------------------------------------------' +sr)
+		c = getch()
+		# if   c == 'a':
+		# 	return ('a')
+		if   c == 's':
+			return ('s')
+		elif c == 'd':
+			return ('d')
+		elif c == 'z':
+			return ('z')
+		elif c == 'c':
+			return ('c')
+		elif c == 'x': #exit program
+			myExit()
+		elif c == '0':
+			sensor = '0'
+			inp = input("\nHow many samples ('c' for continuous)? ")
+			read_adc(inp, [ads.MUX_AIN1])
+		elif c == '1':
+			sensor = '1'
+			inp = input("\nHow many samples ('c' for continuous)? ")
+			read_adc(inp, [ads.MUX_AIN2])
+		elif c == '2':
+			sensor = '2'
+			inp = input("\nHow many samples ('c' for continuous)? ")
+			read_adc(inp, [ads.MUX_AIN5])
+		elif c == '3':
+			sensor = '3'
+			inp = input("\nHow many samples ('c' for continuous)? ")
+			read_adc(inp, [ads.MUX_AIN6])
+		elif c == '4':
+			sensor = '4'
+			inp = input("\nHow many samples ('c' for continuous)? ")
+			read_adc(inp, [ads.MUX_AIN0])
+		elif c == '5':
+			sensor = '5'
+			inp = input("\nHow many samples ('c' for continuous)? ")
+			read_adc(inp, [ads.MUX_AIN3])
+		elif c == '6':
+			sensor = '6'
+			inp = input("\nHow many samples ('c' for continuous)? ")
+			read_adc(inp, [ads.MUX_AIN4])
+		elif c == '7':
+			sensor = '7'
+			inp = input("\nHow many samples ('c' for continuous)? ")
+			read_adc(inp, [ads.MUX_AIN7])
+		elif c == 'a':
+			sensor = 'a'
+			inp = input("\nHow many samples ('c' for continuous)? ")
+			read_adc(inp, [ads.MUX_AIN1, ads.MUX_AIN2, ads.MUX_AIN5, ads.MUX_AIN6, ads.MUX_AIN0, ads.MUX_AIN3, ads.MUX_AIN4, ads.MUX_AIN7])
+		elif c == 'r':
+			if   sensor == '0':
+				read_adc(inp, [ads.MUX_AIN1])
+			elif sensor == '1':
+				read_adc(inp, [ads.MUX_AIN2])
+			elif sensor == '2':
+				read_adc(inp, [ads.MUX_AIN5])
+			elif sensor == '3':
+				read_adc(inp, [ads.MUX_AIN6])
+			elif sensor == '4':
+				read_adc(inp, [ads.MUX_AIN0])
+			elif sensor == '5':
+				read_adc(inp, [ads.MUX_AIN3])
+			elif sensor == '6':
+				read_adc(inp, [ads.MUX_AIN4])
+			elif sensor == '7':
+				read_adc(inp, [ads.MUX_AIN7])
+			elif sensor == 'a':
+				read_adc(inp, [ads.MUX_AIN1, ads.MUX_AIN2, ads.MUX_AIN5, ads.MUX_AIN6, ads.MUX_AIN0, ads.MUX_AIN3, ads.MUX_AIN4, ads.MUX_AIN7])
+		else: print('\nInvalid selection')
 
 def dac_menu():
 	while(True):
@@ -253,15 +256,15 @@ def dac_menu():
 		print(fc+ '---------------------------------------------------------------------------------------------' +sr)
 		c = getch()
 		if   c == 'a':
-			adc_menu()
+			return 'a'
 		elif c == 's':
-			pressure_menu()
+			return 's'
 		# elif c == 'd':
-		# 	dac_menu()
+		# 	return 'd'
 		elif c == 'z':
-			board_menu()
+			return 'z'
 		elif c == 'c':
-			config_menu()
+			return 'c'
 		elif c == 'x': #exit program
 			myExit()
 		elif c == 'h':
@@ -298,15 +301,15 @@ def pressure_menu():
 		print(fm+ '---------------------------------------------------------------------------------------------' +sr)
 		c = getch()
 		if   c == 'a':
-			adc_menu()
+			return 'a'
 		# elif c == 's':
-		# 	pressure_menu()
+		# 	return 's'
 		elif c == 'd':
-			dac_menu()
+			return 'd'
 		elif c == 'z':
-			board_menu()
+			return 'z'
 		elif c == 'c':
-			config_menu()
+			return 'c'
 		elif c == 'x': #exit program
 			myExit()
 		elif c == '0':
@@ -378,15 +381,15 @@ def board_menu():
 		print(fg+ '---------------------------------------------------------------------------------------------' +sr)
 		c = getch()
 		if   c == 'a':
-			adc_menu()
+			return 'a'
 		elif c == 's':
-			pressure_menu()
+			return 's'
 		elif c == 'd':
-			dac_menu()
+			return 'd'
 		# elif c == 'z':
-		# 	board_menu()
+		# 	return 'z'
 		elif c == 'c':
-			config_menu()
+			return 'c'
 		elif c == 'x': #exit program
 			myExit()
 		elif c == 'g':
@@ -414,36 +417,39 @@ def board_menu():
 def config_menu():
 	global led1_freq
 	global led2_freq
+	global adc_rate
 	while(True):
 		print(fr)
 		print_status()
-		print('    LED1 blink frequency: {0} Hz'.format(led1_freq))
-		print('    LED2 blink frequency: {0} Hz'.format(led2_freq))
+		print('    LED1 : {0} Hz      ADC Continuous: {1} Hz'.format(led1_freq, adc_rate))
+		print('    LED2 : {0} Hz'.format(led2_freq))
 		print('---------------------------------------------------------------------------------------------')
 		print('   a: ADC MENU   s: PRESSURE MENU   d: DAC MENU   z: BOARD MENU      ' +br+fbk+ 'CONFIG MENU' +sr+ '   x: EXIT        ')
 		print('')
-		print('        f: LED1 frequency')
+		print('        f: LED1 frequency       g: ADC polling')
 		print('        v: LED2 frequency')
 		print(fr+ '---------------------------------------------------------------------------------------------' +sr)
 		c = getch()
 		if   c == 'a':
-			adc_menu()
+			return 'a'
 		elif c == 's':
-			pressure_menu()
+			return 's'
 		elif c == 'd':
-			dac_menu()
+			return 'd'
 		elif c == 'z':
-			board_menu()
+			return 'z'
 		# elif c == 'c':
-		# 	config_menu()
+		# 	return 'c'
 		elif c == 'x': #exit program
 			myExit()
 		elif c == 'f':
 
-			led1_freq = int(input('New frequency: '))
+			led1_freq = int(input('\nNew frequency: '))
 		elif c == 'v':
 
-			led2_freq = int(input('New frequency: '))
+			led2_freq = int(input('\nNew frequency: '))
+		elif c == 'g':
+			adc_rate  = int(input('\nNew frequency:'))
 		else: print('\nInvalid selection')
 def myExit():
 	print('\nexiting....')
@@ -456,4 +462,18 @@ def myExit():
 	sys.exit()
 
 # This starts the whole loop
-adc_menu()
+menu = 'a'
+while True:
+	if   menu == 'a':
+		menu = adc_menu()
+	elif menu == 's':
+		menu = pressure_menu()
+	elif menu == 'd':
+		menu = dac_menu()
+	elif menu == 'z':
+		menu = board_menu()
+	elif menu == 'c':
+		menu = config_menu()
+	else:
+		print('Something went wrong')
+		menu = 'a'
