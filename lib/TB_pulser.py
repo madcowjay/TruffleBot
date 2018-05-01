@@ -4,8 +4,8 @@ import time
 class pulser():
     def __init__(self,
                  channel=1,
-                 #port="/dev/ttyACM0",
-                 port = '/dev/tty.usbmodem621',
+                 port="/dev/ttyACM0", # Ras-Pi
+                 #port = '/dev/tty.usbmodem621', # MacBook
                  baudrate=9600,
                  parity=serial.PARITY_NONE,
                  stopbits=serial.STOPBITS_ONE):
@@ -22,9 +22,9 @@ class pulser():
                                      baudrate=self.baudrate,
                                      parity=self.parity,
                                      stopbits=self.stopbits)
-            print("Connected to Serial Port address : ",self.port)
+            print("Connected to Serial Port address : " + self.port)
         except:
-            print("Serial port ",self.port," not found.")
+            print("Serial port " + self.port + " not found.")
             pass
 
 
@@ -50,3 +50,7 @@ class pulser():
             self.ser.write("OUT1".encode('utf-8'))
         else:
             self.ser.write("OUT0".encode('utf-8'))
+
+    def closePort(self):
+        self.ser.close()
+        print("Serial port closed.")
