@@ -12,11 +12,9 @@ p.openPort() #Open communication port
 message=np.array([1, 0, 0, 0, 0])
 
 # set initial parameters
-p.setVoltage(12) #sets voltage and current to 12V and 1A
-time.sleep(0.1)
+p.setVoltage(0) #sets voltage and current to 0V and 1A
 p.setCurrent(1)
 p.setOutput("ON")
-time.sleep(0.1)
 # transmit messages
 for i in range(len(message)):
     print("Bit " + str(message[i]))
