@@ -338,13 +338,10 @@ class ADS1256:
 
         start = time.time()
         elapsed = time.time() - start
-        i = 0
 
         # Wait for TIMEOUT to elapse
         while elapsed < self.DATA_TIMEOUT:
             elapsed = time.time() - start
-            i+=1
-        print('datadelay loops: ' + str(i))
 
 
     def ReadReg(self, start_reg, num_to_read):
