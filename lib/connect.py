@@ -88,8 +88,6 @@ class PiManager:
             for ip in self.ip_list:
                 self.ssh.connect(ip, username='pi', password='raspberryB1oE3')
                 if log_file:
-                    print('log: ')
-                    print(log_file)
                     self.ssh.exec_command('cd %s && python3 -u %s &>> log/%s'%(self.client_project_dir,client_file,log_file))
                     print('%s: starting client file, writing stdout and stderr to %s'%(ip,log_file))
                 else:

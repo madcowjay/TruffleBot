@@ -9,7 +9,7 @@ Updated 2018/04/25
                                     -JW
 """
 
-import os, sys, platform, time
+import os, sys, platform, time, textwrap
 import socket, pickle, tempfile
 import numpy as np
 
@@ -101,11 +101,11 @@ spacing = 1/samplerate
     #
     # return message,tx,msg_plot
 
-
 #==========================================================================================================
 # main code
 for trial in range(iterations): # number of times to do experiment
     # set start time of experiment
+    print('\n*** trial %s started ***' %(trial))
     pe.set_start_time()
 
 #============================================================================
@@ -119,7 +119,7 @@ for trial in range(iterations): # number of times to do experiment
 
     #get identifying dictionaries from pm
     ip_serial = pm.identifpi() #-JW
-    print(ip_serial) #-JW
+    print('board list: ' + str(ip_serial)) #-JW
 
 #########################################################################
 # # transmit section
@@ -158,7 +158,7 @@ for trial in range(iterations): # number of times to do experiment
 
     #kill the program if no sensors respond
     if not responses_requested:
-        print('There were no boards in the ip_list')
+        print('There were no boards in the ip_list - Exiting')
         sys.exit()
 
     #==========================================================================================================
@@ -167,25 +167,24 @@ for trial in range(iterations): # number of times to do experiment
     pulse_duration = 1; #-JW
     command = 'collect %s %s %s %s'%(num_samples, spacing, pulse_duration, padding)
     s.sendto(command.encode('utf-8'), dest)
-    print(command)
+    print('sending command: ' + command)
 
     #start lsitening until all responses are in
+    print("listener started")
     s.settimeout(1)#shorter timeout for recieving to work in long loop+
-    print("starting listener")
     responses_received = 0
-    #listening loop
     while responses_received < responses_requested:
         try:
             (buf, address) = s.recvfrom(8192)
-            # if len(buf) > 0:
             response = buf.decode('utf-8')
             if response!='unknown':
                 if response == 'end_flag':
                     responses_received += 1
-                    print('response received from : %s - total count: %s'%(address, responses_received))
+                    print('    >received response from : ' + str(address))
+                    print('    >total responses: ' + str(responses_received))
                 else: pass
         except Exception as e:
-            print("Listener: "+str(e))
+            print("    >" + str(e))
     print('listener ended')
 
     #end experiment
@@ -204,27 +203,25 @@ for trial in range(iterations): # number of times to do experiment
             fp.seek(0)
             log = pickle.load(fp,encoding='latin1') #incompatibility of np arrays between python 2(clients) and 3(host) so use latin1 encoding
             data[ip] = log
-        print(data[ip]['TxPattern'])
+        print('TxPattern: ' + str(data[ip]['TxPattern']))
 
     #save data in log file, scale the data
     for board in pe.sensors.keys():
         print(board)
         serial = board[7:]
-        print(serial)
+        # print('  >board serial: ' + str(serial))
         ip = ip_serial.inv[serial]
         ret_data = data[ip]['Data']
         savedata = ret_data.astype('float32')
         #scale data to reference 0 = 2**23
         for n in np.nditer(savedata, op_flags=['readwrite']):
              n[...] = np.mod(n-2**23,2**24)/2**24
-        print(savedata)
+        print('    >data :\n' + textwrap.indent(str(savedata), '          '))
         pe.add_data(board,savedata)
         pe.add_sensor_parameter(board,'End Time',data[ip]['End Time'])
-        print('%s: end time: %s, avg elapse: %s'%(board,data[ip]['End Time'],data[ip]['Average Elapsed']))
+        print('    >end time: %s, avg elapse: %s'%(data[ip]['End Time'],data[ip]['Average Elapsed']))
 
     #==========================================================================================================
-
-
     #kill processes on remote machines
     pid_dict = {ip:PID for (ip,PID) in [(n,data[n]['PID']) for n in data.keys()]}
     pm.kill_processes(pid_dict)
@@ -239,6 +236,7 @@ for trial in range(iterations): # number of times to do experiment
         log_path, date_time = pl.save_file(pe)
     except Exception as e:
         print('error'+str(e))
+
 
     #visualize returned data
     # logname = log_path.split('/')[1]
