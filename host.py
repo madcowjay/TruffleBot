@@ -1,4 +1,7 @@
 """
+Updated 2018/05/01
+  -moved ip_list to host.py and made it an argument to PiManager
+                                    -JW
 Updated 2018/04/30
   -Unthreaded listener
                                     -JW
@@ -16,6 +19,17 @@ import numpy as np
 import lib.savefile
 import lib.connect
 
+#experiment parameters
+iterations  = 2 #trials
+duration    = 5 #seconds
+samplerate  = 2 #hz
+padding     = 0 #seconds of silence at beginning and end
+num_samples = duration*samplerate+ 2*padding*samplerate
+spacing     = 1/samplerate
+ip_list = ['10.0.0.201','10.0.0.202'] #manual entries -JW
+#ip_list = ['10.0.0.202']
+#ip_list = ['192.168.1.212']
+
 #==========================================================================================================
 # sync files, run client on the remote machines
 #host_project_dir='pi_utils'
@@ -23,15 +37,8 @@ import lib.connect
 client_project_dir='/home/pi/TruffleBot'
 client_file = 'client.py'
 
-pm = lib.connect.PiManager(client_project_dir)
-
-# #dictionary to associate serial number with board number
-# boardlookup = { '00000000d7ef3031' : 1,
-#                 '0000000068c200c3' : 2
-#               }
-
-# # dictionary to associate board number with serial number
-# IDlookup = dict((v,k) for k, v in boardlookup.items())
+# PiManager sends commands to all Pis
+pm = lib.connect.PiManager(client_project_dir, ip_list)
 
 #set up instances of Experiment and Log classes, set start time for log
 pe = lib.savefile.PlumeExperiment()
@@ -43,14 +50,6 @@ dest = ('<broadcast>', 5000)
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 s.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
 s.settimeout(5.0)
-
-#experiment parameters
-iterations = 2 #trials
-duration = 5 #seconds
-samplerate = 2 #hz
-padding = 0 #seconds of silence at beginning and end
-num_samples = duration*samplerate+ 2*padding*samplerate
-spacing = 1/samplerate
 
 # #tx parameters
 # message_time = duration # seconds

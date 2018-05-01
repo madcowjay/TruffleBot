@@ -5,17 +5,12 @@ Updated 2018/04/25
                                     -JW
 """
 
-import socket, traceback
+import os, time, socket, pickle, threading
+import numpy as np
+from   multiprocessing import Queue
+
 import lib.pyads1256
 import lib.pydac8532
-import wiringpi as wp
-import time
-from   multiprocessing import Queue
-import threading
-import numpy as np
-import os
-import sys
-import pickle
 import lib.board_utils as bu
 
 #this is the worker function that runs in a separate thread if the pi is registered to transmit
@@ -46,8 +41,8 @@ ads = lib.pyads1256.ADS1256()
 myid = ads.ReadID()
 print('ADS1256 ID = ' + hex(myid))
 ads.ConfigADC()
-ads.SyncAndWakeup()
 
+# Turn heater on for duration of experiment
 dac = lib.pydac8532.DAC8532()
 dac.SendDACAValue(0.62 * 2**16)
 
@@ -83,7 +78,7 @@ except Exception as e:
 
 #listen for commands -- main function
 print("Listening for broadcasts...")
-bu.ledAct(1,2,1) # blink LED 1 at 1 Hz
+bu.ledAct(1,1) # turn on LED 1
 end_flag = False
 while not end_flag:
 	try:
@@ -102,14 +97,6 @@ while not end_flag:
 			#init array to store data
 			data = np.zeros([sample_num,channels],dtype='int32')
 
-			#heat the sensors up, pause for a second
-			# print("Heating...")
-			# for i in range(500):
-			# 	dac.SendDACAValue(49151)
-			# 	time.sleep(0.01)
-			# print("Sensors heated")
-
-
 			#start thread to generate pattern
 			if tx_pattern!= None:
 				t = threading.Thread(target=pulser,args=(tx_pattern,pulse_duration, padding))
@@ -122,9 +109,6 @@ while not end_flag:
 				# collect samples from feach sensor on board
 				print('collecting %s'%i)
 
-				#heat up heater
-				# dac.SendDACAValue(49151)
-				# time.sleep(0.04) #adc interval
 				print("Sampling...")
 				sam_1 = ads.getADCsample(ads.MUX_AIN0,ads.MUX_AINCOM)
 				sam_2 = ads.getADCsample(ads.MUX_AIN1,ads.MUX_AINCOM)
@@ -135,10 +119,6 @@ while not end_flag:
 				sam_7 = ads.getADCsample(ads.MUX_AIN6,ads.MUX_AINCOM)
 				sam_8 = ads.getADCsample(ads.MUX_AIN7,ads.MUX_AINCOM)
 				# print("Sampled all")
-				#
-				# # dac.SendDACAValue(49151)
-				#
-				# print("saving samples to array")
 				sample = np.array([sam_1,sam_2,sam_3,sam_4,sam_5,sam_6,sam_7,sam_8], dtype='int32')
 				# print("sample array created")
 				data[i] = sample # save the array of samples to the data dict, with key as sample num
@@ -151,6 +131,16 @@ while not end_flag:
 				print("loop end")
 			#record end time
 			end_time = time.time()
+
+## :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :)
+            sel_list = [[ads.MUX_AIN0, ads.MUX_AINCOM], [ads.MUX_AIN1, ads.MUX_AINCOM],
+                        [ads.MUX_AIN2, ads.MUX_AINCOM], [ads.MUX_AIN3, ads.MUX_AINCOM],
+                        [ads.MUX_AIN4, ads.MUX_AINCOM], [ads.MUX_AIN5, ads.MUX_AINCOM],
+                        [ads.MUX_AIN6, ads.MUX_AINCOM], [ads.MUX_AIN7, ads.MUX_AINCOM]]
+
+            samps = ads.CycleReadADC(sel_list)
+            print(samps)
+## :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :)
 
 			print("adding to log")
 			#add info to logfile

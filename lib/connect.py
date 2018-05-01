@@ -1,4 +1,8 @@
 """
+Updated 2018/05/01
+  -moved ip_list to host.py and made it an argument to PiManager
+                                    -JW
+
 Updated 2018/04/28
   -log file includes errors now
   -python3 called with -u to flush output
@@ -21,12 +25,10 @@ import time
 import bidict
 
 class PiManager:
-    def __init__(self, client_project_dir):
+    def __init__(self, client_project_dir, ip_list):
         #init global variables
-        #self.ip_list = ['10.0.0.201','10.0.0.202'] #manual entries -JW
-        #self.ip_list = ['10.0.0.202']
-        self.ip_list = ['192.168.1.212']
         self.client_project_dir = client_project_dir
+        self.ip_list = ip_list
 
         #init paramiko
         self.ssh = paramiko.SSHClient()

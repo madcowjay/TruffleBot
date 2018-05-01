@@ -49,12 +49,12 @@ class ADS1256:
     # These options can be adjusted to facilitate specific operation of the
     # ADS1256, the defaults are designed to be compatible with the Waveforms
     # High Precision AD/DA board
-    SPI_MODE        = 1
-    SPI_CHANNEL     = 1
-    SPI_FREQUENCY   = 1000000 # The ADS1256 supports 768kHz to 1.92MHz
-    DRDY_TIMEOUT    = 0.5 # Seconds to wait for DRDY when communicating
-    DATA_TIMEOUT    = 0.00001 # 10uS delay for sending data
-    SCLK_FREQUENCY  = 7680000 # default clock rate is 7.68MHz
+    SPI_MODE         = 1
+    SPI_CHANNEL      = 1
+    SPI_FREQUENCY    = 1000000 # The ADS1256 supports 768kHz to 1.92MHz
+    DRDY_TIMEOUT     = 0.5 # Seconds to wait for DRDY when communicating
+    DATA_TIMEOUT     = 0.000007 # 7uS delay for sending data (=50/CLKIN_FREQUENCY)
+    CLKIN_FREQUENCY  = 7680000 # default clock rate is 7.68MHz (set by oscillator on board)
 
     # The RPI GPIO to use for chip select and ready polling
     CS_PIN      = 15
@@ -329,25 +329,22 @@ class ADS1256:
 
     def DataDelay(self):
         """
-        Delay from last SCLK edge to first SCLK rising edge
-
-        Master clock rate is typically 7.68MHz, this is adjustable through the
-        SCLK_FREQUENCY variable
+        Delay from last SCLK edge for DIN to first SCLK rising edge for DOUT
 
         Datasheet states that the delay between requesting data and reading the
-        bus must be minimum 50x SCLK period, this function reads data after
-        60 x SCLK period.
+        bus must be minimum 50x CLKIN period.
         """
         debug_print("  DataDelay")
 
-        timeout = (60 / self.SCLK_FREQUENCY)
-
         start = time.time()
         elapsed = time.time() - start
+        i = 0
 
         # Wait for TIMEOUT to elapse
         while elapsed < self.DATA_TIMEOUT:
             elapsed = time.time() - start
+            i+=1
+        print('datadelay loops: ' + str(i))
 
 
     def ReadReg(self, start_reg, num_to_read):
@@ -371,21 +368,10 @@ class ADS1256:
         """
         debug_print("  ReadReg")
 
-        result = []
-
-        # Pull the SPI bus low
         self.chip_select()
-
-        # Send the command
         self.SendBytes(bytearray((self.CMD_RREG | start_reg, 0x00 | num_to_read-1)))
-
-        # Wait for appropriate data delay
         self.DataDelay()
-
-        # Read the register contents
         read = self.SendBytes(bytearray(num_to_read*(0x00,)))
-
-        # Release the SPI bus
         self.chip_release()
 
         return read
@@ -412,9 +398,7 @@ class ADS1256:
         """
         debug_print("  WriteReg")
 
-        # Select the ADS chip
         self.chip_select()
-
 
         byte1 = self.CMD_WREG | start_register  # Tell the ADS chip which register to start writing at
         byte2 = 0x00                            # Tell the ADS chip how many additional registers to write
@@ -422,7 +406,6 @@ class ADS1256:
 
         self.SendBytes(bytearray((byte1,byte2,byte3)))
 
-        # Release the ADS chip
         self.chip_release()
 
 
@@ -460,7 +443,7 @@ class ADS1256:
 
 
     def SetInputMux_quick(self,possel,negsel):
-        debug_print('setting mux position (quickly)')
+        debug_print('setting mux position (quickly (no chip select or release))')
 
         #self.chip_select()
 
@@ -478,30 +461,27 @@ class ADS1256:
 
         self.chip_select()
         self.SendBytes(bytearray((self.CMD_SYNC,)))
-        self.chip_release()
-        self.delayMicroseconds(10)
-
-        self.chip_select()
+        self.delayMicroseconds(4)
         self.SendBytes(bytearray((self.CMD_WAKEUP,)))
         self.chip_release()
-        self.delayMicroseconds(10)
+        self.delayMicroseconds(4)
 
 
     def SyncAndWakeup_quick(self):
-        debug_print('sync+wakeup (quickly)')
+        debug_print('sync+wakeup (quickly (no chip select or release))')
 
         # self.chip_select()
         self.SendBytes(bytearray((self.CMD_SYNC,)))
-        self.chip_release()
-        self.delayMicroseconds(10)
-
-        self.chip_select()
+        self.delayMicroseconds(4)
         self.SendBytes(bytearray((self.CMD_WAKEUP,)))
-        self.chip_release()
-        # self.delayMicroseconds(10)
+        #self.chip_release()
+        # self.delayMicroseconds(4)
 
 
     def SetGPIOoutputs(self,D0,D1,D2,D3):
+        """
+        Set the states of the ADS1256's GPIO pins
+        """
         debug_print('set GPIO outputs')
 
         IObits = D3*0x8 + D2*0x4 + D1*0x2 + D0*0x1
@@ -524,25 +504,13 @@ class ADS1256:
         """
         debug_print('ReadADC')
 
-        # Pull the SPI bus low
         self.chip_select()
-
-        # Wait for data to be ready
         self.WaitDRDY()
-
-        # Send the read command
         self.SendBytes(bytearray((self.CMD_RDATA,)))
-
-        # Wait through the data pause
         self.DataDelay()
-
-        # Result is 24 bits
-        result = self.SendBytes(bytearray(3*(0x00,)))
-
-        # Release the SPI bus
+        result = self.SendBytes(bytearray(3*(0x00,))) # The result is 24 bits
         self.chip_release()
 
-        # Concatenate the bytes
         return (result[0] << 16) + (result[1] << 8) + result[2]
 
 
@@ -559,55 +527,39 @@ class ADS1256:
         Timing Characteristics for the required delay between the end of the
         RDATA command and the beginning of shifting data on DOUT: t6
         """
-        debug_print('ReadADC (quickly)')
+        debug_print('ReadADC (quickly (no chip select or release))')
 
-        # Pull the SPI bus low
         # self.chip_select()
-
-        # Wait for data to be ready
         # self.WaitDRDY()
-
-        # Send the read command
         self.SendBytes(bytearray((self.CMD_RDATA,)))
-
-        # Wait through the data pause
         self.DataDelay()
-
-        # The result is 24 bits
-        # #result.append(self.ReadByte())
-        # result1 = self.ReadByte()
-        # result2 = self.ReadByte()
-        # result3 = self.ReadByte()
-        # debug_print('ReadADC result bytes: ' + hex(result1) + ' ' + hex(result2) + ' ' + hex(result3))
-        result = self.SendBytes(bytearray(3*(0x00,)))
-
-        # Release the SPI bus
+        result = self.SendBytes(bytearray(3*(0x00,))) # The result is 24 bits
         # self.chip_release()
 
-        # Concatenate the bytes
         return (result[0] << 16) + (result[1] << 8) + result[2]
 
 
     def CycleReadADC(self,sel_list):
         debug_print('CycleReadADC')
+        """
+        Technique based on page 21, Figure 19 of the ADS1256 datasheet
+        t_11 =  4*tau_CLKIN for RREG, WREG, and ret_data = 521 ns
+        t_11 = 24*tau_CLKIN for SYNC = 3.13 us
+        """
 
-        c=0 # init counter var
-        data = np.zeros(len(sel_list),dtype='i32') #create an array to hold the sample vars
+        data = np.zeros(len(sel_list),dtype='int32') #create an array to hold the sample vars
         self.chip_select()
 
-        self.SetInputMux_quick(sel_list[c][0],sel_list[c][1]) #select the first entry in list
-
-        for i in range(len(sel_list)):
-            c+=1 #update the counter
-            self.WaitDRDY() #wait for the drdy to go low
-            try:
-                self.SetInputMux_quick(sel_list[c][0],sel_list[c][1]) #set the mux to the next sample
-            except:
-                pass #this should catch the last sample where we have no data to set the mux as, but still need to read the last piece
-            time.sleep(command_delay)
+        self.SetInputMux_quick(sel_list[0][0],sel_list[0][1])
+        for i in range(1, len(sel_list)):
+            self.WaitDRDY()
+            self.SetInputMux_quick(sel_list[i][0],sel_list[i][1])
+            self.delayMicroseconds(1)
             self.SyncAndWakeup_quick()
-            time.sleep(command_delay)
-            data[c-1] = self.ReadADC_quick()
+            self.delayMicroseconds(1)
+            data[i-1] = self.ReadADC_quick()
+        self.WaitDRDY()
+        data[i] = self.ReadADC_quick()
         self.chip_release()
         return data
 
@@ -619,6 +571,7 @@ class ADS1256:
         """
         debug_print('getADCSample')
 
+        # This is very slow - chip select and release on all three steps
         self.SetInputMux(a_pos,a_neg)
         self.SyncAndWakeup()
         return self.ReadADC()
