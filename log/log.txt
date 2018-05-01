@@ -4,3 +4,4991 @@ Traceback (most recent call last):
   File "client.py", line 61, in <module>
     bind(('', 5000))
 NameError: name 'bind' is not defined
+Tue May  1 11:31:08 2018
+ADS1256 ID = 0x3
+Traceback (most recent call last):
+  File "client.py", line 61, in <module>
+    bind(('', 5000))
+NameError: name 'bind' is not defined
+Tue May  1 11:37:41 2018
+ADS1256 ID = 0x3
+[Errno 2] No such file or directory: 'txpattern.pickle'
+Listening for broadcasts...
+[b'collect', b'30', b'0.5', b'1', b'0']
+collecting 0
+Sampling...
+elapsed: 0.022213220596313477, spacing: 0.5, sleep: 0.4777867794036865
+loop end
+collecting 1
+Sampling...
+elapsed: 0.022132396697998047, spacing: 0.5, sleep: 0.47786760330200195
+loop end
+collecting 2
+Sampling...
+elapsed: 0.022127866744995117, spacing: 0.5, sleep: 0.4778721332550049
+loop end
+collecting 3
+Sampling...
+elapsed: 0.022087574005126953, spacing: 0.5, sleep: 0.47791242599487305
+loop end
+collecting 4
+Sampling...
+elapsed: 0.0220186710357666, spacing: 0.5, sleep: 0.4779813289642334
+loop end
+collecting 5
+Sampling...
+elapsed: 0.022151947021484375, spacing: 0.5, sleep: 0.4778480529785156
+loop end
+collecting 6
+Sampling...
+elapsed: 0.022036314010620117, spacing: 0.5, sleep: 0.4779636859893799
+loop end
+collecting 7
+Sampling...
+elapsed: 0.022164344787597656, spacing: 0.5, sleep: 0.47783565521240234
+loop end
+collecting 8
+Sampling...
+elapsed: 0.02202749252319336, spacing: 0.5, sleep: 0.47797250747680664
+loop end
+collecting 9
+Sampling...
+elapsed: 0.02208542823791504, spacing: 0.5, sleep: 0.47791457176208496
+loop end
+collecting 10
+Sampling...
+elapsed: 0.022003173828125, spacing: 0.5, sleep: 0.477996826171875
+loop end
+collecting 11
+Sampling...
+elapsed: 0.022127151489257812, spacing: 0.5, sleep: 0.4778728485107422
+loop end
+collecting 12
+Sampling...
+elapsed: 0.022127389907836914, spacing: 0.5, sleep: 0.4778726100921631
+loop end
+collecting 13
+Sampling...
+elapsed: 0.022139310836791992, spacing: 0.5, sleep: 0.477860689163208
+loop end
+collecting 14
+Sampling...
+elapsed: 0.022146940231323242, spacing: 0.5, sleep: 0.47785305976867676
+loop end
+collecting 15
+Sampling...
+elapsed: 0.022114038467407227, spacing: 0.5, sleep: 0.4778859615325928
+loop end
+collecting 16
+Sampling...
+elapsed: 0.022089004516601562, spacing: 0.5, sleep: 0.47791099548339844
+loop end
+collecting 17
+Sampling...
+elapsed: 0.02205657958984375, spacing: 0.5, sleep: 0.47794342041015625
+loop end
+collecting 18
+Sampling...
+elapsed: 0.0220794677734375, spacing: 0.5, sleep: 0.4779205322265625
+loop end
+collecting 19
+Sampling...
+elapsed: 0.022088289260864258, spacing: 0.5, sleep: 0.47791171073913574
+loop end
+collecting 20
+Sampling...
+elapsed: 0.022065401077270508, spacing: 0.5, sleep: 0.4779345989227295
+loop end
+collecting 21
+Sampling...
+elapsed: 0.022113561630249023, spacing: 0.5, sleep: 0.477886438369751
+loop end
+collecting 22
+Sampling...
+elapsed: 0.026044845581054688, spacing: 0.5, sleep: 0.4739551544189453
+loop end
+collecting 23
+Sampling...
+elapsed: 0.022057056427001953, spacing: 0.5, sleep: 0.47794294357299805
+loop end
+collecting 24
+Sampling...
+elapsed: 0.022126197814941406, spacing: 0.5, sleep: 0.4778738021850586
+loop end
+collecting 25
+Sampling...
+elapsed: 0.02202749252319336, spacing: 0.5, sleep: 0.47797250747680664
+loop end
+collecting 26
+Sampling...
+elapsed: 0.022115230560302734, spacing: 0.5, sleep: 0.47788476943969727
+loop end
+collecting 27
+Sampling...
+elapsed: 0.022046804428100586, spacing: 0.5, sleep: 0.4779531955718994
+loop end
+collecting 28
+Sampling...
+elapsed: 0.02208542823791504, spacing: 0.5, sleep: 0.47791457176208496
+loop end
+collecting 29
+Sampling...
+elapsed: 0.022029399871826172, spacing: 0.5, sleep: 0.47797060012817383
+loop end
+adding to log
+{'PID': 1842, 'TxPattern': None, 'Data': array([[   19644, 15672764, 15622068, 15207346, 15751462, 15452354,
+        15954364, 15948299],
+       [15530042, 15671888, 15624799, 15208029, 15760950, 15453671,
+        15955879, 15948388],
+       [15527497, 15668383, 15625968, 15212986, 15767743, 15455673,
+        15955390, 15948398],
+       [15529422, 15666515, 15628414, 15216271, 15774631, 15456474,
+        15955372, 15948413],
+       [15527754, 15666938, 15631214, 15220273, 15778521, 15457772,
+        15956750, 15948302],
+       [15533721, 15667363, 15634702, 15223335, 15780464, 15459813,
+        15956978, 15948436],
+       [15531931, 15668756, 15636483, 15224354, 15781874, 15459949,
+        15958707, 15948490],
+       [15528634, 15661177, 15630340, 15228900, 15791098, 15471711,
+        15967391, 15948399],
+       [15526059, 15661849, 15631633, 15223692, 15783571, 15472421,
+        15963794, 15948240],
+       [15533013, 15672007, 15643029, 15222527, 15783439, 15464757,
+        15962925, 15948513],
+       [15569401, 15669445, 15468101, 15201266, 15815703, 15462278,
+        15816588, 15948221],
+       [15644474, 15818810, 15443164, 15295889, 15255154, 15356528,
+        15637401, 15948121],
+       [15543823, 15964330, 15291471, 15277421, 14930596, 15267776,
+        15495517, 15948004],
+       [15455500, 16028423, 15187548, 15145023, 14696037, 15124211,
+        15278044, 15947995],
+       [15421766, 16058660, 14993676, 15042934, 14677642, 15028159,
+        15182283, 15948080],
+       [15391633, 16054600, 14990345, 14967269, 14606735, 14898703,
+        15072773, 15947978],
+       [15393840, 16033972, 14882134, 14938598, 14630391, 14866191,
+        15106989, 15947921],
+       [15364362, 15998957, 14919360, 14911415, 14600868, 14772036,
+        15020349, 15947961],
+       [15356033, 16015730, 14836831, 14896150, 14615498, 14784979,
+        15096591, 15948072],
+       [15356848, 16020723, 14885893, 14893608, 14623999, 14703119,
+        14997035, 15947970],
+       [15341789, 16016954, 14832626, 14888786, 14587061, 14726973,
+        15069200, 15947934],
+       [15340070, 16005701, 14847727, 14868535, 14628699, 14663887,
+        15013754, 15948036],
+       [15330692, 15958765, 14868394, 14856462, 14608672, 14662308,
+        15029213, 15948056],
+       [15310537, 15954336, 14819758, 14860262, 14644053, 14655624,
+        15041064, 15948074],
+       [15298907, 15970485, 14842915, 14825502, 14566498, 14638604,
+        15014980, 15948145],
+       [15285481, 15968861, 14780113, 14833717, 14602820, 14647629,
+        15013675, 15948146],
+       [15267020, 15971632, 14811119, 14778834, 14550524, 14596670,
+        14948011, 15948050],
+       [15254378, 15950061, 14718590, 14745158, 14557599, 14621031,
+        14996295, 15948202],
+       [15240635, 15936058, 14737261, 14753896, 14566827, 14542177,
+        14885087, 15948110],
+       [15232224, 15918018, 14691779, 14716762, 14510716, 14573043,
+        14952931, 15948096]]), 'Average Elapsed': 0.022224267323811848, 'End Time': 1525189078.8210435}
+pickled!
+end
+Tue May  1 11:38:04 2018
+ADS1256 ID = 0x3
+[Errno 2] No such file or directory: 'txpattern.pickle'
+Listening for broadcasts...
+[b'collect', b'30', b'0.5', b'1', b'0']
+collecting 0
+Sampling...
+elapsed: 0.022275924682617188, spacing: 0.5, sleep: 0.4777240753173828
+loop end
+collecting 1
+Sampling...
+elapsed: 0.022134780883789062, spacing: 0.5, sleep: 0.47786521911621094
+loop end
+collecting 2
+Sampling...
+elapsed: 0.02207207679748535, spacing: 0.5, sleep: 0.47792792320251465
+loop end
+collecting 3
+Sampling...
+elapsed: 0.022063016891479492, spacing: 0.5, sleep: 0.4779369831085205
+loop end
+collecting 4
+Sampling...
+elapsed: 0.022104263305664062, spacing: 0.5, sleep: 0.47789573669433594
+loop end
+collecting 5
+Sampling...
+elapsed: 0.022119522094726562, spacing: 0.5, sleep: 0.47788047790527344
+loop end
+collecting 6
+Sampling...
+elapsed: 0.022058725357055664, spacing: 0.5, sleep: 0.47794127464294434
+loop end
+collecting 7
+Sampling...
+elapsed: 0.022063732147216797, spacing: 0.5, sleep: 0.4779362678527832
+loop end
+collecting 8
+Sampling...
+elapsed: 0.022124052047729492, spacing: 0.5, sleep: 0.4778759479522705
+loop end
+collecting 9
+Sampling...
+elapsed: 0.022066354751586914, spacing: 0.5, sleep: 0.4779336452484131
+loop end
+collecting 10
+Sampling...
+elapsed: 0.022145748138427734, spacing: 0.5, sleep: 0.47785425186157227
+loop end
+collecting 11
+Sampling...
+elapsed: 0.022118806838989258, spacing: 0.5, sleep: 0.47788119316101074
+loop end
+collecting 12
+Sampling...
+elapsed: 0.022203922271728516, spacing: 0.5, sleep: 0.4777960777282715
+loop end
+collecting 13
+Sampling...
+elapsed: 0.022008419036865234, spacing: 0.5, sleep: 0.47799158096313477
+loop end
+collecting 14
+Sampling...
+elapsed: 0.022129535675048828, spacing: 0.5, sleep: 0.47787046432495117
+loop end
+collecting 15
+Sampling...
+elapsed: 0.0221402645111084, spacing: 0.5, sleep: 0.4778597354888916
+loop end
+collecting 16
+Sampling...
+elapsed: 0.02207040786743164, spacing: 0.5, sleep: 0.47792959213256836
+loop end
+collecting 17
+Sampling...
+elapsed: 0.022049427032470703, spacing: 0.5, sleep: 0.4779505729675293
+loop end
+collecting 18
+Sampling...
+elapsed: 0.02215099334716797, spacing: 0.5, sleep: 0.47784900665283203
+loop end
+collecting 19
+Sampling...
+elapsed: 0.02201223373413086, spacing: 0.5, sleep: 0.47798776626586914
+loop end
+collecting 20
+Sampling...
+elapsed: 0.02215433120727539, spacing: 0.5, sleep: 0.4778456687927246
+loop end
+collecting 21
+Sampling...
+elapsed: 0.022119522094726562, spacing: 0.5, sleep: 0.47788047790527344
+loop end
+collecting 22
+Sampling...
+elapsed: 0.022058486938476562, spacing: 0.5, sleep: 0.47794151306152344
+loop end
+collecting 23
+Sampling...
+elapsed: 0.022055864334106445, spacing: 0.5, sleep: 0.47794413566589355
+loop end
+collecting 24
+Sampling...
+elapsed: 0.02205348014831543, spacing: 0.5, sleep: 0.47794651985168457
+loop end
+collecting 25
+Sampling...
+elapsed: 0.022122621536254883, spacing: 0.5, sleep: 0.4778773784637451
+loop end
+collecting 26
+Sampling...
+elapsed: 0.02203369140625, spacing: 0.5, sleep: 0.47796630859375
+loop end
+collecting 27
+Sampling...
+elapsed: 0.022090673446655273, spacing: 0.5, sleep: 0.4779093265533447
+loop end
+collecting 28
+Sampling...
+elapsed: 0.022122859954833984, spacing: 0.5, sleep: 0.477877140045166
+loop end
+collecting 29
+Sampling...
+elapsed: 0.022125720977783203, spacing: 0.5, sleep: 0.4778742790222168
+loop end
+adding to log
+{'Data': array([[16345988, 15111332, 14973786, 14709629, 15073397, 14833334,
+        15424888, 15948439],
+       [15149683, 15115783, 14982745, 14714032, 15082814, 14846508,
+        15436920, 15948430],
+       [15149533, 15118494, 14990705, 14717115, 15093305, 14857207,
+        15447549, 15948398],
+       [15152934, 15121511, 14996878, 14719645, 15102754, 14866950,
+        15456835, 15948412],
+       [15153588, 15122523, 15004633, 14720922, 15114644, 14876528,
+        15465161, 15948355],
+       [15157852, 15123460, 15012916, 14726684, 15127998, 14887350,
+        15476647, 15948608],
+       [15160600, 15126957, 15021347, 14734032, 15140101, 14898048,
+        15487298, 15948634],
+       [15161576, 15130196, 15029678, 14740774, 15148391, 14906506,
+        15499767, 15948596],
+       [15168105, 15136684, 15036987, 14745219, 15156683, 14916038,
+        15510972, 15948637],
+       [15164221, 15140158, 15046308, 14747547, 15167862, 14925995,
+        15520232, 15948696],
+       [15170646, 15144953, 15053330, 14753050, 15176740, 14935712,
+        15529831, 15948446],
+       [15148847, 15149552, 15059382, 14764973, 15228931, 15015464,
+        15622695, 15948123],
+       [15305761, 15460649, 15075794, 14954967, 14770426, 14900590,
+        15323584, 15948142],
+       [15244116, 15709446, 14882098, 14899498, 14643212, 14826241,
+        15131624, 15948326],
+       [15220884, 15807335, 14842338, 14804418, 14556413, 14685926,
+        14950603, 15948180],
+       [15209355, 15834229, 14743511, 14799185, 14538545, 14671021,
+        14993588, 15948051],
+       [15199673, 15862854, 14751072, 14763359, 14558474, 14586387,
+        14911865, 15948197],
+       [15195513, 15868735, 14750099, 14731620, 14501353, 14585891,
+        14944843, 15948251],
+       [15176302, 15877309, 14694399, 14714579, 14529827, 14571393,
+        14938293, 15948450],
+       [15176229, 15877850, 14731974, 14701672, 14505811, 14529854,
+        14894716, 15948294],
+       [15156826, 15852540, 14650618, 14692216, 14520085, 14554610,
+        14953118, 15948330],
+       [15146737, 15818710, 14693125, 14677917, 14529251, 14479898,
+        14833946, 15948187],
+       [15134023, 15803036, 14673149, 14671710, 14473456, 14513922,
+        14905626, 15948340],
+       [15131107, 15816679, 14636403, 14630828, 14504046, 14492116,
+        14884689, 15948155],
+       [15134644, 15817087, 14683503, 14655192, 14443788, 14475415,
+        14854079, 15948198],
+       [15121035, 15828622, 14590386, 14646222, 14476366, 14504072,
+        14887908, 15948445],
+       [15114634, 15801549, 14637743, 14632016, 14477651, 14435903,
+        14782277, 15948428],
+       [15075419, 15652440, 14662425, 14530444, 14686934, 14439605,
+        14821500, 15948596],
+       [15074780, 15331042, 14721094, 14503130, 14795947, 14481741,
+        14923520, 15948635],
+       [15057841, 15132110, 14733970, 14519097, 14820788, 14512714,
+        14977882, 15948709]]), 'TxPattern': None, 'Average Elapsed': 0.022101648648579917, 'End Time': 1525189101.9905844, 'PID': 1933}
+pickled!
+end
+Tue May  1 11:56:56 2018
+ADS1256 ID = 0x3
+[Errno 2] No such file or directory: 'txpattern.pickle'
+Listening for broadcasts...
+[b'collect', b'30', b'0.5', b'1', b'0']
+collecting 0
+Sampling...
+elapsed: 0.022337913513183594, spacing: 0.5, sleep: 0.4776620864868164
+loop end
+collecting 1
+Sampling...
+elapsed: 0.022240161895751953, spacing: 0.5, sleep: 0.47775983810424805
+loop end
+collecting 2
+Sampling...
+elapsed: 0.022243261337280273, spacing: 0.5, sleep: 0.4777567386627197
+loop end
+collecting 3
+Sampling...
+elapsed: 0.022270917892456055, spacing: 0.5, sleep: 0.47772908210754395
+loop end
+collecting 4
+Sampling...
+elapsed: 0.02212977409362793, spacing: 0.5, sleep: 0.47787022590637207
+loop end
+collecting 5
+Sampling...
+elapsed: 0.022208452224731445, spacing: 0.5, sleep: 0.47779154777526855
+loop end
+collecting 6
+Sampling...
+elapsed: 0.022139787673950195, spacing: 0.5, sleep: 0.4778602123260498
+loop end
+collecting 7
+Sampling...
+elapsed: 0.021967649459838867, spacing: 0.5, sleep: 0.47803235054016113
+loop end
+collecting 8
+Sampling...
+elapsed: 0.022134065628051758, spacing: 0.5, sleep: 0.47786593437194824
+loop end
+collecting 9
+Sampling...
+elapsed: 0.02218174934387207, spacing: 0.5, sleep: 0.47781825065612793
+loop end
+collecting 10
+Sampling...
+elapsed: 0.021765470504760742, spacing: 0.5, sleep: 0.47823452949523926
+loop end
+collecting 11
+Sampling...
+elapsed: 0.022345542907714844, spacing: 0.5, sleep: 0.47765445709228516
+loop end
+collecting 12
+Sampling...
+elapsed: 0.023061037063598633, spacing: 0.5, sleep: 0.47693896293640137
+loop end
+collecting 13
+Sampling...
+elapsed: 0.023128032684326172, spacing: 0.5, sleep: 0.47687196731567383
+loop end
+collecting 14
+Sampling...
+elapsed: 0.02223038673400879, spacing: 0.5, sleep: 0.4777696132659912
+loop end
+collecting 15
+Sampling...
+elapsed: 0.022389888763427734, spacing: 0.5, sleep: 0.47761011123657227
+loop end
+collecting 16
+Sampling...
+elapsed: 0.022362232208251953, spacing: 0.5, sleep: 0.47763776779174805
+loop end
+collecting 17
+Sampling...
+elapsed: 0.022345542907714844, spacing: 0.5, sleep: 0.47765445709228516
+loop end
+collecting 18
+Sampling...
+elapsed: 0.02220439910888672, spacing: 0.5, sleep: 0.4777956008911133
+loop end
+collecting 19
+Sampling...
+elapsed: 0.02285933494567871, spacing: 0.5, sleep: 0.4771406650543213
+loop end
+collecting 20
+Sampling...
+elapsed: 0.02678394317626953, spacing: 0.5, sleep: 0.47321605682373047
+loop end
+collecting 21
+Sampling...
+elapsed: 0.021800756454467773, spacing: 0.5, sleep: 0.4781992435455322
+loop end
+collecting 22
+Sampling...
+elapsed: 0.0218658447265625, spacing: 0.5, sleep: 0.4781341552734375
+loop end
+collecting 23
+Sampling...
+elapsed: 0.021665334701538086, spacing: 0.5, sleep: 0.4783346652984619
+loop end
+collecting 24
+Sampling...
+elapsed: 0.021494150161743164, spacing: 0.5, sleep: 0.47850584983825684
+loop end
+collecting 25
+Sampling...
+elapsed: 0.022287607192993164, spacing: 0.5, sleep: 0.47771239280700684
+loop end
+collecting 26
+Sampling...
+elapsed: 0.022186756134033203, spacing: 0.5, sleep: 0.4778132438659668
+loop end
+collecting 27
+Sampling...
+elapsed: 0.021780729293823242, spacing: 0.5, sleep: 0.47821927070617676
+loop end
+collecting 28
+Sampling...
+elapsed: 0.02166461944580078, spacing: 0.5, sleep: 0.4783353805541992
+loop end
+collecting 29
+Sampling...
+elapsed: 0.021661996841430664, spacing: 0.5, sleep: 0.47833800315856934
+loop end
+adding to log
+{'TxPattern': None, 'Data': array([[   64298, 15727745, 15717166, 15323228, 15901144, 15536223,
+        16005013, 15948556],
+       [15576999, 15728429, 15739342, 15324610, 15900687, 15535339,
+        16005788, 15948720],
+       [15578140, 15726963, 15715125, 15329619, 15898737, 15535028,
+        16005440, 15948727],
+       [15574458, 15725413, 15714518, 15330685, 15901006, 15547065,
+        16005246, 15948626],
+       [15571101, 15723443, 15713988, 15339359, 15903205, 15534864,
+        16004763, 15948714],
+       [15573979, 15720887, 15714982, 15345828, 15905904, 15535942,
+        16004194, 15948705],
+       [15574270, 15718926, 15715069, 15352499, 15905519, 15534579,
+        16003781, 15948730],
+       [15568470, 15707216, 15706156, 15344533, 15905311, 15534764,
+        16003758, 15948579],
+       [15571596, 15713888, 15716290, 15359421, 15906562, 15534101,
+        16002088, 15948655],
+       [15577340, 15713264, 15717411, 15364118, 15909593, 15534048,
+        16002577, 15948541],
+       [15576913, 15704010, 15710411, 15358586, 15901997, 15527682,
+        15994181, 15948504],
+       [15583611, 15713985, 15716899, 15362445, 15903814, 15539014,
+        15998950, 15948638],
+       [15571062, 15709366, 15712053, 15346413, 15898316, 15556692,
+        16023927, 15948636],
+       [15571441, 15706662, 15713090, 15346666, 15914451, 15553345,
+        16020319, 15948774],
+       [15569434, 15706858, 15720385, 15348322, 15905450, 15538559,
+        15999574, 15948756],
+       [15577446, 15716973, 15726133, 15357691, 15906558, 15533866,
+        16005124, 15948704],
+       [15571968, 15711635, 15721377, 15369536, 15904498, 15532736,
+        15999595, 15948563],
+       [15581598, 15717307, 15722759, 15362357, 15903036, 15533116,
+        15999204, 15948569],
+       [15569340, 15712216, 15733809, 15363776, 15902940, 15533312,
+        15998987, 15948667],
+       [15576679, 15705445, 15719582, 15360349, 15894914, 15527589,
+        16015911, 15948744],
+       [15579405, 15707156, 15721017, 15364245, 15894751, 15529042,
+        15994866, 15948532],
+       [15563714, 15708377, 15718135, 15359272, 15896947, 15535585,
+        15991823, 15948312],
+       [15567127, 15705597, 15718891, 15372506, 15890197, 15525466,
+        15995882, 15948559],
+       [15567670, 15708178, 15718497, 15367325, 15884658, 15524137,
+        15990690, 15948563],
+       [15562830, 15710385, 15718918, 15366857, 15880174, 15524452,
+        15991124, 15948507],
+       [15598191, 15716590, 15722972, 15369783, 15882902, 15529791,
+        15996967, 15948526],
+       [15574055, 15711971, 15718902, 15363646, 15889090, 15529678,
+        15997691, 15948520],
+       [15570971, 15700040, 15709274, 15356927, 15881458, 15524769,
+        15998605, 15948363],
+       [15564188, 15694895, 15706685, 15358109, 15885011, 15525205,
+        15993499, 15948211],
+       [15563744, 15692340, 15713610, 15354607, 15888405, 15524436,
+        15994480, 15948594]]), 'Average Elapsed': 0.022324577967325846, 'PID': 2158, 'End Time': 1525190233.937181}
+pickled!
+end
+Tue May  1 11:57:19 2018
+ADS1256 ID = 0x3
+[Errno 2] No such file or directory: 'txpattern.pickle'
+Listening for broadcasts...
+[b'collect', b'30', b'0.5', b'1', b'0']
+collecting 0
+Sampling...
+elapsed: 0.021570205688476562, spacing: 0.5, sleep: 0.47842979431152344
+loop end
+collecting 1
+Sampling...
+elapsed: 0.02147841453552246, spacing: 0.5, sleep: 0.47852158546447754
+loop end
+collecting 2
+Sampling...
+elapsed: 0.021494150161743164, spacing: 0.5, sleep: 0.47850584983825684
+loop end
+collecting 3
+Sampling...
+elapsed: 0.02138495445251465, spacing: 0.5, sleep: 0.47861504554748535
+loop end
+collecting 4
+Sampling...
+elapsed: 0.021544694900512695, spacing: 0.5, sleep: 0.4784553050994873
+loop end
+collecting 5
+Sampling...
+elapsed: 0.021481990814208984, spacing: 0.5, sleep: 0.478518009185791
+loop end
+collecting 6
+Sampling...
+elapsed: 0.021549701690673828, spacing: 0.5, sleep: 0.47845029830932617
+loop end
+collecting 7
+Sampling...
+elapsed: 0.021425724029541016, spacing: 0.5, sleep: 0.478574275970459
+loop end
+collecting 8
+Sampling...
+elapsed: 0.021451711654663086, spacing: 0.5, sleep: 0.4785482883453369
+loop end
+collecting 9
+Sampling...
+elapsed: 0.021451711654663086, spacing: 0.5, sleep: 0.4785482883453369
+loop end
+collecting 10
+Sampling...
+elapsed: 0.02147984504699707, spacing: 0.5, sleep: 0.47852015495300293
+loop end
+collecting 11
+Sampling...
+elapsed: 0.021436214447021484, spacing: 0.5, sleep: 0.4785637855529785
+loop end
+collecting 12
+Sampling...
+elapsed: 0.021509170532226562, spacing: 0.5, sleep: 0.47849082946777344
+loop end
+collecting 13
+Sampling...
+elapsed: 0.02178812026977539, spacing: 0.5, sleep: 0.4782118797302246
+loop end
+collecting 14
+Sampling...
+elapsed: 0.0214691162109375, spacing: 0.5, sleep: 0.4785308837890625
+loop end
+collecting 15
+Sampling...
+elapsed: 0.026837587356567383, spacing: 0.5, sleep: 0.4731624126434326
+loop end
+collecting 16
+Sampling...
+elapsed: 0.021498918533325195, spacing: 0.5, sleep: 0.4785010814666748
+loop end
+collecting 17
+Sampling...
+elapsed: 0.021481037139892578, spacing: 0.5, sleep: 0.4785189628601074
+loop end
+collecting 18
+Sampling...
+elapsed: 0.021488666534423828, spacing: 0.5, sleep: 0.47851133346557617
+loop end
+collecting 19
+Sampling...
+elapsed: 0.021437883377075195, spacing: 0.5, sleep: 0.4785621166229248
+loop end
+collecting 20
+Sampling...
+elapsed: 0.02143692970275879, spacing: 0.5, sleep: 0.4785630702972412
+loop end
+collecting 21
+Sampling...
+elapsed: 0.021488189697265625, spacing: 0.5, sleep: 0.4785118103027344
+loop end
+collecting 22
+Sampling...
+elapsed: 0.021495342254638672, spacing: 0.5, sleep: 0.47850465774536133
+loop end
+collecting 23
+Sampling...
+elapsed: 0.021396398544311523, spacing: 0.5, sleep: 0.4786036014556885
+loop end
+collecting 24
+Sampling...
+elapsed: 0.021510601043701172, spacing: 0.5, sleep: 0.47848939895629883
+loop end
+collecting 25
+Sampling...
+elapsed: 0.021475553512573242, spacing: 0.5, sleep: 0.47852444648742676
+loop end
+collecting 26
+Sampling...
+elapsed: 0.021497011184692383, spacing: 0.5, sleep: 0.4785029888153076
+loop end
+collecting 27
+Sampling...
+elapsed: 0.02143073081970215, spacing: 0.5, sleep: 0.47856926918029785
+loop end
+collecting 28
+Sampling...
+elapsed: 0.02150702476501465, spacing: 0.5, sleep: 0.47849297523498535
+loop end
+collecting 29
+Sampling...
+elapsed: 0.021470069885253906, spacing: 0.5, sleep: 0.4785299301147461
+loop end
+adding to log
+{'Data': array([[   58872, 15701334, 15715121, 15354685, 15899268, 15526640,
+        15999114, 15948398],
+       [15557346, 15699270, 15716174, 15351877, 15901042, 15527078,
+        15997516, 15948585],
+       [15559356, 15697107, 15717904, 15350153, 15903822, 15527114,
+        15998659, 15948401],
+       [15553640, 15694504, 15720028, 15350226, 15907190, 15526901,
+        15999571, 15948628],
+       [15557342, 15719231, 15722136, 15350851, 15910262, 15526871,
+        15999867, 15948420],
+       [15554827, 15693602, 15725119, 15354417, 15916077, 15527284,
+        16000874, 15948412],
+       [15558719, 15695208, 15728994, 15360591, 15922634, 15527647,
+        16001609, 15948396],
+       [15557987, 15698579, 15731487, 15367919, 15926669, 15527975,
+        16000983, 15948547],
+       [15560625, 15702859, 15734067, 15374119, 15927767, 15528488,
+        16001870, 15948315],
+       [15567636, 15708511, 15736115, 15377506, 15926674, 15528805,
+        16001814, 15948593],
+       [15570916, 15714731, 15737373, 15374517, 15924459, 15529593,
+        16001957, 15948497],
+       [15567461, 15721268, 15735958, 15363388, 15921409, 15529230,
+        16001426, 15948445],
+       [15563972, 15726882, 15734829, 15355011, 15920418, 15529330,
+        16001713, 15948427],
+       [15563444, 15728538, 15734917, 15351744, 15921532, 15629398,
+        16003203, 15948549],
+       [15557600, 15725750, 15734540, 15351571, 15922979, 15530000,
+        16002980, 15948563],
+       [15558756, 15721481, 15735422, 15355433, 15924646, 15530726,
+        16003542, 15948623],
+       [15561510, 15717135, 15736475, 15359223, 15924171, 15530520,
+        16003791, 15948642],
+       [15559699, 15713430, 15737624, 15363240, 15924007, 15531610,
+        16003491, 15948488],
+       [15559933, 15710914, 15739122, 15363648, 15924987, 15531792,
+        16003570, 15948508],
+       [15558547, 15711163, 15740183, 15362357, 15926080, 15532040,
+        16003977, 15948523],
+       [15559177, 15711747, 15742182, 15363761, 15928845, 15531802,
+        16003684, 15948553],
+       [15559364, 15712191, 15744592, 15367503, 15930371, 15532949,
+        16004015, 15948416],
+       [15568974, 15712773, 15745081, 15369828, 15931653, 15532703,
+        16003281, 15948670],
+       [15561166, 15715865, 15744803, 15368464, 15930797, 15532179,
+        16002189, 15948445],
+       [15556602, 15716035, 15743357, 15366556, 15931272, 15532446,
+        16001535, 15948566],
+       [15560340, 15712603, 15742757, 15372586, 15932213, 15532623,
+        16000833, 15948629],
+       [15559671, 15710837, 15742397, 15375811, 15932178, 15532668,
+        15999974, 15948581],
+       [15559459, 15707765, 15741702, 15380797, 15931436, 15542766,
+        15998835, 15948526],
+       [15559918, 15706877, 15742047, 15381788, 15929888, 15532889,
+        15997973, 15948579],
+       [15562872, 15707160, 15743231, 15381877, 15929134, 15533003,
+        15998022, 15948624]]), 'Average Elapsed': 0.021665589014689127, 'End Time': 1525190257.178059, 'PID': 2253, 'TxPattern': None}
+pickled!
+end
+Tue May  1 11:59:48 2018
+ADS1256 ID = 0x3
+[Errno 2] No such file or directory: 'txpattern.pickle'
+Listening for broadcasts...
+[b'collect', b'300', b'0.5', b'1', b'0']
+collecting 0
+Sampling...
+elapsed: 0.021592378616333008, spacing: 0.5, sleep: 0.478407621383667
+loop end
+collecting 1
+Sampling...
+elapsed: 0.021485567092895508, spacing: 0.5, sleep: 0.4785144329071045
+loop end
+collecting 2
+Sampling...
+elapsed: 0.021428823471069336, spacing: 0.5, sleep: 0.47857117652893066
+loop end
+collecting 3
+Sampling...
+elapsed: 0.021465063095092773, spacing: 0.5, sleep: 0.4785349369049072
+loop end
+collecting 4
+Sampling...
+elapsed: 0.02147531509399414, spacing: 0.5, sleep: 0.47852468490600586
+loop end
+collecting 5
+Sampling...
+elapsed: 0.02144622802734375, spacing: 0.5, sleep: 0.47855377197265625
+loop end
+collecting 6
+Sampling...
+elapsed: 0.021428346633911133, spacing: 0.5, sleep: 0.47857165336608887
+loop end
+collecting 7
+Sampling...
+elapsed: 0.021511077880859375, spacing: 0.5, sleep: 0.4784889221191406
+loop end
+collecting 8
+Sampling...
+elapsed: 0.02144789695739746, spacing: 0.5, sleep: 0.47855210304260254
+loop end
+collecting 9
+Sampling...
+elapsed: 0.022058725357055664, spacing: 0.5, sleep: 0.47794127464294434
+loop end
+collecting 10
+Sampling...
+elapsed: 0.02216625213623047, spacing: 0.5, sleep: 0.47783374786376953
+loop end
+collecting 11
+Sampling...
+elapsed: 0.022057294845581055, spacing: 0.5, sleep: 0.47794270515441895
+loop end
+collecting 12
+Sampling...
+elapsed: 0.022090435028076172, spacing: 0.5, sleep: 0.47790956497192383
+loop end
+collecting 13
+Sampling...
+elapsed: 0.022073984146118164, spacing: 0.5, sleep: 0.47792601585388184
+loop end
+collecting 14
+Sampling...
+elapsed: 0.02209305763244629, spacing: 0.5, sleep: 0.4779069423675537
+loop end
+collecting 15
+Sampling...
+elapsed: 0.022054672241210938, spacing: 0.5, sleep: 0.47794532775878906
+loop end
+collecting 16
+Sampling...
+elapsed: 0.022092580795288086, spacing: 0.5, sleep: 0.4779074192047119
+loop end
+collecting 17
+Sampling...
+elapsed: 0.022120952606201172, spacing: 0.5, sleep: 0.47787904739379883
+loop end
+collecting 18
+Sampling...
+elapsed: 0.022127389907836914, spacing: 0.5, sleep: 0.4778726100921631
+loop end
+collecting 19
+Sampling...
+elapsed: 0.02213597297668457, spacing: 0.5, sleep: 0.47786402702331543
+loop end
+collecting 20
+Sampling...
+elapsed: 0.02221369743347168, spacing: 0.5, sleep: 0.4777863025665283
+loop end
+collecting 21
+Sampling...
+elapsed: 0.022012948989868164, spacing: 0.5, sleep: 0.47798705101013184
+loop end
+collecting 22
+Sampling...
+elapsed: 0.022113561630249023, spacing: 0.5, sleep: 0.477886438369751
+loop end
+collecting 23
+Sampling...
+elapsed: 0.021990537643432617, spacing: 0.5, sleep: 0.4780094623565674
+loop end
+collecting 24
+Sampling...
+elapsed: 0.022080659866333008, spacing: 0.5, sleep: 0.477919340133667
+loop end
+collecting 25
+Sampling...
+elapsed: 0.022020339965820312, spacing: 0.5, sleep: 0.4779796600341797
+loop end
+collecting 26
+Sampling...
+elapsed: 0.022078990936279297, spacing: 0.5, sleep: 0.4779210090637207
+loop end
+collecting 27
+Sampling...
+elapsed: 0.02216315269470215, spacing: 0.5, sleep: 0.47783684730529785
+loop end
+collecting 28
+Sampling...
+elapsed: 0.022061586380004883, spacing: 0.5, sleep: 0.4779384136199951
+loop end
+collecting 29
+Sampling...
+elapsed: 0.022116422653198242, spacing: 0.5, sleep: 0.47788357734680176
+loop end
+collecting 30
+Sampling...
+elapsed: 0.022103309631347656, spacing: 0.5, sleep: 0.47789669036865234
+loop end
+collecting 31
+Sampling...
+elapsed: 0.022064685821533203, spacing: 0.5, sleep: 0.4779353141784668
+loop end
+collecting 32
+Sampling...
+elapsed: 0.02200460433959961, spacing: 0.5, sleep: 0.4779953956604004
+loop end
+collecting 33
+Sampling...
+elapsed: 0.022187232971191406, spacing: 0.5, sleep: 0.4778127670288086
+loop end
+collecting 34
+Sampling...
+elapsed: 0.022115707397460938, spacing: 0.5, sleep: 0.47788429260253906
+loop end
+collecting 35
+Sampling...
+elapsed: 0.022081851959228516, spacing: 0.5, sleep: 0.4779181480407715
+loop end
+collecting 36
+Sampling...
+elapsed: 0.022106170654296875, spacing: 0.5, sleep: 0.4778938293457031
+loop end
+collecting 37
+Sampling...
+elapsed: 0.02218461036682129, spacing: 0.5, sleep: 0.4778153896331787
+loop end
+collecting 38
+Sampling...
+elapsed: 0.0220489501953125, spacing: 0.5, sleep: 0.4779510498046875
+loop end
+collecting 39
+Sampling...
+elapsed: 0.022066116333007812, spacing: 0.5, sleep: 0.4779338836669922
+loop end
+collecting 40
+Sampling...
+elapsed: 0.02213311195373535, spacing: 0.5, sleep: 0.47786688804626465
+loop end
+collecting 41
+Sampling...
+elapsed: 0.02205657958984375, spacing: 0.5, sleep: 0.47794342041015625
+loop end
+collecting 42
+Sampling...
+elapsed: 0.022144079208374023, spacing: 0.5, sleep: 0.477855920791626
+loop end
+collecting 43
+Sampling...
+elapsed: 0.022068262100219727, spacing: 0.5, sleep: 0.4779317378997803
+loop end
+collecting 44
+Sampling...
+elapsed: 0.022145748138427734, spacing: 0.5, sleep: 0.47785425186157227
+loop end
+collecting 45
+Sampling...
+elapsed: 0.021998882293701172, spacing: 0.5, sleep: 0.47800111770629883
+loop end
+collecting 46
+Sampling...
+elapsed: 0.022104740142822266, spacing: 0.5, sleep: 0.47789525985717773
+loop end
+collecting 47
+Sampling...
+elapsed: 0.022124290466308594, spacing: 0.5, sleep: 0.4778757095336914
+loop end
+collecting 48
+Sampling...
+elapsed: 0.02213120460510254, spacing: 0.5, sleep: 0.47786879539489746
+loop end
+collecting 49
+Sampling...
+elapsed: 0.02202010154724121, spacing: 0.5, sleep: 0.4779798984527588
+loop end
+collecting 50
+Sampling...
+elapsed: 0.022190332412719727, spacing: 0.5, sleep: 0.4778096675872803
+loop end
+collecting 51
+Sampling...
+elapsed: 0.022017240524291992, spacing: 0.5, sleep: 0.477982759475708
+loop end
+collecting 52
+Sampling...
+elapsed: 0.022137165069580078, spacing: 0.5, sleep: 0.4778628349304199
+loop end
+collecting 53
+Sampling...
+elapsed: 0.02197575569152832, spacing: 0.5, sleep: 0.4780242443084717
+loop end
+collecting 54
+Sampling...
+elapsed: 0.02210855484008789, spacing: 0.5, sleep: 0.4778914451599121
+loop end
+collecting 55
+Sampling...
+elapsed: 0.022030353546142578, spacing: 0.5, sleep: 0.4779696464538574
+loop end
+collecting 56
+Sampling...
+elapsed: 0.022128582000732422, spacing: 0.5, sleep: 0.4778714179992676
+loop end
+collecting 57
+Sampling...
+elapsed: 0.022139787673950195, spacing: 0.5, sleep: 0.4778602123260498
+loop end
+collecting 58
+Sampling...
+elapsed: 0.022131681442260742, spacing: 0.5, sleep: 0.47786831855773926
+loop end
+collecting 59
+Sampling...
+elapsed: 0.022148609161376953, spacing: 0.5, sleep: 0.47785139083862305
+loop end
+collecting 60
+Sampling...
+elapsed: 0.022144556045532227, spacing: 0.5, sleep: 0.4778554439544678
+loop end
+collecting 61
+Sampling...
+elapsed: 0.022052764892578125, spacing: 0.5, sleep: 0.4779472351074219
+loop end
+collecting 62
+Sampling...
+elapsed: 0.022077560424804688, spacing: 0.5, sleep: 0.4779224395751953
+loop end
+collecting 63
+Sampling...
+elapsed: 0.022130489349365234, spacing: 0.5, sleep: 0.47786951065063477
+loop end
+collecting 64
+Sampling...
+elapsed: 0.022106647491455078, spacing: 0.5, sleep: 0.4778933525085449
+loop end
+collecting 65
+Sampling...
+elapsed: 0.022101163864135742, spacing: 0.5, sleep: 0.47789883613586426
+loop end
+collecting 66
+Sampling...
+elapsed: 0.02203655242919922, spacing: 0.5, sleep: 0.4779634475708008
+loop end
+collecting 67
+Sampling...
+elapsed: 0.022165298461914062, spacing: 0.5, sleep: 0.47783470153808594
+loop end
+collecting 68
+Sampling...
+elapsed: 0.02209186553955078, spacing: 0.5, sleep: 0.4779081344604492
+loop end
+collecting 69
+Sampling...
+elapsed: 0.022052764892578125, spacing: 0.5, sleep: 0.4779472351074219
+loop end
+collecting 70
+Sampling...
+elapsed: 0.02209615707397461, spacing: 0.5, sleep: 0.4779038429260254
+loop end
+collecting 71
+Sampling...
+elapsed: 0.02208256721496582, spacing: 0.5, sleep: 0.4779174327850342
+loop end
+collecting 72
+Sampling...
+elapsed: 0.022141695022583008, spacing: 0.5, sleep: 0.477858304977417
+loop end
+collecting 73
+Sampling...
+elapsed: 0.022000551223754883, spacing: 0.5, sleep: 0.4779994487762451
+loop end
+collecting 74
+Sampling...
+elapsed: 0.022070884704589844, spacing: 0.5, sleep: 0.47792911529541016
+loop end
+collecting 75
+Sampling...
+elapsed: 0.02199554443359375, spacing: 0.5, sleep: 0.47800445556640625
+loop end
+collecting 76
+Sampling...
+elapsed: 0.02207016944885254, spacing: 0.5, sleep: 0.47792983055114746
+loop end
+collecting 77
+Sampling...
+elapsed: 0.02212810516357422, spacing: 0.5, sleep: 0.4778718948364258
+loop end
+collecting 78
+Sampling...
+elapsed: 0.022164583206176758, spacing: 0.5, sleep: 0.47783541679382324
+loop end
+collecting 79
+Sampling...
+elapsed: 0.022042512893676758, spacing: 0.5, sleep: 0.47795748710632324
+loop end
+collecting 80
+Sampling...
+elapsed: 0.022170543670654297, spacing: 0.5, sleep: 0.4778294563293457
+loop end
+collecting 81
+Sampling...
+elapsed: 0.02201390266418457, spacing: 0.5, sleep: 0.47798609733581543
+loop end
+collecting 82
+Sampling...
+elapsed: 0.022113800048828125, spacing: 0.5, sleep: 0.4778861999511719
+loop end
+collecting 83
+Sampling...
+elapsed: 0.02200627326965332, spacing: 0.5, sleep: 0.4779937267303467
+loop end
+collecting 84
+Sampling...
+elapsed: 0.022078275680541992, spacing: 0.5, sleep: 0.477921724319458
+loop end
+collecting 85
+Sampling...
+elapsed: 0.022053003311157227, spacing: 0.5, sleep: 0.4779469966888428
+loop end
+collecting 86
+Sampling...
+elapsed: 0.022084474563598633, spacing: 0.5, sleep: 0.47791552543640137
+loop end
+collecting 87
+Sampling...
+elapsed: 0.022135019302368164, spacing: 0.5, sleep: 0.47786498069763184
+loop end
+collecting 88
+Sampling...
+elapsed: 0.022101640701293945, spacing: 0.5, sleep: 0.47789835929870605
+loop end
+collecting 89
+Sampling...
+elapsed: 0.02202320098876953, spacing: 0.5, sleep: 0.47797679901123047
+loop end
+collecting 90
+Sampling...
+elapsed: 0.022122859954833984, spacing: 0.5, sleep: 0.477877140045166
+loop end
+collecting 91
+Sampling...
+elapsed: 0.02207040786743164, spacing: 0.5, sleep: 0.47792959213256836
+loop end
+collecting 92
+Sampling...
+elapsed: 0.02213573455810547, spacing: 0.5, sleep: 0.47786426544189453
+loop end
+collecting 93
+Sampling...
+elapsed: 0.022045612335205078, spacing: 0.5, sleep: 0.4779543876647949
+loop end
+collecting 94
+Sampling...
+elapsed: 0.02213287353515625, spacing: 0.5, sleep: 0.47786712646484375
+loop end
+collecting 95
+Sampling...
+elapsed: 0.02209186553955078, spacing: 0.5, sleep: 0.4779081344604492
+loop end
+collecting 96
+Sampling...
+elapsed: 0.022043466567993164, spacing: 0.5, sleep: 0.47795653343200684
+loop end
+collecting 97
+Sampling...
+elapsed: 0.022142648696899414, spacing: 0.5, sleep: 0.4778573513031006
+loop end
+collecting 98
+Sampling...
+elapsed: 0.0220487117767334, spacing: 0.5, sleep: 0.4779512882232666
+loop end
+collecting 99
+Sampling...
+elapsed: 0.022103548049926758, spacing: 0.5, sleep: 0.47789645195007324
+loop end
+collecting 100
+Sampling...
+elapsed: 0.022236347198486328, spacing: 0.5, sleep: 0.47776365280151367
+loop end
+collecting 101
+Sampling...
+elapsed: 0.022118330001831055, spacing: 0.5, sleep: 0.47788166999816895
+loop end
+collecting 102
+Sampling...
+elapsed: 0.02203655242919922, spacing: 0.5, sleep: 0.4779634475708008
+loop end
+collecting 103
+Sampling...
+elapsed: 0.022022247314453125, spacing: 0.5, sleep: 0.4779777526855469
+loop end
+collecting 104
+Sampling...
+elapsed: 0.02209162712097168, spacing: 0.5, sleep: 0.4779083728790283
+loop end
+collecting 105
+Sampling...
+elapsed: 0.022037744522094727, spacing: 0.5, sleep: 0.4779622554779053
+loop end
+collecting 106
+Sampling...
+elapsed: 0.022104263305664062, spacing: 0.5, sleep: 0.47789573669433594
+loop end
+collecting 107
+Sampling...
+elapsed: 0.022189855575561523, spacing: 0.5, sleep: 0.4778101444244385
+loop end
+collecting 108
+Sampling...
+elapsed: 0.0220947265625, spacing: 0.5, sleep: 0.4779052734375
+loop end
+collecting 109
+Sampling...
+elapsed: 0.022000789642333984, spacing: 0.5, sleep: 0.477999210357666
+loop end
+collecting 110
+Sampling...
+elapsed: 0.022179365158081055, spacing: 0.5, sleep: 0.47782063484191895
+loop end
+collecting 111
+Sampling...
+elapsed: 0.0220947265625, spacing: 0.5, sleep: 0.4779052734375
+loop end
+collecting 112
+Sampling...
+elapsed: 0.022060155868530273, spacing: 0.5, sleep: 0.4779398441314697
+loop end
+collecting 113
+Sampling...
+elapsed: 0.022019624710083008, spacing: 0.5, sleep: 0.477980375289917
+loop end
+collecting 114
+Sampling...
+elapsed: 0.022108078002929688, spacing: 0.5, sleep: 0.4778919219970703
+loop end
+collecting 115
+Sampling...
+elapsed: 0.022024154663085938, spacing: 0.5, sleep: 0.47797584533691406
+loop end
+collecting 116
+Sampling...
+elapsed: 0.022084951400756836, spacing: 0.5, sleep: 0.47791504859924316
+loop end
+collecting 117
+Sampling...
+elapsed: 0.02213001251220703, spacing: 0.5, sleep: 0.47786998748779297
+loop end
+collecting 118
+Sampling...
+elapsed: 0.022064685821533203, spacing: 0.5, sleep: 0.4779353141784668
+loop end
+collecting 119
+Sampling...
+elapsed: 0.022088050842285156, spacing: 0.5, sleep: 0.47791194915771484
+loop end
+collecting 120
+Sampling...
+elapsed: 0.022131681442260742, spacing: 0.5, sleep: 0.47786831855773926
+loop end
+collecting 121
+Sampling...
+elapsed: 0.0220487117767334, spacing: 0.5, sleep: 0.4779512882232666
+loop end
+collecting 122
+Sampling...
+elapsed: 0.021997690200805664, spacing: 0.5, sleep: 0.47800230979919434
+loop end
+collecting 123
+Sampling...
+elapsed: 0.022080421447753906, spacing: 0.5, sleep: 0.4779195785522461
+loop end
+collecting 124
+Sampling...
+elapsed: 0.02207207679748535, spacing: 0.5, sleep: 0.47792792320251465
+loop end
+collecting 125
+Sampling...
+elapsed: 0.02207159996032715, spacing: 0.5, sleep: 0.47792840003967285
+loop end
+collecting 126
+Sampling...
+elapsed: 0.022040128707885742, spacing: 0.5, sleep: 0.47795987129211426
+loop end
+collecting 127
+Sampling...
+elapsed: 0.022186756134033203, spacing: 0.5, sleep: 0.4778132438659668
+loop end
+collecting 128
+Sampling...
+elapsed: 0.022135496139526367, spacing: 0.5, sleep: 0.47786450386047363
+loop end
+collecting 129
+Sampling...
+elapsed: 0.02208113670349121, spacing: 0.5, sleep: 0.4779188632965088
+loop end
+collecting 130
+Sampling...
+elapsed: 0.02219557762145996, spacing: 0.5, sleep: 0.47780442237854004
+loop end
+collecting 131
+Sampling...
+elapsed: 0.02209305763244629, spacing: 0.5, sleep: 0.4779069423675537
+loop end
+collecting 132
+Sampling...
+elapsed: 0.02204751968383789, spacing: 0.5, sleep: 0.4779524803161621
+loop end
+collecting 133
+Sampling...
+elapsed: 0.02212214469909668, spacing: 0.5, sleep: 0.4778778553009033
+loop end
+collecting 134
+Sampling...
+elapsed: 0.022049665451049805, spacing: 0.5, sleep: 0.4779503345489502
+loop end
+collecting 135
+Sampling...
+elapsed: 0.022063732147216797, spacing: 0.5, sleep: 0.4779362678527832
+loop end
+collecting 136
+Sampling...
+elapsed: 0.022106647491455078, spacing: 0.5, sleep: 0.4778933525085449
+loop end
+collecting 137
+Sampling...
+elapsed: 0.02212071418762207, spacing: 0.5, sleep: 0.47787928581237793
+loop end
+collecting 138
+Sampling...
+elapsed: 0.022152185440063477, spacing: 0.5, sleep: 0.4778478145599365
+loop end
+collecting 139
+Sampling...
+elapsed: 0.022081375122070312, spacing: 0.5, sleep: 0.4779186248779297
+loop end
+collecting 140
+Sampling...
+elapsed: 0.022202253341674805, spacing: 0.5, sleep: 0.4777977466583252
+loop end
+collecting 141
+Sampling...
+elapsed: 0.022002696990966797, spacing: 0.5, sleep: 0.4779973030090332
+loop end
+collecting 142
+Sampling...
+elapsed: 0.022118091583251953, spacing: 0.5, sleep: 0.47788190841674805
+loop end
+collecting 143
+Sampling...
+elapsed: 0.022027969360351562, spacing: 0.5, sleep: 0.47797203063964844
+loop end
+collecting 144
+Sampling...
+elapsed: 0.022103309631347656, spacing: 0.5, sleep: 0.47789669036865234
+loop end
+collecting 145
+Sampling...
+elapsed: 0.022064208984375, spacing: 0.5, sleep: 0.477935791015625
+loop end
+collecting 146
+Sampling...
+elapsed: 0.022159814834594727, spacing: 0.5, sleep: 0.4778401851654053
+loop end
+collecting 147
+Sampling...
+elapsed: 0.0221250057220459, spacing: 0.5, sleep: 0.4778749942779541
+loop end
+collecting 148
+Sampling...
+elapsed: 0.02214670181274414, spacing: 0.5, sleep: 0.47785329818725586
+loop end
+collecting 149
+Sampling...
+elapsed: 0.021991729736328125, spacing: 0.5, sleep: 0.4780082702636719
+loop end
+collecting 150
+Sampling...
+elapsed: 0.022176027297973633, spacing: 0.5, sleep: 0.47782397270202637
+loop end
+collecting 151
+Sampling...
+elapsed: 0.022047758102416992, spacing: 0.5, sleep: 0.477952241897583
+loop end
+collecting 152
+Sampling...
+elapsed: 0.02210259437561035, spacing: 0.5, sleep: 0.47789740562438965
+loop end
+collecting 153
+Sampling...
+elapsed: 0.022075414657592773, spacing: 0.5, sleep: 0.4779245853424072
+loop end
+collecting 154
+Sampling...
+elapsed: 0.0221402645111084, spacing: 0.5, sleep: 0.4778597354888916
+loop end
+collecting 155
+Sampling...
+elapsed: 0.022100210189819336, spacing: 0.5, sleep: 0.47789978981018066
+loop end
+collecting 156
+Sampling...
+elapsed: 0.022081375122070312, spacing: 0.5, sleep: 0.4779186248779297
+loop end
+collecting 157
+Sampling...
+elapsed: 0.022119760513305664, spacing: 0.5, sleep: 0.47788023948669434
+loop end
+collecting 158
+Sampling...
+elapsed: 0.022060871124267578, spacing: 0.5, sleep: 0.4779391288757324
+loop end
+collecting 159
+Sampling...
+elapsed: 0.02213573455810547, spacing: 0.5, sleep: 0.47786426544189453
+loop end
+collecting 160
+Sampling...
+elapsed: 0.022075414657592773, spacing: 0.5, sleep: 0.4779245853424072
+loop end
+collecting 161
+Sampling...
+elapsed: 0.022072315216064453, spacing: 0.5, sleep: 0.47792768478393555
+loop end
+collecting 162
+Sampling...
+elapsed: 0.02204275131225586, spacing: 0.5, sleep: 0.47795724868774414
+loop end
+collecting 163
+Sampling...
+elapsed: 0.02211618423461914, spacing: 0.5, sleep: 0.47788381576538086
+loop end
+collecting 164
+Sampling...
+elapsed: 0.022081851959228516, spacing: 0.5, sleep: 0.4779181480407715
+loop end
+collecting 165
+Sampling...
+elapsed: 0.022087812423706055, spacing: 0.5, sleep: 0.47791218757629395
+loop end
+collecting 166
+Sampling...
+elapsed: 0.02206730842590332, spacing: 0.5, sleep: 0.4779326915740967
+loop end
+collecting 167
+Sampling...
+elapsed: 0.022127628326416016, spacing: 0.5, sleep: 0.477872371673584
+loop end
+collecting 168
+Sampling...
+elapsed: 0.02206707000732422, spacing: 0.5, sleep: 0.4779329299926758
+loop end
+collecting 169
+Sampling...
+elapsed: 0.02207469940185547, spacing: 0.5, sleep: 0.47792530059814453
+loop end
+collecting 170
+Sampling...
+elapsed: 0.022170305252075195, spacing: 0.5, sleep: 0.4778296947479248
+loop end
+collecting 171
+Sampling...
+elapsed: 0.0220639705657959, spacing: 0.5, sleep: 0.4779360294342041
+loop end
+collecting 172
+Sampling...
+elapsed: 0.022231340408325195, spacing: 0.5, sleep: 0.4777686595916748
+loop end
+collecting 173
+Sampling...
+elapsed: 0.022034645080566406, spacing: 0.5, sleep: 0.4779653549194336
+loop end
+collecting 174
+Sampling...
+elapsed: 0.022107362747192383, spacing: 0.5, sleep: 0.4778926372528076
+loop end
+collecting 175
+Sampling...
+elapsed: 0.02203679084777832, spacing: 0.5, sleep: 0.4779632091522217
+loop end
+collecting 176
+Sampling...
+elapsed: 0.022162437438964844, spacing: 0.5, sleep: 0.47783756256103516
+loop end
+collecting 177
+Sampling...
+elapsed: 0.022120952606201172, spacing: 0.5, sleep: 0.47787904739379883
+loop end
+collecting 178
+Sampling...
+elapsed: 0.02208566665649414, spacing: 0.5, sleep: 0.47791433334350586
+loop end
+collecting 179
+Sampling...
+elapsed: 0.02220940589904785, spacing: 0.5, sleep: 0.47779059410095215
+loop end
+collecting 180
+Sampling...
+elapsed: 0.022139787673950195, spacing: 0.5, sleep: 0.4778602123260498
+loop end
+collecting 181
+Sampling...
+elapsed: 0.022021055221557617, spacing: 0.5, sleep: 0.4779789447784424
+loop end
+collecting 182
+Sampling...
+elapsed: 0.02206254005432129, spacing: 0.5, sleep: 0.4779374599456787
+loop end
+collecting 183
+Sampling...
+elapsed: 0.02208089828491211, spacing: 0.5, sleep: 0.4779191017150879
+loop end
+collecting 184
+Sampling...
+elapsed: 0.022047758102416992, spacing: 0.5, sleep: 0.477952241897583
+loop end
+collecting 185
+Sampling...
+elapsed: 0.022121906280517578, spacing: 0.5, sleep: 0.4778780937194824
+loop end
+collecting 186
+Sampling...
+elapsed: 0.022014379501342773, spacing: 0.5, sleep: 0.4779856204986572
+loop end
+collecting 187
+Sampling...
+elapsed: 0.022129058837890625, spacing: 0.5, sleep: 0.4778709411621094
+loop end
+collecting 188
+Sampling...
+elapsed: 0.02208566665649414, spacing: 0.5, sleep: 0.47791433334350586
+loop end
+collecting 189
+Sampling...
+elapsed: 0.02215409278869629, spacing: 0.5, sleep: 0.4778459072113037
+loop end
+collecting 190
+Sampling...
+elapsed: 0.022126197814941406, spacing: 0.5, sleep: 0.4778738021850586
+loop end
+collecting 191
+Sampling...
+elapsed: 0.022097110748291016, spacing: 0.5, sleep: 0.477902889251709
+loop end
+collecting 192
+Sampling...
+elapsed: 0.02206110954284668, spacing: 0.5, sleep: 0.4779388904571533
+loop end
+collecting 193
+Sampling...
+elapsed: 0.0221560001373291, spacing: 0.5, sleep: 0.4778439998626709
+loop end
+collecting 194
+Sampling...
+elapsed: 0.022036314010620117, spacing: 0.5, sleep: 0.4779636859893799
+loop end
+collecting 195
+Sampling...
+elapsed: 0.022064924240112305, spacing: 0.5, sleep: 0.4779350757598877
+loop end
+collecting 196
+Sampling...
+elapsed: 0.022044897079467773, spacing: 0.5, sleep: 0.4779551029205322
+loop end
+collecting 197
+Sampling...
+elapsed: 0.02212381362915039, spacing: 0.5, sleep: 0.4778761863708496
+loop end
+collecting 198
+Sampling...
+elapsed: 0.022083520889282227, spacing: 0.5, sleep: 0.4779164791107178
+loop end
+collecting 199
+Sampling...
+elapsed: 0.022130727767944336, spacing: 0.5, sleep: 0.47786927223205566
+loop end
+collecting 200
+Sampling...
+elapsed: 0.02219104766845703, spacing: 0.5, sleep: 0.47780895233154297
+loop end
+collecting 201
+Sampling...
+elapsed: 0.022026777267456055, spacing: 0.5, sleep: 0.47797322273254395
+loop end
+collecting 202
+Sampling...
+elapsed: 0.02208256721496582, spacing: 0.5, sleep: 0.4779174327850342
+loop end
+collecting 203
+Sampling...
+elapsed: 0.02201247215270996, spacing: 0.5, sleep: 0.47798752784729004
+loop end
+collecting 204
+Sampling...
+elapsed: 0.02207803726196289, spacing: 0.5, sleep: 0.4779219627380371
+loop end
+collecting 205
+Sampling...
+elapsed: 0.02201557159423828, spacing: 0.5, sleep: 0.4779844284057617
+loop end
+collecting 206
+Sampling...
+elapsed: 0.022111177444458008, spacing: 0.5, sleep: 0.477888822555542
+loop end
+collecting 207
+Sampling...
+elapsed: 0.022166728973388672, spacing: 0.5, sleep: 0.47783327102661133
+loop end
+collecting 208
+Sampling...
+elapsed: 0.022083759307861328, spacing: 0.5, sleep: 0.47791624069213867
+loop end
+collecting 209
+Sampling...
+elapsed: 0.022040128707885742, spacing: 0.5, sleep: 0.47795987129211426
+loop end
+collecting 210
+Sampling...
+elapsed: 0.022138118743896484, spacing: 0.5, sleep: 0.4778618812561035
+loop end
+collecting 211
+Sampling...
+elapsed: 0.022063493728637695, spacing: 0.5, sleep: 0.4779365062713623
+loop end
+collecting 212
+Sampling...
+elapsed: 0.02206134796142578, spacing: 0.5, sleep: 0.4779386520385742
+loop end
+collecting 213
+Sampling...
+elapsed: 0.02209162712097168, spacing: 0.5, sleep: 0.4779083728790283
+loop end
+collecting 214
+Sampling...
+elapsed: 0.022104740142822266, spacing: 0.5, sleep: 0.47789525985717773
+loop end
+collecting 215
+Sampling...
+elapsed: 0.022012948989868164, spacing: 0.5, sleep: 0.47798705101013184
+loop end
+collecting 216
+Sampling...
+elapsed: 0.02204418182373047, spacing: 0.5, sleep: 0.47795581817626953
+loop end
+collecting 217
+Sampling...
+elapsed: 0.022126197814941406, spacing: 0.5, sleep: 0.4778738021850586
+loop end
+collecting 218
+Sampling...
+elapsed: 0.022009611129760742, spacing: 0.5, sleep: 0.47799038887023926
+loop end
+collecting 219
+Sampling...
+elapsed: 0.022105932235717773, spacing: 0.5, sleep: 0.4778940677642822
+loop end
+collecting 220
+Sampling...
+elapsed: 0.022103548049926758, spacing: 0.5, sleep: 0.47789645195007324
+loop end
+collecting 221
+Sampling...
+elapsed: 0.02212691307067871, spacing: 0.5, sleep: 0.4778730869293213
+loop end
+collecting 222
+Sampling...
+elapsed: 0.02200913429260254, spacing: 0.5, sleep: 0.47799086570739746
+loop end
+collecting 223
+Sampling...
+elapsed: 0.022080421447753906, spacing: 0.5, sleep: 0.4779195785522461
+loop end
+collecting 224
+Sampling...
+elapsed: 0.02206110954284668, spacing: 0.5, sleep: 0.4779388904571533
+loop end
+collecting 225
+Sampling...
+elapsed: 0.02206873893737793, spacing: 0.5, sleep: 0.47793126106262207
+loop end
+collecting 226
+Sampling...
+elapsed: 0.022081851959228516, spacing: 0.5, sleep: 0.4779181480407715
+loop end
+collecting 227
+Sampling...
+elapsed: 0.022186994552612305, spacing: 0.5, sleep: 0.4778130054473877
+loop end
+collecting 228
+Sampling...
+elapsed: 0.022117137908935547, spacing: 0.5, sleep: 0.47788286209106445
+loop end
+collecting 229
+Sampling...
+elapsed: 0.022100448608398438, spacing: 0.5, sleep: 0.47789955139160156
+loop end
+collecting 230
+Sampling...
+elapsed: 0.021699190139770508, spacing: 0.5, sleep: 0.4783008098602295
+loop end
+collecting 231
+Sampling...
+elapsed: 0.02176976203918457, spacing: 0.5, sleep: 0.47823023796081543
+loop end
+collecting 232
+Sampling...
+elapsed: 0.022136688232421875, spacing: 0.5, sleep: 0.4778633117675781
+loop end
+collecting 233
+Sampling...
+elapsed: 0.022088050842285156, spacing: 0.5, sleep: 0.47791194915771484
+loop end
+collecting 234
+Sampling...
+elapsed: 0.02169656753540039, spacing: 0.5, sleep: 0.4783034324645996
+loop end
+collecting 235
+Sampling...
+elapsed: 0.021654367446899414, spacing: 0.5, sleep: 0.4783456325531006
+loop end
+collecting 236
+Sampling...
+elapsed: 0.021659374237060547, spacing: 0.5, sleep: 0.47834062576293945
+loop end
+collecting 237
+Sampling...
+elapsed: 0.021584510803222656, spacing: 0.5, sleep: 0.47841548919677734
+loop end
+collecting 238
+Sampling...
+elapsed: 0.022116422653198242, spacing: 0.5, sleep: 0.47788357734680176
+loop end
+collecting 239
+Sampling...
+elapsed: 0.022103071212768555, spacing: 0.5, sleep: 0.47789692878723145
+loop end
+collecting 240
+Sampling...
+elapsed: 0.021784543991088867, spacing: 0.5, sleep: 0.47821545600891113
+loop end
+collecting 241
+Sampling...
+elapsed: 0.02165079116821289, spacing: 0.5, sleep: 0.4783492088317871
+loop end
+collecting 242
+Sampling...
+elapsed: 0.021613597869873047, spacing: 0.5, sleep: 0.47838640213012695
+loop end
+collecting 243
+Sampling...
+elapsed: 0.021573543548583984, spacing: 0.5, sleep: 0.478426456451416
+loop end
+collecting 244
+Sampling...
+elapsed: 0.02240300178527832, spacing: 0.5, sleep: 0.4775969982147217
+loop end
+collecting 245
+Sampling...
+elapsed: 0.022005796432495117, spacing: 0.5, sleep: 0.4779942035675049
+loop end
+collecting 246
+Sampling...
+elapsed: 0.02285170555114746, spacing: 0.5, sleep: 0.47714829444885254
+loop end
+collecting 247
+Sampling...
+elapsed: 0.021747589111328125, spacing: 0.5, sleep: 0.4782524108886719
+loop end
+collecting 248
+Sampling...
+elapsed: 0.02170562744140625, spacing: 0.5, sleep: 0.47829437255859375
+loop end
+collecting 249
+Sampling...
+elapsed: 0.021628856658935547, spacing: 0.5, sleep: 0.47837114334106445
+loop end
+collecting 250
+Sampling...
+elapsed: 0.0218198299407959, spacing: 0.5, sleep: 0.4781801700592041
+loop end
+collecting 251
+Sampling...
+elapsed: 0.022290945053100586, spacing: 0.5, sleep: 0.4777090549468994
+loop end
+collecting 252
+Sampling...
+elapsed: 0.022141218185424805, spacing: 0.5, sleep: 0.4778587818145752
+loop end
+collecting 253
+Sampling...
+elapsed: 0.021841764450073242, spacing: 0.5, sleep: 0.47815823554992676
+loop end
+collecting 254
+Sampling...
+elapsed: 0.021652936935424805, spacing: 0.5, sleep: 0.4783470630645752
+loop end
+collecting 255
+Sampling...
+elapsed: 0.021634578704833984, spacing: 0.5, sleep: 0.478365421295166
+loop end
+collecting 256
+Sampling...
+elapsed: 0.0215303897857666, spacing: 0.5, sleep: 0.4784696102142334
+loop end
+collecting 257
+Sampling...
+elapsed: 0.022600650787353516, spacing: 0.5, sleep: 0.4773993492126465
+loop end
+collecting 258
+Sampling...
+elapsed: 0.022205114364624023, spacing: 0.5, sleep: 0.477794885635376
+loop end
+collecting 259
+Sampling...
+elapsed: 0.021863698959350586, spacing: 0.5, sleep: 0.4781363010406494
+loop end
+collecting 260
+Sampling...
+elapsed: 0.021870136260986328, spacing: 0.5, sleep: 0.47812986373901367
+loop end
+collecting 261
+Sampling...
+elapsed: 0.021636247634887695, spacing: 0.5, sleep: 0.4783637523651123
+loop end
+collecting 262
+Sampling...
+elapsed: 0.021524429321289062, spacing: 0.5, sleep: 0.47847557067871094
+loop end
+collecting 263
+Sampling...
+elapsed: 0.02217578887939453, spacing: 0.5, sleep: 0.47782421112060547
+loop end
+collecting 264
+Sampling...
+elapsed: 0.022037267684936523, spacing: 0.5, sleep: 0.4779627323150635
+loop end
+collecting 265
+Sampling...
+elapsed: 0.021818876266479492, spacing: 0.5, sleep: 0.4781811237335205
+loop end
+collecting 266
+Sampling...
+elapsed: 0.021686077117919922, spacing: 0.5, sleep: 0.4783139228820801
+loop end
+collecting 267
+Sampling...
+elapsed: 0.021773338317871094, spacing: 0.5, sleep: 0.4782266616821289
+loop end
+collecting 268
+Sampling...
+elapsed: 0.021562576293945312, spacing: 0.5, sleep: 0.4784374237060547
+loop end
+collecting 269
+Sampling...
+elapsed: 0.021518945693969727, spacing: 0.5, sleep: 0.4784810543060303
+loop end
+collecting 270
+Sampling...
+elapsed: 0.02227616310119629, spacing: 0.5, sleep: 0.4777238368988037
+loop end
+collecting 271
+Sampling...
+elapsed: 0.0222933292388916, spacing: 0.5, sleep: 0.4777066707611084
+loop end
+collecting 272
+Sampling...
+elapsed: 0.021675586700439453, spacing: 0.5, sleep: 0.47832441329956055
+loop end
+collecting 273
+Sampling...
+elapsed: 0.02171015739440918, spacing: 0.5, sleep: 0.4782898426055908
+loop end
+collecting 274
+Sampling...
+elapsed: 0.02156209945678711, spacing: 0.5, sleep: 0.4784379005432129
+loop end
+collecting 275
+Sampling...
+elapsed: 0.02167344093322754, spacing: 0.5, sleep: 0.47832655906677246
+loop end
+collecting 276
+Sampling...
+elapsed: 0.022202491760253906, spacing: 0.5, sleep: 0.4777975082397461
+loop end
+collecting 277
+Sampling...
+elapsed: 0.02220773696899414, spacing: 0.5, sleep: 0.47779226303100586
+loop end
+collecting 278
+Sampling...
+elapsed: 0.021760225296020508, spacing: 0.5, sleep: 0.4782397747039795
+loop end
+collecting 279
+Sampling...
+elapsed: 0.021803617477416992, spacing: 0.5, sleep: 0.478196382522583
+loop end
+collecting 280
+Sampling...
+elapsed: 0.02164292335510254, spacing: 0.5, sleep: 0.47835707664489746
+loop end
+collecting 281
+Sampling...
+elapsed: 0.021660566329956055, spacing: 0.5, sleep: 0.47833943367004395
+loop end
+collecting 282
+Sampling...
+elapsed: 0.02166914939880371, spacing: 0.5, sleep: 0.4783308506011963
+loop end
+collecting 283
+Sampling...
+elapsed: 0.022145509719848633, spacing: 0.5, sleep: 0.47785449028015137
+loop end
+collecting 284
+Sampling...
+elapsed: 0.02217411994934082, spacing: 0.5, sleep: 0.4778258800506592
+loop end
+collecting 285
+Sampling...
+elapsed: 0.021733999252319336, spacing: 0.5, sleep: 0.47826600074768066
+loop end
+collecting 286
+Sampling...
+elapsed: 0.021642684936523438, spacing: 0.5, sleep: 0.47835731506347656
+loop end
+collecting 287
+Sampling...
+elapsed: 0.021692276000976562, spacing: 0.5, sleep: 0.47830772399902344
+loop end
+collecting 288
+Sampling...
+elapsed: 0.0214536190032959, spacing: 0.5, sleep: 0.4785463809967041
+loop end
+collecting 289
+Sampling...
+elapsed: 0.022137165069580078, spacing: 0.5, sleep: 0.4778628349304199
+loop end
+collecting 290
+Sampling...
+elapsed: 0.022057056427001953, spacing: 0.5, sleep: 0.47794294357299805
+loop end
+collecting 291
+Sampling...
+elapsed: 0.03232908248901367, spacing: 0.5, sleep: 0.46767091751098633
+loop end
+collecting 292
+Sampling...
+elapsed: 0.021729707717895508, spacing: 0.5, sleep: 0.4782702922821045
+loop end
+collecting 293
+Sampling...
+elapsed: 0.021590232849121094, spacing: 0.5, sleep: 0.4784097671508789
+loop end
+collecting 294
+Sampling...
+elapsed: 0.021451950073242188, spacing: 0.5, sleep: 0.4785480499267578
+loop end
+collecting 295
+Sampling...
+elapsed: 0.022159576416015625, spacing: 0.5, sleep: 0.4778404235839844
+loop end
+collecting 296
+Sampling...
+elapsed: 0.022131681442260742, spacing: 0.5, sleep: 0.47786831855773926
+loop end
+collecting 297
+Sampling...
+elapsed: 0.022137880325317383, spacing: 0.5, sleep: 0.4778621196746826
+loop end
+collecting 298
+Sampling...
+elapsed: 0.02188730239868164, spacing: 0.5, sleep: 0.47811269760131836
+loop end
+collecting 299
+Sampling...
+elapsed: 0.021677494049072266, spacing: 0.5, sleep: 0.47832250595092773
+loop end
+adding to log
+{'PID': 2394, 'End Time': 1525190542.0152001, 'Data': array([[   79378, 15751066, 15691377, ..., 15536115, 16003826, 15948535],
+       [15570362, 15747883, 15683705, ..., 15536007, 16004551, 15948639],
+       [15570420, 15742313, 15678710, ..., 15535020, 16004439, 15948542],
+       ..., 
+       [15568994, 15706273, 15719636, ..., 15535839, 16000740, 15948835],
+       [15559179, 15702725, 15722794, ..., 15535990, 15994325, 15948811],
+       [15558230, 15703062, 15716513, ..., 15530242, 15996231, 15948925]]), 'TxPattern': None, 'Average Elapsed': 0.022054886817932128}
+pickled!
+end
+Tue May  1 12:02:32 2018
+ADS1256 ID = 0x3
+[Errno 2] No such file or directory: 'txpattern.pickle'
+Listening for broadcasts...
+[b'collect', b'750', b'0.2', b'1', b'0']
+collecting 0
+Sampling...
+elapsed: 0.02175617218017578, spacing: 0.2, sleep: 0.17824382781982423
+loop end
+collecting 1
+Sampling...
+elapsed: 0.02170586585998535, spacing: 0.2, sleep: 0.17829413414001466
+loop end
+collecting 2
+Sampling...
+elapsed: 0.021570444107055664, spacing: 0.2, sleep: 0.17842955589294435
+loop end
+collecting 3
+Sampling...
+elapsed: 0.021485090255737305, spacing: 0.2, sleep: 0.1785149097442627
+loop end
+collecting 4
+Sampling...
+elapsed: 0.0213773250579834, spacing: 0.2, sleep: 0.1786226749420166
+loop end
+collecting 5
+Sampling...
+elapsed: 0.0213778018951416, spacing: 0.2, sleep: 0.1786221981048584
+loop end
+collecting 6
+Sampling...
+elapsed: 0.0213778018951416, spacing: 0.2, sleep: 0.1786221981048584
+loop end
+collecting 7
+Sampling...
+elapsed: 0.02143549919128418, spacing: 0.2, sleep: 0.17856450080871583
+loop end
+collecting 8
+Sampling...
+elapsed: 0.021497011184692383, spacing: 0.2, sleep: 0.17850298881530763
+loop end
+collecting 9
+Sampling...
+elapsed: 0.021438121795654297, spacing: 0.2, sleep: 0.17856187820434571
+loop end
+collecting 10
+Sampling...
+elapsed: 0.021378040313720703, spacing: 0.2, sleep: 0.1786219596862793
+loop end
+collecting 11
+Sampling...
+elapsed: 0.021519899368286133, spacing: 0.2, sleep: 0.17848010063171388
+loop end
+collecting 12
+Sampling...
+elapsed: 0.021459102630615234, spacing: 0.2, sleep: 0.17854089736938478
+loop end
+collecting 13
+Sampling...
+elapsed: 0.021412134170532227, spacing: 0.2, sleep: 0.17858786582946778
+loop end
+collecting 14
+Sampling...
+elapsed: 0.021410465240478516, spacing: 0.2, sleep: 0.1785895347595215
+loop end
+collecting 15
+Sampling...
+elapsed: 0.021366119384765625, spacing: 0.2, sleep: 0.17863388061523439
+loop end
+collecting 16
+Sampling...
+elapsed: 0.021480798721313477, spacing: 0.2, sleep: 0.17851920127868653
+loop end
+collecting 17
+Sampling...
+elapsed: 0.02141261100769043, spacing: 0.2, sleep: 0.17858738899230958
+loop end
+collecting 18
+Sampling...
+elapsed: 0.021470069885253906, spacing: 0.2, sleep: 0.1785299301147461
+loop end
+collecting 19
+Sampling...
+elapsed: 0.02142500877380371, spacing: 0.2, sleep: 0.1785749912261963
+loop end
+collecting 20
+Sampling...
+elapsed: 0.02137303352355957, spacing: 0.2, sleep: 0.17862696647644044
+loop end
+collecting 21
+Sampling...
+elapsed: 0.02143263816833496, spacing: 0.2, sleep: 0.17856736183166505
+loop end
+collecting 22
+Sampling...
+elapsed: 0.021387100219726562, spacing: 0.2, sleep: 0.17861289978027345
+loop end
+collecting 23
+Sampling...
+elapsed: 0.021473407745361328, spacing: 0.2, sleep: 0.17852659225463868
+loop end
+collecting 24
+Sampling...
+elapsed: 0.02139115333557129, spacing: 0.2, sleep: 0.17860884666442872
+loop end
+collecting 25
+Sampling...
+elapsed: 0.021480083465576172, spacing: 0.2, sleep: 0.17851991653442384
+loop end
+collecting 26
+Sampling...
+elapsed: 0.021563291549682617, spacing: 0.2, sleep: 0.1784367084503174
+loop end
+collecting 27
+Sampling...
+elapsed: 0.021437406539916992, spacing: 0.2, sleep: 0.17856259346008302
+loop end
+collecting 28
+Sampling...
+elapsed: 0.021402597427368164, spacing: 0.2, sleep: 0.17859740257263185
+loop end
+collecting 29
+Sampling...
+elapsed: 0.021371841430664062, spacing: 0.2, sleep: 0.17862815856933595
+loop end
+collecting 30
+Sampling...
+elapsed: 0.021430492401123047, spacing: 0.2, sleep: 0.17856950759887696
+loop end
+collecting 31
+Sampling...
+elapsed: 0.02138209342956543, spacing: 0.2, sleep: 0.17861790657043458
+loop end
+collecting 32
+Sampling...
+elapsed: 0.021388769149780273, spacing: 0.2, sleep: 0.17861123085021974
+loop end
+collecting 33
+Sampling...
+elapsed: 0.021468162536621094, spacing: 0.2, sleep: 0.17853183746337892
+loop end
+collecting 34
+Sampling...
+elapsed: 0.02134394645690918, spacing: 0.2, sleep: 0.17865605354309083
+loop end
+collecting 35
+Sampling...
+elapsed: 0.021405935287475586, spacing: 0.2, sleep: 0.17859406471252443
+loop end
+collecting 36
+Sampling...
+elapsed: 0.02138829231262207, spacing: 0.2, sleep: 0.17861170768737794
+loop end
+collecting 37
+Sampling...
+elapsed: 0.021422624588012695, spacing: 0.2, sleep: 0.17857737541198732
+loop end
+collecting 38
+Sampling...
+elapsed: 0.02145218849182129, spacing: 0.2, sleep: 0.17854781150817872
+loop end
+collecting 39
+Sampling...
+elapsed: 0.02142930030822754, spacing: 0.2, sleep: 0.17857069969177247
+loop end
+collecting 40
+Sampling...
+elapsed: 0.021378517150878906, spacing: 0.2, sleep: 0.1786214828491211
+loop end
+collecting 41
+Sampling...
+elapsed: 0.021392345428466797, spacing: 0.2, sleep: 0.17860765457153321
+loop end
+collecting 42
+Sampling...
+elapsed: 0.021393537521362305, spacing: 0.2, sleep: 0.1786064624786377
+loop end
+collecting 43
+Sampling...
+elapsed: 0.02144026756286621, spacing: 0.2, sleep: 0.1785597324371338
+loop end
+collecting 44
+Sampling...
+elapsed: 0.021401405334472656, spacing: 0.2, sleep: 0.17859859466552735
+loop end
+collecting 45
+Sampling...
+elapsed: 0.021335124969482422, spacing: 0.2, sleep: 0.1786648750305176
+loop end
+collecting 46
+Sampling...
+elapsed: 0.021436691284179688, spacing: 0.2, sleep: 0.17856330871582032
+loop end
+collecting 47
+Sampling...
+elapsed: 0.02137470245361328, spacing: 0.2, sleep: 0.17862529754638673
+loop end
+collecting 48
+Sampling...
+elapsed: 0.021402597427368164, spacing: 0.2, sleep: 0.17859740257263185
+loop end
+collecting 49
+Sampling...
+elapsed: 0.021403074264526367, spacing: 0.2, sleep: 0.17859692573547364
+loop end
+collecting 50
+Sampling...
+elapsed: 0.021435022354125977, spacing: 0.2, sleep: 0.17856497764587403
+loop end
+collecting 51
+Sampling...
+elapsed: 0.02152252197265625, spacing: 0.2, sleep: 0.17847747802734376
+loop end
+collecting 52
+Sampling...
+elapsed: 0.02142500877380371, spacing: 0.2, sleep: 0.1785749912261963
+loop end
+collecting 53
+Sampling...
+elapsed: 0.02152228355407715, spacing: 0.2, sleep: 0.17847771644592286
+loop end
+collecting 54
+Sampling...
+elapsed: 0.021456480026245117, spacing: 0.2, sleep: 0.1785435199737549
+loop end
+collecting 55
+Sampling...
+elapsed: 0.021422386169433594, spacing: 0.2, sleep: 0.17857761383056642
+loop end
+collecting 56
+Sampling...
+elapsed: 0.02145075798034668, spacing: 0.2, sleep: 0.17854924201965333
+loop end
+collecting 57
+Sampling...
+elapsed: 0.021569252014160156, spacing: 0.2, sleep: 0.17843074798583985
+loop end
+collecting 58
+Sampling...
+elapsed: 0.0215151309967041, spacing: 0.2, sleep: 0.1784848690032959
+loop end
+collecting 59
+Sampling...
+elapsed: 0.021412134170532227, spacing: 0.2, sleep: 0.17858786582946778
+loop end
+collecting 60
+Sampling...
+elapsed: 0.021463871002197266, spacing: 0.2, sleep: 0.17853612899780275
+loop end
+collecting 61
+Sampling...
+elapsed: 0.0214083194732666, spacing: 0.2, sleep: 0.1785916805267334
+loop end
+collecting 62
+Sampling...
+elapsed: 0.02157282829284668, spacing: 0.2, sleep: 0.17842717170715333
+loop end
+collecting 63
+Sampling...
+elapsed: 0.021517038345336914, spacing: 0.2, sleep: 0.1784829616546631
+loop end
+collecting 64
+Sampling...
+elapsed: 0.0214383602142334, spacing: 0.2, sleep: 0.1785616397857666
+loop end
+collecting 65
+Sampling...
+elapsed: 0.021466970443725586, spacing: 0.2, sleep: 0.17853302955627443
+loop end
+collecting 66
+Sampling...
+elapsed: 0.02141714096069336, spacing: 0.2, sleep: 0.17858285903930665
+loop end
+collecting 67
+Sampling...
+elapsed: 0.021614789962768555, spacing: 0.2, sleep: 0.17838521003723146
+loop end
+collecting 68
+Sampling...
+elapsed: 0.02153944969177246, spacing: 0.2, sleep: 0.17846055030822755
+loop end
+collecting 69
+Sampling...
+elapsed: 0.02142643928527832, spacing: 0.2, sleep: 0.1785735607147217
+loop end
+collecting 70
+Sampling...
+elapsed: 0.021482467651367188, spacing: 0.2, sleep: 0.17851753234863282
+loop end
+collecting 71
+Sampling...
+elapsed: 0.021469593048095703, spacing: 0.2, sleep: 0.1785304069519043
+loop end
+collecting 72
+Sampling...
+elapsed: 0.02156805992126465, spacing: 0.2, sleep: 0.17843194007873536
+loop end
+collecting 73
+Sampling...
+elapsed: 0.02151179313659668, spacing: 0.2, sleep: 0.17848820686340333
+loop end
+collecting 74
+Sampling...
+elapsed: 0.021497249603271484, spacing: 0.2, sleep: 0.17850275039672853
+loop end
+collecting 75
+Sampling...
+elapsed: 0.02153301239013672, spacing: 0.2, sleep: 0.1784669876098633
+loop end
+collecting 76
+Sampling...
+elapsed: 0.02156519889831543, spacing: 0.2, sleep: 0.17843480110168458
+loop end
+collecting 77
+Sampling...
+elapsed: 0.02146315574645996, spacing: 0.2, sleep: 0.17853684425354005
+loop end
+collecting 78
+Sampling...
+elapsed: 0.021524429321289062, spacing: 0.2, sleep: 0.17847557067871095
+loop end
+collecting 79
+Sampling...
+elapsed: 0.02142500877380371, spacing: 0.2, sleep: 0.1785749912261963
+loop end
+collecting 80
+Sampling...
+elapsed: 0.021498918533325195, spacing: 0.2, sleep: 0.17850108146667482
+loop end
+collecting 81
+Sampling...
+elapsed: 0.02143263816833496, spacing: 0.2, sleep: 0.17856736183166505
+loop end
+collecting 82
+Sampling...
+elapsed: 0.021637678146362305, spacing: 0.2, sleep: 0.1783623218536377
+loop end
+collecting 83
+Sampling...
+elapsed: 0.021558761596679688, spacing: 0.2, sleep: 0.17844123840332032
+loop end
+collecting 84
+Sampling...
+elapsed: 0.021449565887451172, spacing: 0.2, sleep: 0.17855043411254884
+loop end
+collecting 85
+Sampling...
+elapsed: 0.021468400955200195, spacing: 0.2, sleep: 0.17853159904479982
+loop end
+collecting 86
+Sampling...
+elapsed: 0.021432876586914062, spacing: 0.2, sleep: 0.17856712341308595
+loop end
+collecting 87
+Sampling...
+elapsed: 0.02159857749938965, spacing: 0.2, sleep: 0.17840142250061036
+loop end
+collecting 88
+Sampling...
+elapsed: 0.021557092666625977, spacing: 0.2, sleep: 0.17844290733337403
+loop end
+collecting 89
+Sampling...
+elapsed: 0.02151799201965332, spacing: 0.2, sleep: 0.1784820079803467
+loop end
+collecting 90
+Sampling...
+elapsed: 0.021437406539916992, spacing: 0.2, sleep: 0.17856259346008302
+loop end
+collecting 91
+Sampling...
+elapsed: 0.021424055099487305, spacing: 0.2, sleep: 0.1785759449005127
+loop end
+collecting 92
+Sampling...
+elapsed: 0.021534204483032227, spacing: 0.2, sleep: 0.17846579551696778
+loop end
+collecting 93
+Sampling...
+elapsed: 0.021502256393432617, spacing: 0.2, sleep: 0.1784977436065674
+loop end
+collecting 94
+Sampling...
+elapsed: 0.021485328674316406, spacing: 0.2, sleep: 0.1785146713256836
+loop end
+collecting 95
+Sampling...
+elapsed: 0.021452903747558594, spacing: 0.2, sleep: 0.17854709625244142
+loop end
+collecting 96
+Sampling...
+elapsed: 0.021420717239379883, spacing: 0.2, sleep: 0.17857928276062013
+loop end
+collecting 97
+Sampling...
+elapsed: 0.02150273323059082, spacing: 0.2, sleep: 0.1784972667694092
+loop end
+collecting 98
+Sampling...
+elapsed: 0.021486520767211914, spacing: 0.2, sleep: 0.1785134792327881
+loop end
+collecting 99
+Sampling...
+elapsed: 0.021510601043701172, spacing: 0.2, sleep: 0.17848939895629884
+loop end
+collecting 100
+Sampling...
+elapsed: 0.02154254913330078, spacing: 0.2, sleep: 0.17845745086669923
+loop end
+collecting 101
+Sampling...
+elapsed: 0.021589994430541992, spacing: 0.2, sleep: 0.17841000556945802
+loop end
+collecting 102
+Sampling...
+elapsed: 0.021472454071044922, spacing: 0.2, sleep: 0.1785275459289551
+loop end
+collecting 103
+Sampling...
+elapsed: 0.021504878997802734, spacing: 0.2, sleep: 0.17849512100219728
+loop end
+collecting 104
+Sampling...
+elapsed: 0.021521568298339844, spacing: 0.2, sleep: 0.17847843170166017
+loop end
+collecting 105
+Sampling...
+elapsed: 0.021462440490722656, spacing: 0.2, sleep: 0.17853755950927735
+loop end
+collecting 106
+Sampling...
+elapsed: 0.021509885787963867, spacing: 0.2, sleep: 0.17849011421203614
+loop end
+collecting 107
+Sampling...
+elapsed: 0.021437406539916992, spacing: 0.2, sleep: 0.17856259346008302
+loop end
+collecting 108
+Sampling...
+elapsed: 0.02149653434753418, spacing: 0.2, sleep: 0.17850346565246583
+loop end
+collecting 109
+Sampling...
+elapsed: 0.019970178604125977, spacing: 0.2, sleep: 0.18002982139587403
+loop end
+collecting 110
+Sampling...
+elapsed: 0.01993250846862793, spacing: 0.2, sleep: 0.18006749153137208
+loop end
+collecting 111
+Sampling...
+elapsed: 0.019862651824951172, spacing: 0.2, sleep: 0.18013734817504884
+loop end
+collecting 112
+Sampling...
+elapsed: 0.019853591918945312, spacing: 0.2, sleep: 0.1801464080810547
+loop end
+collecting 113
+Sampling...
+elapsed: 0.021497011184692383, spacing: 0.2, sleep: 0.17850298881530763
+loop end
+collecting 114
+Sampling...
+elapsed: 0.021463394165039062, spacing: 0.2, sleep: 0.17853660583496095
+loop end
+collecting 115
+Sampling...
+elapsed: 0.0216066837310791, spacing: 0.2, sleep: 0.1783933162689209
+loop end
+collecting 116
+Sampling...
+elapsed: 0.021460771560668945, spacing: 0.2, sleep: 0.17853922843933107
+loop end
+collecting 117
+Sampling...
+elapsed: 0.02160334587097168, spacing: 0.2, sleep: 0.17839665412902833
+loop end
+collecting 118
+Sampling...
+elapsed: 0.021490097045898438, spacing: 0.2, sleep: 0.17850990295410157
+loop end
+collecting 119
+Sampling...
+elapsed: 0.021472454071044922, spacing: 0.2, sleep: 0.1785275459289551
+loop end
+collecting 120
+Sampling...
+elapsed: 0.02150416374206543, spacing: 0.2, sleep: 0.17849583625793458
+loop end
+collecting 121
+Sampling...
+elapsed: 0.02149224281311035, spacing: 0.2, sleep: 0.17850775718688966
+loop end
+collecting 122
+Sampling...
+elapsed: 0.021596670150756836, spacing: 0.2, sleep: 0.17840332984924318
+loop end
+collecting 123
+Sampling...
+elapsed: 0.021480798721313477, spacing: 0.2, sleep: 0.17851920127868653
+loop end
+collecting 124
+Sampling...
+elapsed: 0.021431922912597656, spacing: 0.2, sleep: 0.17856807708740235
+loop end
+collecting 125
+Sampling...
+elapsed: 0.021652936935424805, spacing: 0.2, sleep: 0.1783470630645752
+loop end
+collecting 126
+Sampling...
+elapsed: 0.0214540958404541, spacing: 0.2, sleep: 0.1785459041595459
+loop end
+collecting 127
+Sampling...
+elapsed: 0.02195453643798828, spacing: 0.2, sleep: 0.17804546356201173
+loop end
+collecting 128
+Sampling...
+elapsed: 0.021600008010864258, spacing: 0.2, sleep: 0.17839999198913575
+loop end
+collecting 129
+Sampling...
+elapsed: 0.02153921127319336, spacing: 0.2, sleep: 0.17846078872680665
+loop end
+collecting 130
+Sampling...
+elapsed: 0.021700382232666016, spacing: 0.2, sleep: 0.178299617767334
+loop end
+collecting 131
+Sampling...
+elapsed: 0.022080659866333008, spacing: 0.2, sleep: 0.177919340133667
+loop end
+collecting 132
+Sampling...
+elapsed: 0.022118091583251953, spacing: 0.2, sleep: 0.17788190841674806
+loop end
+collecting 133
+Sampling...
+elapsed: 0.022206544876098633, spacing: 0.2, sleep: 0.17779345512390138
+loop end
+collecting 134
+Sampling...
+elapsed: 0.02217245101928711, spacing: 0.2, sleep: 0.1778275489807129
+loop end
+collecting 135
+Sampling...
+elapsed: 0.022175312042236328, spacing: 0.2, sleep: 0.17782468795776368
+loop end
+collecting 136
+Sampling...
+elapsed: 0.021683931350708008, spacing: 0.2, sleep: 0.178316068649292
+loop end
+collecting 137
+Sampling...
+elapsed: 0.02173471450805664, spacing: 0.2, sleep: 0.17826528549194337
+loop end
+collecting 138
+Sampling...
+elapsed: 0.021620750427246094, spacing: 0.2, sleep: 0.17837924957275392
+loop end
+collecting 139
+Sampling...
+elapsed: 0.021686792373657227, spacing: 0.2, sleep: 0.17831320762634278
+loop end
+collecting 140
+Sampling...
+elapsed: 0.021703004837036133, spacing: 0.2, sleep: 0.17829699516296388
+loop end
+collecting 141
+Sampling...
+elapsed: 0.021578073501586914, spacing: 0.2, sleep: 0.1784219264984131
+loop end
+collecting 142
+Sampling...
+elapsed: 0.021519899368286133, spacing: 0.2, sleep: 0.17848010063171388
+loop end
+collecting 143
+Sampling...
+elapsed: 0.02146601676940918, spacing: 0.2, sleep: 0.17853398323059083
+loop end
+collecting 144
+Sampling...
+elapsed: 0.021427631378173828, spacing: 0.2, sleep: 0.17857236862182618
+loop end
+collecting 145
+Sampling...
+elapsed: 0.02153944969177246, spacing: 0.2, sleep: 0.17846055030822755
+loop end
+collecting 146
+Sampling...
+elapsed: 0.021695375442504883, spacing: 0.2, sleep: 0.17830462455749513
+loop end
+collecting 147
+Sampling...
+elapsed: 0.022143840789794922, spacing: 0.2, sleep: 0.1778561592102051
+loop end
+collecting 148
+Sampling...
+elapsed: 0.02204751968383789, spacing: 0.2, sleep: 0.17795248031616212
+loop end
+collecting 149
+Sampling...
+elapsed: 0.02205061912536621, spacing: 0.2, sleep: 0.1779493808746338
+loop end
+collecting 150
+Sampling...
+elapsed: 0.022613048553466797, spacing: 0.2, sleep: 0.17738695144653321
+loop end
+collecting 151
+Sampling...
+elapsed: 0.022088050842285156, spacing: 0.2, sleep: 0.17791194915771485
+loop end
+collecting 152
+Sampling...
+elapsed: 0.021776914596557617, spacing: 0.2, sleep: 0.1782230854034424
+loop end
+collecting 153
+Sampling...
+elapsed: 0.021569252014160156, spacing: 0.2, sleep: 0.17843074798583985
+loop end
+collecting 154
+Sampling...
+elapsed: 0.021609067916870117, spacing: 0.2, sleep: 0.1783909320831299
+loop end
+collecting 155
+Sampling...
+elapsed: 0.021711349487304688, spacing: 0.2, sleep: 0.17828865051269532
+loop end
+collecting 156
+Sampling...
+elapsed: 0.021611928939819336, spacing: 0.2, sleep: 0.17838807106018068
+loop end
+collecting 157
+Sampling...
+elapsed: 0.02167487144470215, spacing: 0.2, sleep: 0.17832512855529786
+loop end
+collecting 158
+Sampling...
+elapsed: 0.021532773971557617, spacing: 0.2, sleep: 0.1784672260284424
+loop end
+collecting 159
+Sampling...
+elapsed: 0.021436452865600586, spacing: 0.2, sleep: 0.17856354713439943
+loop end
+collecting 160
+Sampling...
+elapsed: 0.02148914337158203, spacing: 0.2, sleep: 0.17851085662841798
+loop end
+collecting 161
+Sampling...
+elapsed: 0.021543264389038086, spacing: 0.2, sleep: 0.17845673561096193
+loop end
+collecting 162
+Sampling...
+elapsed: 0.0216217041015625, spacing: 0.2, sleep: 0.1783782958984375
+loop end
+collecting 163
+Sampling...
+elapsed: 0.022017240524291992, spacing: 0.2, sleep: 0.17798275947570802
+loop end
+collecting 164
+Sampling...
+elapsed: 0.022006750106811523, spacing: 0.2, sleep: 0.1779932498931885
+loop end
+collecting 165
+Sampling...
+elapsed: 0.02211761474609375, spacing: 0.2, sleep: 0.17788238525390626
+loop end
+collecting 166
+Sampling...
+elapsed: 0.02211475372314453, spacing: 0.2, sleep: 0.17788524627685548
+loop end
+collecting 167
+Sampling...
+elapsed: 0.022089719772338867, spacing: 0.2, sleep: 0.17791028022766114
+loop end
+collecting 168
+Sampling...
+elapsed: 0.021657466888427734, spacing: 0.2, sleep: 0.17834253311157228
+loop end
+collecting 169
+Sampling...
+elapsed: 0.021587610244750977, spacing: 0.2, sleep: 0.17841238975524903
+loop end
+collecting 170
+Sampling...
+elapsed: 0.021660327911376953, spacing: 0.2, sleep: 0.17833967208862306
+loop end
+collecting 171
+Sampling...
+elapsed: 0.0217437744140625, spacing: 0.2, sleep: 0.1782562255859375
+loop end
+collecting 172
+Sampling...
+elapsed: 0.02167654037475586, spacing: 0.2, sleep: 0.17832345962524415
+loop end
+collecting 173
+Sampling...
+elapsed: 0.021532297134399414, spacing: 0.2, sleep: 0.1784677028656006
+loop end
+collecting 174
+Sampling...
+elapsed: 0.0214536190032959, spacing: 0.2, sleep: 0.1785463809967041
+loop end
+collecting 175
+Sampling...
+elapsed: 0.03209090232849121, spacing: 0.2, sleep: 0.1679090976715088
+loop end
+collecting 176
+Sampling...
+elapsed: 0.021576404571533203, spacing: 0.2, sleep: 0.1784235954284668
+loop end
+collecting 177
+Sampling...
+elapsed: 0.02155303955078125, spacing: 0.2, sleep: 0.17844696044921876
+loop end
+collecting 178
+Sampling...
+elapsed: 0.021799087524414062, spacing: 0.2, sleep: 0.17820091247558595
+loop end
+collecting 179
+Sampling...
+elapsed: 0.02226400375366211, spacing: 0.2, sleep: 0.1777359962463379
+loop end
+collecting 180
+Sampling...
+elapsed: 0.022086620330810547, spacing: 0.2, sleep: 0.17791337966918946
+loop end
+collecting 181
+Sampling...
+elapsed: 0.02208995819091797, spacing: 0.2, sleep: 0.17791004180908204
+loop end
+collecting 182
+Sampling...
+elapsed: 0.022095918655395508, spacing: 0.2, sleep: 0.1779040813446045
+loop end
+collecting 183
+Sampling...
+elapsed: 0.022127866744995117, spacing: 0.2, sleep: 0.1778721332550049
+loop end
+collecting 184
+Sampling...
+elapsed: 0.021679401397705078, spacing: 0.2, sleep: 0.17832059860229493
+loop end
+collecting 185
+Sampling...
+elapsed: 0.021634817123413086, spacing: 0.2, sleep: 0.17836518287658693
+loop end
+collecting 186
+Sampling...
+elapsed: 0.02178955078125, spacing: 0.2, sleep: 0.17821044921875
+loop end
+collecting 187
+Sampling...
+elapsed: 0.021645307540893555, spacing: 0.2, sleep: 0.17835469245910646
+loop end
+collecting 188
+Sampling...
+elapsed: 0.021585464477539062, spacing: 0.2, sleep: 0.17841453552246095
+loop end
+collecting 189
+Sampling...
+elapsed: 0.02148914337158203, spacing: 0.2, sleep: 0.17851085662841798
+loop end
+collecting 190
+Sampling...
+elapsed: 0.02148604393005371, spacing: 0.2, sleep: 0.1785139560699463
+loop end
+collecting 191
+Sampling...
+elapsed: 0.021529436111450195, spacing: 0.2, sleep: 0.17847056388854982
+loop end
+collecting 192
+Sampling...
+elapsed: 0.02153778076171875, spacing: 0.2, sleep: 0.17846221923828126
+loop end
+collecting 193
+Sampling...
+elapsed: 0.021492958068847656, spacing: 0.2, sleep: 0.17850704193115235
+loop end
+collecting 194
+Sampling...
+elapsed: 0.021460294723510742, spacing: 0.2, sleep: 0.17853970527648927
+loop end
+collecting 195
+Sampling...
+elapsed: 0.022106409072875977, spacing: 0.2, sleep: 0.17789359092712403
+loop end
+collecting 196
+Sampling...
+elapsed: 0.022158384323120117, spacing: 0.2, sleep: 0.1778416156768799
+loop end
+collecting 197
+Sampling...
+elapsed: 0.02207016944885254, spacing: 0.2, sleep: 0.17792983055114747
+loop end
+collecting 198
+Sampling...
+elapsed: 0.022034168243408203, spacing: 0.2, sleep: 0.1779658317565918
+loop end
+collecting 199
+Sampling...
+elapsed: 0.0220184326171875, spacing: 0.2, sleep: 0.1779815673828125
+loop end
+collecting 200
+Sampling...
+elapsed: 0.03222918510437012, spacing: 0.2, sleep: 0.1677708148956299
+loop end
+collecting 201
+Sampling...
+elapsed: 0.021612167358398438, spacing: 0.2, sleep: 0.17838783264160157
+loop end
+collecting 202
+Sampling...
+elapsed: 0.021770715713500977, spacing: 0.2, sleep: 0.17822928428649903
+loop end
+collecting 203
+Sampling...
+elapsed: 0.021598100662231445, spacing: 0.2, sleep: 0.17840189933776857
+loop end
+collecting 204
+Sampling...
+elapsed: 0.02161431312561035, spacing: 0.2, sleep: 0.17838568687438966
+loop end
+collecting 205
+Sampling...
+elapsed: 0.02162337303161621, spacing: 0.2, sleep: 0.1783766269683838
+loop end
+collecting 206
+Sampling...
+elapsed: 0.021526575088500977, spacing: 0.2, sleep: 0.17847342491149903
+loop end
+collecting 207
+Sampling...
+elapsed: 0.021481752395629883, spacing: 0.2, sleep: 0.17851824760437013
+loop end
+collecting 208
+Sampling...
+elapsed: 0.02151966094970703, spacing: 0.2, sleep: 0.17848033905029298
+loop end
+collecting 209
+Sampling...
+elapsed: 0.021427154541015625, spacing: 0.2, sleep: 0.17857284545898439
+loop end
+collecting 210
+Sampling...
+elapsed: 0.021500110626220703, spacing: 0.2, sleep: 0.1784998893737793
+loop end
+collecting 211
+Sampling...
+elapsed: 0.022118330001831055, spacing: 0.2, sleep: 0.17788166999816896
+loop end
+collecting 212
+Sampling...
+elapsed: 0.022170066833496094, spacing: 0.2, sleep: 0.17782993316650392
+loop end
+collecting 213
+Sampling...
+elapsed: 0.02208685874938965, spacing: 0.2, sleep: 0.17791314125061036
+loop end
+collecting 214
+Sampling...
+elapsed: 0.022002220153808594, spacing: 0.2, sleep: 0.17799777984619142
+loop end
+collecting 215
+Sampling...
+elapsed: 0.02212381362915039, spacing: 0.2, sleep: 0.17787618637084962
+loop end
+collecting 216
+Sampling...
+elapsed: 0.021753311157226562, spacing: 0.2, sleep: 0.17824668884277345
+loop end
+collecting 217
+Sampling...
+elapsed: 0.02165818214416504, spacing: 0.2, sleep: 0.17834181785583497
+loop end
+collecting 218
+Sampling...
+elapsed: 0.02169632911682129, spacing: 0.2, sleep: 0.17830367088317872
+loop end
+collecting 219
+Sampling...
+elapsed: 0.0216372013092041, spacing: 0.2, sleep: 0.1783627986907959
+loop end
+collecting 220
+Sampling...
+elapsed: 0.021871566772460938, spacing: 0.2, sleep: 0.17812843322753907
+loop end
+collecting 221
+Sampling...
+elapsed: 0.02153301239013672, spacing: 0.2, sleep: 0.1784669876098633
+loop end
+collecting 222
+Sampling...
+elapsed: 0.021558761596679688, spacing: 0.2, sleep: 0.17844123840332032
+loop end
+collecting 223
+Sampling...
+elapsed: 0.021577119827270508, spacing: 0.2, sleep: 0.1784228801727295
+loop end
+collecting 224
+Sampling...
+elapsed: 0.021486997604370117, spacing: 0.2, sleep: 0.1785130023956299
+loop end
+collecting 225
+Sampling...
+elapsed: 0.03186321258544922, spacing: 0.2, sleep: 0.1681367874145508
+loop end
+collecting 226
+Sampling...
+elapsed: 0.02148270606994629, spacing: 0.2, sleep: 0.17851729393005372
+loop end
+collecting 227
+Sampling...
+elapsed: 0.022154808044433594, spacing: 0.2, sleep: 0.17784519195556642
+loop end
+collecting 228
+Sampling...
+elapsed: 0.022118568420410156, spacing: 0.2, sleep: 0.17788143157958985
+loop end
+collecting 229
+Sampling...
+elapsed: 0.022198915481567383, spacing: 0.2, sleep: 0.17780108451843263
+loop end
+collecting 230
+Sampling...
+elapsed: 0.022083520889282227, spacing: 0.2, sleep: 0.17791647911071778
+loop end
+collecting 231
+Sampling...
+elapsed: 0.02204608917236328, spacing: 0.2, sleep: 0.17795391082763673
+loop end
+collecting 232
+Sampling...
+elapsed: 0.021730899810791016, spacing: 0.2, sleep: 0.178269100189209
+loop end
+collecting 233
+Sampling...
+elapsed: 0.021924734115600586, spacing: 0.2, sleep: 0.17807526588439943
+loop end
+collecting 234
+Sampling...
+elapsed: 0.021736621856689453, spacing: 0.2, sleep: 0.17826337814331056
+loop end
+collecting 235
+Sampling...
+elapsed: 0.021694183349609375, spacing: 0.2, sleep: 0.17830581665039064
+loop end
+collecting 236
+Sampling...
+elapsed: 0.021604061126708984, spacing: 0.2, sleep: 0.17839593887329103
+loop end
+collecting 237
+Sampling...
+elapsed: 0.021553516387939453, spacing: 0.2, sleep: 0.17844648361206056
+loop end
+collecting 238
+Sampling...
+elapsed: 0.02155780792236328, spacing: 0.2, sleep: 0.17844219207763673
+loop end
+collecting 239
+Sampling...
+elapsed: 0.02169322967529297, spacing: 0.2, sleep: 0.17830677032470704
+loop end
+collecting 240
+Sampling...
+elapsed: 0.021463632583618164, spacing: 0.2, sleep: 0.17853636741638185
+loop end
+collecting 241
+Sampling...
+elapsed: 0.021457433700561523, spacing: 0.2, sleep: 0.1785425662994385
+loop end
+collecting 242
+Sampling...
+elapsed: 0.021492719650268555, spacing: 0.2, sleep: 0.17850728034973146
+loop end
+collecting 243
+Sampling...
+elapsed: 0.02220296859741211, spacing: 0.2, sleep: 0.1777970314025879
+loop end
+collecting 244
+Sampling...
+elapsed: 0.02231287956237793, spacing: 0.2, sleep: 0.17768712043762208
+loop end
+collecting 245
+Sampling...
+elapsed: 0.022435903549194336, spacing: 0.2, sleep: 0.17756409645080568
+loop end
+collecting 246
+Sampling...
+elapsed: 0.022046566009521484, spacing: 0.2, sleep: 0.17795343399047853
+loop end
+collecting 247
+Sampling...
+elapsed: 0.022071361541748047, spacing: 0.2, sleep: 0.17792863845825196
+loop end
+collecting 248
+Sampling...
+elapsed: 0.021785736083984375, spacing: 0.2, sleep: 0.17821426391601564
+loop end
+collecting 249
+Sampling...
+elapsed: 0.021722078323364258, spacing: 0.2, sleep: 0.17827792167663575
+loop end
+collecting 250
+Sampling...
+elapsed: 0.03248739242553711, spacing: 0.2, sleep: 0.1675126075744629
+loop end
+collecting 251
+Sampling...
+elapsed: 0.02160024642944336, spacing: 0.2, sleep: 0.17839975357055665
+loop end
+collecting 252
+Sampling...
+elapsed: 0.02167654037475586, spacing: 0.2, sleep: 0.17832345962524415
+loop end
+collecting 253
+Sampling...
+elapsed: 0.021654129028320312, spacing: 0.2, sleep: 0.1783458709716797
+loop end
+collecting 254
+Sampling...
+elapsed: 0.02166604995727539, spacing: 0.2, sleep: 0.17833395004272462
+loop end
+collecting 255
+Sampling...
+elapsed: 0.0215301513671875, spacing: 0.2, sleep: 0.1784698486328125
+loop end
+collecting 256
+Sampling...
+elapsed: 0.021442651748657227, spacing: 0.2, sleep: 0.17855734825134278
+loop end
+collecting 257
+Sampling...
+elapsed: 0.021459341049194336, spacing: 0.2, sleep: 0.17854065895080568
+loop end
+collecting 258
+Sampling...
+elapsed: 0.021486282348632812, spacing: 0.2, sleep: 0.1785137176513672
+loop end
+collecting 259
+Sampling...
+elapsed: 0.022408008575439453, spacing: 0.2, sleep: 0.17759199142456056
+loop end
+collecting 260
+Sampling...
+elapsed: 0.02208113670349121, spacing: 0.2, sleep: 0.1779188632965088
+loop end
+collecting 261
+Sampling...
+elapsed: 0.02200770378112793, spacing: 0.2, sleep: 0.17799229621887208
+loop end
+collecting 262
+Sampling...
+elapsed: 0.022106647491455078, spacing: 0.2, sleep: 0.17789335250854493
+loop end
+collecting 263
+Sampling...
+elapsed: 0.022098779678344727, spacing: 0.2, sleep: 0.17790122032165528
+loop end
+collecting 264
+Sampling...
+elapsed: 0.021914005279541016, spacing: 0.2, sleep: 0.178085994720459
+loop end
+collecting 265
+Sampling...
+elapsed: 0.02166438102722168, spacing: 0.2, sleep: 0.17833561897277833
+loop end
+collecting 266
+Sampling...
+elapsed: 0.021611928939819336, spacing: 0.2, sleep: 0.17838807106018068
+loop end
+collecting 267
+Sampling...
+elapsed: 0.021648645401000977, spacing: 0.2, sleep: 0.17835135459899903
+loop end
+collecting 268
+Sampling...
+elapsed: 0.021639585494995117, spacing: 0.2, sleep: 0.1783604145050049
+loop end
+collecting 269
+Sampling...
+elapsed: 0.02167201042175293, spacing: 0.2, sleep: 0.17832798957824708
+loop end
+collecting 270
+Sampling...
+elapsed: 0.021585941314697266, spacing: 0.2, sleep: 0.17841405868530275
+loop end
+collecting 271
+Sampling...
+elapsed: 0.021445512771606445, spacing: 0.2, sleep: 0.17855448722839357
+loop end
+collecting 272
+Sampling...
+elapsed: 0.021455049514770508, spacing: 0.2, sleep: 0.1785449504852295
+loop end
+collecting 273
+Sampling...
+elapsed: 0.02146291732788086, spacing: 0.2, sleep: 0.17853708267211915
+loop end
+collecting 274
+Sampling...
+elapsed: 0.021628856658935547, spacing: 0.2, sleep: 0.17837114334106446
+loop end
+collecting 275
+Sampling...
+elapsed: 0.03344321250915527, spacing: 0.2, sleep: 0.16655678749084474
+loop end
+collecting 276
+Sampling...
+elapsed: 0.022046327590942383, spacing: 0.2, sleep: 0.17795367240905763
+loop end
+collecting 277
+Sampling...
+elapsed: 0.022005319595336914, spacing: 0.2, sleep: 0.1779946804046631
+loop end
+collecting 278
+Sampling...
+elapsed: 0.022069692611694336, spacing: 0.2, sleep: 0.17793030738830568
+loop end
+collecting 279
+Sampling...
+elapsed: 0.022208213806152344, spacing: 0.2, sleep: 0.17779178619384767
+loop end
+collecting 280
+Sampling...
+elapsed: 0.021698713302612305, spacing: 0.2, sleep: 0.1783012866973877
+loop end
+collecting 281
+Sampling...
+elapsed: 0.021597623825073242, spacing: 0.2, sleep: 0.17840237617492677
+loop end
+collecting 282
+Sampling...
+elapsed: 0.021678686141967773, spacing: 0.2, sleep: 0.17832131385803224
+loop end
+collecting 283
+Sampling...
+elapsed: 0.021669387817382812, spacing: 0.2, sleep: 0.1783306121826172
+loop end
+collecting 284
+Sampling...
+elapsed: 0.02181077003479004, spacing: 0.2, sleep: 0.17818922996520997
+loop end
+collecting 285
+Sampling...
+elapsed: 0.02198314666748047, spacing: 0.2, sleep: 0.17801685333251954
+loop end
+collecting 286
+Sampling...
+elapsed: 0.021520137786865234, spacing: 0.2, sleep: 0.17847986221313478
+loop end
+collecting 287
+Sampling...
+elapsed: 0.021457433700561523, spacing: 0.2, sleep: 0.1785425662994385
+loop end
+collecting 288
+Sampling...
+elapsed: 0.02147197723388672, spacing: 0.2, sleep: 0.1785280227661133
+loop end
+collecting 289
+Sampling...
+elapsed: 0.02164435386657715, spacing: 0.2, sleep: 0.17835564613342286
+loop end
+collecting 290
+Sampling...
+elapsed: 0.021551132202148438, spacing: 0.2, sleep: 0.17844886779785157
+loop end
+collecting 291
+Sampling...
+elapsed: 0.022185564041137695, spacing: 0.2, sleep: 0.17781443595886232
+loop end
+collecting 292
+Sampling...
+elapsed: 0.022073745727539062, spacing: 0.2, sleep: 0.17792625427246095
+loop end
+collecting 293
+Sampling...
+elapsed: 0.022085189819335938, spacing: 0.2, sleep: 0.17791481018066407
+loop end
+collecting 294
+Sampling...
+elapsed: 0.022144317626953125, spacing: 0.2, sleep: 0.17785568237304689
+loop end
+collecting 295
+Sampling...
+elapsed: 0.022184371948242188, spacing: 0.2, sleep: 0.17781562805175782
+loop end
+collecting 296
+Sampling...
+elapsed: 0.021793842315673828, spacing: 0.2, sleep: 0.17820615768432618
+loop end
+collecting 297
+Sampling...
+elapsed: 0.0218966007232666, spacing: 0.2, sleep: 0.1781033992767334
+loop end
+collecting 298
+Sampling...
+elapsed: 0.021593093872070312, spacing: 0.2, sleep: 0.1784069061279297
+loop end
+collecting 299
+Sampling...
+elapsed: 0.02184915542602539, spacing: 0.2, sleep: 0.17815084457397462
+loop end
+collecting 300
+Sampling...
+elapsed: 0.03206515312194824, spacing: 0.2, sleep: 0.16793484687805177
+loop end
+collecting 301
+Sampling...
+elapsed: 0.021715641021728516, spacing: 0.2, sleep: 0.1782843589782715
+loop end
+collecting 302
+Sampling...
+elapsed: 0.021631717681884766, spacing: 0.2, sleep: 0.17836828231811525
+loop end
+collecting 303
+Sampling...
+elapsed: 0.021648645401000977, spacing: 0.2, sleep: 0.17835135459899903
+loop end
+collecting 304
+Sampling...
+elapsed: 0.021805763244628906, spacing: 0.2, sleep: 0.1781942367553711
+loop end
+collecting 305
+Sampling...
+elapsed: 0.02160191535949707, spacing: 0.2, sleep: 0.17839808464050294
+loop end
+collecting 306
+Sampling...
+elapsed: 0.02167654037475586, spacing: 0.2, sleep: 0.17832345962524415
+loop end
+collecting 307
+Sampling...
+elapsed: 0.022093534469604492, spacing: 0.2, sleep: 0.17790646553039552
+loop end
+collecting 308
+Sampling...
+elapsed: 0.02208852767944336, spacing: 0.2, sleep: 0.17791147232055665
+loop end
+collecting 309
+Sampling...
+elapsed: 0.02226996421813965, spacing: 0.2, sleep: 0.17773003578186036
+loop end
+collecting 310
+Sampling...
+elapsed: 0.02220892906188965, spacing: 0.2, sleep: 0.17779107093811036
+loop end
+collecting 311
+Sampling...
+elapsed: 0.02213263511657715, spacing: 0.2, sleep: 0.17786736488342286
+loop end
+collecting 312
+Sampling...
+elapsed: 0.021756887435913086, spacing: 0.2, sleep: 0.17824311256408693
+loop end
+collecting 313
+Sampling...
+elapsed: 0.021607160568237305, spacing: 0.2, sleep: 0.1783928394317627
+loop end
+collecting 314
+Sampling...
+elapsed: 0.021810531616210938, spacing: 0.2, sleep: 0.17818946838378907
+loop end
+collecting 315
+Sampling...
+elapsed: 0.02169513702392578, spacing: 0.2, sleep: 0.17830486297607423
+loop end
+collecting 316
+Sampling...
+elapsed: 0.021683216094970703, spacing: 0.2, sleep: 0.1783167839050293
+loop end
+collecting 317
+Sampling...
+elapsed: 0.021773576736450195, spacing: 0.2, sleep: 0.17822642326354982
+loop end
+collecting 318
+Sampling...
+elapsed: 0.02163863182067871, spacing: 0.2, sleep: 0.1783613681793213
+loop end
+collecting 319
+Sampling...
+elapsed: 0.02169966697692871, spacing: 0.2, sleep: 0.1783003330230713
+loop end
+collecting 320
+Sampling...
+elapsed: 0.02169179916381836, spacing: 0.2, sleep: 0.17830820083618165
+loop end
+collecting 321
+Sampling...
+elapsed: 0.021651506423950195, spacing: 0.2, sleep: 0.17834849357604982
+loop end
+collecting 322
+Sampling...
+elapsed: 0.021831750869750977, spacing: 0.2, sleep: 0.17816824913024903
+loop end
+collecting 323
+Sampling...
+elapsed: 0.02219390869140625, spacing: 0.2, sleep: 0.17780609130859376
+loop end
+collecting 324
+Sampling...
+elapsed: 0.022203922271728516, spacing: 0.2, sleep: 0.1777960777282715
+loop end
+collecting 325
+Sampling...
+elapsed: 0.03283190727233887, spacing: 0.2, sleep: 0.16716809272766114
+loop end
+collecting 326
+Sampling...
+elapsed: 0.022137165069580078, spacing: 0.2, sleep: 0.17786283493041993
+loop end
+collecting 327
+Sampling...
+elapsed: 0.02217245101928711, spacing: 0.2, sleep: 0.1778275489807129
+loop end
+collecting 328
+Sampling...
+elapsed: 0.021762371063232422, spacing: 0.2, sleep: 0.1782376289367676
+loop end
+collecting 329
+Sampling...
+elapsed: 0.02176213264465332, spacing: 0.2, sleep: 0.1782378673553467
+loop end
+collecting 330
+Sampling...
+elapsed: 0.021624326705932617, spacing: 0.2, sleep: 0.1783756732940674
+loop end
+collecting 331
+Sampling...
+elapsed: 0.021621227264404297, spacing: 0.2, sleep: 0.17837877273559571
+loop end
+collecting 332
+Sampling...
+elapsed: 0.021742582321166992, spacing: 0.2, sleep: 0.17825741767883302
+loop end
+collecting 333
+Sampling...
+elapsed: 0.021944046020507812, spacing: 0.2, sleep: 0.1780559539794922
+loop end
+collecting 334
+Sampling...
+elapsed: 0.021640539169311523, spacing: 0.2, sleep: 0.1783594608306885
+loop end
+collecting 335
+Sampling...
+elapsed: 0.021511077880859375, spacing: 0.2, sleep: 0.17848892211914064
+loop end
+collecting 336
+Sampling...
+elapsed: 0.021514177322387695, spacing: 0.2, sleep: 0.17848582267761232
+loop end
+collecting 337
+Sampling...
+elapsed: 0.021568775177001953, spacing: 0.2, sleep: 0.17843122482299806
+loop end
+collecting 338
+Sampling...
+elapsed: 0.021532058715820312, spacing: 0.2, sleep: 0.1784679412841797
+loop end
+collecting 339
+Sampling...
+elapsed: 0.02224588394165039, spacing: 0.2, sleep: 0.17775411605834962
+loop end
+collecting 340
+Sampling...
+elapsed: 0.02210092544555664, spacing: 0.2, sleep: 0.17789907455444337
+loop end
+collecting 341
+Sampling...
+elapsed: 0.022037267684936523, spacing: 0.2, sleep: 0.1779627323150635
+loop end
+collecting 342
+Sampling...
+elapsed: 0.022168636322021484, spacing: 0.2, sleep: 0.17783136367797853
+loop end
+collecting 343
+Sampling...
+elapsed: 0.022040605545043945, spacing: 0.2, sleep: 0.17795939445495607
+loop end
+collecting 344
+Sampling...
+elapsed: 0.02176499366760254, spacing: 0.2, sleep: 0.17823500633239747
+loop end
+collecting 345
+Sampling...
+elapsed: 0.021636486053466797, spacing: 0.2, sleep: 0.17836351394653321
+loop end
+collecting 346
+Sampling...
+elapsed: 0.02171468734741211, spacing: 0.2, sleep: 0.1782853126525879
+loop end
+collecting 347
+Sampling...
+elapsed: 0.02165365219116211, spacing: 0.2, sleep: 0.1783463478088379
+loop end
+collecting 348
+Sampling...
+elapsed: 0.02180790901184082, spacing: 0.2, sleep: 0.1781920909881592
+loop end
+collecting 349
+Sampling...
+elapsed: 0.021744251251220703, spacing: 0.2, sleep: 0.1782557487487793
+loop end
+collecting 350
+Sampling...
+elapsed: 0.038045406341552734, spacing: 0.2, sleep: 0.16195459365844728
+loop end
+collecting 351
+Sampling...
+elapsed: 0.021514415740966797, spacing: 0.2, sleep: 0.17848558425903321
+loop end
+collecting 352
+Sampling...
+elapsed: 0.02153921127319336, spacing: 0.2, sleep: 0.17846078872680665
+loop end
+collecting 353
+Sampling...
+elapsed: 0.021483898162841797, spacing: 0.2, sleep: 0.17851610183715821
+loop end
+collecting 354
+Sampling...
+elapsed: 0.02181863784790039, spacing: 0.2, sleep: 0.17818136215209962
+loop end
+collecting 355
+Sampling...
+elapsed: 0.022172212600708008, spacing: 0.2, sleep: 0.177827787399292
+loop end
+collecting 356
+Sampling...
+elapsed: 0.02195286750793457, spacing: 0.2, sleep: 0.17804713249206544
+loop end
+collecting 357
+Sampling...
+elapsed: 0.022151470184326172, spacing: 0.2, sleep: 0.17784852981567384
+loop end
+collecting 358
+Sampling...
+elapsed: 0.022106409072875977, spacing: 0.2, sleep: 0.17789359092712403
+loop end
+collecting 359
+Sampling...
+elapsed: 0.022188425064086914, spacing: 0.2, sleep: 0.1778115749359131
+loop end
+collecting 360
+Sampling...
+elapsed: 0.021683216094970703, spacing: 0.2, sleep: 0.1783167839050293
+loop end
+collecting 361
+Sampling...
+elapsed: 0.021672487258911133, spacing: 0.2, sleep: 0.17832751274108888
+loop end
+collecting 362
+Sampling...
+elapsed: 0.021740436553955078, spacing: 0.2, sleep: 0.17825956344604493
+loop end
+collecting 363
+Sampling...
+elapsed: 0.021630287170410156, spacing: 0.2, sleep: 0.17836971282958985
+loop end
+collecting 364
+Sampling...
+elapsed: 0.02176642417907715, spacing: 0.2, sleep: 0.17823357582092286
+loop end
+collecting 365
+Sampling...
+elapsed: 0.021646499633789062, spacing: 0.2, sleep: 0.17835350036621095
+loop end
+collecting 366
+Sampling...
+elapsed: 0.0214693546295166, spacing: 0.2, sleep: 0.1785306453704834
+loop end
+collecting 367
+Sampling...
+elapsed: 0.021485328674316406, spacing: 0.2, sleep: 0.1785146713256836
+loop end
+collecting 368
+Sampling...
+elapsed: 0.02152538299560547, spacing: 0.2, sleep: 0.17847461700439454
+loop end
+collecting 369
+Sampling...
+elapsed: 0.021615028381347656, spacing: 0.2, sleep: 0.17838497161865235
+loop end
+collecting 370
+Sampling...
+elapsed: 0.021634817123413086, spacing: 0.2, sleep: 0.17836518287658693
+loop end
+collecting 371
+Sampling...
+elapsed: 0.022094249725341797, spacing: 0.2, sleep: 0.17790575027465821
+loop end
+collecting 372
+Sampling...
+elapsed: 0.022095441818237305, spacing: 0.2, sleep: 0.1779045581817627
+loop end
+collecting 373
+Sampling...
+elapsed: 0.02402329444885254, spacing: 0.2, sleep: 0.17597670555114747
+loop end
+collecting 374
+Sampling...
+elapsed: 0.022252559661865234, spacing: 0.2, sleep: 0.17774744033813478
+loop end
+collecting 375
+Sampling...
+elapsed: 0.029668092727661133, spacing: 0.2, sleep: 0.17033190727233888
+loop end
+collecting 376
+Sampling...
+elapsed: 0.021731138229370117, spacing: 0.2, sleep: 0.1782688617706299
+loop end
+collecting 377
+Sampling...
+elapsed: 0.02170729637145996, spacing: 0.2, sleep: 0.17829270362854005
+loop end
+collecting 378
+Sampling...
+elapsed: 0.02159428596496582, spacing: 0.2, sleep: 0.1784057140350342
+loop end
+collecting 379
+Sampling...
+elapsed: 0.021764516830444336, spacing: 0.2, sleep: 0.17823548316955568
+loop end
+collecting 380
+Sampling...
+elapsed: 0.02165818214416504, spacing: 0.2, sleep: 0.17834181785583497
+loop end
+collecting 381
+Sampling...
+elapsed: 0.022348880767822266, spacing: 0.2, sleep: 0.17765111923217775
+loop end
+collecting 382
+Sampling...
+elapsed: 0.021575927734375, spacing: 0.2, sleep: 0.178424072265625
+loop end
+collecting 383
+Sampling...
+elapsed: 0.021454334259033203, spacing: 0.2, sleep: 0.1785456657409668
+loop end
+collecting 384
+Sampling...
+elapsed: 0.021555662155151367, spacing: 0.2, sleep: 0.17844433784484864
+loop end
+collecting 385
+Sampling...
+elapsed: 0.02161407470703125, spacing: 0.2, sleep: 0.17838592529296876
+loop end
+collecting 386
+Sampling...
+elapsed: 0.02148270606994629, spacing: 0.2, sleep: 0.17851729393005372
+loop end
+collecting 387
+Sampling...
+elapsed: 0.021603822708129883, spacing: 0.2, sleep: 0.17839617729187013
+loop end
+collecting 388
+Sampling...
+elapsed: 0.02149486541748047, spacing: 0.2, sleep: 0.17850513458251954
+loop end
+collecting 389
+Sampling...
+elapsed: 0.021456480026245117, spacing: 0.2, sleep: 0.1785435199737549
+loop end
+collecting 390
+Sampling...
+elapsed: 0.021465539932250977, spacing: 0.2, sleep: 0.17853446006774903
+loop end
+collecting 391
+Sampling...
+elapsed: 0.02151656150817871, spacing: 0.2, sleep: 0.1784834384918213
+loop end
+collecting 392
+Sampling...
+elapsed: 0.021564722061157227, spacing: 0.2, sleep: 0.17843527793884278
+loop end
+collecting 393
+Sampling...
+elapsed: 0.021502256393432617, spacing: 0.2, sleep: 0.1784977436065674
+loop end
+collecting 394
+Sampling...
+elapsed: 0.021426677703857422, spacing: 0.2, sleep: 0.1785733222961426
+loop end
+collecting 395
+Sampling...
+elapsed: 0.02142786979675293, spacing: 0.2, sleep: 0.17857213020324708
+loop end
+collecting 396
+Sampling...
+elapsed: 0.02153611183166504, spacing: 0.2, sleep: 0.17846388816833497
+loop end
+collecting 397
+Sampling...
+elapsed: 0.02159428596496582, spacing: 0.2, sleep: 0.1784057140350342
+loop end
+collecting 398
+Sampling...
+elapsed: 0.021441221237182617, spacing: 0.2, sleep: 0.1785587787628174
+loop end
+collecting 399
+Sampling...
+elapsed: 0.021427392959594727, spacing: 0.2, sleep: 0.17857260704040528
+loop end
+collecting 400
+Sampling...
+elapsed: 0.021638154983520508, spacing: 0.2, sleep: 0.1783618450164795
+loop end
+collecting 401
+Sampling...
+elapsed: 0.021468400955200195, spacing: 0.2, sleep: 0.17853159904479982
+loop end
+collecting 402
+Sampling...
+elapsed: 0.021489620208740234, spacing: 0.2, sleep: 0.17851037979125978
+loop end
+collecting 403
+Sampling...
+elapsed: 0.021457910537719727, spacing: 0.2, sleep: 0.17854208946228028
+loop end
+collecting 404
+Sampling...
+elapsed: 0.021457433700561523, spacing: 0.2, sleep: 0.1785425662994385
+loop end
+collecting 405
+Sampling...
+elapsed: 0.021573305130004883, spacing: 0.2, sleep: 0.17842669486999513
+loop end
+collecting 406
+Sampling...
+elapsed: 0.02144622802734375, spacing: 0.2, sleep: 0.17855377197265626
+loop end
+collecting 407
+Sampling...
+elapsed: 0.0214688777923584, spacing: 0.2, sleep: 0.1785311222076416
+loop end
+collecting 408
+Sampling...
+elapsed: 0.021495580673217773, spacing: 0.2, sleep: 0.17850441932678224
+loop end
+collecting 409
+Sampling...
+elapsed: 0.021488189697265625, spacing: 0.2, sleep: 0.17851181030273439
+loop end
+collecting 410
+Sampling...
+elapsed: 0.021451950073242188, spacing: 0.2, sleep: 0.17854804992675782
+loop end
+collecting 411
+Sampling...
+elapsed: 0.021632671356201172, spacing: 0.2, sleep: 0.17836732864379884
+loop end
+collecting 412
+Sampling...
+elapsed: 0.0214691162109375, spacing: 0.2, sleep: 0.1785308837890625
+loop end
+collecting 413
+Sampling...
+elapsed: 0.02145981788635254, spacing: 0.2, sleep: 0.17854018211364747
+loop end
+collecting 414
+Sampling...
+elapsed: 0.021465301513671875, spacing: 0.2, sleep: 0.17853469848632814
+loop end
+collecting 415
+Sampling...
+elapsed: 0.021473169326782227, spacing: 0.2, sleep: 0.17852683067321778
+loop end
+collecting 416
+Sampling...
+elapsed: 0.021552085876464844, spacing: 0.2, sleep: 0.17844791412353517
+loop end
+collecting 417
+Sampling...
+elapsed: 0.02147078514099121, spacing: 0.2, sleep: 0.1785292148590088
+loop end
+collecting 418
+Sampling...
+elapsed: 0.021409988403320312, spacing: 0.2, sleep: 0.1785900115966797
+loop end
+collecting 419
+Sampling...
+elapsed: 0.021504878997802734, spacing: 0.2, sleep: 0.17849512100219728
+loop end
+collecting 420
+Sampling...
+elapsed: 0.021448850631713867, spacing: 0.2, sleep: 0.17855114936828614
+loop end
+collecting 421
+Sampling...
+elapsed: 0.021572589874267578, spacing: 0.2, sleep: 0.17842741012573243
+loop end
+collecting 422
+Sampling...
+elapsed: 0.021545886993408203, spacing: 0.2, sleep: 0.1784541130065918
+loop end
+collecting 423
+Sampling...
+elapsed: 0.021443605422973633, spacing: 0.2, sleep: 0.17855639457702638
+loop end
+collecting 424
+Sampling...
+elapsed: 0.02149653434753418, spacing: 0.2, sleep: 0.17850346565246583
+loop end
+collecting 425
+Sampling...
+elapsed: 0.021769046783447266, spacing: 0.2, sleep: 0.17823095321655275
+loop end
+collecting 426
+Sampling...
+elapsed: 0.02145528793334961, spacing: 0.2, sleep: 0.1785447120666504
+loop end
+collecting 427
+Sampling...
+elapsed: 0.021634340286254883, spacing: 0.2, sleep: 0.17836565971374513
+loop end
+collecting 428
+Sampling...
+elapsed: 0.021471500396728516, spacing: 0.2, sleep: 0.1785284996032715
+loop end
+collecting 429
+Sampling...
+elapsed: 0.02149176597595215, spacing: 0.2, sleep: 0.17850823402404786
+loop end
+collecting 430
+Sampling...
+elapsed: 0.021448135375976562, spacing: 0.2, sleep: 0.17855186462402345
+loop end
+collecting 431
+Sampling...
+elapsed: 0.021430492401123047, spacing: 0.2, sleep: 0.17856950759887696
+loop end
+collecting 432
+Sampling...
+elapsed: 0.021506547927856445, spacing: 0.2, sleep: 0.17849345207214357
+loop end
+collecting 433
+Sampling...
+elapsed: 0.0214231014251709, spacing: 0.2, sleep: 0.1785768985748291
+loop end
+collecting 434
+Sampling...
+elapsed: 0.021547317504882812, spacing: 0.2, sleep: 0.1784526824951172
+loop end
+collecting 435
+Sampling...
+elapsed: 0.021474838256835938, spacing: 0.2, sleep: 0.17852516174316407
+loop end
+collecting 436
+Sampling...
+elapsed: 0.021538972854614258, spacing: 0.2, sleep: 0.17846102714538575
+loop end
+collecting 437
+Sampling...
+elapsed: 0.021518230438232422, spacing: 0.2, sleep: 0.1784817695617676
+loop end
+collecting 438
+Sampling...
+elapsed: 0.021411895751953125, spacing: 0.2, sleep: 0.17858810424804689
+loop end
+collecting 439
+Sampling...
+elapsed: 0.021453380584716797, spacing: 0.2, sleep: 0.17854661941528321
+loop end
+collecting 440
+Sampling...
+elapsed: 0.021842479705810547, spacing: 0.2, sleep: 0.17815752029418946
+loop end
+collecting 441
+Sampling...
+elapsed: 0.021849393844604492, spacing: 0.2, sleep: 0.17815060615539552
+loop end
+collecting 442
+Sampling...
+elapsed: 0.021813631057739258, spacing: 0.2, sleep: 0.17818636894226075
+loop end
+collecting 443
+Sampling...
+elapsed: 0.021445751190185547, spacing: 0.2, sleep: 0.17855424880981446
+loop end
+collecting 444
+Sampling...
+elapsed: 0.021472454071044922, spacing: 0.2, sleep: 0.1785275459289551
+loop end
+collecting 445
+Sampling...
+elapsed: 0.0214993953704834, spacing: 0.2, sleep: 0.1785006046295166
+loop end
+collecting 446
+Sampling...
+elapsed: 0.02154684066772461, spacing: 0.2, sleep: 0.1784531593322754
+loop end
+collecting 447
+Sampling...
+elapsed: 0.02148580551147461, spacing: 0.2, sleep: 0.1785141944885254
+loop end
+collecting 448
+Sampling...
+elapsed: 0.021443605422973633, spacing: 0.2, sleep: 0.17855639457702638
+loop end
+collecting 449
+Sampling...
+elapsed: 0.021479129791259766, spacing: 0.2, sleep: 0.17852087020874025
+loop end
+collecting 450
+Sampling...
+elapsed: 0.02184605598449707, spacing: 0.2, sleep: 0.17815394401550294
+loop end
+collecting 451
+Sampling...
+elapsed: 0.021574735641479492, spacing: 0.2, sleep: 0.17842526435852052
+loop end
+collecting 452
+Sampling...
+elapsed: 0.021486520767211914, spacing: 0.2, sleep: 0.1785134792327881
+loop end
+collecting 453
+Sampling...
+elapsed: 0.021405458450317383, spacing: 0.2, sleep: 0.17859454154968263
+loop end
+collecting 454
+Sampling...
+elapsed: 0.02153921127319336, spacing: 0.2, sleep: 0.17846078872680665
+loop end
+collecting 455
+Sampling...
+elapsed: 0.021456480026245117, spacing: 0.2, sleep: 0.1785435199737549
+loop end
+collecting 456
+Sampling...
+elapsed: 0.021540164947509766, spacing: 0.2, sleep: 0.17845983505249025
+loop end
+collecting 457
+Sampling...
+elapsed: 0.021459102630615234, spacing: 0.2, sleep: 0.17854089736938478
+loop end
+collecting 458
+Sampling...
+elapsed: 0.021410703659057617, spacing: 0.2, sleep: 0.1785892963409424
+loop end
+collecting 459
+Sampling...
+elapsed: 0.02152705192565918, spacing: 0.2, sleep: 0.17847294807434083
+loop end
+collecting 460
+Sampling...
+elapsed: 0.0214693546295166, spacing: 0.2, sleep: 0.1785306453704834
+loop end
+collecting 461
+Sampling...
+elapsed: 0.021613597869873047, spacing: 0.2, sleep: 0.17838640213012696
+loop end
+collecting 462
+Sampling...
+elapsed: 0.021526575088500977, spacing: 0.2, sleep: 0.17847342491149903
+loop end
+collecting 463
+Sampling...
+elapsed: 0.02141427993774414, spacing: 0.2, sleep: 0.17858572006225587
+loop end
+collecting 464
+Sampling...
+elapsed: 0.02144002914428711, spacing: 0.2, sleep: 0.1785599708557129
+loop end
+collecting 465
+Sampling...
+elapsed: 0.021437644958496094, spacing: 0.2, sleep: 0.17856235504150392
+loop end
+collecting 466
+Sampling...
+elapsed: 0.021628379821777344, spacing: 0.2, sleep: 0.17837162017822267
+loop end
+collecting 467
+Sampling...
+elapsed: 0.021556377410888672, spacing: 0.2, sleep: 0.17844362258911134
+loop end
+collecting 468
+Sampling...
+elapsed: 0.021433115005493164, spacing: 0.2, sleep: 0.17856688499450685
+loop end
+collecting 469
+Sampling...
+elapsed: 0.021437406539916992, spacing: 0.2, sleep: 0.17856259346008302
+loop end
+collecting 470
+Sampling...
+elapsed: 0.021442174911499023, spacing: 0.2, sleep: 0.178557825088501
+loop end
+collecting 471
+Sampling...
+elapsed: 0.021577119827270508, spacing: 0.2, sleep: 0.1784228801727295
+loop end
+collecting 472
+Sampling...
+elapsed: 0.021584749221801758, spacing: 0.2, sleep: 0.17841525077819825
+loop end
+collecting 473
+Sampling...
+elapsed: 0.02142810821533203, spacing: 0.2, sleep: 0.17857189178466798
+loop end
+collecting 474
+Sampling...
+elapsed: 0.022106409072875977, spacing: 0.2, sleep: 0.17789359092712403
+loop end
+collecting 475
+Sampling...
+elapsed: 0.02158808708190918, spacing: 0.2, sleep: 0.17841191291809083
+loop end
+collecting 476
+Sampling...
+elapsed: 0.021602630615234375, spacing: 0.2, sleep: 0.17839736938476564
+loop end
+collecting 477
+Sampling...
+elapsed: 0.021523237228393555, spacing: 0.2, sleep: 0.17847676277160646
+loop end
+collecting 478
+Sampling...
+elapsed: 0.021443605422973633, spacing: 0.2, sleep: 0.17855639457702638
+loop end
+collecting 479
+Sampling...
+elapsed: 0.021565675735473633, spacing: 0.2, sleep: 0.17843432426452638
+loop end
+collecting 480
+Sampling...
+elapsed: 0.021415233612060547, spacing: 0.2, sleep: 0.17858476638793946
+loop end
+collecting 481
+Sampling...
+elapsed: 0.02158379554748535, spacing: 0.2, sleep: 0.17841620445251466
+loop end
+collecting 482
+Sampling...
+elapsed: 0.021559715270996094, spacing: 0.2, sleep: 0.17844028472900392
+loop end
+collecting 483
+Sampling...
+elapsed: 0.02146434783935547, spacing: 0.2, sleep: 0.17853565216064454
+loop end
+collecting 484
+Sampling...
+elapsed: 0.02151966094970703, spacing: 0.2, sleep: 0.17848033905029298
+loop end
+collecting 485
+Sampling...
+elapsed: 0.02147388458251953, spacing: 0.2, sleep: 0.17852611541748048
+loop end
+collecting 486
+Sampling...
+elapsed: 0.021596908569335938, spacing: 0.2, sleep: 0.17840309143066407
+loop end
+collecting 487
+Sampling...
+elapsed: 0.021489381790161133, spacing: 0.2, sleep: 0.17851061820983888
+loop end
+collecting 488
+Sampling...
+elapsed: 0.021497488021850586, spacing: 0.2, sleep: 0.17850251197814943
+loop end
+collecting 489
+Sampling...
+elapsed: 0.02143549919128418, spacing: 0.2, sleep: 0.17856450080871583
+loop end
+collecting 490
+Sampling...
+elapsed: 0.02147078514099121, spacing: 0.2, sleep: 0.1785292148590088
+loop end
+collecting 491
+Sampling...
+elapsed: 0.021518945693969727, spacing: 0.2, sleep: 0.17848105430603028
+loop end
+collecting 492
+Sampling...
+elapsed: 0.02150750160217285, spacing: 0.2, sleep: 0.17849249839782716
+loop end
+collecting 493
+Sampling...
+elapsed: 0.02146315574645996, spacing: 0.2, sleep: 0.17853684425354005
+loop end
+collecting 494
+Sampling...
+elapsed: 0.021433591842651367, spacing: 0.2, sleep: 0.17856640815734864
+loop end
+collecting 495
+Sampling...
+elapsed: 0.02142190933227539, spacing: 0.2, sleep: 0.17857809066772462
+loop end
+collecting 496
+Sampling...
+elapsed: 0.021542072296142578, spacing: 0.2, sleep: 0.17845792770385743
+loop end
+collecting 497
+Sampling...
+elapsed: 0.021544694900512695, spacing: 0.2, sleep: 0.17845530509948732
+loop end
+collecting 498
+Sampling...
+elapsed: 0.021412134170532227, spacing: 0.2, sleep: 0.17858786582946778
+loop end
+collecting 499
+Sampling...
+elapsed: 0.021587371826171875, spacing: 0.2, sleep: 0.17841262817382814
+loop end
+collecting 500
+Sampling...
+elapsed: 0.021706581115722656, spacing: 0.2, sleep: 0.17829341888427735
+loop end
+collecting 501
+Sampling...
+elapsed: 0.021482229232788086, spacing: 0.2, sleep: 0.17851777076721193
+loop end
+collecting 502
+Sampling...
+elapsed: 0.02155280113220215, spacing: 0.2, sleep: 0.17844719886779786
+loop end
+collecting 503
+Sampling...
+elapsed: 0.021425485610961914, spacing: 0.2, sleep: 0.1785745143890381
+loop end
+collecting 504
+Sampling...
+elapsed: 0.02149343490600586, spacing: 0.2, sleep: 0.17850656509399415
+loop end
+collecting 505
+Sampling...
+elapsed: 0.02143239974975586, spacing: 0.2, sleep: 0.17856760025024415
+loop end
+collecting 506
+Sampling...
+elapsed: 0.021608591079711914, spacing: 0.2, sleep: 0.1783914089202881
+loop end
+collecting 507
+Sampling...
+elapsed: 0.02153754234313965, spacing: 0.2, sleep: 0.17846245765686036
+loop end
+collecting 508
+Sampling...
+elapsed: 0.021406888961791992, spacing: 0.2, sleep: 0.17859311103820802
+loop end
+collecting 509
+Sampling...
+elapsed: 0.021501779556274414, spacing: 0.2, sleep: 0.1784982204437256
+loop end
+collecting 510
+Sampling...
+elapsed: 0.021451950073242188, spacing: 0.2, sleep: 0.17854804992675782
+loop end
+collecting 511
+Sampling...
+elapsed: 0.021576404571533203, spacing: 0.2, sleep: 0.1784235954284668
+loop end
+collecting 512
+Sampling...
+elapsed: 0.021549224853515625, spacing: 0.2, sleep: 0.17845077514648439
+loop end
+collecting 513
+Sampling...
+elapsed: 0.021414995193481445, spacing: 0.2, sleep: 0.17858500480651857
+loop end
+collecting 514
+Sampling...
+elapsed: 0.021445751190185547, spacing: 0.2, sleep: 0.17855424880981446
+loop end
+collecting 515
+Sampling...
+elapsed: 0.021468400955200195, spacing: 0.2, sleep: 0.17853159904479982
+loop end
+collecting 516
+Sampling...
+elapsed: 0.021553754806518555, spacing: 0.2, sleep: 0.17844624519348146
+loop end
+collecting 517
+Sampling...
+elapsed: 0.02153635025024414, spacing: 0.2, sleep: 0.17846364974975587
+loop end
+collecting 518
+Sampling...
+elapsed: 0.02142930030822754, spacing: 0.2, sleep: 0.17857069969177247
+loop end
+collecting 519
+Sampling...
+elapsed: 0.02142810821533203, spacing: 0.2, sleep: 0.17857189178466798
+loop end
+collecting 520
+Sampling...
+elapsed: 0.021497488021850586, spacing: 0.2, sleep: 0.17850251197814943
+loop end
+collecting 521
+Sampling...
+elapsed: 0.02161240577697754, spacing: 0.2, sleep: 0.17838759422302247
+loop end
+collecting 522
+Sampling...
+elapsed: 0.02157759666442871, spacing: 0.2, sleep: 0.1784224033355713
+loop end
+collecting 523
+Sampling...
+elapsed: 0.0214841365814209, spacing: 0.2, sleep: 0.1785158634185791
+loop end
+collecting 524
+Sampling...
+elapsed: 0.021593332290649414, spacing: 0.2, sleep: 0.1784066677093506
+loop end
+collecting 525
+Sampling...
+elapsed: 0.02169346809387207, spacing: 0.2, sleep: 0.17830653190612794
+loop end
+collecting 526
+Sampling...
+elapsed: 0.021584033966064453, spacing: 0.2, sleep: 0.17841596603393556
+loop end
+collecting 527
+Sampling...
+elapsed: 0.021503210067749023, spacing: 0.2, sleep: 0.178496789932251
+loop end
+collecting 528
+Sampling...
+elapsed: 0.021434783935546875, spacing: 0.2, sleep: 0.17856521606445314
+loop end
+collecting 529
+Sampling...
+elapsed: 0.021502256393432617, spacing: 0.2, sleep: 0.1784977436065674
+loop end
+collecting 530
+Sampling...
+elapsed: 0.02144598960876465, spacing: 0.2, sleep: 0.17855401039123536
+loop end
+collecting 531
+Sampling...
+elapsed: 0.021466970443725586, spacing: 0.2, sleep: 0.17853302955627443
+loop end
+collecting 532
+Sampling...
+elapsed: 0.02150416374206543, spacing: 0.2, sleep: 0.17849583625793458
+loop end
+collecting 533
+Sampling...
+elapsed: 0.021451234817504883, spacing: 0.2, sleep: 0.17854876518249513
+loop end
+collecting 534
+Sampling...
+elapsed: 0.021498441696166992, spacing: 0.2, sleep: 0.17850155830383302
+loop end
+collecting 535
+Sampling...
+elapsed: 0.021420717239379883, spacing: 0.2, sleep: 0.17857928276062013
+loop end
+collecting 536
+Sampling...
+elapsed: 0.021587610244750977, spacing: 0.2, sleep: 0.17841238975524903
+loop end
+collecting 537
+Sampling...
+elapsed: 0.02148890495300293, spacing: 0.2, sleep: 0.17851109504699708
+loop end
+collecting 538
+Sampling...
+elapsed: 0.021445512771606445, spacing: 0.2, sleep: 0.17855448722839357
+loop end
+collecting 539
+Sampling...
+elapsed: 0.02149033546447754, spacing: 0.2, sleep: 0.17850966453552247
+loop end
+collecting 540
+Sampling...
+elapsed: 0.02142786979675293, spacing: 0.2, sleep: 0.17857213020324708
+loop end
+collecting 541
+Sampling...
+elapsed: 0.021573305130004883, spacing: 0.2, sleep: 0.17842669486999513
+loop end
+collecting 542
+Sampling...
+elapsed: 0.021472692489624023, spacing: 0.2, sleep: 0.178527307510376
+loop end
+collecting 543
+Sampling...
+elapsed: 0.021432876586914062, spacing: 0.2, sleep: 0.17856712341308595
+loop end
+collecting 544
+Sampling...
+elapsed: 0.02145671844482422, spacing: 0.2, sleep: 0.1785432815551758
+loop end
+collecting 545
+Sampling...
+elapsed: 0.021477222442626953, spacing: 0.2, sleep: 0.17852277755737306
+loop end
+collecting 546
+Sampling...
+elapsed: 0.0217587947845459, spacing: 0.2, sleep: 0.1782412052154541
+loop end
+collecting 547
+Sampling...
+elapsed: 0.02152276039123535, spacing: 0.2, sleep: 0.17847723960876466
+loop end
+collecting 548
+Sampling...
+elapsed: 0.021444082260131836, spacing: 0.2, sleep: 0.17855591773986818
+loop end
+collecting 549
+Sampling...
+elapsed: 0.021635055541992188, spacing: 0.2, sleep: 0.17836494445800782
+loop end
+collecting 550
+Sampling...
+elapsed: 0.021531343460083008, spacing: 0.2, sleep: 0.178468656539917
+loop end
+collecting 551
+Sampling...
+elapsed: 0.021592378616333008, spacing: 0.2, sleep: 0.178407621383667
+loop end
+collecting 552
+Sampling...
+elapsed: 0.021521806716918945, spacing: 0.2, sleep: 0.17847819328308107
+loop end
+collecting 553
+Sampling...
+elapsed: 0.021483898162841797, spacing: 0.2, sleep: 0.17851610183715821
+loop end
+collecting 554
+Sampling...
+elapsed: 0.0214383602142334, spacing: 0.2, sleep: 0.1785616397857666
+loop end
+collecting 555
+Sampling...
+elapsed: 0.021437644958496094, spacing: 0.2, sleep: 0.17856235504150392
+loop end
+collecting 556
+Sampling...
+elapsed: 0.021435976028442383, spacing: 0.2, sleep: 0.17856402397155763
+loop end
+collecting 557
+Sampling...
+elapsed: 0.021595239639282227, spacing: 0.2, sleep: 0.17840476036071778
+loop end
+collecting 558
+Sampling...
+elapsed: 0.021416664123535156, spacing: 0.2, sleep: 0.17858333587646485
+loop end
+collecting 559
+Sampling...
+elapsed: 0.021467208862304688, spacing: 0.2, sleep: 0.17853279113769532
+loop end
+collecting 560
+Sampling...
+elapsed: 0.021428823471069336, spacing: 0.2, sleep: 0.17857117652893068
+loop end
+collecting 561
+Sampling...
+elapsed: 0.021548032760620117, spacing: 0.2, sleep: 0.1784519672393799
+loop end
+collecting 562
+Sampling...
+elapsed: 0.02151799201965332, spacing: 0.2, sleep: 0.1784820079803467
+loop end
+collecting 563
+Sampling...
+elapsed: 0.021538496017456055, spacing: 0.2, sleep: 0.17846150398254396
+loop end
+collecting 564
+Sampling...
+elapsed: 0.021450519561767578, spacing: 0.2, sleep: 0.17854948043823243
+loop end
+collecting 565
+Sampling...
+elapsed: 0.02145099639892578, spacing: 0.2, sleep: 0.17854900360107423
+loop end
+collecting 566
+Sampling...
+elapsed: 0.021524906158447266, spacing: 0.2, sleep: 0.17847509384155275
+loop end
+collecting 567
+Sampling...
+elapsed: 0.02151036262512207, spacing: 0.2, sleep: 0.17848963737487794
+loop end
+collecting 568
+Sampling...
+elapsed: 0.021558046340942383, spacing: 0.2, sleep: 0.17844195365905763
+loop end
+collecting 569
+Sampling...
+elapsed: 0.02145528793334961, spacing: 0.2, sleep: 0.1785447120666504
+loop end
+collecting 570
+Sampling...
+elapsed: 0.021407127380371094, spacing: 0.2, sleep: 0.17859287261962892
+loop end
+collecting 571
+Sampling...
+elapsed: 0.021478652954101562, spacing: 0.2, sleep: 0.17852134704589845
+loop end
+collecting 572
+Sampling...
+elapsed: 0.02153801918029785, spacing: 0.2, sleep: 0.17846198081970216
+loop end
+collecting 573
+Sampling...
+elapsed: 0.021472930908203125, spacing: 0.2, sleep: 0.17852706909179689
+loop end
+collecting 574
+Sampling...
+elapsed: 0.021587133407592773, spacing: 0.2, sleep: 0.17841286659240724
+loop end
+collecting 575
+Sampling...
+elapsed: 0.021575212478637695, spacing: 0.2, sleep: 0.17842478752136232
+loop end
+collecting 576
+Sampling...
+elapsed: 0.021495342254638672, spacing: 0.2, sleep: 0.17850465774536134
+loop end
+collecting 577
+Sampling...
+elapsed: 0.021434545516967773, spacing: 0.2, sleep: 0.17856545448303224
+loop end
+collecting 578
+Sampling...
+elapsed: 0.021455764770507812, spacing: 0.2, sleep: 0.1785442352294922
+loop end
+collecting 579
+Sampling...
+elapsed: 0.021472930908203125, spacing: 0.2, sleep: 0.17852706909179689
+loop end
+collecting 580
+Sampling...
+elapsed: 0.0214385986328125, spacing: 0.2, sleep: 0.1785614013671875
+loop end
+collecting 581
+Sampling...
+elapsed: 0.021849393844604492, spacing: 0.2, sleep: 0.17815060615539552
+loop end
+collecting 582
+Sampling...
+elapsed: 0.021486282348632812, spacing: 0.2, sleep: 0.1785137176513672
+loop end
+collecting 583
+Sampling...
+elapsed: 0.02142024040222168, spacing: 0.2, sleep: 0.17857975959777833
+loop end
+collecting 584
+Sampling...
+elapsed: 0.021495819091796875, spacing: 0.2, sleep: 0.17850418090820314
+loop end
+collecting 585
+Sampling...
+elapsed: 0.021503686904907227, spacing: 0.2, sleep: 0.17849631309509278
+loop end
+collecting 586
+Sampling...
+elapsed: 0.02163219451904297, spacing: 0.2, sleep: 0.17836780548095704
+loop end
+collecting 587
+Sampling...
+elapsed: 0.021443605422973633, spacing: 0.2, sleep: 0.17855639457702638
+loop end
+collecting 588
+Sampling...
+elapsed: 0.02142047882080078, spacing: 0.2, sleep: 0.17857952117919923
+loop end
+collecting 589
+Sampling...
+elapsed: 0.021531105041503906, spacing: 0.2, sleep: 0.1784688949584961
+loop end
+collecting 590
+Sampling...
+elapsed: 0.02145838737487793, spacing: 0.2, sleep: 0.17854161262512208
+loop end
+collecting 591
+Sampling...
+elapsed: 0.021574735641479492, spacing: 0.2, sleep: 0.17842526435852052
+loop end
+collecting 592
+Sampling...
+elapsed: 0.021466970443725586, spacing: 0.2, sleep: 0.17853302955627443
+loop end
+collecting 593
+Sampling...
+elapsed: 0.02139759063720703, spacing: 0.2, sleep: 0.17860240936279298
+loop end
+collecting 594
+Sampling...
+elapsed: 0.021454334259033203, spacing: 0.2, sleep: 0.1785456657409668
+loop end
+collecting 595
+Sampling...
+elapsed: 0.021512746810913086, spacing: 0.2, sleep: 0.17848725318908693
+loop end
+collecting 596
+Sampling...
+elapsed: 0.021638870239257812, spacing: 0.2, sleep: 0.1783611297607422
+loop end
+collecting 597
+Sampling...
+elapsed: 0.021477699279785156, spacing: 0.2, sleep: 0.17852230072021485
+loop end
+collecting 598
+Sampling...
+elapsed: 0.02148294448852539, spacing: 0.2, sleep: 0.17851705551147462
+loop end
+collecting 599
+Sampling...
+elapsed: 0.021575212478637695, spacing: 0.2, sleep: 0.17842478752136232
+loop end
+collecting 600
+Sampling...
+elapsed: 0.021761417388916016, spacing: 0.2, sleep: 0.178238582611084
+loop end
+collecting 601
+Sampling...
+elapsed: 0.021497249603271484, spacing: 0.2, sleep: 0.17850275039672853
+loop end
+collecting 602
+Sampling...
+elapsed: 0.02149343490600586, spacing: 0.2, sleep: 0.17850656509399415
+loop end
+collecting 603
+Sampling...
+elapsed: 0.021414518356323242, spacing: 0.2, sleep: 0.17858548164367677
+loop end
+collecting 604
+Sampling...
+elapsed: 0.021533727645874023, spacing: 0.2, sleep: 0.178466272354126
+loop end
+collecting 605
+Sampling...
+elapsed: 0.021471738815307617, spacing: 0.2, sleep: 0.1785282611846924
+loop end
+collecting 606
+Sampling...
+elapsed: 0.02149224281311035, spacing: 0.2, sleep: 0.17850775718688966
+loop end
+collecting 607
+Sampling...
+elapsed: 0.021490812301635742, spacing: 0.2, sleep: 0.17850918769836427
+loop end
+collecting 608
+Sampling...
+elapsed: 0.021471500396728516, spacing: 0.2, sleep: 0.1785284996032715
+loop end
+collecting 609
+Sampling...
+elapsed: 0.021442651748657227, spacing: 0.2, sleep: 0.17855734825134278
+loop end
+collecting 610
+Sampling...
+elapsed: 0.021525859832763672, spacing: 0.2, sleep: 0.17847414016723634
+loop end
+collecting 611
+Sampling...
+elapsed: 0.021654129028320312, spacing: 0.2, sleep: 0.1783458709716797
+loop end
+collecting 612
+Sampling...
+elapsed: 0.021471738815307617, spacing: 0.2, sleep: 0.1785282611846924
+loop end
+collecting 613
+Sampling...
+elapsed: 0.021491050720214844, spacing: 0.2, sleep: 0.17850894927978517
+loop end
+collecting 614
+Sampling...
+elapsed: 0.021471261978149414, spacing: 0.2, sleep: 0.1785287380218506
+loop end
+collecting 615
+Sampling...
+elapsed: 0.021434545516967773, spacing: 0.2, sleep: 0.17856545448303224
+loop end
+collecting 616
+Sampling...
+elapsed: 0.021651268005371094, spacing: 0.2, sleep: 0.17834873199462892
+loop end
+collecting 617
+Sampling...
+elapsed: 0.021544694900512695, spacing: 0.2, sleep: 0.17845530509948732
+loop end
+collecting 618
+Sampling...
+elapsed: 0.02150106430053711, spacing: 0.2, sleep: 0.1784989356994629
+loop end
+collecting 619
+Sampling...
+elapsed: 0.021444320678710938, spacing: 0.2, sleep: 0.17855567932128907
+loop end
+collecting 620
+Sampling...
+elapsed: 0.021413326263427734, spacing: 0.2, sleep: 0.17858667373657228
+loop end
+collecting 621
+Sampling...
+elapsed: 0.021646499633789062, spacing: 0.2, sleep: 0.17835350036621095
+loop end
+collecting 622
+Sampling...
+elapsed: 0.02152085304260254, spacing: 0.2, sleep: 0.17847914695739747
+loop end
+collecting 623
+Sampling...
+elapsed: 0.02141594886779785, spacing: 0.2, sleep: 0.17858405113220216
+loop end
+collecting 624
+Sampling...
+elapsed: 0.02160477638244629, spacing: 0.2, sleep: 0.17839522361755372
+loop end
+collecting 625
+Sampling...
+elapsed: 0.021581411361694336, spacing: 0.2, sleep: 0.17841858863830568
+loop end
+collecting 626
+Sampling...
+elapsed: 0.02158951759338379, spacing: 0.2, sleep: 0.17841048240661622
+loop end
+collecting 627
+Sampling...
+elapsed: 0.021483659744262695, spacing: 0.2, sleep: 0.17851634025573732
+loop end
+collecting 628
+Sampling...
+elapsed: 0.02142500877380371, spacing: 0.2, sleep: 0.1785749912261963
+loop end
+collecting 629
+Sampling...
+elapsed: 0.021440744400024414, spacing: 0.2, sleep: 0.1785592555999756
+loop end
+collecting 630
+Sampling...
+elapsed: 0.02142786979675293, spacing: 0.2, sleep: 0.17857213020324708
+loop end
+collecting 631
+Sampling...
+elapsed: 0.02154374122619629, spacing: 0.2, sleep: 0.17845625877380372
+loop end
+collecting 632
+Sampling...
+elapsed: 0.021480321884155273, spacing: 0.2, sleep: 0.17851967811584474
+loop end
+collecting 633
+Sampling...
+elapsed: 0.021404743194580078, spacing: 0.2, sleep: 0.17859525680541993
+loop end
+collecting 634
+Sampling...
+elapsed: 0.021440982818603516, spacing: 0.2, sleep: 0.1785590171813965
+loop end
+collecting 635
+Sampling...
+elapsed: 0.02144169807434082, spacing: 0.2, sleep: 0.1785583019256592
+loop end
+collecting 636
+Sampling...
+elapsed: 0.021651268005371094, spacing: 0.2, sleep: 0.17834873199462892
+loop end
+collecting 637
+Sampling...
+elapsed: 0.02152228355407715, spacing: 0.2, sleep: 0.17847771644592286
+loop end
+collecting 638
+Sampling...
+elapsed: 0.02143692970275879, spacing: 0.2, sleep: 0.17856307029724122
+loop end
+collecting 639
+Sampling...
+elapsed: 0.02144908905029297, spacing: 0.2, sleep: 0.17855091094970704
+loop end
+collecting 640
+Sampling...
+elapsed: 0.021455764770507812, spacing: 0.2, sleep: 0.1785442352294922
+loop end
+collecting 641
+Sampling...
+elapsed: 0.02159571647644043, spacing: 0.2, sleep: 0.17840428352355958
+loop end
+collecting 642
+Sampling...
+elapsed: 0.021531105041503906, spacing: 0.2, sleep: 0.1784688949584961
+loop end
+collecting 643
+Sampling...
+elapsed: 0.023066043853759766, spacing: 0.2, sleep: 0.17693395614624025
+loop end
+collecting 644
+Sampling...
+elapsed: 0.021524429321289062, spacing: 0.2, sleep: 0.17847557067871095
+loop end
+collecting 645
+Sampling...
+elapsed: 0.021458148956298828, spacing: 0.2, sleep: 0.17854185104370118
+loop end
+collecting 646
+Sampling...
+elapsed: 0.021627426147460938, spacing: 0.2, sleep: 0.17837257385253907
+loop end
+collecting 647
+Sampling...
+elapsed: 0.021434545516967773, spacing: 0.2, sleep: 0.17856545448303224
+loop end
+collecting 648
+Sampling...
+elapsed: 0.02149677276611328, spacing: 0.2, sleep: 0.17850322723388673
+loop end
+collecting 649
+Sampling...
+elapsed: 0.021587371826171875, spacing: 0.2, sleep: 0.17841262817382814
+loop end
+collecting 650
+Sampling...
+elapsed: 0.02154994010925293, spacing: 0.2, sleep: 0.17845005989074708
+loop end
+collecting 651
+Sampling...
+elapsed: 0.02158522605895996, spacing: 0.2, sleep: 0.17841477394104005
+loop end
+collecting 652
+Sampling...
+elapsed: 0.021442413330078125, spacing: 0.2, sleep: 0.17855758666992189
+loop end
+collecting 653
+Sampling...
+elapsed: 0.021517276763916016, spacing: 0.2, sleep: 0.178482723236084
+loop end
+collecting 654
+Sampling...
+elapsed: 0.021433353424072266, spacing: 0.2, sleep: 0.17856664657592775
+loop end
+collecting 655
+Sampling...
+elapsed: 0.021399974822998047, spacing: 0.2, sleep: 0.17860002517700196
+loop end
+collecting 656
+Sampling...
+elapsed: 0.021545886993408203, spacing: 0.2, sleep: 0.1784541130065918
+loop end
+collecting 657
+Sampling...
+elapsed: 0.021473407745361328, spacing: 0.2, sleep: 0.17852659225463868
+loop end
+collecting 658
+Sampling...
+elapsed: 0.0214693546295166, spacing: 0.2, sleep: 0.1785306453704834
+loop end
+collecting 659
+Sampling...
+elapsed: 0.021463394165039062, spacing: 0.2, sleep: 0.17853660583496095
+loop end
+collecting 660
+Sampling...
+elapsed: 0.021435260772705078, spacing: 0.2, sleep: 0.17856473922729493
+loop end
+collecting 661
+Sampling...
+elapsed: 0.02159905433654785, spacing: 0.2, sleep: 0.17840094566345216
+loop end
+collecting 662
+Sampling...
+elapsed: 0.021497249603271484, spacing: 0.2, sleep: 0.17850275039672853
+loop end
+collecting 663
+Sampling...
+elapsed: 0.02142810821533203, spacing: 0.2, sleep: 0.17857189178466798
+loop end
+collecting 664
+Sampling...
+elapsed: 0.02149033546447754, spacing: 0.2, sleep: 0.17850966453552247
+loop end
+collecting 665
+Sampling...
+elapsed: 0.02142190933227539, spacing: 0.2, sleep: 0.17857809066772462
+loop end
+collecting 666
+Sampling...
+elapsed: 0.021598100662231445, spacing: 0.2, sleep: 0.17840189933776857
+loop end
+collecting 667
+Sampling...
+elapsed: 0.021465539932250977, spacing: 0.2, sleep: 0.17853446006774903
+loop end
+collecting 668
+Sampling...
+elapsed: 0.021470308303833008, spacing: 0.2, sleep: 0.178529691696167
+loop end
+collecting 669
+Sampling...
+elapsed: 0.021552324295043945, spacing: 0.2, sleep: 0.17844767570495607
+loop end
+collecting 670
+Sampling...
+elapsed: 0.021661043167114258, spacing: 0.2, sleep: 0.17833895683288575
+loop end
+collecting 671
+Sampling...
+elapsed: 0.021785736083984375, spacing: 0.2, sleep: 0.17821426391601564
+loop end
+collecting 672
+Sampling...
+elapsed: 0.021656036376953125, spacing: 0.2, sleep: 0.17834396362304689
+loop end
+collecting 673
+Sampling...
+elapsed: 0.021612882614135742, spacing: 0.2, sleep: 0.17838711738586427
+loop end
+collecting 674
+Sampling...
+elapsed: 0.021802425384521484, spacing: 0.2, sleep: 0.17819757461547853
+loop end
+collecting 675
+Sampling...
+elapsed: 0.021574020385742188, spacing: 0.2, sleep: 0.17842597961425782
+loop end
+collecting 676
+Sampling...
+elapsed: 0.021566152572631836, spacing: 0.2, sleep: 0.17843384742736818
+loop end
+collecting 677
+Sampling...
+elapsed: 0.02141427993774414, spacing: 0.2, sleep: 0.17858572006225587
+loop end
+collecting 678
+Sampling...
+elapsed: 0.021445274353027344, spacing: 0.2, sleep: 0.17855472564697267
+loop end
+collecting 679
+Sampling...
+elapsed: 0.021427631378173828, spacing: 0.2, sleep: 0.17857236862182618
+loop end
+collecting 680
+Sampling...
+elapsed: 0.02149224281311035, spacing: 0.2, sleep: 0.17850775718688966
+loop end
+collecting 681
+Sampling...
+elapsed: 0.021526336669921875, spacing: 0.2, sleep: 0.17847366333007814
+loop end
+collecting 682
+Sampling...
+elapsed: 0.02146148681640625, spacing: 0.2, sleep: 0.17853851318359376
+loop end
+collecting 683
+Sampling...
+elapsed: 0.021445035934448242, spacing: 0.2, sleep: 0.17855496406555177
+loop end
+collecting 684
+Sampling...
+elapsed: 0.021420717239379883, spacing: 0.2, sleep: 0.17857928276062013
+loop end
+collecting 685
+Sampling...
+elapsed: 0.021492958068847656, spacing: 0.2, sleep: 0.17850704193115235
+loop end
+collecting 686
+Sampling...
+elapsed: 0.021619796752929688, spacing: 0.2, sleep: 0.17838020324707032
+loop end
+collecting 687
+Sampling...
+elapsed: 0.02147507667541504, spacing: 0.2, sleep: 0.17852492332458497
+loop end
+collecting 688
+Sampling...
+elapsed: 0.021489858627319336, spacing: 0.2, sleep: 0.17851014137268068
+loop end
+collecting 689
+Sampling...
+elapsed: 0.021435260772705078, spacing: 0.2, sleep: 0.17856473922729493
+loop end
+collecting 690
+Sampling...
+elapsed: 0.021497011184692383, spacing: 0.2, sleep: 0.17850298881530763
+loop end
+collecting 691
+Sampling...
+elapsed: 0.02169489860534668, spacing: 0.2, sleep: 0.17830510139465333
+loop end
+collecting 692
+Sampling...
+elapsed: 0.021486997604370117, spacing: 0.2, sleep: 0.1785130023956299
+loop end
+collecting 693
+Sampling...
+elapsed: 0.02142643928527832, spacing: 0.2, sleep: 0.1785735607147217
+loop end
+collecting 694
+Sampling...
+elapsed: 0.021423816680908203, spacing: 0.2, sleep: 0.1785761833190918
+loop end
+collecting 695
+Sampling...
+elapsed: 0.02145981788635254, spacing: 0.2, sleep: 0.17854018211364747
+loop end
+collecting 696
+Sampling...
+elapsed: 0.021700382232666016, spacing: 0.2, sleep: 0.178299617767334
+loop end
+collecting 697
+Sampling...
+elapsed: 0.02146625518798828, spacing: 0.2, sleep: 0.17853374481201173
+loop end
+collecting 698
+Sampling...
+elapsed: 0.021401166915893555, spacing: 0.2, sleep: 0.17859883308410646
+loop end
+collecting 699
+Sampling...
+elapsed: 0.021596670150756836, spacing: 0.2, sleep: 0.17840332984924318
+loop end
+collecting 700
+Sampling...
+elapsed: 0.02156662940979004, spacing: 0.2, sleep: 0.17843337059020997
+loop end
+collecting 701
+Sampling...
+elapsed: 0.02160358428955078, spacing: 0.2, sleep: 0.17839641571044923
+loop end
+collecting 702
+Sampling...
+elapsed: 0.02141857147216797, spacing: 0.2, sleep: 0.17858142852783204
+loop end
+collecting 703
+Sampling...
+elapsed: 0.021406173706054688, spacing: 0.2, sleep: 0.17859382629394532
+loop end
+collecting 704
+Sampling...
+elapsed: 0.02142810821533203, spacing: 0.2, sleep: 0.17857189178466798
+loop end
+collecting 705
+Sampling...
+elapsed: 0.021425247192382812, spacing: 0.2, sleep: 0.1785747528076172
+loop end
+collecting 706
+Sampling...
+elapsed: 0.021569013595581055, spacing: 0.2, sleep: 0.17843098640441896
+loop end
+collecting 707
+Sampling...
+elapsed: 0.021521806716918945, spacing: 0.2, sleep: 0.17847819328308107
+loop end
+collecting 708
+Sampling...
+elapsed: 0.021422863006591797, spacing: 0.2, sleep: 0.17857713699340821
+loop end
+collecting 709
+Sampling...
+elapsed: 0.021451473236083984, spacing: 0.2, sleep: 0.17854852676391603
+loop end
+collecting 710
+Sampling...
+elapsed: 0.021450042724609375, spacing: 0.2, sleep: 0.17854995727539064
+loop end
+collecting 711
+Sampling...
+elapsed: 0.02158069610595703, spacing: 0.2, sleep: 0.17841930389404298
+loop end
+collecting 712
+Sampling...
+elapsed: 0.021542787551879883, spacing: 0.2, sleep: 0.17845721244812013
+loop end
+collecting 713
+Sampling...
+elapsed: 0.021473169326782227, spacing: 0.2, sleep: 0.17852683067321778
+loop end
+collecting 714
+Sampling...
+elapsed: 0.021425485610961914, spacing: 0.2, sleep: 0.1785745143890381
+loop end
+collecting 715
+Sampling...
+elapsed: 0.02145695686340332, spacing: 0.2, sleep: 0.1785430431365967
+loop end
+collecting 716
+Sampling...
+elapsed: 0.021611928939819336, spacing: 0.2, sleep: 0.17838807106018068
+loop end
+collecting 717
+Sampling...
+elapsed: 0.02158331871032715, spacing: 0.2, sleep: 0.17841668128967286
+loop end
+collecting 718
+Sampling...
+elapsed: 0.021431684494018555, spacing: 0.2, sleep: 0.17856831550598146
+loop end
+collecting 719
+Sampling...
+elapsed: 0.021435976028442383, spacing: 0.2, sleep: 0.17856402397155763
+loop end
+collecting 720
+Sampling...
+elapsed: 0.021416902542114258, spacing: 0.2, sleep: 0.17858309745788575
+loop end
+collecting 721
+Sampling...
+elapsed: 0.021564006805419922, spacing: 0.2, sleep: 0.1784359931945801
+loop end
+collecting 722
+Sampling...
+elapsed: 0.021552324295043945, spacing: 0.2, sleep: 0.17844767570495607
+loop end
+collecting 723
+Sampling...
+elapsed: 0.021505117416381836, spacing: 0.2, sleep: 0.17849488258361818
+loop end
+collecting 724
+Sampling...
+elapsed: 0.021596193313598633, spacing: 0.2, sleep: 0.17840380668640138
+loop end
+collecting 725
+Sampling...
+elapsed: 0.021574735641479492, spacing: 0.2, sleep: 0.17842526435852052
+loop end
+collecting 726
+Sampling...
+elapsed: 0.021360158920288086, spacing: 0.2, sleep: 0.17863984107971193
+loop end
+collecting 727
+Sampling...
+elapsed: 0.019801855087280273, spacing: 0.2, sleep: 0.18019814491271974
+loop end
+collecting 728
+Sampling...
+elapsed: 0.01991128921508789, spacing: 0.2, sleep: 0.18008871078491212
+loop end
+collecting 729
+Sampling...
+elapsed: 0.019793272018432617, spacing: 0.2, sleep: 0.1802067279815674
+loop end
+collecting 730
+Sampling...
+elapsed: 0.021413803100585938, spacing: 0.2, sleep: 0.17858619689941407
+loop end
+collecting 731
+Sampling...
+elapsed: 0.021710872650146484, spacing: 0.2, sleep: 0.17828912734985353
+loop end
+collecting 732
+Sampling...
+elapsed: 0.02141404151916504, spacing: 0.2, sleep: 0.17858595848083497
+loop end
+collecting 733
+Sampling...
+elapsed: 0.021511316299438477, spacing: 0.2, sleep: 0.17848868370056153
+loop end
+collecting 734
+Sampling...
+elapsed: 0.021420717239379883, spacing: 0.2, sleep: 0.17857928276062013
+loop end
+collecting 735
+Sampling...
+elapsed: 0.02144002914428711, spacing: 0.2, sleep: 0.1785599708557129
+loop end
+collecting 736
+Sampling...
+elapsed: 0.021570205688476562, spacing: 0.2, sleep: 0.17842979431152345
+loop end
+collecting 737
+Sampling...
+elapsed: 0.0214385986328125, spacing: 0.2, sleep: 0.1785614013671875
+loop end
+collecting 738
+Sampling...
+elapsed: 0.021521329879760742, spacing: 0.2, sleep: 0.17847867012023927
+loop end
+collecting 739
+Sampling...
+elapsed: 0.021491527557373047, spacing: 0.2, sleep: 0.17850847244262696
+loop end
+collecting 740
+Sampling...
+elapsed: 0.02144789695739746, spacing: 0.2, sleep: 0.17855210304260255
+loop end
+collecting 741
+Sampling...
+elapsed: 0.02160954475402832, spacing: 0.2, sleep: 0.1783904552459717
+loop end
+collecting 742
+Sampling...
+elapsed: 0.02145838737487793, spacing: 0.2, sleep: 0.17854161262512208
+loop end
+collecting 743
+Sampling...
+elapsed: 0.02142643928527832, spacing: 0.2, sleep: 0.1785735607147217
+loop end
+collecting 744
+Sampling...
+elapsed: 0.021488666534423828, spacing: 0.2, sleep: 0.17851133346557618
+loop end
+collecting 745
+Sampling...
+elapsed: 0.02142786979675293, spacing: 0.2, sleep: 0.17857213020324708
+loop end
+collecting 746
+Sampling...
+elapsed: 0.021575212478637695, spacing: 0.2, sleep: 0.17842478752136232
+loop end
+collecting 747
+Sampling...
+elapsed: 0.021448373794555664, spacing: 0.2, sleep: 0.17855162620544435
+loop end
+collecting 748
+Sampling...
+elapsed: 0.021464109420776367, spacing: 0.2, sleep: 0.17853589057922364
+loop end
+collecting 749
+Sampling...
+elapsed: 0.021604061126708984, spacing: 0.2, sleep: 0.17839593887329103
+loop end
+adding to log
+{'TxPattern': None, 'Average Elapsed': 0.02172058073679606, 'Data': array([[   60364, 15703541, 15725078, ..., 15532775, 15997188, 15948581],
+       [15571875, 15702962, 15725857, ..., 15532737, 16000457, 15948808],
+       [15554237, 15703523, 15726453, ..., 15533423, 15990615, 15948729],
+       ..., 
+       [15591081, 15829696, 15712267, ..., 15557670, 16022434, 15948714],
+       [15593944, 15832841, 15712134, ..., 15557613, 16022464, 15948266],
+       [15603095, 15835288, 15710881, ..., 15557244, 16021979, 15948608]]), 'PID': 2476, 'End Time': 1525190705.5895164}
+pickled!
+end
