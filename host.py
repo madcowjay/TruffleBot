@@ -1,4 +1,7 @@
 """
+Updated 2018/04/30
+  -Unthreaded listener
+                                    -JW
 Updated 2018/04/25
   -Python3 only supported now
   -datavisualiztion removed
@@ -6,24 +9,13 @@ Updated 2018/04/25
                                     -JW
 """
 
-import socket
-import sys
-import time
-import os
-import lib.savefile
-import platform
+import os, sys, platform, time
+import socket, pickle, tempfile
 import numpy as np
-import matplotlib
-matplotlib.use('TkAgg') # to fix MacOsX backend error
-from   matplotlib import pyplot as plt
-import os
-import threading
-import pickle
-import tempfile
-import queue
 
-from   lib.connect import PiManager
-from   lib.getch import *
+import lib.savefile
+import lib.connect
+
 #==========================================================================================================
 # sync files, run client on the remote machines
 #host_project_dir='pi_utils'
@@ -31,7 +23,7 @@ from   lib.getch import *
 client_project_dir='/home/pi/TruffleBot'
 client_file = 'client.py'
 
-pm = PiManager(client_project_dir)
+pm = lib.connect.PiManager(client_project_dir)
 
 # #dictionary to associate serial number with board number
 # boardlookup = { '00000000d7ef3031' : 1,
@@ -157,15 +149,15 @@ for trial in range(iterations): # number of times to do experiment
     time.sleep(3) # wait for remote programs to start
 
     # add sensors to experiment
-    response_num = 0
+    responses_requested = 0
     for ip in pm.ip_list:
         pe.add_sensor('Board #'+str(ip_serial[ip]),samplerate=samplerate)
         pe.add_sensor_parameter('Board #'+str(ip_serial[ip]),'Serial Number',str(ip_serial[ip]))
         pe.add_sensor_parameter('Board #'+str(ip_serial[ip]),'Type','MOX')
-        response_num += 1
+        responses_requested += 1
 
     #kill the program if no sensors respond
-    if not response_num:
+    if not responses_requested:
         print('There were no boards in the ip_list')
         sys.exit()
 
@@ -177,9 +169,9 @@ for trial in range(iterations): # number of times to do experiment
     s.sendto(command.encode('utf-8'), dest)
     print(command)
 
-    #start the listener in another thread, will listen for end_flags
+    #start lsitening until all responses are in
     s.settimeout(1)#shorter timeout for recieving to work in long loop+
-    print("starting listener - press 'q' to abort mission")
+    print("starting listener")
     responses_received = 0
     #listening loop
     while responses_received < responses_requested:
@@ -197,9 +189,7 @@ for trial in range(iterations): # number of times to do experiment
     print('listener ended')
 
     #end experiment
-    print('end')
     pe.set_end_time()
-
 
     #==========================================================================================================
 
@@ -240,7 +230,7 @@ for trial in range(iterations): # number of times to do experiment
     pm.kill_processes(pid_dict)
 
     # add number of sources, sensors to experiment parameters
-    pe.set_parameter('# Sensors',response_num)
+    pe.set_parameter('# Sensors',responses_received)
     pe.set_parameter('# Sources',1)
     pe.set_parameter('Wind Speed (m/s)', 2.1)
 
