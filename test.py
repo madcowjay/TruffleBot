@@ -268,19 +268,25 @@ def dac_menu():
 		elif c == 'x': #exit program
 			myExit()
 		elif c == 'h':
-			set_voltage = input('\nEnter new DC voltage: ')
-			global daca
-			daca = int((float(set_voltage)/dac_ref_voltage)*2**16)
-			if daca >= 2**16-1:
-				daca = 2**16-1
-			dac.SendDACAValue(daca)
+			try:
+				set_voltage = input('\nEnter new DC voltage: ')
+				global daca
+				daca = int((float(set_voltage)/dac_ref_voltage)*2**16)
+				if daca >= 2**16-1:
+					daca = 2**16-1
+				dac.SendDACAValue(daca)
+			except:
+				print('invalid input entered')
 		elif c == 'n':
-			set_voltage = input('\nEnter new DC voltage: ')
-			global dacb
-			dacb = int((float(set_voltage)/dac_ref_voltage)*2**16)
-			if dacb >= 2**16-1:
-				dacb = 2**16-1
-			dac.SendDACBValue(dacb)
+			try:
+				set_voltage = input('\nEnter new DC voltage: ')
+				global dacb
+				dacb = int((float(set_voltage)/dac_ref_voltage)*2**16)
+				if dacb >= 2**16-1:
+					dacb = 2**16-1
+				dac.SendDACBValue(dacb)
+			except:
+				print('invalid input entered')
 		elif c == 'j':
 			dac.PowerDownDACA()
 			daca = 0
