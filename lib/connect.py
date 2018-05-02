@@ -104,10 +104,14 @@ class PiManager:
     def kill_processes(self,pid_dict):
         try:
             for ip in pid_dict.keys():
-                pid = pid_dict[ip]
+                #pid = pid_dict[ip]
                 self.ssh.connect(ip, username='pi', password='raspberryB1oE3')
-                self.ssh.exec_command('sudo kill %s'%pid)
-                print('%s: killed "%s"'%(ip,pid))
+                stdin,stdout,stderr = self.ssh.exec_command('pgrep "python3 -u client.py")
+                pid = stdout.read().decode().replace('\n','')
+                print(pid)
+                print(type(pid))
+                #self.ssh.exec_command('sudo kill %s'%pid)
+                #print('%s: killed "%s"'%(ip,pid))
             self.ssh.close()
         except Exception as e:
             print(e)

@@ -561,6 +561,31 @@ class ADS1256:
         return data
 
 
+    def CycleReadADC_quick(self,sel_list):
+        debug_print('CycleReadADC (quickly (without chip select and release))')
+        """
+        Technique based on page 21, Figure 19 of the ADS1256 datasheet
+        t_11 =  4*tau_CLKIN for RREG, WREG, and ret_data = 521 ns
+        t_11 = 24*tau_CLKIN for SYNC = 3.13 us
+        """
+
+        data = np.zeros(len(sel_list),dtype='int32') #create an array to hold the sample vars
+        #self.chip_select()
+
+        self.SetInputMux_quick(sel_list[0][0],sel_list[0][1])
+        for i in range(1, len(sel_list)):
+            self.WaitDRDY()
+            self.SetInputMux_quick(sel_list[i][0],sel_list[i][1])
+            self.delayMicroseconds(1)
+            self.SyncAndWakeup_quick()
+            self.delayMicroseconds(1)
+            data[i-1] = self.ReadADC_quick()
+        self.WaitDRDY()
+        data[i] = self.ReadADC_quick()
+        self.chip_release()
+        #return data
+
+
     def getADCsample(self,a_pos,a_neg):
         """
         Gets a sample from the ADC

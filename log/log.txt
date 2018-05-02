@@ -4992,3 +4992,1419 @@ adding to log
        [15603095, 15835288, 15710881, ..., 15557244, 16021979, 15948608]]), 'PID': 2476, 'End Time': 1525190705.5895164}
 pickled!
 end
+  File "client.py", line 136
+    sel_list = [[ads.MUX_AIN0, ads.MUX_AINCOM], [ads.MUX_AIN1, ads.MUX_AINCOM],
+                                                                              ^
+IndentationError: unindent does not match any outer indentation level
+Tue May  1 18:38:56 2018
+datadelay loops: 1
+ADS1256 ID = 0x3
+datadelay loops: 2
+[Errno 2] No such file or directory: 'txpattern.pickle'
+Listening for broadcasts...
+[b'collect', b'10', b'0.5', b'1', b'0']
+collecting 0
+Sampling...
+datadelay loops: 1
+datadelay loops: 1
+datadelay loops: 1
+datadelay loops: 1
+datadelay loops: 1
+datadelay loops: 1
+datadelay loops: 1
+datadelay loops: 1
+elapsed: 0.02574014663696289, spacing: 0.5, sleep: 0.4742598533630371
+loop end
+collecting 1
+Sampling...
+datadelay loops: 1
+datadelay loops: 1
+datadelay loops: 1
+datadelay loops: 1
+datadelay loops: 1
+datadelay loops: 1
+datadelay loops: 1
+datadelay loops: 1
+elapsed: 0.022006988525390625, spacing: 0.5, sleep: 0.4779930114746094
+loop end
+collecting 2
+Sampling...
+datadelay loops: 1
+datadelay loops: 1
+datadelay loops: 1
+datadelay loops: 1
+datadelay loops: 1
+datadelay loops: 1
+datadelay loops: 1
+datadelay loops: 1
+elapsed: 0.021958589553833008, spacing: 0.5, sleep: 0.478041410446167
+loop end
+collecting 3
+Sampling...
+datadelay loops: 1
+datadelay loops: 1
+datadelay loops: 1
+datadelay loops: 1
+datadelay loops: 1
+datadelay loops: 1
+datadelay loops: 1
+datadelay loops: 1
+elapsed: 0.022041797637939453, spacing: 0.5, sleep: 0.47795820236206055
+loop end
+collecting 4
+Sampling...
+datadelay loops: 1
+datadelay loops: 1
+datadelay loops: 1
+datadelay loops: 1
+datadelay loops: 1
+datadelay loops: 1
+datadelay loops: 1
+datadelay loops: 1
+elapsed: 0.02194046974182129, spacing: 0.5, sleep: 0.4780595302581787
+loop end
+collecting 5
+Sampling...
+datadelay loops: 1
+datadelay loops: 1
+datadelay loops: 1
+datadelay loops: 1
+datadelay loops: 1
+datadelay loops: 1
+datadelay loops: 1
+datadelay loops: 1
+elapsed: 0.021998167037963867, spacing: 0.5, sleep: 0.47800183296203613
+loop end
+collecting 6
+Sampling...
+datadelay loops: 1
+datadelay loops: 1
+datadelay loops: 1
+datadelay loops: 1
+datadelay loops: 1
+datadelay loops: 1
+datadelay loops: 1
+datadelay loops: 1
+elapsed: 0.02193927764892578, spacing: 0.5, sleep: 0.4780607223510742
+loop end
+collecting 7
+Sampling...
+datadelay loops: 1
+datadelay loops: 1
+datadelay loops: 1
+datadelay loops: 1
+datadelay loops: 1
+datadelay loops: 1
+datadelay loops: 1
+datadelay loops: 1
+elapsed: 0.02196669578552246, spacing: 0.5, sleep: 0.47803330421447754
+loop end
+collecting 8
+Sampling...
+datadelay loops: 1
+datadelay loops: 1
+datadelay loops: 1
+datadelay loops: 1
+datadelay loops: 1
+datadelay loops: 1
+datadelay loops: 1
+datadelay loops: 1
+elapsed: 0.021993160247802734, spacing: 0.5, sleep: 0.47800683975219727
+loop end
+collecting 9
+Sampling...
+datadelay loops: 1
+datadelay loops: 1
+datadelay loops: 1
+datadelay loops: 1
+datadelay loops: 1
+datadelay loops: 1
+datadelay loops: 1
+datadelay loops: 1
+elapsed: 0.02260899543762207, spacing: 0.5, sleep: 0.47739100456237793
+loop end
+datadelay loops: 1
+datadelay loops: 1
+datadelay loops: 1
+datadelay loops: 1
+datadelay loops: 1
+datadelay loops: 1
+datadelay loops: 1
+datadelay loops: 1
+[15944511 15705830 14651051 14436721 14781895 14348022 14645731 15949113]
+adding to log
+{'Average Elapsed': 0.022419428825378417, 'End Time': 1525214344.2970295, 'TxPattern': None, 'Data': array([[16503926, 14623898, 14526251, 14324899, 14601453, 14283758,
+        14483819, 15949244],
+       [15258213, 14638352, 14539420, 14334578, 14622172, 14289226,
+        14500916, 15949269],
+       [15263307, 14653086, 14550705, 14345313, 14640703, 14294795,
+        14516707, 15949139],
+       [15278489, 14667150, 14563422, 14356675, 14658095, 14301644,
+        14532591, 15949162],
+       [15283367, 14681929, 14575117, 14367321, 14676490, 14306485,
+        14549236, 15949127],
+       [15293233, 14695319, 14586171, 14378710, 14693888, 14312909,
+        14564447, 15949158],
+       [15299127, 14708838, 14598082, 14388082, 14710264, 14318508,
+        14579070, 15949126],
+       [15307473, 14722483, 14609627, 14398336, 14727382, 14323083,
+        14595017, 15948886],
+       [15315613, 14735652, 14620544, 14408075, 14742972, 14330017,
+        14609683, 15949112],
+       [15330866, 14758957, 14640280, 14429006, 14768205, 14343345,
+        14633328, 15949249]]), 'PID': 3933}
+pickled!
+end
+  File "client.py", line 138
+    cycle_time = time.time() - start_time.
+                                         ^
+SyntaxError: invalid syntax
+Wed May  2 09:33:32 2018
+ADS1256 ID = 0x3
+[Errno 2] No such file or directory: 'txpattern.pickle'
+Listening for broadcasts...
+[b'collect', b'10', b'0.5', b'1', b'0']
+collecting 0
+Sampling...
+elapsed: 0.02150440216064453, spacing: 0.5, sleep: 0.47849559783935547
+Cycle Method:
+elapsed time: 0.018532276153564453
+[14869345 13555768 13554241 13479963 13344474 13734889 13410722 15947350]
+loop end
+collecting 1
+Sampling...
+elapsed: 0.021351337432861328, spacing: 0.5, sleep: 0.47864866256713867
+Cycle Method:
+elapsed time: 0.018543481826782227
+[14851805 13587792 13584687 13504970 13374100 13753169 13438133 15947284]
+loop end
+collecting 2
+Sampling...
+elapsed: 0.02141094207763672, spacing: 0.5, sleep: 0.4785890579223633
+Cycle Method:
+elapsed time: 0.018592357635498047
+[14861662 13619202 13615252 13528050 13403241 13775194 13465260 15947399]
+loop end
+collecting 3
+Sampling...
+elapsed: 0.021384477615356445, spacing: 0.5, sleep: 0.47861552238464355
+Cycle Method:
+elapsed time: 0.018581151962280273
+[14895807 13648389 13642889 13550470 13430668 13797729 13490550 15947234]
+loop end
+collecting 4
+Sampling...
+elapsed: 0.0213930606842041, spacing: 0.5, sleep: 0.4786069393157959
+Cycle Method:
+elapsed time: 0.018578767776489258
+[14884084 13675703 13669882 13571000 13457600 13818679 13514292 15947237]
+loop end
+collecting 5
+Sampling...
+elapsed: 0.021431684494018555, spacing: 0.5, sleep: 0.47856831550598145
+Cycle Method:
+elapsed time: 0.0185697078704834
+[14909738 13701169 13695176 13591345 13482839 13838994 13537262 15947289]
+loop end
+collecting 6
+Sampling...
+elapsed: 0.02144908905029297, spacing: 0.5, sleep: 0.47855091094970703
+Cycle Method:
+elapsed time: 0.01860976219177246
+[14912584 13725397 13718865 13610131 13506703 13857817 13559359 15947277]
+loop end
+collecting 7
+Sampling...
+elapsed: 0.021437644958496094, spacing: 0.5, sleep: 0.4785623550415039
+Cycle Method:
+elapsed time: 0.01862931251525879
+[14923829 13748049 13741275 13628193 13531155 13876728 13580182 15947434]
+loop end
+collecting 8
+Sampling...
+elapsed: 0.02137303352355957, spacing: 0.5, sleep: 0.47862696647644043
+Cycle Method:
+elapsed time: 0.01857757568359375
+[14945565 13770579 13763399 13646053 13553839 13894105 13601279 15947423]
+loop end
+collecting 9
+Sampling...
+elapsed: 0.021374225616455078, spacing: 0.5, sleep: 0.4786257743835449
+Cycle Method:
+elapsed time: 0.018587112426757812
+[14942885 13791190 13784546 13663216 13577234 13911424 13620904 15947200]
+loop end
+adding to log
+{'Data': array([[15230286, 13555848, 13555427, 13481207, 13343956, 13736005,
+        13411702, 15947312],
+       [14391899, 13587878, 13585388, 13505855, 13374317, 13754928,
+        13438642, 15947523],
+       [14415978, 13619327, 13615479, 13529446, 13403971, 13776308,
+        13465453, 15947367],
+       [14438693, 13648415, 13643922, 13551613, 13431229, 13799176,
+        13491407, 15947317],
+       [14462007, 13675447, 13670654, 13572844, 13458102, 13820055,
+        13515443, 15947310],
+       [14485115, 13701400, 13696077, 13592738, 13483114, 13840908,
+        13538520, 15947357],
+       [14506093, 13752878, 13720040, 13612022, 13507458, 13860118,
+        13560586, 15947241],
+       [14526105, 13747963, 13742400, 13629749, 13531200, 13878793,
+        13581772, 15947316],
+       [14545974, 13770714, 13764160, 13647661, 13554948, 13896471,
+        13601905, 15947443],
+       [14566364, 13791846, 13785387, 13664941, 13577852, 13912684,
+        13622138, 15947191]]), 'Average Elapsed': 0.02141098976135254, 'PID': 1522, 'TxPattern': None, 'End Time': 1525268019.7888994}
+pickled!
+end
+Wed May  2 09:50:22 2018
+ADS1256 ID = 0x3
+[Errno 2] No such file or directory: 'txpattern.pickle'
+Listening for broadcasts...
+[b'collect', b'10', b'0.5', b'1', b'0']
+collecting 0
+Sampling...
+elapsed: 0.022084712982177734, spacing: 0.5, sleep: 0.47791528701782227
+Cycle Method:
+elapsed time: 0.018867015838623047
+Data: [15824510 16207414 16030372 15754369 16115005 15749533 16244259 15946113]
+Cycle Quick Method:
+elapsed time: 0.017811298370361328
+Data: None
+loop end
+collecting 1
+Sampling...
+elapsed: 0.022058963775634766, spacing: 0.5, sleep: 0.47794103622436523
+Cycle Method:
+elapsed time: 0.018820762634277344
+Data: [15792712 16208349 16029801 15755042 16114880 15750437 16244666 15946188]
+Cycle Quick Method:
+elapsed time: 0.017751693725585938
+Data: None
+loop end
+collecting 2
+Sampling...
+elapsed: 0.020020246505737305, spacing: 0.5, sleep: 0.4799797534942627
+Cycle Method:
+elapsed time: 0.018172502517700195
+Data: [15804779 16196499 16017228 15740750 16102278 15734895 16230818 15945758]
+Cycle Quick Method:
+elapsed time: 0.016716957092285156
+Data: None
+loop end
+collecting 3
+Sampling...
+elapsed: 0.022071361541748047, spacing: 0.5, sleep: 0.47792863845825195
+Cycle Method:
+elapsed time: 0.018903732299804688
+Data: [15791570 16205767 16028936 15755194 16113162 15751607 16245292 15946139]
+Cycle Quick Method:
+elapsed time: 0.017766952514648438
+Data: None
+loop end
+collecting 4
+Sampling...
+elapsed: 0.021889209747314453, spacing: 0.5, sleep: 0.47811079025268555
+Cycle Method:
+elapsed time: 0.01886463165283203
+Data: [15791445 16206131 16029739 15756122 16114764 15751646 16245037 15946100]
+Cycle Quick Method:
+elapsed time: 0.01778578758239746
+Data: None
+loop end
+collecting 5
+Sampling...
+elapsed: 0.02005481719970703, spacing: 0.5, sleep: 0.47994518280029297
+Cycle Method:
+elapsed time: 0.018133878707885742
+Data: [15803365 16194624 16017761 15742378 16102758 15736027 16231683 15945784]
+Cycle Quick Method:
+elapsed time: 0.016713380813598633
+Data: None
+loop end
+collecting 6
+Sampling...
+elapsed: 0.021905899047851562, spacing: 0.5, sleep: 0.47809410095214844
+Cycle Method:
+elapsed time: 0.018860816955566406
+Data: [15791263 16203710 16030019 15758881 16116557 15750793 16245520 15946049]
+Cycle Quick Method:
+elapsed time: 0.017747163772583008
+Data: None
+loop end
+collecting 7
+Sampling...
+elapsed: 0.022003889083862305, spacing: 0.5, sleep: 0.4779961109161377
+Cycle Method:
+elapsed time: 0.018836021423339844
+Data: [15791691 16204010 16029440 15758960 16117072 15751803 16246208 15946159]
+Cycle Quick Method:
+elapsed time: 0.017754316329956055
+Data: None
+loop end
+collecting 8
+Sampling...
+elapsed: 0.02012038230895996, spacing: 0.5, sleep: 0.47987961769104004
+Cycle Method:
+elapsed time: 0.018134593963623047
+Data: [15803334 16192808 16017402 15744743 16105480 15736441 16232712 15945796]
+Cycle Quick Method:
+elapsed time: 0.016730785369873047
+Data: None
+loop end
+collecting 9
+Sampling...
+elapsed: 0.021996021270751953, spacing: 0.5, sleep: 0.47800397872924805
+Cycle Method:
+elapsed time: 0.018880844116210938
+Data: [15791939 16202226 16028830 15759842 16118380 15752267 16246259 15946331]
+Cycle Quick Method:
+elapsed time: 0.01778268814086914
+Data: None
+loop end
+adding to log
+{'Average Elapsed': 0.021420550346374512, 'Data': array([[  362211, 16136390, 15968127, 15552956, 16040440, 15691909,
+        16161093, 15946036],
+       [15876646, 16155472, 15968736, 15553583, 16040681, 15692470,
+        16161065, 15946066],
+       [15849527, 16116960, 15947716, 15527872, 16020512, 15670658,
+        16142301, 15945662],
+       [15878448, 16136045, 15966958, 15554249, 16040705, 15707896,
+        16161702, 15946094],
+       [15870972, 16136082, 15967734, 15555060, 16040733, 15692167,
+        16161738, 15946224],
+       [15851413, 16115071, 15947091, 15529366, 16021913, 15671660,
+        16142507, 15945667],
+       [15870661, 16133848, 15968504, 15555343, 16041872, 15692786,
+        16161766, 15946138],
+       [15876012, 16133142, 15968080, 15556005, 16042894, 15693514,
+        16163216, 15946156],
+       [15855074, 16112977, 15947359, 15531281, 16024231, 15671694,
+        16143528, 15945898],
+       [15873159, 16131952, 15967253, 15557219, 16043867, 15693719,
+        16162789, 15946200]]), 'PID': 1789, 'End Time': 1525269029.6846578, 'TxPattern': None}
+pickled!
+end
+Wed May  2 09:54:27 2018
+ADS1256 ID = 0x3
+[Errno 2] No such file or directory: 'txpattern.pickle'
+Listening for broadcasts...
+[b'collect', b'10', b'0.5', b'1', b'0']
+collecting 0
+Sampling...
+elapsed: 0.02288675308227539, spacing: 0.5, sleep: 0.4771132469177246
+Cycle Method:
+elapsed time: 0.0192413330078125
+Data: [15815295 16198513 16045914 15760843 16149819 15790659 16263650 15946196]
+Cycle Quick Method:
+elapsed time: 0.01818680763244629
+Data: None
+loop end
+collecting 1
+Sampling...
+elapsed: 0.019752025604248047, spacing: 0.5, sleep: 0.48024797439575195
+Cycle Method:
+elapsed time: 0.017978906631469727
+Data: [15800097 16188826 16032819 15747033 16136493 15767535 16244759 15945765]
+Cycle Quick Method:
+elapsed time: 0.01652979850769043
+Data: None
+loop end
+collecting 2
+Sampling...
+elapsed: 0.0213623046875, spacing: 0.5, sleep: 0.4786376953125
+Cycle Method:
+elapsed time: 0.01851487159729004
+Data: [15789471 16196903 16041684 15758965 16145909 15778664 16255517 15946073]
+Cycle Quick Method:
+elapsed time: 0.017385005950927734
+Data: None
+loop end
+collecting 3
+Sampling...
+elapsed: 0.019786357879638672, spacing: 0.5, sleep: 0.48021364212036133
+Cycle Method:
+elapsed time: 0.017969608306884766
+Data: [15800146 16189804 16032447 15747686 16136180 15767565 16244031 15945864]
+Cycle Quick Method:
+elapsed time: 0.0165255069732666
+Data: None
+loop end
+collecting 4
+Sampling...
+elapsed: 0.021284818649291992, spacing: 0.5, sleep: 0.478715181350708
+Cycle Method:
+elapsed time: 0.01853203773498535
+Data: [15789402 16198436 16041043 15758355 16145142 15779020 16254573 15946181]
+Cycle Quick Method:
+elapsed time: 0.017367124557495117
+Data: None
+loop end
+collecting 5
+Sampling...
+elapsed: 0.021237611770629883, spacing: 0.5, sleep: 0.4787623882293701
+Cycle Method:
+elapsed time: 0.018575429916381836
+Data: [15789608 16199303 16041404 15758393 16145050 15779597 16254838 15946102]
+Cycle Quick Method:
+elapsed time: 0.01736164093017578
+Data: None
+loop end
+collecting 6
+Sampling...
+elapsed: 0.019725322723388672, spacing: 0.5, sleep: 0.48027467727661133
+Cycle Method:
+elapsed time: 0.017990589141845703
+Data: [15800728 16192234 16032642 15746362 16136398 15768327 16244197 15945957]
+Cycle Quick Method:
+elapsed time: 0.016504764556884766
+Data: None
+loop end
+collecting 7
+Sampling...
+elapsed: 0.021268129348754883, spacing: 0.5, sleep: 0.4787318706512451
+Cycle Method:
+elapsed time: 0.018579483032226562
+Data: [15789254 16200463 16041751 15757021 16145609 15779884 16255319 15945901]
+Cycle Quick Method:
+elapsed time: 0.017377853393554688
+Data: None
+loop end
+collecting 8
+Sampling...
+elapsed: 0.021329879760742188, spacing: 0.5, sleep: 0.4786701202392578
+Cycle Method:
+elapsed time: 0.01854681968688965
+Data: [15790023 16201178 16041597 15757627 16146482 15779687 16254965 15946291]
+Cycle Quick Method:
+elapsed time: 0.017365217208862305
+Data: None
+loop end
+collecting 9
+Sampling...
+elapsed: 0.01978158950805664, spacing: 0.5, sleep: 0.48021841049194336
+Cycle Method:
+elapsed time: 0.017998218536376953
+Data: [15801415 16193551 16032640 15744275 16136669 15768976 16243741 15945767]
+Cycle Quick Method:
+elapsed time: 0.016513347625732422
+Data: None
+loop end
+Can't convert 'float' object to str implicitly
+Wed May  2 09:55:45 2018
+ADS1256 ID = 0x3
+[Errno 2] No such file or directory: 'txpattern.pickle'
+Listening for broadcasts...
+[b'collect', b'10', b'0.5', b'1', b'0']
+[b'collect', b'10', b'0.5', b'1', b'0']
+collecting 0
+Sampling...
+collecting 0
+Sampling...
+elapsed: 0.020155668258666992, spacing: 0.5, sleep: 0.479844331741333
+elapsed: 0.019797801971435547, spacing: 0.5, sleep: 0.48020219802856445
+Cycle Method:
+Cycle Method:
+elapsed time: 0.018620729446411133
+elapsed time: 0.018597841262817383
+Data: [       0 16221567        0        0        0 15773557        0        0]
+Data: [11052480  8748992  3168224 15353856  8251904 15773557  1052672  5257696]
+Cycle Quick Method:
+Cycle Quick Method:
+elapsed time: 0.016700029373168945
+elapsed time: 0.0167236328125
+Data: None
+Data: None
+loop end
+collecting 1
+Sampling...
+loop end
+collecting 1
+Sampling...
+elapsed: 0.021038293838500977, spacing: 0.5, sleep: 0.478961706161499
+elapsed: 0.020785808563232422, spacing: 0.5, sleep: 0.4792141914367676
+Cycle Method:
+Cycle Method:
+elapsed time: 0.01800394058227539
+elapsed time: 0.018028974533081055
+Data: [ 4020160 15011840  6318592 15946176 16687616 11988928  9252864  5317632]
+Data: [0 0 0 0 0 0 0 0]
+Cycle Quick Method:
+elapsed time: 0.017063379287719727
+Data: None
+loop end
+collecting 2
+Sampling...
+Cycle Quick Method:
+elapsed time: 0.4995431900024414
+Data: None
+elapsed: 0.019800662994384766, spacing: 0.5, sleep: 0.48019933700561523
+Cycle Method:
+elapsed time: 0.017976999282836914
+Data: [15853288 16110566 16016324 15736254 16116381 15772828 16244185 15946311]
+Cycle Quick Method:
+elapsed time: 0.016495704650878906
+Data: None
+loop end
+collecting 2
+Sampling...
+elapsed: 0.021308183670043945, spacing: 0.5, sleep: 0.47869181632995605
+Cycle Method:
+elapsed time: 0.018568038940429688
+Data: [15788831 16200501 16025742 15746298 16126305 15784780 16255377 15946461]
+loop end
+collecting 3
+Sampling...
+Cycle Quick Method:
+elapsed time: 0.019106388092041016
+Data: None
+elapsed: 0.021239042282104492, spacing: 0.5, sleep: 0.4787609577178955
+Cycle Method:
+elapsed time: 0.01848006248474121
+Data: [15789587 16209865 16101697 15605716 16134927 15787602 16256406 15946409]
+Cycle Quick Method:
+elapsed time: 0.01649761199951172
+Data: None
+loop end
+collecting 3
+Sampling...
+elapsed: 0.019731521606445312, spacing: 0.5, sleep: 0.4802684783935547
+Cycle Method:
+elapsed time: 0.017997026443481445
+Data: [15799770 16192991 16015929 15735171 16116376 15773040 16244540 15946042]
+loop end
+collecting 4
+Sampling...
+Cycle Quick Method:
+elapsed time: 0.01787400245666504
+Data: None
+elapsed: 0.01966571807861328, spacing: 0.5, sleep: 0.4803342819213867
+Cycle Method:
+elapsed time: 0.01801013946533203
+Data: [15802147 16205144 16099738 15598435 16127914 15776796 16246124 15946080]
+Cycle Quick Method:
+elapsed time: 0.01651740074157715
+Data: None
+loop end
+collecting 4
+Sampling...
+elapsed: 0.021303653717041016, spacing: 0.5, sleep: 0.478696346282959
+Cycle Method:
+elapsed time: 0.018584728240966797
+Data: [15788146 16201821 16025013 15747515 16125698 15785036 16255945 15946392]
+loop end
+collecting 5
+Sampling...
+Cycle Quick Method:
+elapsed time: 0.01857447624206543
+Data: None
+loop end
+collecting 5
+Sampling...
+elapsed: 0.5004696846008301, spacing: 0.5, sleep: -0.0004696846008300781
+elapsed: 0.019724130630493164, spacing: 0.5, sleep: 0.48027586936950684
+Cycle Method:
+elapsed time: 0.018525123596191406
+Data: [       0        0        0        0        0 14593504        0        0]
+Cycle Method:
+elapsed time: 0.020032882690429688
+Data: [       0 12136448        0        0        0  4603328        0        0]
+Cycle Quick Method:
+elapsed time: 0.0206906795501709
+Data: None
+sleep length must be non-negative
+WaitDRDY() Timeout
+
+WaitDRDY() Timeout
+
+WaitDRDY() Timeout
+
+WaitDRDY() Timeout
+
+WaitDRDY() Timeout
+
+Cycle Quick Method:
+elapsed time: 2.5093767642974854
+Data: None
+loop end
+collecting 6
+Sampling...
+elapsed: 0.019742250442504883, spacing: 0.5, sleep: 0.4802577495574951
+Cycle Method:
+elapsed time: 0.017991065979003906
+Data: [15798670 16197846 16014507 15732631 16115047 15772014 16244370 15946184]
+Cycle Quick Method:
+elapsed time: 0.016503334045410156
+Data: None
+loop end
+collecting 7
+Sampling...
+elapsed: 0.021288633346557617, spacing: 0.5, sleep: 0.4787113666534424
+Cycle Method:
+elapsed time: 0.018560171127319336
+Data: [15788006 16206885 16024317 15744495 16126131 15784140 16256253 15946444]
+Cycle Quick Method:
+elapsed time: 0.017378568649291992
+Data: None
+loop end
+collecting 8
+Sampling...
+elapsed: 0.021273374557495117, spacing: 0.5, sleep: 0.4787266254425049
+Cycle Method:
+elapsed time: 0.018583297729492188
+Data: [15787838 16207565 16024747 15745116 16126284 15784732 16256069 15946447]
+Cycle Quick Method:
+elapsed time: 0.017411470413208008
+Data: None
+loop end
+collecting 9
+Sampling...
+elapsed: 0.01979541778564453, spacing: 0.5, sleep: 0.48020458221435547
+Cycle Method:
+elapsed time: 0.017931222915649414
+Data: [15795372 16200013 16014546 15735635 16117287 15772410 16245623 15946128]
+Cycle Quick Method:
+elapsed time: 0.016524076461791992
+Data: None
+loop end
+average elapsed cycle time:       0.018489813804626463
+average elapsed cycle quick time: 0.31489923000335696
+adding to log
+{'TxPattern': None, 'PID': 1995, 'Average Elapsed': 0.020475077629089355, 'Data': array([[ 3954176,        0,        0, 16733184,        0,        0,
+               0,        0],
+       [15461888,        0,        0,        0, 11610048,        0,
+               0,        0],
+       [15859016, 16127881, 15962836, 15542385, 16049716, 15723335,
+        16170306, 15946521],
+       [15839575, 16112090, 15944664, 15521008, 16033178, 15705365,
+        16154890, 15946086],
+       [15857519, 16129325, 15961404, 15541517, 16049187, 15723508,
+        16170707, 15946514],
+       [11790336,  8233440,        0,        0,    12225,        0,
+               0,        0],
+       [15839868, 16117440, 15943556, 15519590, 16032449, 15705124,
+        16154849, 15946236],
+       [15856888, 16133791, 15960753, 15540380, 16048962, 15722781,
+        16171003, 15946414],
+       [15855600, 16134905, 15961009, 15540327, 16049614, 15722801,
+        16171210, 15946525],
+       [15837986, 16118972, 15944161, 15518641, 16034235, 15705625,
+        16155798, 15946051]]), 'End Time': 1525269356.6151965}
+pickled!
+end
+
+
+
+
+Traceback (most recent call last):
+  File "client.py", line 38, in <module>
+    print(ntime.asctime(time.localtime(time.time())))
+NameError: name 'ntime' is not defined
+[b'collect', b'10', b'0.5', b'1', b'0']
+collecting 0
+Sampling...
+elapsed: 0.02137160301208496, spacing: 0.5, sleep: 0.47862839698791504
+Cycle Method:
+elapsed time: 0.018557310104370117
+Data: [15781964 16200773 16034556 15748375 16146462 15803196 16266343 15946512]
+Cycle Quick Method:
+elapsed time: 0.01735091209411621
+Data: None
+loop end
+collecting 1
+Sampling...
+elapsed: 0.021307706832885742, spacing: 0.5, sleep: 0.47869229316711426
+Cycle Method:
+elapsed time: 0.018540620803833008
+Data: [15781213 16198471 16034748 15750088 16147632 15803259 16266649 15946449]
+Cycle Quick Method:
+elapsed time: 0.017349958419799805
+Data: None
+loop end
+collecting 2
+Sampling...
+elapsed: 0.019700050354003906, spacing: 0.5, sleep: 0.4802999496459961
+Cycle Method:
+elapsed time: 0.017989397048950195
+Data: [15791146 16188740 16026025 15740441 16138727 15792064 16255932 15946181]
+Cycle Quick Method:
+elapsed time: 0.01650238037109375
+Data: None
+loop end
+collecting 3
+Sampling...
+elapsed: 0.02128911018371582, spacing: 0.5, sleep: 0.4787108898162842
+Cycle Method:
+elapsed time: 0.018512964248657227
+Data: [15781284 16193635 16035434 15753989 16149766 15803987 16266808 15946368]
+Cycle Quick Method:
+elapsed time: 0.017355918884277344
+Data: None
+loop end
+collecting 4
+Sampling...
+elapsed: 0.021622419357299805, spacing: 0.5, sleep: 0.4783775806427002
+Cycle Method:
+elapsed time: 0.018802881240844727
+Data: [15781679 16196985 16041947 15759593 16155880 15810026 16272547 15946518]
+Cycle Quick Method:
+elapsed time: 0.017752885818481445
+Data: None
+loop end
+collecting 5
+Sampling...
+elapsed: 0.0200192928314209, spacing: 0.5, sleep: 0.4799807071685791
+Cycle Method:
+elapsed time: 0.018151044845581055
+Data: [15789798 16183356 16030701 15750868 16144514 15795420 16259324 15946158]
+Cycle Quick Method:
+elapsed time: 0.016719579696655273
+Data: None
+loop end
+collecting 6
+Sampling...
+elapsed: 0.022110462188720703, spacing: 0.5, sleep: 0.4778895378112793
+Cycle Method:
+elapsed time: 0.018773555755615234
+Data: [15781909 16191957 16043419 15768714 16158287 15811511 16273392 15946532]
+Cycle Quick Method:
+elapsed time: 0.017736196517944336
+Data: None
+loop end
+collecting 7
+Sampling...
+elapsed: 0.020001888275146484, spacing: 0.5, sleep: 0.4799981117248535
+Cycle Method:
+elapsed time: 0.01821112632751465
+Data: [15786302 16180514 16031718 15753632 16146721 15797596 16260422 15946352]
+Cycle Quick Method:
+elapsed time: 0.016885995864868164
+Data: None
+loop end
+collecting 8
+Sampling...
+elapsed: 0.022156476974487305, spacing: 0.5, sleep: 0.4778435230255127
+Cycle Method:
+elapsed time: 0.01918482780456543
+Data: [15792212 16195850 16050097 15773486 16164546 15814250 16276959 15946729]
+Cycle Quick Method:
+elapsed time: 0.018388748168945312
+Data: None
+loop end
+collecting 9
+Sampling...
+elapsed: 0.02138233184814453, spacing: 0.5, sleep: 0.47861766815185547
+Cycle Method:
+elapsed time: 0.018614768981933594
+Data: [15779901 16181105 16040000 15796776 16154138 15803714 16266017 15946547]
+Cycle Quick Method:
+elapsed time: 0.017383337020874023
+Data: None
+loop end
+Can't convert 'float' object to str implicitly
+
+
+
+
+Wed May  2 10:00:00 2018
+ADS1256 ID = 0x3
+[Errno 2] No such file or directory: 'txpattern.pickle'
+Listening for broadcasts...
+[b'collect', b'10', b'0.5', b'1', b'0']
+[b'collect', b'10', b'0.5', b'1', b'0']
+collecting 0
+Sampling...
+collecting 0
+Sampling...
+elapsed: 0.02092146873474121, spacing: 0.5, sleep: 0.4790785312652588
+elapsed: 0.027419567108154297, spacing: 0.5, sleep: 0.4725804328918457
+Cycle Method:
+Cycle Method:
+elapsed time: 0.018524169921875
+elapsed time: 0.018563508987426758
+Data: [ 6688192        0 14097344  9429952        0        0        0  5424640]
+Data: [      0 3830208       0       0 7938048 4596224 4260352       0]
+Cycle Quick Method:
+Cycle Quick Method:
+elapsed time: 0.017451763153076172
+elapsed time: 0.01747727394104004
+Data: None
+Data: None
+loop end
+collecting 1
+Sampling...
+loop end
+collecting 1
+Sampling...
+elapsed: 0.02141880989074707, spacing: 0.5, sleep: 0.47858119010925293
+elapsed: 0.019718170166015625, spacing: 0.5, sleep: 0.4802818298339844
+Cycle Method:
+elapsed time: 0.0182344913482666
+Data: [       0        0 10059264        0        0 14151104 15596032        0]
+Cycle Method:
+elapsed time: 0.020194530487060547
+Data: [      0 2204096  992768       0       0       0       0       0]
+Cycle Quick Method:
+elapsed time: 0.020759105682373047
+Data: None
+loop end
+collecting 2
+Sampling...
+Cycle Quick Method:
+elapsed time: 0.49852800369262695
+Data: None
+elapsed: 0.019739627838134766, spacing: 0.5, sleep: 0.48026037216186523
+Cycle Method:
+elapsed time: 0.018010616302490234
+Data: [15792914 16270751 15954157 15741826 16154411 15796692 16255468 15946092]
+Cycle Quick Method:
+elapsed time: 0.01651787757873535
+Data: None
+loop end
+collecting 2
+Sampling...
+elapsed: 0.019744396209716797, spacing: 0.5, sleep: 0.4802556037902832
+Cycle Method:
+elapsed time: 0.017995834350585938
+Data: [15792623 16188225 16026398 15740415 16154196 15796987 16254632 15946112]
+loop end
+collecting 3
+Sampling...
+Cycle Quick Method:
+elapsed time: 0.018028974533081055
+Data: None
+elapsed: 0.009835958480834961, spacing: 0.5, sleep: 0.49016404151916504
+Cycle Method:
+elapsed time: 0.0036690235137939453
+Data: [16311131 16542621 16216625 16064975 16353072 16153674 16342913 16355969]
+Cycle Quick Method:
+elapsed time: 0.003804922103881836
+Data: None
+loop end
+collecting 3
+Sampling...
+elapsed: 0.0056285858154296875, spacing: 0.5, sleep: 0.4943714141845703
+Cycle Method:
+elapsed time: 0.0036487579345703125
+Data: [16097512 16292118 16201980 15958538 16275408 16082961 16329494 16355952]
+Cycle Quick Method:
+elapsed time: 0.0037305355072021484
+Data: None
+loop end
+collecting 4
+Sampling...
+elapsed: 0.005579233169555664, spacing: 0.5, sleep: 0.49442076683044434
+Cycle Method:
+elapsed time: 0.0037534236907958984
+Data: [16102864 16182588 16220748 15984761 16284685 16090093 16338719 16356105]
+Cycle Quick Method:
+elapsed time: 0.0038063526153564453
+Data: None
+loop end
+collecting 4
+Sampling...
+elapsed: 0.0055696964263916016, spacing: 0.5, sleep: 0.4944303035736084
+Cycle Method:
+elapsed time: 0.0037326812744140625
+Data: [16103444 16290111 16202491 15958673 16275884 16083318 16329498 16356117]
+Cycle Quick Method:
+elapsed time: 0.003726482391357422
+Data: None
+loop end
+collecting 5
+Sampling...
+elapsed: 0.005661964416503906, spacing: 0.5, sleep: 0.4943380355834961
+Cycle Method:
+elapsed time: 0.003660917282104492
+Data: [16098847 16298631 16209505 15984957 16284478 16089969 16343578 16355962]
+Cycle Quick Method:
+elapsed time: 0.0038318634033203125
+Data: None
+loop end
+collecting 5
+Sampling...
+elapsed: 0.005597829818725586, spacing: 0.5, sleep: 0.4944021701812744
+Cycle Method:
+elapsed time: 0.0037317276000976562
+Data: [16100323 16317701 16209593 15957807 16275168 16082682 16328855 16356052]
+Cycle Quick Method:
+elapsed time: 0.0037736892700195312
+Data: None
+loop end
+collecting 6
+Sampling...
+elapsed: 0.005763053894042969, spacing: 0.5, sleep: 0.49423694610595703
+Cycle Method:
+elapsed time: 0.0036640167236328125
+Data: [16099518 16299255 16214018 15983337 16283902 16089282 16337768 16356081]
+Cycle Quick Method:
+elapsed time: 0.0037436485290527344
+Data: None
+loop end
+collecting 6
+Sampling...
+elapsed: 0.005608797073364258, spacing: 0.5, sleep: 0.49439120292663574
+Cycle Method:
+elapsed time: 0.0036432743072509766
+Data: [16099564 16293072 16202074 15957479 16275273 16082717 16333326 16355865]
+Cycle Quick Method:
+elapsed time: 0.0037844181060791016
+Data: None
+loop end
+collecting 7
+Sampling...
+elapsed: 0.005589962005615234, spacing: 0.5, sleep: 0.49441003799438477
+Cycle Method:
+elapsed time: 0.003654003143310547
+Data: [16100681 16300055 16210258 15985968 16285316 16090170 16339049 16356057]
+Cycle Quick Method:
+elapsed time: 0.0037424564361572266
+Data: None
+loop end
+collecting 7
+Sampling...
+elapsed: 0.005580425262451172, spacing: 0.5, sleep: 0.49441957473754883
+Cycle Method:
+elapsed time: 0.0036439895629882812
+Data: [16096238 16293751 16202437 15958154 16275596 16083199 16328914 16356024]
+Cycle Quick Method:
+elapsed time: 0.0037398338317871094
+Data: None
+loop end
+collecting 8
+Sampling...
+elapsed: 0.0055620670318603516, spacing: 0.5, sleep: 0.49443793296813965
+Cycle Method:
+elapsed time: 0.0037369728088378906
+Data: [16101877 16303186 16210567 15939714 16282237 16089918 16338182 16356005]
+Cycle Quick Method:
+elapsed time: 0.003747701644897461
+Data: None
+loop end
+collecting 8
+Sampling...
+elapsed: 0.0056455135345458984, spacing: 0.5, sleep: 0.4943544864654541
+Cycle Method:
+elapsed time: 0.0036468505859375
+Data: [16108677 16293865 16202711 15957985 16275815 16083011 16328880 16355717]
+Cycle Quick Method:
+elapsed time: 0.0037283897399902344
+Data: None
+loop end
+collecting 9
+Sampling...
+elapsed: 0.0055811405181884766, spacing: 0.5, sleep: 0.4944188594818115
+Cycle Method:
+elapsed time: 0.003670930862426758
+Data: [16101325 16300059 16210384 15983905 16284663 16089481 16338035 16355673]
+Cycle Quick Method:
+elapsed time: 0.0037932395935058594
+Data: None
+loop end
+collecting 9
+Sampling...
+elapsed: 0.005589962005615234, spacing: 0.5, sleep: 0.49441003799438477
+Cycle Method:
+elapsed time: 0.003744840621948242
+Data: [16110962 16293739 16202827 15957765 16275736 16096320 16328500 16355890]
+Cycle Quick Method:
+elapsed time: 0.0037164688110351562
+Data: None
+loop end
+Can't convert 'float' object to str implicitly
+loop end
+average elapsed cycle time:       0.008250665664672852
+average elapsed cycle quick time: 0.05602085590362549
+adding to log
+{'End Time': 1525269608.9596734, 'Average Elapsed': 0.009960484504699708, 'Data': array([[ 1739264,        0, 12807616, 14855616, 12120064,        0,
+               0,  5446080],
+       [ 6131712, 10429952,        0, 10753536,        0, 13455296,
+               0,        0],
+       [15830229, 16107776, 15955524, 15526773, 16070092, 15729026,
+        16165045, 15946147],
+       [16092435, 16192076, 16159587, 15892539, 16232961, 16036164,
+        16284989, 16355833],
+       [16092342, 16251255, 16159830, 15892465, 16233083, 16036552,
+        16284884, 16355949],
+       [16092957, 16251861, 16160055, 15892162, 16232896, 16036510,
+        16284848, 16355881],
+       [16091810, 16252225, 16160122, 15891627, 16233042, 16036485,
+        16292530, 16355844],
+       [16092103, 16252703, 16160339, 15891842, 16233145, 16036469,
+        16284628, 16355960],
+       [16092628, 16252850, 16160525, 15892052, 16233303, 16036487,
+        16284629, 16355878],
+       [16092340, 16252641, 16160842, 15891960, 16233288, 16036575,
+        16284541, 16355849]]), 'TxPattern': None, 'PID': 2189}
+pickled!
+end
+
+
+
+
+Wed May  2 10:01:49 2018
+ADS1256 ID = 0x3
+[Errno 2] No such file or directory: 'txpattern.pickle'
+Listening for broadcasts...
+[b'collect', b'10', b'0.5', b'1', b'0']
+collecting 0
+Sampling...
+[b'collect', b'10', b'0.5', b'1', b'0']
+collecting 0
+Sampling...
+elapsed: 0.03161025047302246, spacing: 0.5, sleep: 0.46838974952697754
+elapsed: 0.043228864669799805, spacing: 0.5, sleep: 0.4567711353302002
+Cycle Method:
+elapsed time: 0.0469515323638916
+Data: [       0 16333145 16019061 15783371 16282387 16212674    34025 15946502]
+Cycle Method:
+elapsed time: 0.02800917625427246
+Data: [15766194 16193790 16069509 15914635 16204951 15858354 15947122        0]
+Cycle Quick Method:
+elapsed time: 0.02202892303466797
+Data: None
+Cycle Quick Method:
+elapsed time: 0.017667770385742188
+Data: None
+loop end
+collecting 1
+Sampling...
+loop end
+collecting 1
+Sampling...
+elapsed: 0.020430803298950195, spacing: 0.5, sleep: 0.4795691967010498
+elapsed: 0.017719507217407227, spacing: 0.5, sleep: 0.4822804927825928
+Cycle Method:
+elapsed time: 0.01622915267944336
+Data: [15950258 16109894        0        0        0        0        0        0]
+Cycle Method:
+elapsed time: 0.01583385467529297
+Data: [       0        0        0        0        0 14155776        0        0]
+Cycle Quick Method:
+elapsed time: 0.01598811149597168
+Data: None
+Cycle Quick Method:
+elapsed time: 0.012621164321899414
+Data: None
+loop end
+collecting 2
+Sampling...
+loop end
+collecting 2
+Sampling...
+elapsed: 0.015879154205322266, spacing: 0.5, sleep: 0.48412084579467773
+elapsed: 0.016598224639892578, spacing: 0.5, sleep: 0.4834017753601074
+Cycle Method:
+elapsed time: 0.015539407730102539
+Cycle Method:
+elapsed time: 0.012744665145874023
+Data: [653055 653367      0      0      0      0      0      0]
+Data: [0 0 0 0 0 0 0 0]
+Cycle Quick Method:
+elapsed time: 0.016217470169067383
+Data: None
+Cycle Quick Method:
+elapsed time: 0.0161745548248291
+Data: None
+loop end
+collecting 3
+Sampling...
+loop end
+collecting 3
+Sampling...
+elapsed: 0.014982461929321289, spacing: 0.5, sleep: 0.4850175380706787
+elapsed: 0.01577281951904297, spacing: 0.5, sleep: 0.48422718048095703
+Cycle Method:
+elapsed time: 0.015558242797851562
+Cycle Method:
+elapsed time: 0.01566791534423828
+Data: [0 0 0 0 0 0 0 0]
+Data: [0 0 0 0 0 0 0 0]
+Cycle Quick Method:
+elapsed time: 0.015095233917236328
+Data: None
+Cycle Quick Method:
+elapsed time: 0.015212297439575195
+Data: None
+loop end
+collecting 4
+Sampling...
+loop end
+collecting 4
+Sampling...
+elapsed: 0.015039443969726562, spacing: 0.5, sleep: 0.48496055603027344
+elapsed: 0.016010522842407227, spacing: 0.5, sleep: 0.4839894771575928
+Cycle Method:
+elapsed time: 0.015638351440429688
+Cycle Method:
+elapsed time: 0.015754222869873047
+Data: [      0       0       0       0       0       0       0 6012928]
+Data: [0 0 0 0 0 0 0 0]
+Cycle Quick Method:
+elapsed time: 0.014590978622436523
+Data: None
+Cycle Quick Method:
+elapsed time: 0.016254186630249023
+Data: None
+loop end
+collecting 5
+Sampling...
+loop end
+collecting 5
+Sampling...
+elapsed: 0.014949321746826172, spacing: 0.5, sleep: 0.48505067825317383
+elapsed: 0.016093015670776367, spacing: 0.5, sleep: 0.48390698432922363
+Cycle Method:
+Cycle Method:
+elapsed time: 0.015810012817382812
+elapsed time: 0.0158383846282959
+Data: [0 0 0 0 0 0 0 0]
+Data: [      0       0       0       0       0       0       0 9961472]
+Cycle Quick Method:
+Cycle Quick Method:
+elapsed time: 0.016334056854248047
+elapsed time: 0.01607346534729004
+Data: None
+Data: None
+loop end
+collecting 6
+Sampling...
+loop end
+collecting 6
+Sampling...
+elapsed: 0.015515565872192383, spacing: 0.5, sleep: 0.4844844341278076
+elapsed: 0.01640033721923828, spacing: 0.5, sleep: 0.4835996627807617
+Cycle Method:
+elapsed time: 0.015569925308227539
+Cycle Method:
+elapsed time: 0.015580415725708008
+Data: [0 0 0 0 0 0 0 0]
+Data: [0 0 0 0 0 0 0 0]
+Cycle Quick Method:
+elapsed time: 0.015106678009033203
+Data: None
+Cycle Quick Method:
+elapsed time: 0.01497340202331543
+Data: None
+loop end
+collecting 7
+Sampling...
+loop end
+collecting 7
+Sampling...
+elapsed: 0.01670098304748535, spacing: 0.5, sleep: 0.48329901695251465
+elapsed: 0.015670061111450195, spacing: 0.5, sleep: 0.4843299388885498
+Cycle Method:
+Cycle Method:
+elapsed time: 0.015536308288574219
+elapsed time: 0.015606403350830078
+Data: [0 0 0 0 0 0 0 0]
+Data: [       0        0        0        0        0        0        0 10092544]
+Cycle Quick Method:
+Cycle Quick Method:
+elapsed time: 0.014738082885742188
+elapsed time: 0.015247583389282227
+Data: None
+Data: None
+loop end
+collecting 8
+Sampling...
+loop end
+collecting 8
+Sampling...
+elapsed: 0.015888690948486328, spacing: 0.5, sleep: 0.48411130905151367
+elapsed: 0.01488184928894043, spacing: 0.5, sleep: 0.48511815071105957
+Cycle Method:
+Cycle Method:
+elapsed time: 0.015692472457885742
+elapsed time: 0.015767574310302734
+Data: [0 0 0 0 0 0 0 0]
+Data: [      0       0       0       0       0       0       0 2883584]
+Cycle Quick Method:
+Cycle Quick Method:
+elapsed time: 0.01464390754699707
+elapsed time: 0.01512908935546875
+Data: None
+Data: None
+loop end
+collecting 9
+Sampling...
+loop end
+collecting 9
+Sampling...
+elapsed: 0.015052080154418945, spacing: 0.5, sleep: 0.48494791984558105
+elapsed: 0.016031503677368164, spacing: 0.5, sleep: 0.48396849632263184
+Cycle Method:
+elapsed time: 0.015619039535522461
+Cycle Method:
+elapsed time: 0.015629053115844727
+Data: [0 0 0 0 0 0 0 0]
+Data: [0 0 0 0 0 0 0 0]
+Cycle Quick Method:
+elapsed time: 0.015137910842895508
+Data: None
+Cycle Quick Method:
+elapsed time: 0.015085458755493164
+Data: None
+loop end
+Can't convert 'float' object to str implicitly
+loop end
+average elapsed cycle time:       0.016940855979919435
+average elapsed cycle quick time: 0.015724658966064453
+adding to log
+{'TxPattern': None, 'Data': array([[16112672, 16312461, 16128132,  6661568, 16132331, 15763960,
+        15928125, 15946462],
+       [15831525, 16133815, 15963943,        0,  4365792,   920000,
+         2471936,  9443328],
+       [ 1556928,   794592, 15859712,  4317184, 13500416, 10338304,
+         9551872,    81607],
+       [ 1860608,    41283, 15982592, 13631488,  4841472,    40918,
+         8241152,  2752512],
+       [ 8650752,  9158656,  7077888, 11534336, 11911168,    82102,
+        14794752,        0],
+       [ 1835008,  6815744,        9,        9,  9953280,        9,
+        12713984,        0],
+       [  662492,   164970,  6815744,    82225,    82178,   656986,
+        14147584,        0],
+       [  655360,    41301, 14532608,   658233, 10731520,   164383,
+         2998272, 14139392],
+       [      10,  1302528,    82482, 12845056,   329068, 12312576,
+         1572864,        0],
+       [  663707, 14139392,   164858,   164642,   647168, 15589376,
+        15450112,        0]]), 'End Time': 1525269717.2144535, 'Average Elapsed': 0.0188464879989624, 'PID': 2303}
+pickled!
+end
+
+
+
+
+Wed May  2 10:14:09 2018
+ADS1256 ID = 0x5
+[Errno 2] No such file or directory: 'txpattern.pickle'
+Listening for broadcasts...
+[b'collect', b'10', b'0.5', b'1', b'0']
+collecting 0
+Sampling...
+elapsed: 0.01567363739013672, spacing: 0.5, sleep: 0.4843263626098633
+Cycle Method:
+elapsed time: 0.015675783157348633
+Data: [      0       0       0       0       0       0       0 1835520]
+Cycle Quick Method:
+elapsed time: 0.016223669052124023
+Data: None
+loop end
+collecting 1
+Sampling...
+elapsed: 0.014723539352416992, spacing: 0.5, sleep: 0.485276460647583
+Cycle Method:
+elapsed time: 0.015753507614135742
+Data: [       0        0        0        0        0        0        0 16464896]
+Cycle Quick Method:
+elapsed time: 0.016140460968017578
+Data: None
+loop end
+collecting 2
+Sampling...
+elapsed: 0.01613163948059082, spacing: 0.5, sleep: 0.4838683605194092
+Cycle Method:
+elapsed time: 0.015696287155151367
+Data: [      0       0       0       0       0       0       0 1938368]
+Cycle Quick Method:
+elapsed time: 0.01472020149230957
+Data: None
+loop end
+collecting 3
+Sampling...
+elapsed: 0.015276670455932617, spacing: 0.5, sleep: 0.4847233295440674
+Cycle Method:
+elapsed time: 0.015689849853515625
+Data: [      0       0       0       0       0       0       0 1926112]
+Cycle Quick Method:
+elapsed time: 0.014793634414672852
+Data: None
+loop end
+collecting 4
+Sampling...
+elapsed: 0.016466140747070312, spacing: 0.5, sleep: 0.4835338592529297
+Cycle Method:
+elapsed time: 0.015683889389038086
+Data: [      0       0       0       0       0       0       0 1894368]
+Cycle Quick Method:
+elapsed time: 0.014711618423461914
+Data: None
+loop end
+collecting 5
+Sampling...
+elapsed: 0.015673160552978516, spacing: 0.5, sleep: 0.4843268394470215
+Cycle Method:
+elapsed time: 0.015710830688476562
+Data: [      0       0       0       0       0       0       0 1897984]
+Cycle Quick Method:
+elapsed time: 0.014799833297729492
+Data: None
+loop end
+collecting 6
+Sampling...
+elapsed: 0.01486659049987793, spacing: 0.5, sleep: 0.48513340950012207
+Cycle Method:
+elapsed time: 0.015689373016357422
+Data: [      0       0       0       0       0       0       0 1865152]
+Cycle Quick Method:
+elapsed time: 0.014710187911987305
+Data: None
+loop end
+collecting 7
+Sampling...
+elapsed: 0.01609349250793457, spacing: 0.5, sleep: 0.48390650749206543
+Cycle Method:
+elapsed time: 0.015682458877563477
+Data: [      0       0       0       0       0       0       0 2317760]
+Cycle Quick Method:
+elapsed time: 0.014758825302124023
+Data: None
+loop end
+collecting 8
+Sampling...
+elapsed: 0.015311717987060547, spacing: 0.5, sleep: 0.48468828201293945
+Cycle Method:
+elapsed time: 0.015691518783569336
+Data: [      0       0       0       0       0       0       0 2320896]
+Cycle Quick Method:
+elapsed time: 0.014726638793945312
+Data: None
+loop end
+collecting 9
+Sampling...
+elapsed: 0.016556739807128906, spacing: 0.5, sleep: 0.4834432601928711
+Cycle Method:
+elapsed time: 0.015618562698364258
+Data: [      0       0       0       0       0       0       0 2335744]
+Cycle Quick Method:
+elapsed time: 0.014762639999389648
+Data: None
+loop end
+average elapsed cycle time:       0.01568920612335205
+average elapsed cycle quick time: 0.015034770965576172
+adding to log
+{'Average Elapsed': 0.015677332878112793, 'TxPattern': None, 'Data': array([[ 2143744,  1938368,  1843680,  1799136,  1827328,  1844736,
+         1849280,  1825216],
+       [ 2328000,  1042400, 16729536, 16192992, 16101824, 16193024,
+        16250368, 16286720],
+       [ 2893792,  2446848,  2228672,  2098176,  1990656,  1981440,
+         1982944,  1979392],
+       [ 2950656,  2504192,  2237920,  2085344,  2010624,  1967104,
+         1929696,  1866752],
+       [ 2654208,  2263552,  2082816,  1995776,  1966560,  1932736,
+         1915392,  1905152],
+       [ 2938880,  2458080,  2183680,  1985504,  1930752,  1924032,
+         1934816,  1937920],
+       [ 3018720,  2590720,  2266624,  2090496,  1996256,  1939392,
+         1851328,  1842176],
+       [ 2834944,  2407424,  2183136,  2083776,  2027520,  1967104,
+         1937920,  1928704],
+       [ 3401664,  2940928,  2603968,  2451392,  2392576,  2346944,
+         2338304,  2341376],
+       [ 3201504,  2809824,  2591680,  2354688,  2196928,  1786880,
+         1959360,  1975264]]), 'PID': 2493, 'End Time': 1525270457.441429}
+pickled!
+end
