@@ -1,4 +1,9 @@
 """
+Updated 2018/05/02
+  -kill_processes now takes a file instead of an ip list. It will kill all copies
+   of that program on all ips in PiManager's ip list that were launched from
+   connect.py (by matching 'python3 -u <client_file>')
+                                    -JW
 Updated 2018/05/01
   -moved ip_list to host.py and made it an argument to PiManager
                                     -JW
@@ -85,7 +90,7 @@ class PiManager:
 
 
     #takes the file to to run as argument, and runs it on each client as sudo
-    def run_script(self,client_file,log_file=None):
+    def run_script(self, client_file, log_file=None):
         try:
             for ip in self.ip_list:
                 self.ssh.connect(ip, username='pi', password='raspberryB1oE3')
@@ -101,17 +106,15 @@ class PiManager:
 
 
     #takes a dictionary of form: ip:PID and iterates through it, killing each PID
-    def kill_processes(self,pid_dict):
+    def kill_processes(self, client_file):
         try:
-            for ip in pid_dict.keys():
-                #pid = pid_dict[ip]
+            for ip in self.ip_list:
                 self.ssh.connect(ip, username='pi', password='raspberryB1oE3')
-                stdin,stdout,stderr = self.ssh.exec_command('pgrep "python3 -u client.py")
-                pid = stdout.read().decode().replace('\n','')
+                stdin,stdout,stderr = self.ssh.exec_command('pgrep -f "python3 -u %s"'%(client_file))
+                pid = stdout.read().decode()
                 print(pid)
-                print(type(pid))
-                #self.ssh.exec_command('sudo kill %s'%pid)
-                #print('%s: killed "%s"'%(ip,pid))
+                self.ssh.exec_command('sudo kill %s'%pid)
+                print('%s: killed "%s"'%(ip,pid))
             self.ssh.close()
         except Exception as e:
             print(e)

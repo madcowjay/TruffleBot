@@ -1,4 +1,9 @@
 """
+Updated 2018/05/02
+  -kill_processes now takes a client file as an argument
+     and is called at the beginning of the program to clean up
+     any running copies that might be leftover from crashes.
+                                    -JW
 Updated 2018/05/01
   -moved ip_list to host.py and made it an argument to PiManager
                                     -JW
@@ -20,14 +25,14 @@ import lib.savefile
 import lib.connect
 
 #experiment parameters
-iterations  = 2 #trials
+iterations  = 1 #trials
 duration    = 5 #seconds
 samplerate  = 2 #hz
 padding     = 0 #seconds of silence at beginning and end
 num_samples = duration*samplerate+ 2*padding*samplerate
 spacing     = 1/samplerate
-ip_list = ['10.0.0.201','10.0.0.202'] #manual entries -JW
-#ip_list = ['10.0.0.202']
+#ip_list = ['10.0.0.201','10.0.0.202'] #manual entries -JW
+ip_list = ['10.0.0.201']
 #ip_list = ['192.168.1.212']
 
 #==========================================================================================================
@@ -39,6 +44,7 @@ client_file = 'client.py'
 
 # PiManager sends commands to all Pis
 pm = lib.connect.PiManager(client_project_dir, ip_list)
+pm.kill_processes(client_file)
 
 #set up instances of Experiment and Log classes, set start time for log
 pe = lib.savefile.PlumeExperiment()
@@ -222,8 +228,7 @@ for trial in range(iterations): # number of times to do experiment
 
     #==========================================================================================================
     #kill processes on remote machines
-    pid_dict = {ip:PID for (ip,PID) in [(n,data[n]['PID']) for n in data.keys()]}
-    pm.kill_processes(pid_dict)
+    pm.kill_processes(client_file)
 
     # add number of sources, sensors to experiment parameters
     pe.set_parameter('# Sensors',responses_received)
