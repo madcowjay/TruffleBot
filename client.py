@@ -34,6 +34,7 @@ def pulser(pattern, duration, padding):
 
 #==========================================================================================================
 # setting up stuff
+print('\n\n\n')
 print(time.asctime(time.localtime(time.time())))
 
 ## set up adc and dac
@@ -41,6 +42,7 @@ ads = lib.pyads1256.ADS1256()
 myid = ads.ReadID()
 print('ADS1256 ID = ' + hex(myid))
 ads.ConfigADC()
+ads.SyncAndWakeup()
 
 # Turn heater on for duration of experiment
 dac = lib.pydac8532.DAC8532()
@@ -62,7 +64,14 @@ chunk_num = 0
 data_len = 0
 log = {}
 elapsed =[]
+elapsed_cycle = []
+elapsed_cycle_quick = []
 channels= 8 # change for other boards
+
+sel_list = [[ads.MUX_AIN0, ads.MUX_AINCOM], [ads.MUX_AIN1, ads.MUX_AINCOM],
+			[ads.MUX_AIN2, ads.MUX_AINCOM], [ads.MUX_AIN3, ads.MUX_AINCOM],
+			[ads.MUX_AIN4, ads.MUX_AINCOM], [ads.MUX_AIN5, ads.MUX_AINCOM],
+			[ads.MUX_AIN6, ads.MUX_AINCOM], [ads.MUX_AIN7, ads.MUX_AINCOM]]
 
 try:
 	with open('txpattern.pickle','rb') as f:
@@ -127,13 +136,32 @@ while not end_flag:
 				elapsed_time = time.time() - start_time
 				elapsed.append(elapsed_time)
 				print('elapsed: %s, spacing: %s, sleep: %s'%(elapsed_time,spacing,spacing-elapsed_time))
+## :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :)
+				start_time = time.time()
+				samps = ads.CycleReadADC(sel_list)
+				cycle_time = time.time() - start_time
+				print('Cycle Method:')
+				print('elapsed time: ' + str(cycle_time))
+				print('Data: ' + str(samps))
+				elapsed_cycle.append(cycle_time)
+
+				ads.chip_select()
+				start_time = time.time()
+				samps = ads.CycleReadADC_quick(sel_list)
+				cycle_time = time.time() - start_time
+				print('Cycle Quick Method:')
+				print('elapsed time: ' + str(cycle_time))
+				print('Data: ' + str(samps))
+				ads.chip_release()
+				elapsed_cycle_quick.append(cycle_time)
+## :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :)
 				time.sleep(spacing-elapsed_time) #TODO: change back to spacing-elapsed_time
 				print("loop end")
 			#record end time
 			end_time = time.time()
-			sel_list = [[ads.MUX_AIN0, ads.MUX_AINCOM], [ads.MUX_AIN1, ads.MUX_AINCOM], [ads.MUX_AIN2, ads.MUX_AINCOM], [ads.MUX_AIN3, ads.MUX_AINCOM], [ads.MUX_AIN4, ads.MUX_AINCOM], [ads.MUX_AIN5, ads.MUX_AINCOM], [ads.MUX_AIN6, ads.MUX_AINCOM], [ads.MUX_AIN7, ads.MUX_AINCOM]]
-			samps = ads.CycleReadADC(sel_list)
-			print(samps)
+
+			print('average elapsed cycle time:       ' + str(sum(elapsed_cycle)/float(len(elapsed_cycle))))
+			print('average elapsed cycle quick time: ' + str(sum(elapsed_cycle_quick)/float(len(elapsed_cycle_quick))))
 
 			print("adding to log")
 			#add info to logfile
