@@ -18,27 +18,34 @@ Updated 2018/04/25
 """
 
 import os, sys, platform, time, textwrap
-import socket, pickle, tempfile
+import socket, pickle, tempfile, configparser
 import numpy as np
 
 import lib.savefile
 import lib.connect
 
 #experiment parameters
-iterations  = 1 #trials
-duration    = 5 #seconds
-samplerate  = 2 #hz
-padding     = 0 #seconds of silence at beginning and end
+configParser = configparser.RawConfigParser()
+try:
+    configFilePath = sys.argv[1]
+except:
+    configFilePath = 'default.cfg'
+configParser.read(configFilePath)
+
+iterations  = int(configParser.get('experiment-parameters', 'iterations')) #trials
+duration    = int(configParser.get('experiment-parameters', 'duration')) #seconds
+samplerate  = int(configParser.get('experiment-parameters', 'samplerate')) #hz
+padding     = int(configParser.get('experiment-parameters', 'padding')) #seconds of silence at beginning and end
 num_samples = duration*samplerate+ 2*padding*samplerate
 spacing     = 1/samplerate
-ip_list = ['10.0.0.201','10.0.0.202']
-#ip_list = ['10.0.0.201']
+#ip_list = ['10.0.0.201','10.0.0.202']
+ip_list = ['10.0.0.202']
 #ip_list = ['192.168.1.212']
-print('Starting experiment with the following parameters:')
-print('    iterations: ' + str(iterations))
-print('    duration:   ' + str(duration))
-print('    samplerate: ' + str(samplerate))
-print('    padding:    ' + str(padding))
+print('Starting experiment with the following parameters from : ' + configFilePath)
+print('    iterations: ' + str(iterations) + ' runs')
+print('    duration:   ' + str(duration) + ' seconds per run')
+print('    samplerate: ' + str(samplerate) + ' Hz')
+print('    padding:    ' + str(padding) + ' seconds')
 print('    ip_list:    ' + str(ip_list))
 #==========================================================================================================
 # sync files, run client on the remote machines
@@ -50,6 +57,7 @@ client_file = 'client.py'
 # PiManager sends commands to all Pis
 pm = lib.connect.PiManager(client_project_dir, ip_list)
 pm.kill_processes(client_file)
+time.sleep(3)
 
 #set up instances of Experiment and Log classes, set start time for log
 pe = lib.savefile.PlumeExperiment()
@@ -192,8 +200,8 @@ for trial in range(iterations): # number of times to do experiment
             if response!='unknown':
                 if response == 'end_flag':
                     responses_received += 1
-                    print('    {0:>4} : received response from: {1}'.format(int(curr_time),address))
-                    print('    {0:>4} : total responses: {1}'.format(responses_received))
+                    print('    {0:>4} : received response from: {1}'.format(int(curr_time), address))
+                    print('    {0:>4} : total responses: {1}'.format(int(curr_time), responses_received))
                 else: pass
         except Exception as e:
             print('    {0:>4} : {1}'.format(int(curr_time), e))
