@@ -18,7 +18,7 @@ Updated 2018/04/25
 """
 
 import os, sys, platform, time, textwrap
-import socket, pickle, tempfile, configparser
+import socket, pickle, tempfile, configparser, ast
 import numpy as np
 
 import lib.savefile
@@ -38,14 +38,14 @@ samplerate  = int(configParser.get('experiment-parameters', 'samplerate')) #hz
 padding     = int(configParser.get('experiment-parameters', 'padding')) #seconds of silence at beginning and end
 num_samples = duration*samplerate+ 2*padding*samplerate
 spacing     = 1/samplerate
-#ip_list = ['10.0.0.201','10.0.0.202']
-ip_list = ['10.0.0.202']
-#ip_list = ['192.168.1.212']
+
 print('Starting experiment with the following parameters from : ' + configFilePath)
 print('    iterations: ' + str(iterations) + ' runs')
 print('    duration:   ' + str(duration) + ' seconds per run')
 print('    samplerate: ' + str(samplerate) + ' Hz')
 print('    padding:    ' + str(padding) + ' seconds')
+
+ip_list = ast.literal_eval(configParser.get('ip-addresses', 'ip_list'))
 print('    ip_list:    ' + str(ip_list))
 #==========================================================================================================
 # sync files, run client on the remote machines
