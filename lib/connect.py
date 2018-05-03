@@ -111,10 +111,11 @@ class PiManager:
             for ip in self.ip_list:
                 self.ssh.connect(ip, username='pi', password='raspberryB1oE3')
                 stdin,stdout,stderr = self.ssh.exec_command('pgrep -f "python3 -u %s"'%(client_file))
-                pid = stdout.read().decode()
-                print(pid)
-                self.ssh.exec_command('sudo kill %s'%pid)
-                print('%s: killed "%s"'%(ip,pid))
+                pids = stdout.read().decode()
+                for pid in pids.split('\n'):
+                    if pid != '':
+                        self.ssh.exec_command('sudo kill %s'%pid)
+                        print('%s: killed "%s"'%(ip,pid))
             self.ssh.close()
         except Exception as e:
             print(e)

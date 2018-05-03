@@ -31,10 +31,15 @@ samplerate  = 2 #hz
 padding     = 0 #seconds of silence at beginning and end
 num_samples = duration*samplerate+ 2*padding*samplerate
 spacing     = 1/samplerate
-#ip_list = ['10.0.0.201','10.0.0.202'] #manual entries -JW
-ip_list = ['10.0.0.201']
+ip_list = ['10.0.0.201','10.0.0.202']
+#ip_list = ['10.0.0.201']
 #ip_list = ['192.168.1.212']
-
+print('Starting experiment with the following parameters:')
+print('    iterations: ' + str(iterations))
+print('    duration:   ' + str(duration))
+print('    samplerate: ' + str(samplerate))
+print('    padding:    ' + str(padding))
+print('    ip_list:    ' + str(ip_list))
 #==========================================================================================================
 # sync files, run client on the remote machines
 #host_project_dir='pi_utils'
@@ -117,7 +122,7 @@ for trial in range(iterations): # number of times to do experiment
     #manage the pis
     #pm.conditional_dir_sync()
     #pm.upload_file(client_file)
-    # pm.exec_command('sudo pkill python')
+    #pm.exec_command('sudo pkill python')
 
     #sanitize client-directory
     pm.exec_commands(['rm %s/sendfile.pickle'%pm.client_project_dir,'rm %s/txpattern.pickle'%pm.client_project_dir])
@@ -151,7 +156,7 @@ for trial in range(iterations): # number of times to do experiment
     ## start client script
     pm.run_script(client_file,log_file='log.txt')
     # pm.exec_command('sudo strace -p $(pgrep python) -o strace.txt')
-    time.sleep(3) # wait for remote programs to start
+    time.sleep(4) # wait for remote programs to start
 
     # add sensors to experiment
     responses_requested = 0
@@ -175,22 +180,24 @@ for trial in range(iterations): # number of times to do experiment
     print('sending command: ' + command)
 
     #start lsitening until all responses are in
-    print("listener started")
+    start_time = time.time()
+    print(time.strftime('%H:%M:%S',time.localtime(start_time)) + ' : listener started')
     s.settimeout(1)#shorter timeout for recieving to work in long loop+
     responses_received = 0
     while responses_received < responses_requested:
+        curr_time = time.time() - start_time
         try:
             (buf, address) = s.recvfrom(8192)
             response = buf.decode('utf-8')
             if response!='unknown':
                 if response == 'end_flag':
                     responses_received += 1
-                    print('    >received response from : ' + str(address))
-                    print('    >total responses: ' + str(responses_received))
+                    print('    {0:>4} : received response from: {1}'.format(int(curr_time),address))
+                    print('    {0:>4} : total responses: {1}'.format(responses_received))
                 else: pass
         except Exception as e:
-            print("    >" + str(e))
-    print('listener ended')
+            print('    {0:>4} : {1}'.format(int(curr_time), e))
+    print('    {0:>4} : listener ended'.format(int(curr_time)))
 
     #end experiment
     pe.set_end_time()
@@ -240,7 +247,6 @@ for trial in range(iterations): # number of times to do experiment
         log_path, date_time = pl.save_file(pe)
     except Exception as e:
         print('error'+str(e))
-
 
     #visualize returned data
     # logname = log_path.split('/')[1]
