@@ -3,7 +3,6 @@ Driver for SPI interface on LPS22HB pressure Sensor.
 February 2018 - Jason Webster
 """
 
-from __future__ import debug_print_function
 import os, time
 import wiringpi as wp
 import numpy as np
