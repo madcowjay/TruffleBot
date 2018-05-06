@@ -22,17 +22,19 @@ Updated 2018/04/25
                                     -JW
 """
 
-import subprocess
-import re
-import os
-import paramiko
-import time
-import bidict
+import os, subprocess, time, re
+import paramiko, bidict
+
+DEBUG = eval(os.environ.get('DEBUG', 'False'))
+
+def debug_print(string):
+    if DEBUG:
+        print("DEBUG: " + string)
 
 class PiManager:
-    def __init__(self, client_project_dir, ip_list):
+    def __init__(self, client_dir, ip_list):
         #init global variables
-        self.client_project_dir = client_project_dir
+        self.client_dir = client_dir
         self.ip_list = ip_list
 
         #init paramiko
@@ -52,38 +54,38 @@ class PiManager:
 
 
     #executes a command on each client
-    def exec_command(self,command, addr=None):
+    def exec_command(self, command, addr=None):
         try:
             if addr:
                 self.ssh.connect(addr, username='pi', password='raspberryB1oE3')
                 self.ssh.exec_command(command)
-                print('%s: executed "%s"'%(addr,command))
+                debug_print('%s: executed "%s"'%(addr,command))
                 self.ssh.close()
             else:
                 for ip in self.ip_list:
                     self.ssh.connect(ip, username='pi', password='raspberryB1oE3')
                     self.ssh.exec_command(command)
-                    print('%s: executed "%s"'%(ip,command))
+                    debug_print('%s: executed "%s"'%(ip,command))
                 self.ssh.close()
         except Exception as e:
             print(e)
 
 
     #executes multiple commands on each client
-    def exec_commands(self,commands, addr=None):
+    def exec_commands(self, commands, addr=None):
         try:
             if addr:
                 for command in commands:
                     self.ssh.connect(addr, username='pi', password='raspberryB1oE3')
                     self.ssh.exec_command(command)
-                    print('%s: executed "%s"'%(addr,command))
+                    debug_print('%s: executed "%s"'%(addr,command))
                 self.ssh.close()
             else:
                 for ip in self.ip_list:
                     for command in commands:
                         self.ssh.connect(ip, username='pi', password='raspberryB1oE3')
                         self.ssh.exec_command(command)
-                        print('%s: executed "%s"'%(ip,command))
+                        debug_print('%s: executed "%s"'%(ip,command))
                     self.ssh.close()
         except Exception as e:
             print(e)
@@ -95,11 +97,11 @@ class PiManager:
             for ip in self.ip_list:
                 self.ssh.connect(ip, username='pi', password='raspberryB1oE3')
                 if log_file:
-                    self.ssh.exec_command('cd %s && python3 -u %s &>> log/%s'%(self.client_project_dir,client_file,log_file))
-                    print('%s: starting client file, writing stdout and stderr to %s'%(ip,log_file))
+                    self.ssh.exec_command('cd %s && python3 -u %s &>> log/%s'%(self.client_dir,client_file,log_file))
+                    debug_print('%s: starting client file, writing stdout and stderr to %s'%(ip,log_file))
                 else:
-                    self.ssh.exec_command('cd %s && python3 %s'%(self.client_project_dir,client_file))
-                    print('%s: starting client file'%ip)
+                    self.ssh.exec_command('cd %s && python3 %s'%(self.client_dir,client_file))
+                    debug_print('%s: starting client file'%ip)
             self.ssh.close()
         except Exception as e:
             print(e)
@@ -107,6 +109,7 @@ class PiManager:
 
     #takes a dictionary of form: ip:PID and iterates through it, killing each PID
     def kill_processes(self, client_file):
+        killed = {}
         try:
             for ip in self.ip_list:
                 self.ssh.connect(ip, username='pi', password='raspberryB1oE3')
@@ -115,7 +118,7 @@ class PiManager:
                 for pid in pids.split('\n'):
                     if pid != '':
                         self.ssh.exec_command('sudo kill %s'%pid)
-                        print('%s: killed "%s"'%(ip,pid))
+                        debug_print('%s: killed "%s"'%(ip,pid))
             self.ssh.close()
         except Exception as e:
             print(e)

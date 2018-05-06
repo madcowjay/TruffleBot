@@ -1,16 +1,12 @@
 """
-Updated 2018/05/02
+Updated 2018/05/03
+  -Implemented config files for experiment parameters and IPs of clients
+
   -kill_processes now takes a client file as an argument
      and is called at the beginning of the program to clean up
      any running copies that might be leftover from crashes.
-                                    -JW
-Updated 2018/05/01
   -moved ip_list to host.py and made it an argument to PiManager
-                                    -JW
-Updated 2018/04/30
   -Unthreaded listener
-                                    -JW
-Updated 2018/04/25
   -Python3 only supported now
   -datavisualiztion removed
   -board numbers removed (use serial number instead)
@@ -21,47 +17,83 @@ import os, sys, platform, time, textwrap
 import socket, pickle, tempfile, configparser, ast
 import numpy as np
 
+#== Setup ======================================================================
+remoteInstallFlag = False
+configFlag = False
+
+# Process command line arguments
+index = 0
+for arg in sys.argv[1:]:
+    index += 1
+    if arg == '-d' or arg == '--debug':
+        os.environ['DEBUG'] = 'True'
+    elif arg == '-c' or arg == '--config-file':
+        configFlag = True
+        configFilePath = sys.argv[index+1]
+    elif arg[0:14] == '--config-file=':
+        configFlag = True
+        configFilePath = arg[14:]
+    elif arg == '-r' or arg == '--remote-install':
+        remoteInstallFlag = True
+    elif arg == '--help':
+        print('Usage: python3 host.py [OPTION]...')
+        print('  -d, --debug                         display debug messages while running')
+        print('  -r, --remote-install                install all necessary files on clients')
+        print('  -c, --config-file=CONFIG.CFG        use the indicated configuration file, if not invoked, default.cfg is used')
+        sys.exit()
+    else:
+        print("host.py: invalid option -- '{0}'".format(arg[1:]))
+        print("Try 'host.py --help' for more information.")
+        sys.exit()
+
+# Load these after DEBUG status has been determined
 import lib.savefile
 import lib.connect
 
-#experiment parameters
-configParser = configparser.RawConfigParser()
-try:
-    configFilePath = sys.argv[1]
-except:
+if not configFlag:
     configFilePath = 'default.cfg'
-configParser.read(configFilePath)
+config = configparser.RawConfigParser()
+config.read(configFilePath)
+print('\nLoading config file: ' + configFilePath)
 
-iterations  = int(configParser.get('experiment-parameters', 'iterations')) #trials
-duration    = int(configParser.get('experiment-parameters', 'duration')) #seconds
-samplerate  = int(configParser.get('experiment-parameters', 'samplerate')) #hz
-padding     = int(configParser.get('experiment-parameters', 'padding')) #seconds of silence at beginning and end
+# Set parameters
+iterations  = int(config.get('experiment-parameters', 'iterations')) #trials
+duration    = int(config.get('experiment-parameters', 'duration'))   #seconds
+samplerate  = int(config.get('experiment-parameters', 'samplerate')) #hz
+padding     = int(config.get('experiment-parameters', 'padding')) #seconds of silence at beginning and end
 num_samples = duration*samplerate+ 2*padding*samplerate
 spacing     = 1/samplerate
 
-print('Starting experiment with the following parameters from : ' + configFilePath)
-print('    iterations: ' + str(iterations) + ' runs')
-print('    duration:   ' + str(duration) + ' seconds per run')
-print('    samplerate: ' + str(samplerate) + ' Hz')
-print('    padding:    ' + str(padding) + ' seconds')
+print('Starting experiment with the following parameters:')
+print('    iterations:   ' + str(iterations) + ' runs')
+print('    duration:     ' + str(duration) + ' seconds per run')
+print('    samplerate:   ' + str(samplerate) + ' Hz')
+print('    padding:      ' + str(padding) + ' seconds')
 
-ip_list = ast.literal_eval(configParser.get('ip-addresses', 'ip_list'))
-print('    ip_list:    ' + str(ip_list))
-#==========================================================================================================
-# sync files, run client on the remote machines
-#host_project_dir='pi_utils'
-#host_project_dir='/home/pi/TruffleBot'
-client_project_dir='/home/pi/TruffleBot'
-client_file = 'client.py'
+ip_list = ast.literal_eval(config.get('ip-addresses', 'ip_list'))
+print('    ip addresses: ' , end = '')
+print(*ip_list, sep = ', ')
+
+if remoteInstallFlag:
+    print('TODO')
+    # sync files, run client on the remote machines
+#host_dir='pi_utils'
+host_dir    = config.get('paths', 'host_dir')
+client_dir  = config.get('paths', 'client_dir')
+log_dir     = config.get('paths', 'log_dir')
+client_file = config.get('files', 'client_file')
+log_file    = config.get('files', 'log_file')
+
+username    = config.get('client-login', 'username')
+password    = config.get('client-login', 'password')
 
 # PiManager sends commands to all Pis
-pm = lib.connect.PiManager(client_project_dir, ip_list)
+pm = lib.connect.PiManager(client_dir, ip_list)
 pm.kill_processes(client_file)
-time.sleep(3)
 
 #set up instances of Experiment and Log classes, set start time for log
 pe = lib.savefile.PlumeExperiment()
-pl = lib.savefile.PlumeLog(logdirname='log')
+pl = lib.savefile.PlumeLog(log_dir)
 pe.set_parameter('Comment', 'trials with raspberry pi sensor boards and humidifier source')
 
 #set up socket
@@ -119,8 +151,7 @@ s.settimeout(5.0)
     #
     # return message,tx,msg_plot
 
-#==========================================================================================================
-# main code
+#== Main Code ==================================================================
 for trial in range(iterations): # number of times to do experiment
     # set start time of experiment
     print('\n*** trial %s started ***' %(trial))
@@ -133,7 +164,7 @@ for trial in range(iterations): # number of times to do experiment
     #pm.exec_command('sudo pkill python')
 
     #sanitize client-directory
-    pm.exec_commands(['rm %s/sendfile.pickle'%pm.client_project_dir,'rm %s/txpattern.pickle'%pm.client_project_dir])
+    pm.exec_commands(['rm %s/sendfile.pickle'%pm.client_dir,'rm %s/txpattern.pickle'%pm.client_dir])
 
     #get identifying dictionaries from pm
     ip_serial = pm.identifpi() #-JW
@@ -162,7 +193,7 @@ for trial in range(iterations): # number of times to do experiment
 
 #============================================================================
     ## start client script
-    pm.run_script(client_file,log_file='log.txt')
+    pm.run_script(client_file, log_file)
     # pm.exec_command('sudo strace -p $(pgrep python) -o strace.txt')
     time.sleep(4) # wait for remote programs to start
 
@@ -216,7 +247,7 @@ for trial in range(iterations): # number of times to do experiment
     data = {}
     sample_times = {}
     for ip in pm.ip_list:
-        pm.ssh.connect(ip, username='pi', password='raspberryB1oE3')
+        pm.ssh.connect(ip, username, password)
         sftp = pm.ssh.open_sftp()
         with tempfile.TemporaryFile() as fp:
             sftp.getfo('/home/pi/TruffleBot/log/sendfile.pickle',fp)

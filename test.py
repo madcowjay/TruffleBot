@@ -3,13 +3,7 @@ import os, time, threading, sys
 from   colorama import init, Fore, Back, Style
 import wiringpi as wp
 import numpy    as np
-
-# project specific
 from   lib.getch import *
-import lib.pyads1256
-import lib.pydac8532
-import lib.pylps22hb
-from   lib.board_utils import *
 
 # console colors
 init() #colorama
@@ -18,7 +12,36 @@ fg  = Fore.GREEN; fr  = Fore.RED; fb  = Fore.BLUE; fy  = Fore.YELLOW; fc  = Fore
 fbk = Fore.BLACK; fw  = Fore.WHITE
 sr  = Style.RESET_ALL
 
+# Process command line arguments
+index = 0
+for arg in sys.argv[1:]:
+    index += 1
+    if arg == '-d' or arg == '--debug':
+        os.environ['DEBUG'] = 'True'
+    elif arg == '-c' or arg == '--config-file':
+        configFlag = True
+        configFilePath = sys.argv[index+1]
+    elif arg[0:14] == '--config-file=':
+        configFlag = True
+        configFilePath = arg[14:]
+    elif arg == '--help':
+        print('Usage: python3 test.py [OPTION]...')
+        print('  -d, --debug                         display debug messages while running')
+        print('  -c, --config-file=CONFIG.CFG        use the indicated configuration file, if not invoked, default.cfg is used')
+        sys.exit()
+    else:
+        print("test.py: invalid option -- '{0}'".format(arg[1:]))
+        print("Try 'test.py --help' for more information.")
+        sys.exit()
+
+# Load these after DEBUG status has been determined
+import lib.pyads1256
+import lib.pydac8532
+import lib.pylps22hb
+import lib.sensor_board
+
 # set up board
+board = lib.sensor_board.SENSOR_BOARD(LED1_PIN=led1_pin, LED2_PIN=led2_pin, TX0_PIN=tx0_pin, TX1_PIN=tx1_pin)
 wp.wiringPiSetupPhys
 wp.pinMode(26, wp.INPUT) #I actually snipped this pin off the header, but in case you don't...
 led1_freq = 1 #Hz
@@ -400,25 +423,25 @@ def board_menu():
 		elif c == 'x': #exit program
 			myExit()
 		elif c == 'g':
-			ledAct(1,1)
+			board.ledAct(1,1)
 		elif c == 'h':
-			ledAct(1,0)
+			board.ledAct(1,0)
 		elif c == 'j':
 			global led1_freq
-			ledAct(1,2,led1_freq)
+			board.ledAct(1,2,led1_freq)
 		elif c == 'v':
-			ledAct(2,1)
+			board.ledAct(2,1)
 		elif c == 'b':
-			ledAct(2,0)
+			board.ledAct(2,0)
 		elif c == 'n':
 			global led2_freq
-			ledAct(2,2,led2_freq)
+			board.ledAct(2,2,led2_freq)
 		elif c == 'k':
 			inp = input("\nFor how long? ")
-			pulse(0,int(inp))
+			board.pulse(0,int(inp))
 		elif c == 'm':
 			inp = input("\nFor how long? ")
-			pulse(1,int(inp))
+			board.pulse(1,int(inp))
 		else: print('\nInvalid selection')
 
 def config_menu():
@@ -463,8 +486,8 @@ def myExit():
 	dac.PowerDownDACA()
 	dac.PowerDownDACB()
 	print('Powered down DACs')
-	ledAct(1,0)
-	ledAct(2,0)
+	board.ledAct(1,0)
+	board.ledAct(2,0)
 	print('Turned off LEDs')
 	sys.exit()
 

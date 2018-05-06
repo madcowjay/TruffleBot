@@ -9,7 +9,7 @@ import time
 import wiringpi as wp
 import numpy as np
 
-DEBUG = False
+DEBUG = eval(os.environ.get('DEBUG', 'False'))
 
 def debug_print(string):
     if DEBUG:

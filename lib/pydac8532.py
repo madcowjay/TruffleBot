@@ -19,7 +19,7 @@ Updated 2018/01/18
 """
 import wiringpi as wp
 
-DEBUG = False
+DEBUG = eval(os.environ.get('DEBUG', 'False'))
 
 def debug_print(string):
     if DEBUG:

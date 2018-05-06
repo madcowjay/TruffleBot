@@ -14,23 +14,22 @@ PlumeLog:
 
 
 """
-import os
-import sys
-import platform
+import os, sys, platform, warnings
 from datetime import datetime
-import h5py
 import numpy as np
 
+warnings.filterwarnings("ignore", category=FutureWarning)
+import h5py
 
 class PlumeExperiment:
+    #initializes the empty dictionaries that will be filled by the methods below
     def __init__(self):
-        #initializes the empty dictionaries that will be filled by the methods below
         self.parameters = {}
         self.sources = {}
         self.sensors = {}
 
     # general function to set a parameter of the experiment, will be stored as a .hdf5 attribute at the highest level
-    def set_parameter(self,paramName, paramValue):
+    def set_parameter(self, paramName, paramValue):
         self.parameters[paramName] = paramValue
 
     # adds a sensor to the experiment, can be initialized with various attributes
@@ -66,7 +65,7 @@ class PlumeExperiment:
 
 
 class PlumeLog:
-    def __init__(self,logdirname='logfiles_PID', h5filename='plumelog'):
+    def __init__(self, logdirname='logfiles_PID', h5filename='plumelog'):
         self.logdirname = logdirname
         self.h5filename = h5filename
 
@@ -74,7 +73,7 @@ class PlumeLog:
     # the experiment is saved as a group within the .hdf5 named YearMonthDayTime and the sensor/source data is saved to groups within this
     # the general experiment parameters are saved as attributes of the highest level group (/YearMonthDay) of the experiment. Sensor or source
     # parameters are saved as attributes of the associated lower level groups
-    def save_file(self,experiment):
+    def save_file(self, experiment):
 
         date_time = experiment.parameters['End Time']
 
@@ -138,7 +137,7 @@ class PlumeLog:
 
 
     # returns a dataset, must specify logfile and full path to dataset. Ex: read_dataset('20170614.hdf5','/20170614_120400/Sensor 1')
-    def read_dataset(self,logfile,dset_name):
+    def read_dataset(self, logfile, dset_name):
         try:
             with h5py.File('%s/%s'%(self.logdirname,logfile)) as f:
                 dset = f[dset_name]
@@ -150,7 +149,7 @@ class PlumeLog:
         except:
             print(dset_name,' not found.\n')
 
-# returns a dictionary with all the data in the logfile, must specifiy logfilename
+    # returns a dictionary with all the data in the logfile, must specifiy logfilename
     def read_all_data(self, logfile):
         with h5py.File('%s/%s'%(self.logdirname,logfile)) as f:
             times = {}
@@ -182,7 +181,7 @@ class PlumeLog:
             return times
 
     #deleltes an element of the logfile, must specify full path. Ex: delete('20170614.hdf5','/20170614_120400/Source 1/TxData')
-    def delete(self,logfile,element):
+    def delete(self, logfile, element):
         with h5py.File('%s/%s'%(self.logdirname,logfile), "a") as f:
             f.__delitem__(element)
         print("%s deleted" % (element))
