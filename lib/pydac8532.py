@@ -118,12 +118,10 @@ class DAC8532:
 
 
     def __SendBytes(self, mybytearray):
-        if DEBUG:
-            print('DEBUG:    Sending bytes:  ', end=''),
-            for c in mybytearray:
-                print(type(c))
-                print('\\x%02x' % c, end='')
-            print('')
+        temp = ''
+        for c in mybytearray:
+            temp += '\\x%02x' % c
+        debug_print('Sending bytes:  ' + temp)
         result = wp.wiringPiSPIDataRW(self.SPI_CHANNEL, bytes(mybytearray))
 
 
