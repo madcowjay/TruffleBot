@@ -24,12 +24,8 @@ Updated 2018/04/25
 
 import os, subprocess, time, re
 import paramiko, bidict
+from   lib.debug_print import *
 
-DEBUG = eval(os.environ.get('DEBUG', 'False'))
-
-def debug_print(string):
-    if DEBUG:
-        print("DEBUG: " + string)
 
 class PiManager:
     def __init__(self, client_dir, ip_list):

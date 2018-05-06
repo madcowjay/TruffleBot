@@ -8,12 +8,7 @@ Updated 2018/04/24
 import os, time
 import wiringpi as wp
 import numpy as np
-
-DEBUG = eval(os.environ.get('DEBUG', 'False'))
-
-def debug_print(string):
-    if DEBUG:
-        print("DEBUG: " + string)
+from   lib.debug_print import *
 
 class ADS1256:
     """ Wiring Diagram

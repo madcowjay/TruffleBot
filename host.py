@@ -56,6 +56,27 @@ config = configparser.RawConfigParser()
 config.read(configFilePath)
 print('\nLoading config file: ' + configFilePath)
 
+LED1_PIN = int(config.get('GPIO', 'LED1_PIN'))
+LED2_PIN = int(config.get('GPIO', 'LED2_PIN'))
+TX0_PIN  = int(config.get('GPIO', 'TX0_PIN'))
+TX1_PIN  = int(config.get('GPIO', 'TX1_PIN'))
+PRESS0_PIN = int(config.get('GPIO', 'PRESS0_PIN'))
+PRESS1_PIN = int(config.get('GPIO', 'PRESS1_PIN'))
+PRESS2_PIN = int(config.get('GPIO', 'PRESS2_PIN'))
+PRESS3_PIN = int(config.get('GPIO', 'PRESS3_PIN'))
+PRESS4_PIN = int(config.get('GPIO', 'PRESS4_PIN'))
+PRESS5_PIN = int(config.get('GPIO', 'PRESS5_PIN'))
+PRESS6_PIN = int(config.get('GPIO', 'PRESS6_PIN'))
+PRESS7_PIN = int(config.get('GPIO', 'PRESS7_PIN'))
+DAC_CS_PIN = int(config.get('GPIO', 'DAC_CS_PIN'))
+ADC_CS_PIN    = int(config.get('GPIO', 'ADC_CS_PIN'))
+ADC_DRDY_PIN  = int(config.get('GPIO', 'ADC_DRDY_PIN'))
+ADC_RESET_PIN = int(config.get('GPIO', 'ADC_RESET_PIN'))
+ADC_PDWN_PIN  = int(config.get('GPIO', 'ADC_PDWN_PIN'))
+
+DAC_SPI_CHANNEL   = int(config.get('DAC', 'DAC_SPI_CHANNEL'))
+DAC_SPI_FREQUENCY = int(config.get('DAC', 'DAC_SPI_FREQUENCY'))
+
 # Set parameters
 iterations  = int(config.get('experiment-parameters', 'iterations')) #trials
 duration    = int(config.get('experiment-parameters', 'duration'))   #seconds

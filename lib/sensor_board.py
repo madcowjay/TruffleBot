@@ -7,7 +7,7 @@ class SENSOR_BOARD:
     "A sensor board object."
 
     def __init__(self, LED1_PIN, LED2_PIN, TX0_PIN, TX1_PIN):
-        "Instantiates a sensor board with the given gpio pin assignments"
+        "Instantiates a sensor board object with the given gpio pin assignments"
         self.LED1_PIN_PIN = LED1_PIN
         self.LED2_PIN_PIN = LED2_PIN
         self.TX0_PIN  = TX0_PIN

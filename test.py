@@ -1,5 +1,5 @@
 # generic imports
-import os, time, threading, sys
+import os, time, threading, sys, configparser
 from   colorama import init, Fore, Back, Style
 import wiringpi as wp
 import numpy    as np
@@ -11,6 +11,8 @@ bg  = Back.GREEN; br  = Back.RED; bb  = Back.BLUE; by  = Back.YELLOW; bc  = Back
 fg  = Fore.GREEN; fr  = Fore.RED; fb  = Fore.BLUE; fy  = Fore.YELLOW; fc  = Fore.CYAN; fm  = Fore.MAGENTA
 fbk = Fore.BLACK; fw  = Fore.WHITE
 sr  = Style.RESET_ALL
+
+configFlag = False
 
 # Process command line arguments
 index = 0
@@ -40,15 +42,42 @@ import lib.pydac8532
 import lib.pylps22hb
 import lib.sensor_board
 
+if not configFlag:
+    configFilePath = 'default.cfg'
+config = configparser.RawConfigParser()
+config.read(configFilePath)
+print('\nLoading config file: ' + configFilePath)
+
+LED1_PIN = int(config.get('GPIO', 'LED1_PIN'))
+LED2_PIN = int(config.get('GPIO', 'LED2_PIN'))
+TX0_PIN  = int(config.get('GPIO', 'TX0_PIN'))
+TX1_PIN  = int(config.get('GPIO', 'TX1_PIN'))
+PRESS0_PIN = int(config.get('GPIO', 'PRESS0_PIN'))
+PRESS1_PIN = int(config.get('GPIO', 'PRESS1_PIN'))
+PRESS2_PIN = int(config.get('GPIO', 'PRESS2_PIN'))
+PRESS3_PIN = int(config.get('GPIO', 'PRESS3_PIN'))
+PRESS4_PIN = int(config.get('GPIO', 'PRESS4_PIN'))
+PRESS5_PIN = int(config.get('GPIO', 'PRESS5_PIN'))
+PRESS6_PIN = int(config.get('GPIO', 'PRESS6_PIN'))
+PRESS7_PIN = int(config.get('GPIO', 'PRESS7_PIN'))
+DAC_CS_PIN = int(config.get('GPIO', 'DAC_CS_PIN'))
+ADC_CS_PIN    = int(config.get('GPIO', 'ADC_CS_PIN'))
+ADC_DRDY_PIN  = int(config.get('GPIO', 'ADC_DRDY_PIN'))
+ADC_RESET_PIN = int(config.get('GPIO', 'ADC_RESET_PIN'))
+ADC_PDWN_PIN  = int(config.get('GPIO', 'ADC_PDWN_PIN'))
+
+DAC_SPI_CHANNEL   = int(config.get('DAC', 'DAC_SPI_CHANNEL'))
+DAC_SPI_FREQUENCY = int(config.get('DAC', 'DAC_SPI_FREQUENCY'))
+
 # set up board
-board = lib.sensor_board.SENSOR_BOARD(LED1_PIN=led1_pin, LED2_PIN=led2_pin, TX0_PIN=tx0_pin, TX1_PIN=tx1_pin)
+board = lib.sensor_board.SENSOR_BOARD(LED1_PIN, LED2_PIN, TX0_PIN, TX1_PIN)
 wp.wiringPiSetupPhys
 wp.pinMode(26, wp.INPUT) #I actually snipped this pin off the header, but in case you don't...
 led1_freq = 1 #Hz
 led2_freq = 1 #Hz
 
 # set up pressure sensors: currently just nullify them so they don't talk on the line
-all_cs = [33, 32, 40, 22, 35, 36, 7, 18]
+all_cs = [PRESS0_PIN, PRESS1_PIN, PRESS2_PIN, PRESS3_PIN, PRESS4_PIN, PRESS5_PIN, PRESS6_PIN, PRESS7_PIN]
 for cs in all_cs:
 	wp.pinMode(cs, wp.OUTPUT)
 	wp.digitalWrite(cs, wp.HIGH)
@@ -76,7 +105,7 @@ adc_gain = 2
 adc_rate = 2 # Hz
 
 # set up 16 bit DAC
-dac = lib.pydac8532.DAC8532()
+dac = lib.pydac8532.DAC8532(DAC_SPI_CHANNEL, DAC_SPI_FREQUENCY, DAC_CS_PIN)
 dac_ref_voltage = 3.3
 dac_max_val  = 1*2**16-1
 dac.SendDACAValue(0)

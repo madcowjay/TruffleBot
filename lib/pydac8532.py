@@ -1,10 +1,10 @@
 """
-Updated 2018/04/24
+Updated 2018/05/06
+  -SPI_CHANNEL, SPI_FREQUENCY, and CS_PIN are now set when initialized
+
   -Python3 only supported now
   -Cleaned up some bytearray stuff for clarity and consistency with pyads1256.py
-                                                        -JW
 
-Updated 2018/01/18
   -Fixed bug where output was incorrect in least significant byte when most
             significant byte was nonzero due to masking error
   -Added ability to use SPI_CE0 or SPI_CE1 as CS pin
@@ -22,44 +22,45 @@ from   lib.debug_print import *
 
 
 class DAC8532:
-    """ Wiring Diagram for Pi
-     +-----+-----+---------+------+---+---Pi 2---+---+------+---------+-----+-----+
-     | BCM | wPi |   Name  | Mode | V | Physical | V | Mode | Name    | wPi | BCM |
-     +-----+-----+---------+------+---+----++----+---+------+---------+-----+-----+
-     |     |     |    3.3v |      |   |  1 || 2  |   |      | 5v      |     |     |
-     |   2 |   8 |   SDA.1 |   IN | 1 |  3 || 4  |   |      | 5V      |     |     |
-     |   3 |   9 |   SCL.1 |   IN | 1 |  5 || 6  |   |      | 0v      |     |     |
-     |   4 |   7 | GPIO. 7 |   IN | 1 |  7 || 8  | 1 | ALT0 | TxD     | 15  | 14  |
-     |     |     |      0v |      |   |  9 || 10 | 1 | ALT0 | RxD     | 16  | 15  |
-     |  17 |   0 | GPIO. 0 |   IN | 0 | 11 || 12 | 1 | IN   | GPIO. 1 | 1   | 18  |
-     |  27 |   2 | GPIO. 2 |   IN | 1 | 13 || 14 |   |      | 0v      |     |     |
-     |  22 |   3 | GPIO. 3 |   IN | 0 | 15 || 16 | 0 | IN   | GPIO. 4 | 4   | 23  |
-     |     |     |    3.3v |      |   | 17 || 18 | 0 | IN   | GPIO. 5 | 5   | 24  |
-     |  10 |  12 |    MOSI | ALT0 | 0 | 19 || 20 |   |      | 0v      |     |     |
-     |   9 |  13 |    MISO | ALT0 | 0 | 21 || 22 | 0 | IN   | GPIO. 6 | 6   | 25  |
-     |  11 |  14 |    SCLK | ALT0 | 0 | 23 || 24 | 1 | OUT  | CE0     | 10  | 8   |
-     |     |     |      0v |      |   | 25 || 26 | 1 | OUT  | CE1     | 11  | 7   |
-     |   0 |  30 |   SDA.0 |   IN | 1 | 27 || 28 | 1 | IN   | SCL.0   | 31  | 1   |
-     |   5 |  21 | GPIO.21 |   IN | 1 | 29 || 30 |   |      | 0v      |     |     |
-     |   6 |  22 | GPIO.22 |   IN | 1 | 31 || 32 | 0 | IN   | GPIO.26 | 26  | 12  |
-     |  13 |  23 | GPIO.23 |   IN | 0 | 33 || 34 |   |      | 0v      |     |     |
-     |  19 |  24 | GPIO.24 |   IN | 0 | 35 || 36 | 0 | IN   | GPIO.27 | 27  | 16  |
-     |  26 |  25 | GPIO.25 |   IN | 0 | 37 || 38 | 0 | IN   | GPIO.28 | 28  | 20  |
-     |     |     |      0v |      |   | 39 || 40 | 0 | IN   | GPIO.29 | 29  | 21  |
-     +-----+-----+---------+------+---+----++----+---+------+---------+-----+-----+
-     | BCM | wPi |   Name  | Mode | V | Physical | V | Mode | Name    | wPi | BCM |
-     +-----+-----+---------+------+---+---Pi 2---+---+------+---------+-----+-----+
-    """
+    "A DAC8532 object"
 
+    # Wiring Diagram for Pi
+    #  +-----+-----+---------+------+---+---Pi 2---+---+------+---------+-----+-----+
+    #  | BCM | wPi |   Name  | Mode | V | Physical | V | Mode | Name    | wPi | BCM |
+    #  +-----+-----+---------+------+---+----++----+---+------+---------+-----+-----+
+    #  |     |     |    3.3v |      |   |  1 || 2  |   |      | 5v      |     |     |
+    #  |   2 |   8 |   SDA.1 |   IN | 1 |  3 || 4  |   |      | 5V      |     |     |
+    #  |   3 |   9 |   SCL.1 |   IN | 1 |  5 || 6  |   |      | 0v      |     |     |
+    #  |   4 |   7 | GPIO. 7 |   IN | 1 |  7 || 8  | 1 | ALT0 | TxD     | 15  | 14  |
+    #  |     |     |      0v |      |   |  9 || 10 | 1 | ALT0 | RxD     | 16  | 15  |
+    #  |  17 |   0 | GPIO. 0 |   IN | 0 | 11 || 12 | 1 | IN   | GPIO. 1 | 1   | 18  |
+    #  |  27 |   2 | GPIO. 2 |   IN | 1 | 13 || 14 |   |      | 0v      |     |     |
+    #  |  22 |   3 | GPIO. 3 |   IN | 0 | 15 || 16 | 0 | IN   | GPIO. 4 | 4   | 23  |
+    #  |     |     |    3.3v |      |   | 17 || 18 | 0 | IN   | GPIO. 5 | 5   | 24  |
+    #  |  10 |  12 |    MOSI | ALT0 | 0 | 19 || 20 |   |      | 0v      |     |     |
+    #  |   9 |  13 |    MISO | ALT0 | 0 | 21 || 22 | 0 | IN   | GPIO. 6 | 6   | 25  |
+    #  |  11 |  14 |    SCLK | ALT0 | 0 | 23 || 24 | 1 | OUT  | CE0     | 10  | 8   |
+    #  |     |     |      0v |      |   | 25 || 26 | 1 | OUT  | CE1     | 11  | 7   |
+    #  |   0 |  30 |   SDA.0 |   IN | 1 | 27 || 28 | 1 | IN   | SCL.0   | 31  | 1   |
+    #  |   5 |  21 | GPIO.21 |   IN | 1 | 29 || 30 |   |      | 0v      |     |     |
+    #  |   6 |  22 | GPIO.22 |   IN | 1 | 31 || 32 | 0 | IN   | GPIO.26 | 26  | 12  |
+    #  |  13 |  23 | GPIO.23 |   IN | 0 | 33 || 34 |   |      | 0v      |     |     |
+    #  |  19 |  24 | GPIO.24 |   IN | 0 | 35 || 36 | 0 | IN   | GPIO.27 | 27  | 16  |
+    #  |  26 |  25 | GPIO.25 |   IN | 0 | 37 || 38 | 0 | IN   | GPIO.28 | 28  | 20  |
+    #  |     |     |      0v |      |   | 39 || 40 | 0 | IN   | GPIO.29 | 29  | 21  |
+    #  +-----+-----+---------+------+---+----++----+---+------+---------+-----+-----+
+    #  | BCM | wPi |   Name  | Mode | V | Physical | V | Mode | Name    | wPi | BCM |
+    #  +-----+-----+---------+------+---+---Pi 2---+---+------+---------+-----+-----+
+    
     # These options can be adjusted to facilitate specific operation of the
     # DAC8532, the defaults are designed to be compatible with the Waveforms
     # High Precision AD/DA board
-    # SPI_MODE's value isn't really used in this implementation, but you should be aware that the default SPI enable pin
+    # SPI_CHANNEL's value isn't really used in this implementation, but you should be aware that the default SPI enable pin
     #    on the Pi  - CE0 (Pin 24) or CE1 (Pin 26) will be toggled by the underlying functions during comms
     SPI_MODE        = 1
-    SPI_CHANNEL     = 0
-    SPI_FREQUENCY   = 250000
-    CS_PIN          = 16    # The physical pin to use for chip select and ready polling
+    # SPI_CHANNEL     = 0
+    # SPI_FREQUENCY   = 250000
+    # CS_PIN          = 16    # The physical pin to use for chip select and ready polling
 
     """ Register for DAC8532
     +------+------+------+------+------+----------------+------+------+------+------+------+------+
@@ -82,12 +83,18 @@ class DAC8532:
     PD1            = 1 << 17
     PD0            = 1 << 16
 
-    def __init__(self, *args):
+    def __init__(self, SPI_CHANNEL, SPI_FREQUENCY, CS_PIN):
+        "Instantiates a DAC object with the given parameters"
         debug_print('pydac8532 initializing with:')
         debug_print('   SPI_MODE      = %d' % self.SPI_MODE)
         debug_print('   SPI_CHANNEL   = %d' % self.SPI_CHANNEL)
         debug_print('   SPI_FREQUENCY = ' + format(self.SPI_FREQUENCY,','))
         debug_print('   CS_PIN = %d' %self.CS_PIN)
+
+        self.SPI_CHANNEL = SPI_CHANNEL
+        self.SPI_FREQUENCY = SPI_FREQUENCY
+        self.CS_PIN = CS_PIN
+
         # Set up the wiringPi object to use physical pin numbers
         wp.wiringPiSetupPhys()
 
@@ -100,16 +107,15 @@ class DAC8532:
         debug_print('SPI success: ' + str(spi_success))
 
 
-    def delayMicroseconds(self, delayus):
-        wp.delayMicroseconds(delayus)
-
-    def chip_select(self):
+    def __chip_select(self):
         wp.digitalWrite(self.CS_PIN, wp.LOW)
 
-    def chip_release(self):
+
+    def __chip_release(self):
         wp.digitalWrite(self.CS_PIN, wp.HIGH)
 
-    def SendBytes(self, mybytearray):
+
+    def __SendBytes(self, mybytearray):
         if DEBUG:
             print('DEBUG:    Sending bytes:  ', end=''),
             for c in mybytearray:
@@ -118,40 +124,48 @@ class DAC8532:
             print('')
         result = wp.wiringPiSPIDataRW(self.SPI_CHANNEL, bytes(mybytearray))
 
+
     def SendDACAValue(self, newvalue):
+        "Send DAC A a new value between 0 and 2^16-1"
         debug_print('Send DAC A: ' + str(int(newvalue)).rjust(5))
-        self.chip_select() #only needed if not using CE0 or CE1, but doesn't hurt otherwise
+        self.__chip_select() #only needed if not using CE0 or CE1, but doesn't hurt otherwise
         byte1 = ((self.LOAD_DACA | self.BUFFERSELECT_A) >> 16) & 0xFF
         byte2 = (int(newvalue) >> 8) & 0xFF
         byte3 = (int(newvalue)     ) & 0xFF
         debug_print('   Decimal bytes:   %03d %03d %03d' % (byte1, byte2, byte3))
-        self.SendBytes(bytearray((byte1,byte2,byte3)))
-        self.chip_release() #only needed if not using CE0 or CE1, but doesn't hurt otherwise
+        self.__SendBytes(bytearray((byte1,byte2,byte3)))
+        self.__chip_release() #only needed if not using CE0 or CE1, but doesn't hurt otherwise
+
 
     def SendDACBValue(self, newvalue):
+        "Send DAC B a new value between 0 and 2^16-1"
         debug_print('Send DAC B: ' + str(int(newvalue)).rjust(5))
-        self.chip_select() #only needed if not using CE0 or CE1, but doesn't hurt otherwise
+        self.__chip_select() #only needed if not using CE0 or CE1, but doesn't hurt otherwise
         byte1 = ((self.LOAD_DACB | self.BUFFERSELECT_B) >> 16) & 0xFF
         byte2 = (int(newvalue) >> 8) & 0xFF
         byte3 = (int(newvalue)     ) & 0xFF
         debug_print('   Decimal bytes:   %03d %03d %03d' % (byte1, byte2, byte3))
-        self.SendBytes(bytearray((byte1,byte2,byte3)))
-        self.chip_release() #only needed if not using CE0 or CE1, but doesn't hurt otherwise
+        self.__SendBytes(bytearray((byte1,byte2,byte3)))
+        self.__chip_release() #only needed if not using CE0 or CE1, but doesn't hurt otherwise
 
-    def PowerDownDACA(self):  #Powers down DAC A to high impedance
+
+    def PowerDownDACA(self):
+        "Powers down DAC A to high impedance"
         debug_print('Powering down DAC A')
-        self.chip_select() #only needed if not using CE0 or CE1, but doesn't hurt otherwise
+        self.__chip_select() #only needed if not using CE0 or CE1, but doesn't hurt otherwise
         byte1 = (((self.LOAD_DACA | self.BUFFERSELECT_A | self.PD1 | self.PD0) >> 16) & 0xFF)
         byte2 = (0 & 0xFF)
         byte3 = (0 & 0xFF)
-        self.SendBytes(bytearray((byte1,byte2,byte3)))
-        self.chip_release() #only needed if not using CE0 or CE1, but doesn't hurt otherwise
+        self.__SendBytes(bytearray((byte1,byte2,byte3)))
+        self.__chip_release() #only needed if not using CE0 or CE1, but doesn't hurt otherwise
 
-    def PowerDownDACB(self):  #Powers down DAC B to high impedance
+
+    def PowerDownDACB(self):
+        "Powers down DAC B to high impedance"
         debug_print('Powering down DAC B')
-        self.chip_select() #only needed if not using CE0 or CE1, but doesn't hurt otherwise
+        self.__chip_select() #only needed if not using CE0 or CE1, but doesn't hurt otherwise
         byte1 = (((self.LOAD_DACB | self.BUFFERSELECT_B | self.PD1 | self.PD0) >> 16) & 0xFF)
         byte2 = (0 & 0xFF)
         byte3 = (0 & 0xFF)
-        self.SendBytes(bytearray((byte1,byte2,byte3)))
-        self.chip_release() #only needed if not using CE0 or CE1, but doesn't hurt otherwise
+        self.__SendBytes(bytearray((byte1,byte2,byte3)))
+        self.__chip_release() #only needed if not using CE0 or CE1, but doesn't hurt otherwise

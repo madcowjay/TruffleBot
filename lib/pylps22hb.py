@@ -8,12 +8,7 @@ import os
 import time
 import wiringpi as wp
 import numpy as np
-
-DEBUG = eval(os.environ.get('DEBUG', 'False'))
-
-def debug_print(string):
-    if DEBUG:
-        print("DEBUG: " + string)
+from   lib.debug_print import *
 
 
 class LPS22HB:
@@ -125,14 +120,14 @@ class LPS22HB:
     DRATE_75 = 0b101 # 75 Hz
 
     # Initialize the pressure sensors
-    def __init__(self, cs_pin):
+    def __init__(self, CS_PIN):
         debug_print('pylps22hb initializing with:')
         debug_print('   >SPI_MODE      = %d' % self.SPI_MODE)
         debug_print('   >SPI_CHANNEL   = %d' % self.SPI_CHANNEL)
         debug_print('   >SPI_FREQUENCY = ' + format(self.SPI_FREQUENCY,','))
-        debug_print('   >CS_PIN        = %d' % cs_pin)
+        debug_print('   >CS_PIN        = %d' % CS_PIN)
 
-        self.CS_PIN = cs_pin
+        self.CS_PIN = CS_PIN
 
         # Set up the wiringpi object to use physical pin numbers
         wp.wiringPiSetupPhys()
