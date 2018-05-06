@@ -18,7 +18,7 @@ Updated 2018/01/18
                                                          -JW
 """
 import wiringpi as wp
-from   debug_print import *
+from   lib.debug_print import *
 
 
 class DAC8532:

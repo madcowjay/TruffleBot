@@ -1,6 +1,6 @@
 import RPi.GPIO as gpio
 import os, time, threading
-from   debug_print import *
+from   lib.debug_print import *
 
 
 class SENSOR_BOARD:
