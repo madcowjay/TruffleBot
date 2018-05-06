@@ -8,8 +8,8 @@ class SENSOR_BOARD:
 
     def __init__(self, LED1_PIN, LED2_PIN, TX0_PIN, TX1_PIN):
         "Instantiates a sensor board object with the given gpio pin assignments"
-        self.LED1_PIN_PIN = LED1_PIN
-        self.LED2_PIN_PIN = LED2_PIN
+        self.LED1_PIN = LED1_PIN
+        self.LED2_PIN = LED2_PIN
         self.TX0_PIN  = TX0_PIN
         self.TX1_PIN  = TX1_PIN
         debug_print('sensor_board initializing with:')
