@@ -1,5 +1,5 @@
 import RPi.GPIO as gpio
-import time, threading
+import os, time, threading
 
 DEBUG = eval(os.environ.get('DEBUG', 'False'))
 def debug_print(string):
