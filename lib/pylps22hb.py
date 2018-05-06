@@ -171,12 +171,8 @@ class LPS22HB:
         self.chip_select()
         byte1 = self.READ_MASK | self.REG_WHO_AM_I
         byte2 = self.DUMMY_BYTE
-        result = self.SendString(bytearray([byte1,byte2]))
+        result = self.SendString(bytearray((byte1,byte2)))
         self.chip_release()
-        if DEBUG:
-            for reg in result[1]:
-                print(format(ord(reg), '08b') + ' = '+ format(ord(reg), '02x'))
-        #myid = hex(ord((result[1][1])))
         myid = hex((result[1][1]))
         debug_print(" readID: myid = " + myid)
         return (myid)
