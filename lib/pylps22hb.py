@@ -151,7 +151,6 @@ class LPS22HB:
         debug_print('releasing pin ' + str(self.CS_PIN))
         wp.digitalWrite(self.CS_PIN, wp.HIGH)
 
-    #new DAC style
     def __SendBytes(self, myBytearray):
         temp = ''
         for c in myBytearray:
@@ -159,7 +158,7 @@ class LPS22HB:
         debug_print('Sending bytes:  ' + temp)
         result = wp.wiringPiSPIDataRW(self.SPI_CHANNEL, bytes(myBytearray))
         debug_print("Result = " + str(result))
-        return result
+        return result[1]
 
     def ReadID(self):
         """
@@ -173,7 +172,7 @@ class LPS22HB:
         result = self.__SendBytes(bytearray((byte1,byte2)))
         self.chip_release()
         myid = hex((result[1][1]))
-        debug_print(" readID: myid = " + myid)
+        debug_print("myid = " + myid)
         return (myid)
 
     def ReadRegisters(self):

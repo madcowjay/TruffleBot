@@ -124,7 +124,7 @@ class DAC8532:
         debug_print('Sending bytes:  ' + temp)
         result = wp.wiringPiSPIDataRW(self.SPI_CHANNEL, bytes(myBytearray))
         debug_print("Result = " + str(result))
-        return result
+        return result[1]
 
 
     def SendDACAValue(self, newValue):

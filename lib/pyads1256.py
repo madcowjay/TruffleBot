@@ -299,7 +299,9 @@ class ADS1256:
             drdy_level = wp.digitalRead(self.DRDY_PIN)
 
         if elapsed >= self.DRDY_TIMEOUT:
-            print("WaitDRDY() Timeout\r\n")
+            debug_print("WaitDRDY() Timeout\n")
+            return(1)
+        else: return(0)
 
 
     def __SendBytes(self, myBytearray):
@@ -312,10 +314,6 @@ class ADS1256:
         debug_print('Sending bytes:  ' + temp)
         result = wp.wiringPiSPIDataRW(self.SPI_CHANNEL, bytes(myBytearray))
         debug_print("Result = " + str(result))
-        print(result)
-        print(type(result))
-        print(result[1])
-        print(type(result[1]))
         return result[1]
 
 
@@ -601,5 +599,5 @@ class ADS1256:
         self.WaitDRDY()
         idInBytes = self.ReadReg(self.REG_STATUS, 1)
         myid  = idInBytes[0] >> 4
-        debug_print(" readID: myid = " + str(myid))
+        debug_print("myid = " + str(myid))
         return (myid)
