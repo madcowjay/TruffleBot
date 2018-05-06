@@ -51,7 +51,7 @@ class DAC8532:
     #  +-----+-----+---------+------+---+----++----+---+------+---------+-----+-----+
     #  | BCM | wPi |   Name  | Mode | V | Physical | V | Mode | Name    | wPi | BCM |
     #  +-----+-----+---------+------+---+---Pi 2---+---+------+---------+-----+-----+
-    
+
     # These options can be adjusted to facilitate specific operation of the
     # DAC8532, the defaults are designed to be compatible with the Waveforms
     # High Precision AD/DA board
@@ -85,15 +85,16 @@ class DAC8532:
 
     def __init__(self, SPI_CHANNEL, SPI_FREQUENCY, CS_PIN):
         "Instantiates a DAC object with the given parameters"
+
+        self.SPI_CHANNEL = SPI_CHANNEL
+        self.SPI_FREQUENCY = SPI_FREQUENCY
+        self.CS_PIN = CS_PIN
+
         debug_print('pydac8532 initializing with:')
         debug_print('   SPI_MODE      = %d' % self.SPI_MODE)
         debug_print('   SPI_CHANNEL   = %d' % self.SPI_CHANNEL)
         debug_print('   SPI_FREQUENCY = ' + format(self.SPI_FREQUENCY,','))
         debug_print('   CS_PIN = %d' %self.CS_PIN)
-
-        self.SPI_CHANNEL = SPI_CHANNEL
-        self.SPI_FREQUENCY = SPI_FREQUENCY
-        self.CS_PIN = CS_PIN
 
         # Set up the wiringPi object to use physical pin numbers
         wp.wiringPiSetupPhys()

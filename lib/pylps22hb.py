@@ -4,8 +4,7 @@ February 2018 - Jason Webster
 """
 
 from __future__ import print_function
-import os
-import time
+import os, time
 import wiringpi as wp
 import numpy as np
 from   lib.debug_print import *
