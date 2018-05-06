@@ -18,12 +18,8 @@ Updated 2018/01/18
                                                          -JW
 """
 import wiringpi as wp
+from   debug_print import *
 
-DEBUG = eval(os.environ.get('DEBUG', 'False'))
-
-def debug_print(string):
-    if DEBUG:
-        print('DEBUG: ' + string)
 
 class DAC8532:
     """ Wiring Diagram for Pi
