@@ -302,7 +302,7 @@ class ADS1256:
             print("WaitDRDY() Timeout\r\n")
 
 
-    def __SendBytes(self, mybytearray):
+    def __SendBytes(self, myBytearray):
         """
         Sends a string to the SPI bus
         """
