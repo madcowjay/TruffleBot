@@ -1,9 +1,9 @@
 import RPi.GPIO as gpio
 import os, time, threading
 
-DEBUG = eval(os.environ.get('DEBUG', 'False'))
-def debug_print(string):
-    if DEBUG:
+__DEBUG = eval(os.environ.get('DEBUG', 'False'))
+def __debug_print(string):
+    if __DEBUG:
         print("DEBUG: " + string)
 
 class SENSOR_BOARD:
@@ -15,11 +15,11 @@ class SENSOR_BOARD:
         self.LED2_PIN_PIN = LED2_PIN
         self.TX0_PIN  = TX0_PIN
         self.TX1_PIN  = TX1_PIN
-        debug_print('sensor_board initializing with:')
-        debug_print('  LED1_PIN = {0}.format(LED1_PIN)')
-        debug_print('  LED2_PIN = {0}.format(LED2_PIN)')
-        debug_print('  TX0_PIN  = {0}.format(TX0_PIN)')
-        debug_print('  TX1_PIN  = {0}.format(TX1_PIN)')
+        __debug_print('sensor_board initializing with:')
+        __debug_print('  LED1_PIN = {0}.format(LED1_PIN)')
+        __debug_print('  LED2_PIN = {0}.format(LED2_PIN)')
+        __debug_print('  TX0_PIN  = {0}.format(TX0_PIN)')
+        __debug_print('  TX1_PIN  = {0}.format(TX1_PIN)')
 
         # set up the numbering scheme, BCM is more standard but BOARD coincides with my schematic
         gpio.setmode(gpio.BOARD)
