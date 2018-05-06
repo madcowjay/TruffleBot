@@ -56,7 +56,7 @@ class SENSOR_BOARD:
                 gpio.output(self.LED1_PIN, gpio.HIGH)
             elif state == 2: # blink
                 self.bt1_stop.clear()
-                bt1 = threading.Thread(target=__blink_thread, args=(self.LED1_PIN, self.bt1_stop, frequency))
+                bt1 = threading.Thread(target=self.__blink_thread, args=(self.LED1_PIN, self.bt1_stop, frequency))
                 bt1.start()
         else: #led = 2
             self.bt2_stop.set()
@@ -66,7 +66,7 @@ class SENSOR_BOARD:
                 gpio.output(self.LED2_PIN, gpio.HIGH)
             elif state == 2: # blink
                 self.bt2_stop.clear()
-                bt2 = threading.Thread(target=__blink_thread, args=(self.LED2_PIN, self.bt2_stop, frequency))
+                bt2 = threading.Thread(target=self.__blink_thread, args=(self.LED2_PIN, self.bt2_stop, frequency))
                 bt2.start()
 
 
