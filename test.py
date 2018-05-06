@@ -436,7 +436,7 @@ def board_menu():
 		print('   a: ADC MENU     PRESSURE MENU   d: DAC MENU      ' +bg+fbk+ 'BOARD MENU' +sr+ '   c: CONFIG MENU   x: EXIT        ')
 		print('')
 		print('        g: toggle LED1 ON     h: toggle LED1 OFF      j: blink LED1    k: pulse TX0')
-		print('        v: toggle LED1 ON     b: toggle LED1 OFF      n: blink LED1    m: pulse TX1')
+		print('        v: toggle LED2 ON     b: toggle LED2 OFF      n: blink LED2    m: pulse TX1')
 		print(fg+ '---------------------------------------------------------------------------------------------' +sr)
 		c = getch()
 		if   c == 'a':
