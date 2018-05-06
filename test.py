@@ -69,6 +69,9 @@ ADC_PDWN_PIN  = int(config.get('GPIO', 'ADC_PDWN_PIN'))
 DAC_SPI_CHANNEL   = int(config.get('DAC', 'DAC_SPI_CHANNEL'))
 DAC_SPI_FREQUENCY = int(config.get('DAC', 'DAC_SPI_FREQUENCY'))
 
+LPS_SPI_CHANNEL   = int(config.get('LPS', 'LPS_SPI_CHANNEL'))
+LPS_SPI_FREQUENCY = int(config.get('LPS', 'LPS_SPI_FREQUENCY'))
+
 # set up board
 board = lib.sensor_board.SENSOR_BOARD(LED1_PIN, LED2_PIN, TX0_PIN, TX1_PIN)
 wp.wiringPiSetupPhys
