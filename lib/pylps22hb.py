@@ -158,7 +158,7 @@ class LPS22HB:
             temp += '\\x%02x' % c
         debug_print('Sending bytes:  ' + temp)
         result = wp.wiringPiSPIDataRW(self.SPI_CHANNEL, bytes(myBytearray))
-        debug_print(" SendBytes: result = " + str(result))
+        debug_print("Result = " + str(result))
         return result
 
     def ReadID(self):

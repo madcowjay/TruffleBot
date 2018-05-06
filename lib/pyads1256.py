@@ -302,22 +302,20 @@ class ADS1256:
             print("WaitDRDY() Timeout\r\n")
 
 
-    def SendBytes(self, mybytearray):
+    def __SendBytes(self, mybytearray):
         """
         Sends a string to the SPI bus
         """
-        debug_print("  Entered SendBytes:")
-        if DEBUG:
-            print('DEBUG:    Sending bytes:  ', end=''),
-            for c in mybytearray:
-                print('\\x%02x' % c, end='')
-            print('')
-        result = wp.wiringPiSPIDataRW(self.SPI_CHANNEL, bytes(mybytearray))
-        if DEBUG:
-            print('DEBUG:    Received bytes: ', end=''),
-            for c in result[1]:
-                print('\\x%02x' % c, end='')
-            print('')
+        temp = ''
+        for c in myBytearray:
+            temp += '\\x%02x' % c
+        debug_print('Sending bytes:  ' + temp)
+        result = wp.wiringPiSPIDataRW(self.SPI_CHANNEL, bytes(myBytearray))
+        debug_print("Result = " + str(result))
+        print(result)
+        print(type(result))
+        print(result[1])
+        print(type(result[1]))
         return result[1]
 
 
@@ -328,7 +326,7 @@ class ADS1256:
         Datasheet states that the delay between requesting data and reading the
         bus must be minimum 50x CLKIN period.
         """
-        debug_print("  DataDelay")
+        debug_print("DataDelay")
 
         start = time.time()
         elapsed = time.time() - start
@@ -360,9 +358,9 @@ class ADS1256:
         debug_print("  ReadReg")
 
         self.chip_select()
-        self.SendBytes(bytearray((self.CMD_RREG | start_reg, 0x00 | num_to_read-1)))
+        self.__SendBytes(bytearray((self.CMD_RREG | start_reg, 0x00 | num_to_read-1)))
         self.DataDelay()
-        read = self.SendBytes(bytearray(num_to_read*(0x00,)))
+        read = self.__SendBytes(bytearray(num_to_read*(0x00,)))
         self.chip_release()
 
         return read
@@ -395,7 +393,7 @@ class ADS1256:
         byte2 = 0x00                            # Tell the ADS chip how many additional registers to write
         byte3 = data                             # Send the data
 
-        self.SendBytes(bytearray((byte1,byte2,byte3)))
+        self.__SendBytes(bytearray((byte1,byte2,byte3)))
 
         self.chip_release()
 
@@ -412,7 +410,7 @@ class ADS1256:
         byte5 = self.AD_GAIN_2              # ADCON control register, gain
         byte6 = self.DRATE_500              # data rate
 
-        self.SendBytes(bytearray((byte1,byte2,byte3,byte4,byte5,byte6)))
+        self.__SendBytes(bytearray((byte1,byte2,byte3,byte4,byte5,byte6)))
 
         self.chip_release()
 
@@ -428,7 +426,7 @@ class ADS1256:
         byte2 = 0x00
         byte3 = (possel<<4) | (negsel<<0)
 
-        self.SendBytes(bytearray((byte1,byte2,byte3)))
+        self.__SendBytes(bytearray((byte1,byte2,byte3)))
 
         self.chip_release()
 
@@ -442,7 +440,7 @@ class ADS1256:
         byte2 = 0x00
         byte3 = (possel<<4) | (negsel<<0)
 
-        self.SendBytes(bytearray((byte1,byte2,byte3)))
+        self.__SendBytes(bytearray((byte1,byte2,byte3)))
 
         #self.chip_release()
 
@@ -451,9 +449,9 @@ class ADS1256:
         debug_print('sync+wakeup')
 
         self.chip_select()
-        self.SendBytes(bytearray((self.CMD_SYNC,)))
+        self.__SendBytes(bytearray((self.CMD_SYNC,)))
         self.delayMicroseconds(4)
-        self.SendBytes(bytearray((self.CMD_WAKEUP,)))
+        self.__SendBytes(bytearray((self.CMD_WAKEUP,)))
         self.chip_release()
         self.delayMicroseconds(4)
 
@@ -462,9 +460,9 @@ class ADS1256:
         debug_print('sync+wakeup (quickly (no chip select or release))')
 
         # self.chip_select()
-        self.SendBytes(bytearray((self.CMD_SYNC,)))
+        self.__SendBytes(bytearray((self.CMD_SYNC,)))
         self.delayMicroseconds(4)
-        self.SendBytes(bytearray((self.CMD_WAKEUP,)))
+        self.__SendBytes(bytearray((self.CMD_WAKEUP,)))
         #self.chip_release()
         # self.delayMicroseconds(4)
 
@@ -497,9 +495,9 @@ class ADS1256:
 
         self.chip_select()
         self.WaitDRDY()
-        self.SendBytes(bytearray((self.CMD_RDATA,)))
+        self.__SendBytes(bytearray((self.CMD_RDATA,)))
         self.DataDelay()
-        result = self.SendBytes(bytearray(3*(0x00,))) # The result is 24 bits
+        result = self.__SendBytes(bytearray(3*(0x00,))) # The result is 24 bits
         self.chip_release()
 
         return (result[0] << 16) + (result[1] << 8) + result[2]
@@ -522,9 +520,9 @@ class ADS1256:
 
         # self.chip_select()
         # self.WaitDRDY()
-        self.SendBytes(bytearray((self.CMD_RDATA,)))
+        self.__SendBytes(bytearray((self.CMD_RDATA,)))
         self.DataDelay()
-        result = self.SendBytes(bytearray(3*(0x00,))) # The result is 24 bits
+        result = self.__SendBytes(bytearray(3*(0x00,))) # The result is 24 bits
         # self.chip_release()
 
         return (result[0] << 16) + (result[1] << 8) + result[2]

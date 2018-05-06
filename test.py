@@ -88,7 +88,6 @@ lps = []
 lps_status = []
 for index in range(len(all_cs)):
     lps.append(lib.pylps22hb.LPS22HB(LPS_SPI_CHANNEL, LPS_SPI_FREQUENCY, all_cs[index]))
-    print(lps[index].ReadID())
     if lps[index].ReadID() == '0xb1':
         lps_status.append(fg+' LPS' + str(index) + ' UP ' +sr)
     else:

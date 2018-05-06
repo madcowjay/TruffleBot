@@ -117,33 +117,35 @@ class DAC8532:
         wp.digitalWrite(self.CS_PIN, wp.HIGH)
 
 
-    def __SendBytes(self, mybytearray):
+    def __SendBytes(self, myBytearray):
         temp = ''
-        for c in mybytearray:
+        for c in myBytearray:
             temp += '\\x%02x' % c
         debug_print('Sending bytes:  ' + temp)
-        result = wp.wiringPiSPIDataRW(self.SPI_CHANNEL, bytes(mybytearray))
+        result = wp.wiringPiSPIDataRW(self.SPI_CHANNEL, bytes(myBytearray))
+        debug_print("Result = " + str(result))
+        return result
 
 
-    def SendDACAValue(self, newvalue):
+    def SendDACAValue(self, newValue):
         "Send DAC A a new value between 0 and 2^16-1"
-        debug_print('Send DAC A: ' + str(int(newvalue)).rjust(5))
+        debug_print('Send DAC A: ' + str(int(newValue)).rjust(5))
         self.__chip_select() #only needed if not using CE0 or CE1, but doesn't hurt otherwise
         byte1 = ((self.LOAD_DACA | self.BUFFERSELECT_A) >> 16) & 0xFF
-        byte2 = (int(newvalue) >> 8) & 0xFF
-        byte3 = (int(newvalue)     ) & 0xFF
+        byte2 = (int(newValue) >> 8) & 0xFF
+        byte3 = (int(newValue)     ) & 0xFF
         debug_print('   Decimal bytes:   %03d %03d %03d' % (byte1, byte2, byte3))
         self.__SendBytes(bytearray((byte1,byte2,byte3)))
         self.__chip_release() #only needed if not using CE0 or CE1, but doesn't hurt otherwise
 
 
-    def SendDACBValue(self, newvalue):
+    def SendDACBValue(self, newValue):
         "Send DAC B a new value between 0 and 2^16-1"
-        debug_print('Send DAC B: ' + str(int(newvalue)).rjust(5))
+        debug_print('Send DAC B: ' + str(int(newValue)).rjust(5))
         self.__chip_select() #only needed if not using CE0 or CE1, but doesn't hurt otherwise
         byte1 = ((self.LOAD_DACB | self.BUFFERSELECT_B) >> 16) & 0xFF
-        byte2 = (int(newvalue) >> 8) & 0xFF
-        byte3 = (int(newvalue)     ) & 0xFF
+        byte2 = (int(newValue) >> 8) & 0xFF
+        byte3 = (int(newValue)     ) & 0xFF
         debug_print('   Decimal bytes:   %03d %03d %03d' % (byte1, byte2, byte3))
         self.__SendBytes(bytearray((byte1,byte2,byte3)))
         self.__chip_release() #only needed if not using CE0 or CE1, but doesn't hurt otherwise
