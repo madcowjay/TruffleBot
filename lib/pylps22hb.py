@@ -121,12 +121,10 @@ class LPS22HB:
         self.CS_PIN = CS_PIN
 
         debug_print('pylps22hb initializing with:')
-        debug_print('   >SPI_MODE      = %d' % self.SPI_MODE)
-        debug_print('   >SPI_CHANNEL   = %d' % self.SPI_CHANNEL)
-        debug_print('   >SPI_FREQUENCY = ' + format(self.SPI_FREQUENCY,','))
-        debug_print('   >CS_PIN        = %d' % CS_PIN)
-
-
+        debug_print('   SPI_MODE      = %d' % self.SPI_MODE)
+        debug_print('   SPI_CHANNEL   = %d' % self.SPI_CHANNEL)
+        debug_print('   SPI_FREQUENCY = ' + format(self.SPI_FREQUENCY,','))
+        debug_print('   CS_PIN        = %d' % CS_PIN)
 
         # Set up the wiringpi object to use physical pin numbers
         wp.wiringPiSetupPhys()
@@ -138,16 +136,16 @@ class LPS22HB:
         # Initialize the wiringpi SPI setup
         #spi_success = wp.wiringPiSPISetup(self.SPI_CHANNEL, self.SPI_FREQUENCY)
         spi_success = wp.wiringPiSPISetupMode(self.SPI_CHANNEL, self.SPI_FREQUENCY, self.SPI_MODE)  #JKR
-        debug_print("  SPI success " + str(spi_success))
+        debug_print("SPI success " + str(spi_success))
 
-    def delayMicroseconds(self, delayus):
+    def __delayMicroseconds(self, delayus):
         wp.delayMicroseconds(delayus)
 
-    def chip_select(self):
+    def __chip_select(self):
         debug_print('selecting pin ' + str(self.CS_PIN))
         wp.digitalWrite(self.CS_PIN, wp.LOW)
 
-    def chip_release(self):
+    def __chip_release(self):
         debug_print('releasing pin ' + str(self.CS_PIN))
         wp.digitalWrite(self.CS_PIN, wp.HIGH)
 
@@ -157,7 +155,10 @@ class LPS22HB:
             temp += '\\x%02x' % c
         debug_print('Sending bytes:  ' + temp)
         result = wp.wiringPiSPIDataRW(self.SPI_CHANNEL, bytes(myBytearray))
-        debug_print("Result = " + str(result))
+        temp = ''
+        for c in result[1]:
+            temp += '\\x%02x' % c
+        debug_print('Result:         ' + temp)
         return result[1]
 
     def ReadID(self):
@@ -166,12 +167,12 @@ class LPS22HB:
         :returns: numeric identifier of the LPS chip
         """
         debug_print("ReadID")
-        self.chip_select()
+        self.__chip_select()
         byte1 = self.READ_MASK | self.REG_WHO_AM_I
         byte2 = self.DUMMY_BYTE
         result = self.__SendBytes(bytearray((byte1,byte2)))
-        self.chip_release()
-        myid = hex((result[1][1]))
+        self.__chip_release()
+        myid = hex((result[1]))
         debug_print("myid = " + myid)
         return (myid)
 
@@ -183,63 +184,64 @@ class LPS22HB:
         debug_print("ReadRegisters")
         byte1 = self.READ_MASK | self.REG_INTERRUPT_CFG
         byte2 = self.DUMMY_BYTE
-        self.chip_select()
+        self.__chip_select()
         result = self.__SendBytes(bytearray([byte1]+41*[byte2]))
-        self.chip_release()
+        self.__chip_release()
         index = 0x0A
-        skip_registers = [0x0A, 0x0E, 0x13] + range(0x1B, 0x25) + range(0x2D, 0x33)
-        for reg in result[1]:
+        skip_registers = [0x0A, 0x0E, 0x13] + list(range(0x1B, 0x25)) + list(range(0x2D, 0x33))
+        for reg in result:
             if index not in skip_registers:
-                debug_print('  ' + format(int(index), '02X') + ': ' + format(ord(reg), '08b') + ' = '+ format(ord(reg), '02x'), end='')
-                if   index == 0x0B: debug_print(' <----INTERRUPT_CFG')
-                elif index == 0x0F: debug_print(' <--WHO_AM_I')
-                elif index == 0x10: debug_print(' <----CTRL_REG1')
-                elif index == 0x28: debug_print(' <--PRESS_OUT_XL')
-                elif index == 0x29: debug_print(' <--PRESS_OUT_L')
-                elif index == 0x2A: debug_print(' <--PRESS_OUT_H')
-                elif index == 0x2B: debug_print(' <--TEMP_OUT_L')
-                elif index == 0x2C: debug_print(' <--TEMP_OUT_H')
-                else: debug_print('')
+                print('  ' + format(index, '02X') + ': ' + format(reg, '08b') + ' = '+ format(reg, '02x'), end='')
+                if   index == 0x0B: print(' <----INTERRUPT_CFG')
+                elif index == 0x0F: print(' <--WHO_AM_I')
+                elif index == 0x10: print(' <----CTRL_REG1')
+                elif index == 0x28: print(' <--PRESS_OUT_XL')
+                elif index == 0x29: print(' <--PRESS_OUT_L')
+                elif index == 0x2A: print(' <--PRESS_OUT_H')
+                elif index == 0x2B: print(' <--TEMP_OUT_L')
+                elif index == 0x2C: print(' <--TEMP_OUT_H')
+                else: print('')
             index += 1
-        return(result)
+        print(index)
+        return result
 
     def ReadTemp(self):
         debug_print('ReadTemp')
-        self.chip_select()
+        self.__chip_select()
         result = self.__SendBytes(bytearray([self.READ_MASK | self.REG_TEMP_OUT_L] + 2*[self.DUMMY_BYTE]))
-        self.chip_release()
-        temp_c = (256*float(ord(result[1][2])) + float(ord(result[1][1])))/100
+        self.__chip_release()
+        temp_c = (256*float(result[2]) + float(result[1]))/100
         temp_f = 9*temp_c/5 + 32
         debug_print('temperature in celcius: ' + str(temp_c) + ', temperature in farenheit: ' + str(temp_f))
         return(temp_c)
 
     def ReadPress(self):
         debug_print('ReadPress')
-        self.chip_select()
+        self.__chip_select()
         result = self.__SendBytes(bytearray([self.READ_MASK | self.REG_PRESS_OUT_XL] + 3*[self.DUMMY_BYTE]))
-        self.chip_release()
-        press_hPa = (256*256*float(ord(result[1][3])) + 256*float(ord(result[1][2])) + float(ord(result[1][1])))/4096
+        self.__chip_release()
+        press_hPa = (256*256*float(result[3]) + 256*float(result[2]) + float(result[1]))/4096
         press_atm = .000987 * press_hPa
         debug_print('pressure in hPa: ' + str(press_hPa) + ', pressure in atmospheres: ' + str(press_atm))
         return(press_hPa)
 
     def OneShot(self):
         debug_print('OneShot')
-        self.chip_select()
+        self.__chip_select()
         result = self.__SendBytes(bytearray([self.WRITE_MASK | self.REG_CTRL_REG2]+[0x11]))
-        self.chip_release()
+        self.__chip_release()
         return(result)
 
     def SWReset(self):
         debug_print('SWReset')
-        self.chip_select()
+        self.__chip_select()
         result = self.__SendBytes(bytearray([self.WRITE_MASK | self.REG_CTRL_REG2]+[0x14]))
-        self.chip_release()
+        self.__chip_release()
         return(result)
 
     def Boot(self):
         debug_print('Boot')
-        self.chip_select()
+        self.__chip_select()
         result = self.__SendBytes(bytearray([self.WRITE_MASK | self.REG_CTRL_REG2]+[0x90]))
-        self.chip_release()
+        self.__chip_release()
         return(result)
