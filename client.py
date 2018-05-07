@@ -150,14 +150,14 @@ while not end_flag:
 				print('Data: ' + str(samps))
 				elapsed_cycle.append(cycle_time)
 
-				ads._ADS1256.__chip_select()
+				ads.chip_select()
 				start_time = time.time()
 				samps = ads.CycleReadADC_quick(sel_list)
 				cycle_time = time.time() - start_time
 				print('Cycle Quick Method:')
 				print('elapsed time: ' + str(cycle_time))
 				print('Data: ' + str(samps))
-				ads._ADS1256.__chip_release()
+				ads.chip_release()
 				elapsed_cycle_quick.append(cycle_time)
 ## :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :)
 				time.sleep(spacing-elapsed_time) #TODO: change back to spacing-elapsed_time
