@@ -80,20 +80,33 @@ DAC_SPI_FREQUENCY = int(config.get('DAC', 'DAC_SPI_FREQUENCY'))
 # Set parameters
 iterations  = int(config.get('experiment-parameters', 'iterations')) #trials
 duration    = int(config.get('experiment-parameters', 'duration'))   #seconds
-samplerate  = int(config.get('experiment-parameters', 'samplerate')) #hz
 padding     = int(config.get('experiment-parameters', 'padding')) #seconds of silence at beginning and end
-num_samples = duration*samplerate+ 2*padding*samplerate
-spacing     = 1/samplerate
+pulsewidth  = float(config.get('experiment-parameters', 'pulsewidth')) #seconds
+samplerate  = float(config.get('experiment-parameters', 'samplerate')) #hz
+# num_samples = duration*samplerate+ 2*padding*samplerate
+# spacing     = 1/samplerate
 
 print('Starting experiment with the following parameters:')
-print('    iterations:   ' + str(iterations) + ' runs')
-print('    duration:     ' + str(duration) + ' seconds per run')
-print('    samplerate:   ' + str(samplerate) + ' Hz')
-print('    padding:      ' + str(padding) + ' seconds')
+print('    iterations:   {} runs'.format(iterations))
+print('    duration:     {} seconds per run'.format(duration))
+print('    padding:      {} seconds'.format(padding))
+print('    pulsewidth    {} second'.format(pulsewidth))
+print('    samplerate:   {} Hz'.format(samplerate))
+
 
 ip_list = ast.literal_eval(config.get('ip-addresses', 'ip_list'))
 print('    ip addresses: ' , end = '')
 print(*ip_list, sep = ', ')
+
+try:
+	transmit_ip = config.get('ip-addresses', 'transmit_ip')
+	print('Transmitter:  {}'.format(transmit_ip))
+except:
+	print('No Transmitter')
+
+randomFlag = int(config.get('message', 'random'))
+if not randomFlag:
+	message = ast.literal_eval(config.get('message', 'message'))
 
 if remoteInstallFlag:
 	print('TODO')
@@ -123,54 +136,49 @@ s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 s.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
 s.settimeout(5.0)
 
-# #tx parameters
-# message_time = duration # seconds
-# bit_duration = 1 # width of each bit (seconds)
-# bitrate = 1/bit_duration #hz
-# pulse_duration = 1 #time that chemical is pulsed (seconds)
-# num_bits = message_time*bit_duration
-# # kernel_time = 4 # in seconds. PN code will repeat after this much time.
-#
-# #add transmitter
-# pe.add_source('Source 1')
-# transmit_pi = 2#board number for transmitter
-#
-# # create tx pattern to be pulsed
-# message_len = int(message_time/bit_duration) #number of bits in message
-# tx_len      = int(message_time/pulse_duration) # number of bits
-# tx_bit_len  = int(bit_duration/pulse_duration)
-#
-# message = np.zeros(message_len, dtype='uint8')
-# tx = np.zeros(tx_len, dtype='uint8')
-#
-# def gen_tx_pattern():
-#     # message must be a np array to be saved in hdf5 correctly
-#     # fill message with randomly generated bit pattern
-#     message = np.asarray([np.random.choice([0,1]) for n in range(message_len)])
-#     # message = np.asarray([1,0])
-#
-#     # add the ability to have pulse be shorter than bit length
-#     for n, bit in enumerate(message):
-#         for i in range(tx_bit_len):
-#             if bit==1:
-#                 tx[n*tx_bit_len +i] = 1
-#                 break
-#             else:
-#                 tx[n*tx_bit_len +i] = 0
-	#
-	#
-	# #tweak the message into a form that can be saved and reconstructed easily
-	# #this essentially translates the message into an array constrained by the samplerate of the Sensors
-	# msg_plot = []
-	# element_len = int(pulse_duration*samplerate)
-	# for element in message:
-	#     for n in range(element_len):
-	#         msg_plot.append(element)
-	# msg_plot = np.pad(msg_plot,samplerate*padding,'constant',constant_values=0)
-	# print(msg_plot)
-	# print(msg_plot.shape)
-	#
-	# return message,tx,msg_plot
+# kernel_time = 4 # in seconds. PN code will repeat after this much time.
+
+#add transmitter
+pe.add_source('Source 1')
+#transmit_pi = 2#board number for transmitter
+
+# create tx pattern to be pulsed
+message_len = int(duration/pulsewidth) #number of bits in message
+tx_len      = int((duration + 2*padding)/pulsewidth) # number of bits
+tx_bit_len  = int(bit_duration/pulse_duration)
+
+message = np.zeros(message_len, dtype='uint8')
+tx      = np.zeros(tx_len, dtype='uint8')
+
+def gen_tx_pattern():
+    # message must be a np array to be saved in hdf5 correctly
+	if randomFlag:
+    	# fill message with randomly generated bit pattern
+    	message = np.asarray([np.random.choice([0,1]) for n in range(message_len)])
+    else:
+		message = np.asarray(message)
+
+    # add the ability to have pulse be shorter than bit length
+    for n, bit in enumerate(message):
+        for i in range(tx_bit_len):
+            if bit==1:
+                tx[n*tx_bit_len +i] = 1
+                break
+            else:
+                tx[n*tx_bit_len +i] = 0
+
+	#tweak the message into a form that can be saved and reconstructed easily
+	#this essentially translates the message into an array constrained by the samplerate of the Sensors
+	msg_plot = []
+	element_len = int(pulsewidth*samplerate)
+	for element in message:
+	    for n in range(element_len):
+	        msg_plot.append(element)
+	msg_plot = np.pad(msg_plot,samplerate*padding,'constant',constant_values=0)
+	print(msg_plot)
+	print(msg_plot.shape)
+
+	return message,tx,msg_plot
 
 #== Main Code ==================================================================
 for trial in range(iterations): # number of times to do experiment
@@ -188,8 +196,8 @@ for trial in range(iterations): # number of times to do experiment
 	pm.exec_commands(['rm %s/sendfile.pickle'%pm.client_dir,'rm %s/txpattern.pickle'%pm.client_dir])
 
 	#get identifying dictionaries from pm
-	ip_serial = pm.identifpi() #-JW
-	print('board list: ' + str(ip_serial)) #-JW
+	ip_serial = pm.identifpi()
+	print('board list: ' + str(ip_serial))
 
 #########################################################################
 # # transmit section
