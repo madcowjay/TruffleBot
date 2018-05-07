@@ -1,6 +1,7 @@
 # Logs and databases #
 ######################
 log/*
+!log/.gitkeep
 
 # OS generated files #
 ######################
