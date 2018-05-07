@@ -11,12 +11,7 @@ from   multiprocessing import Queue
 
 import lib.pyads1256
 import lib.pydac8532
-import lib.TB_pulser
-import lib.sensor_board
-
-sb = lib.sensor_board.SENSOR_BOARD(LED1_PIN=8, LED2_PIN=10, TX0_PIN=29, TX1_PIN=31)
-sb.ledAct(1,0) #turn them both off to start
-sb.ledAct(2,0)
+import lib.board_utils as bu
 
 #this is the worker function that runs in a separate thread if the pi is registered to transmit
 def pulser(pattern, duration, padding):
@@ -28,8 +23,7 @@ def pulser(pattern, duration, padding):
 		start_time = time.time()
 		if i==1:
 			print('pulse on')
-			global sb
-			sb.pulse(1,duration)
+			bu.pulse(1,duration)
 		else:
 			time.sleep(duration)
 		if not pulseq.empty():
@@ -51,7 +45,7 @@ ads.ConfigADC()
 ads.SyncAndWakeup()
 
 # Turn heater on for duration of experiment
-dac = lib.pydac8532.DAC8532(SPI_CHANNEL=0, SPI_FREQUENCY=250000, CS_PIN=16)
+dac = lib.pydac8532.DAC8532()
 dac.SendDACAValue(0.62 * 2**16)
 
 # pulsing queue
@@ -79,22 +73,21 @@ sel_list = [[ads.MUX_AIN0, ads.MUX_AINCOM], [ads.MUX_AIN1, ads.MUX_AINCOM],
 			[ads.MUX_AIN4, ads.MUX_AINCOM], [ads.MUX_AIN5, ads.MUX_AINCOM],
 			[ads.MUX_AIN6, ads.MUX_AINCOM], [ads.MUX_AIN7, ads.MUX_AINCOM]]
 
-##try:
-##	with open('txpattern.pickle','rb') as f:
-##		tx_message = pickle.load(f)
-##	tx_pattern = np.array([int(n) for n in tx_message.split()])
-##	print('tx recieved')
-##	print(tx_pattern)
-##except Exception as e:
-##	print(e)
-##	tx_pattern = None
+try:
+	with open('txpattern.pickle','rb') as f:
+		tx_message = pickle.load(f)
+	tx_pattern = np.array([int(n) for n in tx_message.split()])
+	print('tx recieved')
+	print(tx_pattern)
+except Exception as e:
+	print(e)
+	tx_pattern = None
 
 #==========================================================================================================
 
-
 #listen for commands -- main function
 print("Listening for broadcasts...")
-sb.ledAct(1,1) # turn on LED 1
+bu.ledAct(1,1) # turn on LED 1
 end_flag = False
 while not end_flag:
 	try:
@@ -104,23 +97,21 @@ while not end_flag:
 		print(commands)
 
 		if commands[0]==b'collect':
-			sb.ledAct(2,2,4) # blink LED 2 at 4 Hz
+			bu.ledAct(2,2,4) # blink LED 2 at 4 Hz
 			sample_num = int(commands[1])
 			spacing = float(commands[2])
 			pulse_duration = float(commands[3])
 			padding = float(commands[4])
-			period=pulse_duration
-			duration=sample_num*spacing
 
-                        #init array to store data
+			#init array to store data
 			data = np.zeros([sample_num,channels],dtype='int32')
 
 			#start thread to generate pattern
-##			if tx_pattern!= None:
-			t = threading.Thread(target=pulser,args=(duration, period,padding))
-			if not t.isAlive():
-				t.start()
-				print('started pulser')
+			if tx_pattern!= None:
+				t = threading.Thread(target=pulser,args=(tx_pattern,pulse_duration, padding))
+				if not t.isAlive():
+					t.start()
+					print('started pulser')
 
 			for i in range(sample_num):
 				start_time = time.time()
@@ -178,7 +169,7 @@ while not end_flag:
 			log['End Time'] = end_time
 			log['Average Elapsed'] = sum(elapsed)/float(len(elapsed))
 			log['PID'] = os.getpid()
-			#log['TxPattern'] = tx_pattern
+			log['TxPattern'] = tx_pattern
 
 			#serialize data to be sent over network
 			print(log)
@@ -192,8 +183,8 @@ while not end_flag:
 			pulseq.put('stop')
 			print('end')
 			end_flag=True
-			sb.ledAct(2,0) #turn off LED 2
+			bu.ledAct(2,0) #turn off LED 2
 
 	except Exception as e:
 			print(e)
-sb.ledAct(1,0)
+bu.ledAct(1,0)
