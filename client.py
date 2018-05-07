@@ -11,6 +11,7 @@ from   multiprocessing import Queue
 
 import lib.pyads1256
 import lib.pydac8532
+import lib.TB_pulser
 import lib.sensor_board
 
 sb = lib.sensor_board.SENSOR_BOARD(LED1_PIN=8, LED2_PIN=10, TX0_PIN=29, TX1_PIN=31)
@@ -78,17 +79,18 @@ sel_list = [[ads.MUX_AIN0, ads.MUX_AINCOM], [ads.MUX_AIN1, ads.MUX_AINCOM],
 			[ads.MUX_AIN4, ads.MUX_AINCOM], [ads.MUX_AIN5, ads.MUX_AINCOM],
 			[ads.MUX_AIN6, ads.MUX_AINCOM], [ads.MUX_AIN7, ads.MUX_AINCOM]]
 
-try:
-	with open('txpattern.pickle','rb') as f:
-		tx_message = pickle.load(f)
-	tx_pattern = np.array([int(n) for n in tx_message.split()])
-	print('tx recieved')
-	print(tx_pattern)
-except Exception as e:
-	print(e)
-	tx_pattern = None
+##try:
+##	with open('txpattern.pickle','rb') as f:
+##		tx_message = pickle.load(f)
+##	tx_pattern = np.array([int(n) for n in tx_message.split()])
+##	print('tx recieved')
+##	print(tx_pattern)
+##except Exception as e:
+##	print(e)
+##	tx_pattern = None
 
 #==========================================================================================================
+
 
 #listen for commands -- main function
 print("Listening for broadcasts...")
@@ -107,16 +109,18 @@ while not end_flag:
 			spacing = float(commands[2])
 			pulse_duration = float(commands[3])
 			padding = float(commands[4])
+			period=pulse_duration
+			duration=sample_num*spacing
 
-			#init array to store data
+                        #init array to store data
 			data = np.zeros([sample_num,channels],dtype='int32')
 
 			#start thread to generate pattern
-			if tx_pattern!= None:
-				t = threading.Thread(target=pulser,args=(tx_pattern,pulse_duration, padding))
-				if not t.isAlive():
-					t.start()
-					print('started pulser')
+##			if tx_pattern!= None:
+			t = threading.Thread(target=pulser,args=(duration, period,padding))
+			if not t.isAlive():
+				t.start()
+				print('started pulser')
 
 			for i in range(sample_num):
 				start_time = time.time()

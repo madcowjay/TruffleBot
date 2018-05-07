@@ -268,7 +268,7 @@ for trial in range(iterations): # number of times to do experiment
 	data = {}
 	sample_times = {}
 	for ip in pm.ip_list:
-		pm.ssh.connect(ip, username, password)
+		pm.ssh.connect(ip, username=username, password=password)
 		sftp = pm.ssh.open_sftp()
 		with tempfile.TemporaryFile() as fp:
 			sftp.getfo('/home/pi/TruffleBot/log/sendfile.pickle',fp)
