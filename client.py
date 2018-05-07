@@ -11,7 +11,11 @@ from   multiprocessing import Queue
 
 import lib.pyads1256
 import lib.pydac8532
-import lib.board_utils as bu
+import lib.sensor_board
+
+sb = lib.sensor_board.SENSOR_BOARD(LED1_PIN=8, LED2_PIN=10, TX0_PIN=29, TX1_PIN=31)
+sb.ledAct(1,0) #turn them both off to start
+sb.ledAct(2,0)
 
 #this is the worker function that runs in a separate thread if the pi is registered to transmit
 def pulser(pattern, duration, padding):
@@ -23,7 +27,8 @@ def pulser(pattern, duration, padding):
 		start_time = time.time()
 		if i==1:
 			print('pulse on')
-			bu.pulse(1,duration)
+			global sb
+			sb.pulse(1,duration)
 		else:
 			time.sleep(duration)
 		if not pulseq.empty():
@@ -45,7 +50,7 @@ ads.ConfigADC()
 ads.SyncAndWakeup()
 
 # Turn heater on for duration of experiment
-dac = lib.pydac8532.DAC8532()
+dac = lib.pydac8532.DAC8532(SPI_CHANNEL=0, SPI_FREQUENCY=250000, CS_PIN=16)
 dac.SendDACAValue(0.62 * 2**16)
 
 # pulsing queue
@@ -87,7 +92,7 @@ except Exception as e:
 
 #listen for commands -- main function
 print("Listening for broadcasts...")
-bu.ledAct(1,1) # turn on LED 1
+sb.ledAct(1,1) # turn on LED 1
 end_flag = False
 while not end_flag:
 	try:
@@ -97,7 +102,7 @@ while not end_flag:
 		print(commands)
 
 		if commands[0]==b'collect':
-			bu.ledAct(2,2,4) # blink LED 2 at 4 Hz
+			sb.ledAct(2,2,4) # blink LED 2 at 4 Hz
 			sample_num = int(commands[1])
 			spacing = float(commands[2])
 			pulse_duration = float(commands[3])
@@ -183,8 +188,8 @@ while not end_flag:
 			pulseq.put('stop')
 			print('end')
 			end_flag=True
-			bu.ledAct(2,0) #turn off LED 2
+			sb.ledAct(2,0) #turn off LED 2
 
 	except Exception as e:
 			print(e)
-bu.ledAct(1,0)
+sb.ledAct(1,0)
