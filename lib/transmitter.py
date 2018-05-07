@@ -17,10 +17,10 @@ p.setCurrent(1)
 p.setOutput("ON")
 # transmit messages
 for i in range(len(message)):
-    print("Bit " + str(message[i]))
-    p.setVoltage(message[i]*12) # sets voltage to bits*12V
-                                # motor needs 12V, 1A to operate
-    time.sleep(2)
+	print("Bit " + str(message[i]))
+	p.setVoltage(message[i]*12) # sets voltage to bits*12V
+								# motor needs 12V, 1A to operate
+	time.sleep(2)
 
 p.setOutput("OFF")
 p.closePort()

@@ -275,7 +275,7 @@ for trial in range(iterations): # number of times to do experiment
 			fp.seek(0)
 			log = pickle.load(fp,encoding='latin1') #incompatibility of np arrays between python 2(clients) and 3(host) so use latin1 encoding
 			data[ip] = log
-		print('TxPattern: ' + str(data[ip]['TxPattern']))
+		#print('TxPattern: ' + str(data[ip]['TxPattern']))
 
 	#save data in log file, scale the data
 	for board in pe.sensors.keys():

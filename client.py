@@ -121,7 +121,7 @@ while not end_flag:
 			if not t.isAlive():
 				t.start()
 				print('started pulser')
-
+			experiment_start_time = time.time()
 			for i in range(sample_num):
 				start_time = time.time()
 				# collect samples from feach sensor on board
@@ -174,6 +174,7 @@ while not end_flag:
 
 			print("adding to log")
 			#add info to logfile
+			log['Start Time'] = experiment_start_time
 			log['Data'] = data
 			log['End Time'] = end_time
 			log['Average Elapsed'] = sum(elapsed)/float(len(elapsed))
