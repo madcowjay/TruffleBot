@@ -174,9 +174,10 @@ while not end_flag:
 
 			print("adding to log")
 			#add info to logfile
-			log['Start Time'] = experiment_start_time
 			log['Data'] = data
+			log['Start Time'] = experiment_start_time
 			log['End Time'] = end_time
+			log['Duration'] = experiment_start_time - end_time
 			log['Average Elapsed'] = sum(elapsed)/float(len(elapsed))
 			log['PID'] = os.getpid()
 			#log['TxPattern'] = tx_pattern
