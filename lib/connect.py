@@ -91,6 +91,7 @@ class PiManager:
     def run_script(self, client_file, log_file=None):
         try:
             for ip in self.ip_list:
+				print('about to run on: {}'.format(ip))
                 self.ssh.connect(ip, username='pi', password='raspberryB1oE3')
                 if log_file:
                     self.ssh.exec_command('cd %s && python3 -u %s &>> log/%s'%(self.client_dir,client_file,log_file))
@@ -100,7 +101,7 @@ class PiManager:
                     debug_print('%s: starting client file'%ip)
             self.ssh.close()
         except Exception as e:
-            print(e)
+            print('Error:' + e)
 
 
     #takes a dictionary of form: ip:PID and iterates through it, killing each PID
@@ -117,4 +118,4 @@ class PiManager:
                         debug_print('%s: killed "%s"'%(ip,pid))
             self.ssh.close()
         except Exception as e:
-            print(e)
+            print('Error:' + e)
