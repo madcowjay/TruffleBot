@@ -47,7 +47,7 @@ class ADS1256:
 	SPI_CHANNEL      = 1
 	SPI_FREQUENCY    = 1000000 # The ADS1256 supports 768kHz to 1.92MHz
 	DRDY_TIMEOUT     = 0.5 # Seconds to wait for DRDY when communicating
-	DATA_TIMEOUT     = 0.000007 # 7uS delay for sending data (=50/CLKIN_FREQUENCY)
+	DATA_DELAY       = 0.000007 # 7uS delay for sending data (=50/CLKIN_FREQUENCY)
 	CLKIN_FREQUENCY  = 7680000 # default clock rate is 7.68MHz (set by oscillator on board)
 
 	# The RPI GPIO to use for chip select and ready polling
@@ -333,7 +333,7 @@ class ADS1256:
 		elapsed = time.time() - start
 
 		# Wait for TIMEOUT to elapse
-		while elapsed < self.DATA_TIMEOUT:
+		while elapsed < self.DATA_DELAY:
 			elapsed = time.time() - start
 
 
