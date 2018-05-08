@@ -1,4 +1,7 @@
 """
+Updated
+  -log files now required
+  
 Updated 2018/05/02
   -kill_processes now takes a file instead of an ip list. It will kill all copies
    of that program on all ips in PiManager's ip list that were launched from
@@ -43,9 +46,9 @@ class PiManager:
 
 
 	def identifpi(self):
+		#get serial number for each pi, tie to ip address
 		debug_print('identifpi started')
 		ip_serial=bidict.bidict()
-		#get serial number for each pi, tie to ip address
 		for ip in self.ip_list:
 			self.ssh.connect(ip, username='pi', password='raspberryB1oE3')
 			command = "cat /proc/cpuinfo | grep Serial | cut -d ' ' -f 2"
@@ -55,9 +58,8 @@ class PiManager:
 		debug_print('ip_serial: {}'.format(ip_serial))
 		return ip_serial
 
-
-	#executes a command on each client
 	def exec_command(self, command, addr=None):
+		#executes a command on each client
 		debug_print('exec_command started')
 		try:
 			if addr:
@@ -74,9 +76,8 @@ class PiManager:
 		except Exception as e:
 			print(e)
 
-
-	#executes multiple commands on each client
 	def exec_commands(self, commands, addr=None):
+		#executes multiple commands on each client
 		debug_print('exec_commands started')
 		try:
 			if addr:
@@ -95,29 +96,22 @@ class PiManager:
 		except Exception as e:
 			print(e)
 
-
-	#takes the file to to run as argument, and runs it on each client as sudo
-	def run_script(self, client_file, log_file=None):
+	def run_script(self, client_file, log_file='log.txt'):
+		#takes the file to to run as argument, and runs it on each client as sudo
 		debug_print('run_script started')
 		try:
 			for ip in self.ip_list:
 				self.ssh.connect(ip, username='pi', password='raspberryB1oE3')
-				if log_file:
-					command = 'cd %s && python3 -u %s &>> log/%s'%(self.client_dir,client_file,log_file)
-					debug_print(command)
-					stdin, stdout, stderr = self.ssh.exec_command(command)
-					debug_print('%s: starting client file, writing stdout and stderr to %s'%(ip,log_file))
-				else:
-					command = 'cd %s && python3 %s'%(self.client_dir,client_file)
-					self.ssh.exec_command(command)
-					debug_print('%s: starting client file'%ip)
+				command = 'cd %s && python3 -u %s & > log/%s'%(self.client_dir,client_file,log_file)
+				debug_print(command)
+				stdin, stdout, stderr = self.ssh.exec_command(command)
+				debug_print('%s: starting client file, writing stdout and stderr to %s'%(ip,log_file))
 			self.ssh.close()
 		except Exception as e:
 			print(e)
 
-
-	#takes a dictionary of form: ip:PID and iterates through it, killing each PID
 	def kill_processes(self, client_file):
+		#takes a dictionary of form: ip:PID and iterates through it, killing each PID
 		debug_print('kill_processes started')
 		killed = {}
 		try:
@@ -130,5 +124,28 @@ class PiManager:
 						self.ssh.exec_command('sudo kill %s'%pid)
 						debug_print('%s: killed "%s"'%(ip,pid))
 			self.ssh.close()
+		except Exception as e:
+			print(e)
+
+	def upload_file(self, file_path, addr=None):
+		#uploads a file from the host to the client project directory on the remote machines
+		try:
+			if addr:
+				self.ssh.connect(addr, username='pi', password='raspberryB1oE3')
+				sftp = self.ssh.open_sftp()
+				client_path = '%s/%s'%(self.client_project_dir,file_path)
+				sftp.put(file_path,client_path)
+				print("%s: transferred - %s"%(addr,file_path))
+				self.ssh.close()
+				sftp.close()
+			else:
+				for ip in self.ip_list:
+					self.ssh.connect(ip, username='pi', password='raspberryB1oE3')
+					sftp = self.ssh.open_sftp()
+					client_path = '%s/%s'%(self.client_project_dir,file_path)
+					sftp.put(file_path,client_path)
+					print("%s: transferred - %s"%(ip,file_path))
+					self.ssh.close()
+				sftp.close()
 		except Exception as e:
 			print(e)

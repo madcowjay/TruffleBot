@@ -78,16 +78,16 @@ DAC_SPI_CHANNEL   = int(config.get('DAC', 'DAC_SPI_CHANNEL'))
 DAC_SPI_FREQUENCY = int(config.get('DAC', 'DAC_SPI_FREQUENCY'))
 
 # Set parameters
-iterations  = int(config.get('experiment-parameters', 'iterations')) #trials
+trials      = int(config.get('experiment-parameters', 'trials')) #trials
 duration    = int(config.get('experiment-parameters', 'duration'))   #seconds
-padding     = int(config.get('experiment-parameters', 'padding')) #seconds of silence at beginning and end
+padding     = int(config.get('experiment-parameters', 'padding')) #pulses of silence at beginning and end
 pulsewidth  = float(config.get('experiment-parameters', 'pulsewidth')) #seconds
 samplerate  = float(config.get('experiment-parameters', 'samplerate')) #hz
 # num_samples = duration*samplerate+ 2*padding*samplerate
-# spacing     = 1/samplerate
+# period     = 1/samplerate
 
 print('Starting experiment with the following parameters:')
-print('    iterations:   {} runs'.format(iterations))
+print('    trials:       {} runs'.format(trials))
 print('    duration:     {} seconds per run'.format(duration))
 print('    padding:      {} seconds'.format(padding))
 print('    pulsewidth    {} second'.format(pulsewidth))
@@ -106,7 +106,7 @@ except:
 
 randomFlag = int(config.get('message', 'random'))
 if not randomFlag:
-	message = ast.literal_eval(config.get('message', 'message'))
+	message_array = ast.literal_eval(config.get('message', 'message_array'))
 
 if remoteInstallFlag:
 	print('TODO')
@@ -136,57 +136,76 @@ s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 s.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
 s.settimeout(5.0)
 
+#get identifying dictionaries from pm
+ip_serial = pm.identifpi()
+print('board list: ' + str(ip_serial))
+
 # kernel_time = 4 # in seconds. PN code will repeat after this much time.
 
 #add transmitter
 pe.add_source('Source 1')
 #transmit_pi = 2#board number for transmitter
 
-# create tx pattern to be pulsed
-message_len = int(duration/pulsewidth) #number of bits in message
-tx_len      = int((duration + 2*padding)/pulsewidth) # number of bits
-tx_bit_len  = int(bit_duration/pulse_duration)
+#== Start Client ===========================================================
+pm.run_script(client_file, log_file)
+# pm.exec_command('sudo strace -p $(pgrep python) -o strace.txt')
+time.sleep(4) # wait for remote programs to start
 
-message = np.zeros(message_len, dtype='uint8')
-tx      = np.zeros(tx_len, dtype='uint8')
+#== Transmit ===============================================================
+# generate transmit pattern, add to log, and send to transmitter board
+# message must be a np array to be saved in hdf5 correctly
+if randomFlag:
+	# fill message with randomly generated bit pattern
+	message_len = int(duration / pulsewidth) # number of bits in message
+	message = np.zeros(message_len, dtype='uint8')
+	message = np.asarray([np.random.choice([0,1]) for n in range(len(message))])
+else:
+	message = np.asarray(message_array)
 
-def gen_tx_pattern():
-    # message must be a np array to be saved in hdf5 correctly
-	if randomFlag:
-    	# fill message with randomly generated bit pattern
-    	message = np.asarray([np.random.choice([0,1]) for n in range(message_len)])
-    else:
-		message = np.asarray(message)
+pad        = np.zeros(padding,     dtype='uint8')
+tx_pattern = np.concatenate([pad, message, pad])
 
-    # add the ability to have pulse be shorter than bit length
-    for n, bit in enumerate(message):
-        for i in range(tx_bit_len):
-            if bit==1:
-                tx[n*tx_bit_len +i] = 1
-                break
-            else:
-                tx[n*tx_bit_len +i] = 0
+# This section upsamples the message and shortens the pulses to enure that
+#   the falling edge after a 1 is completed before the next 0 starts
+# for n, bit in enumerate(message):
+#     for i in range(tx_pattern_bit_len):
+#         if bit==1:
+#             tx_pattern[n*tx_pattern_bit_len + i] = 1
+#             break
+#         else:
+#             tx_pattern[n*tx_pattern_bit_len + i] = 0
+#tweak the message into a form that can be saved and reconstructed easily
+#this essentially translates the message into an array constrained by the samplerate of the Sensors
+# msg_plot = []
+# element_len = int(pulsewidth * samplerate)
+# for element in message:
+#     for n in range(element_len):
+#         msg_plot.append(element)
+# msg_plot = np.pad(msg_plot,samplerate*padding,'constant',constant_values=0)
+# print(msg_plot)
+# print(msg_plot.shape)
 
-	#tweak the message into a form that can be saved and reconstructed easily
-	#this essentially translates the message into an array constrained by the samplerate of the Sensors
-	msg_plot = []
-	element_len = int(pulsewidth*samplerate)
-	for element in message:
-	    for n in range(element_len):
-	        msg_plot.append(element)
-	msg_plot = np.pad(msg_plot,samplerate*padding,'constant',constant_values=0)
-	print(msg_plot)
-	print(msg_plot.shape)
+print(message)
+print(tx_pattern)
+pe.add_data('Source 1', message,  datatype='Message')
+#pe.add_data('Source 1', msg_plot, datatype='Tx Pattern')
+pe.add_source_parameter('Source 1', 'Pulsewidth', pulsewidth)
+pe.add_source_parameter('Source 1', 'Padding', padding)
+#pe.add_source_parameter('Source 1', 'Bitrate', bitrate)
 
-	return message,tx,msg_plot
+with open('txpattern.pickle','wb') as f:
+	tx_string = ' '.join([str(n) for n in tx_pattern])
+	pickle.dump(tx_string, f, protocol=2)
+#transmit_ip = boardnum_ip[transmit_pi]
+pm.upload_file('txpattern.pickle', addr=transmit_ip)
+time.sleep(1)
 
-#== Main Code ==================================================================
-for trial in range(iterations): # number of times to do experiment
+#== Main Loop ==================================================================
+for trial in range(trials): # number of times to do experiment
 	# set start time of experiment
 	print('\n*** trial %s started ***' %(trial))
 	pe.set_start_time()
 
-#============================================================================
 	#manage the pis
 	#pm.conditional_dir_sync()
 	#pm.upload_file(client_file)
@@ -195,55 +214,15 @@ for trial in range(iterations): # number of times to do experiment
 	#sanitize client-directory
 	pm.exec_commands(['rm %s/sendfile.pickle'%pm.client_dir,'rm %s/txpattern.pickle'%pm.client_dir])
 
-	#get identifying dictionaries from pm
-	ip_serial = pm.identifpi()
-	print('board list: ' + str(ip_serial))
-
-#########################################################################
-# # transmit section
-#     # generate transmit pattern, add to log, and send to transmitter board
-#     message, tx_pattern, msg_plot = gen_tx_pattern()
-#
-#     print(message)
-#     print(tx_pattern)
-#     pe.add_data('Source 1',message,datatype='Message')
-#     pe.add_data('Source 1',msg_plot,datatype='Tx Pattern')
-#     pe.add_source_parameter('Source 1','Pulse Duration',pulse_duration)
-#     pe.add_source_parameter('Source 1', 'Padding', padding)
-#     pe.add_source_parameter('Source 1', 'bitrate',bitrate)
-#
-#     with open('txpattern.pickle','wb') as f:
-#         tx_string = ' '.join([str(n) for n in tx_pattern])
-#         pickle.dump(tx_string,f, protocol=2)
-#     transmit_addr = boardnum_ip[transmit_pi]
-#     pm.upload_file('txpattern.pickle', addr=transmit_addr)
-#     time.sleep(1)
-#########################################################################
-
-#============================================================================
-	## start client script
-	pm.run_script(client_file, log_file)
-	# pm.exec_command('sudo strace -p $(pgrep python) -o strace.txt')
-	time.sleep(4) # wait for remote programs to start
-
 	# add sensors to experiment
-	responses_requested = 0
 	for ip in pm.ip_list:
-		pe.add_sensor('Board #'+str(ip_serial[ip]),samplerate=samplerate)
+		pe.add_sensor('Board #'+str(ip_serial[ip]), samplerate=samplerate)
 		pe.add_sensor_parameter('Board #'+str(ip_serial[ip]),'Serial Number',str(ip_serial[ip]))
 		pe.add_sensor_parameter('Board #'+str(ip_serial[ip]),'Type','MOX')
-		responses_requested += 1
 
-	#kill the program if no sensors respond
-	if not responses_requested:
-		print('There were no boards in the ip_list - Exiting')
-		sys.exit()
-
-	#==========================================================================================================
-
+	#===========================================================================
 	#send command to the client to collect data
-	pulse_duration = 1; #-JW
-	command = 'collect %s %s %s %s'%(num_samples, spacing, pulse_duration, padding)
+	command = 'collect %s %s %s %s'%(num_samples, period, pulsewidth, padding)
 	s.sendto(command.encode('utf-8'), dest)
 	print('sending command: ' + command)
 
@@ -270,8 +249,7 @@ for trial in range(iterations): # number of times to do experiment
 	#end experiment
 	pe.set_end_time()
 
-	#==========================================================================================================
-
+	#===========================================================================
 	# get data from pis, reassemble data
 	data = {}
 	sample_times = {}
@@ -301,7 +279,7 @@ for trial in range(iterations): # number of times to do experiment
 		pe.add_sensor_parameter(board,'End Time',data[ip]['End Time'])
 		print('    >end time: %s, avg elapse: %s'%(data[ip]['End Time'],data[ip]['Average Elapsed']))
 
-	#==========================================================================================================
+	#===========================================================================
 	#kill processes on remote machines
 	pm.kill_processes(client_file)
 
