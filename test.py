@@ -3,6 +3,9 @@ import os, time, threading, sys, configparser
 from   colorama import init, Fore, Back, Style
 import wiringpi as wp
 import numpy    as np
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
 from   lib.getch import *
 
 # console colors
@@ -126,13 +129,29 @@ def read_adc(n, channels):
 	print(sr)
 	if n == 'c':
 		print('press any key to stop')
+		voltages = []
+		percents = []
+		twos_comps = []
 		t_stop = threading.Event()
 		t = threading.Thread(target=input_thread, args=(t_stop,))
 		t.start()
 		while not ( t_stop.is_set() ):
-			read_adc_once(channels)
+			voltage, percent, twos_comp = read_adc_once(channels)
+			voltages.append(voltage)
+			percents.append(percent)
+			twos_comps.append(twos_comp)
 			global adc_rate
 			time.sleep(1/adc_rate)
+		if len(channels)  == 1:
+			print('\nignoring first data point...')
+			voltages = voltages[1:]; percents = percents[1:]; twos_comps = twos_comps[1:]
+			print('average values were: {:>22} V   {:>20} %   {} raw'.format(sum(voltages)/len(voltages), sum(percents)/len(percents), sum(twos_comps)/len(twos_comps)))
+			print('   high values were: {:>22} V   {:>20} %   {} raw'.format(max(voltages), max(percents), max(twos_comps)))
+			print('    low values were: {:.22} V   {:>20} %   {} raw'.format(min(voltages), min(percents), min(twos_comps)))
+			plt.plot(voltages);   plt.savefig('log/voltages');   plt.close()
+			plt.plot(percents);   plt.savefig('log/percents');   plt.close()
+			plt.plot(twos_comps); plt.savefig('log/twos_comps'); plt.close()
+			print('saved plots to log directory')
 	else:
 		try:
 			j = int(n)
@@ -150,10 +169,8 @@ def read_adc_once(channels):
 		voltage = (result*2*adc_ref_voltage) / (2**23 - 1) / adc_gain
 		res = float(result_in_twos_comp)
 		perc = np.mod(res-2**23,2**24)/2**24
-		if voltage < 0:
-			print('Voltage: \t%.9f \tpercent of range: \t%.9f' %(voltage, perc))
-		else:
-			print('Voltage: \t %.9f \tpercent of range: \t%.9f' %(voltage, perc))
+		print('Voltage: {:>22} percent of range: {:>20}'.format(voltage, perc))
+		return voltage, perc, result_in_twos_comp
 	else:
 		voltages = []
 		for channel in channels:
@@ -163,6 +180,7 @@ def read_adc_once(channels):
 		for v in voltages:
 			print('  {0:+0.9f} V'.format(v), end='')
 		print('')
+		return 0, 0, 0
 
 # Helper function to read LPS: handles discrete vs. continuous
 def read_lps(n, channels):
@@ -172,25 +190,25 @@ def read_lps(n, channels):
 		t = threading.Thread(target=input_thread, args=(t_stop,))
 		t.start()
 		while not ( t_stop.is_set() ):
-			read_lps_once(channels, mode)
+			read_lps_once(channels)
 			global lps_rate
 			time.sleep(1/lps_rate)
 	else:
 		try:
 			j = int(n)
 			while j:
-				read_lps_once(channels, mode)
+				read_lps_once(channels)
 				j -= 1
 		except ValueError:
 			print('Please enter a valid selection')
 
 # Read the LPS and display the results
 def read_lps_once(channels):
+	global lps_mode
 	if len(channels) == 1:
 		i = channels[0]
 		lps[i].OneShot()
 		time.sleep(.1)
-		global lps_mode
 		if lps_mode == 0:
 			print('{0:<17} hPa    {1:<5} \xb0C'.format(lps[i].ReadPress(), lps[i].ReadTemp()))
 		else:
@@ -201,7 +219,6 @@ def read_lps_once(channels):
 		for channel in channels:
 			lps[channel].OneShot()
 			time.sleep(.1)
-			global lps_mode
 			if lps_mode == 0:
 				readings.append('  {0:<17} {1:<5}'.format(lps[channel].ReadPress(), lps[channel].ReadTemp()))
 			else:
