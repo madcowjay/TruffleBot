@@ -122,7 +122,7 @@ def input_thread(stop_event):
 	stop_event.set()
 
 # Helper function to read ADC: handles discrete vs. continuous
-def read_adc(n, channels, mode):
+def read_adc(n, channels):
 	print(sr)
 	if n == 'c':
 		print('press any key to stop')
@@ -143,7 +143,7 @@ def read_adc(n, channels, mode):
 			print('Please enter a valid selection')
 
 # Read the ADC and display the results
-def read_adc_once(channels, mode):
+def read_adc_once(channels):
 	if len(channels) == 1:
 		result_in_twos_comp = ads.getADCsample(channels[0], ads.MUX_AINCOM)
 		result = -(result_in_twos_comp & 0x800000) | (result_in_twos_comp & 0x7fffff)
@@ -165,7 +165,7 @@ def read_adc_once(channels, mode):
 		print('')
 
 # Helper function to read LPS: handles discrete vs. continuous
-def read_lps(n, channels, mode):
+def read_lps(n, channels):
 	print(sr)
 	if n == 'c':
 		t_stop = threading.Event()
@@ -185,12 +185,13 @@ def read_lps(n, channels, mode):
 			print('Please enter a valid selection')
 
 # Read the LPS and display the results
-def read_lps_once(channels, mode):
+def read_lps_once(channels):
 	if len(channels) == 1:
 		i = channels[0]
 		lps[i].OneShot()
 		time.sleep(.1)
-		if mode == 0:
+		global lps_mode
+		if lps_mode == 0:
 			print('{0:<17} hPa    {1:<5} \xb0C'.format(lps[i].ReadPress(), lps[i].ReadTemp()))
 		else:
 			lps[i].ReadRegisters()
@@ -200,7 +201,8 @@ def read_lps_once(channels, mode):
 		for channel in channels:
 			lps[channel].OneShot()
 			time.sleep(.1)
-			if mode == 0:
+			global lps_mode
+			if lps_mode == 0:
 				readings.append('  {0:<17} {1:<5}'.format(lps[channel].ReadPress(), lps[channel].ReadTemp()))
 			else:
 				readings.append(lps[channel].ReadRegisters())
@@ -395,58 +397,58 @@ def pressure_menu():
 		elif c == '0':
 			sensor = '0'
 			inp = input("How many samples ('c' for continuous)? ")
-			read_lps(inp, [0], lps_mode)
+			read_lps(inp, [0])
 		elif c == '1':
 			sensor = '1'
 			inp = input("How many samples ('c' for continuous)? ")
-			read_lps(inp, [1], lps_mode)
+			read_lps(inp, [1])
 		elif c == '2':
 			sensor = '2'
 			inp = input("How many samples ('c' for continuous)? ")
-			read_lps(inp, [2], lps_mode)
+			read_lps(inp, [2])
 		elif c == '3':
 			sensor = '3'
 			inp = input("How many samples ('c' for continuous)? ")
-			read_lps(inp, [3], lps_mode)
+			read_lps(inp, [3])
 		elif c == '4':
 			sensor = '4'
 			inp = input("How many samples ('c' for continuous)? ")
-			read_lps(inp, [4], lps_mode)
+			read_lps(inp, [4])
 		elif c == '5':
 			sensor = '5'
 			inp = input("How many samples ('c' for continuous)? ")
-			read_lps(inp, [5], lps_mode)
+			read_lps(inp, [5])
 		elif c == '6':
 			sensor = '6'
 			inp = input("How many samples ('c' for continuous)? ")
-			read_lps(inp, [6], lps_mode)
+			read_lps(inp, [6])
 		elif c == '7':
 			sensor = '7'
 			inp = input("How many samples ('c' for continuous)? ")
-			read_lps(inp, [7], lps_mode)
+			read_lps(inp, [7])
 		elif c == 'l' and lps_mode == 0:
 			sensor = 'l'
 			inp = input("How many samples ('c' for continuous)? ")
-			read_lps(inp, [0,1,2,3,4,5,6,7], lps_mode)
+			read_lps(inp, [0,1,2,3,4,5,6,7])
 		elif c == 'r':
 			if   sensor == '0':
-				read_lps(inp, [0], lps_mode)
+				read_lps(inp, [0])
 			elif sensor == '1':
-				read_lps(inp, [1], lps_mode)
+				read_lps(inp, [1])
 			elif sensor == '2':
-				read_lps(inp, [2], lps_mode)
+				read_lps(inp, [2])
 			elif sensor == '3':
-				read_lps(inp, [3], lps_mode)
+				read_lps(inp, [3])
 			elif sensor == '4':
-				read_lps(inp, [4], lps_mode)
+				read_lps(inp, [4])
 			elif sensor == '5':
-				read_lps(inp, [5], lps_mode)
+				read_lps(inp, [5])
 			elif sensor == '6':
-				read_lps(inp, [6], lps_mode)
+				read_lps(inp, [6])
 			elif sensor == '7':
-				read_lps(inp, [7], lps_mode)
+				read_lps(inp, [7])
 			elif sensor == 'l':
-				read_lps(inp, [0,1,2,3,4,5,6,7], lps_mode)
+				read_lps(inp, [0,1,2,3,4,5,6,7])
 		else: print('Invalid selection')
 
 def board_menu():

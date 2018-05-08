@@ -1,10 +1,3 @@
-"""
-Updated 2018/04/25
-  -Python3 only supported now
-  -added timestamp to log file
-                                    -JW
-"""
-
 import os, time, socket, pickle, threading
 import numpy as np
 from   multiprocessing import Queue
@@ -15,16 +8,14 @@ import lib.TB_pulser
 import lib.sensor_board
 
 sb = lib.sensor_board.SENSOR_BOARD(LED1_PIN=8, LED2_PIN=10, TX0_PIN=29, TX1_PIN=31)
-sb.ledAct(1,0) #turn them both off to start
+sb.ledAct(1,0) # turn them both off to start
 sb.ledAct(2,0)
 
-#this is the worker function that runs in a separate thread if the pi is registered to transmit
-def pulser(pattern, duration, padding):
+def pulser_thread(pattern, duration, padding):
+	# this is the worker thread if the pi is registered to transmit
 	pcomm = None
 	# while not pcomm=='stop':
-	time.sleep(padding)
 	for i in pattern:
-		# print(i)
 		start_time = time.time()
 		if i==1:
 			print('pulse on')
@@ -38,9 +29,8 @@ def pulser(pattern, duration, padding):
 				break
 	print('pulser ended')
 
-#==========================================================================================================
-# setting up stuff
-print('\n\n\n')
+#== Setup ======================================================================
+print('\n\n\n') # for logfile
 print(time.asctime(time.localtime(time.time())))
 
 ## set up adc and dac
@@ -57,43 +47,39 @@ dac.SendDACAValue(0.62 * 2**16)
 # pulsing queue
 pulseq = Queue()
 
-#set up socket and options
+# set up socket and options
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 s.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
 s.bind(('', 5000))
 
-
-#init variables that need it
+# init variables
 outstring = ''
 chunk_num = 0
 data_len = 0
 log = {}
-elapsed =[]
+elapsed = []
 elapsed_cycle = []
 elapsed_cycle_quick = []
-channels= 8 # change for other boards
+channels = 8 # change for other boards
 
 sel_list = [[ads.MUX_AIN0, ads.MUX_AINCOM], [ads.MUX_AIN1, ads.MUX_AINCOM],
 			[ads.MUX_AIN2, ads.MUX_AINCOM], [ads.MUX_AIN3, ads.MUX_AINCOM],
 			[ads.MUX_AIN4, ads.MUX_AINCOM], [ads.MUX_AIN5, ads.MUX_AINCOM],
 			[ads.MUX_AIN6, ads.MUX_AINCOM], [ads.MUX_AIN7, ads.MUX_AINCOM]]
 
-##try:
-##	with open('txpattern.pickle','rb') as f:
-##		tx_message = pickle.load(f)
-##	tx_pattern = np.array([int(n) for n in tx_message.split()])
-##	print('tx recieved')
-##	print(tx_pattern)
-##except Exception as e:
-##	print(e)
-##	tx_pattern = None
+try:
+	with open('txpattern.pickle', 'rb') as f:
+		tx_message = pickle.load(f)
+	tx_pattern = np.array([int(n) for n in tx_message.split()])
+	print('tx recieved')
+	print(tx_pattern)
+except Exception as e:
+	print(e)
+	tx_pattern = None
 
-#==========================================================================================================
-
-
-#listen for commands -- main function
-print("Listening for broadcasts...")
+#== Listen for commands ========================================================
+print('Listening for broadcasts...')
 sb.ledAct(1,1) # turn on LED 1
 end_flag = False
 while not end_flag:
@@ -103,21 +89,20 @@ while not end_flag:
 		commands = message.split()
 		print(commands)
 
-		if commands[0]==b'collect':
+		if commands[0] == b'collect':
 			sb.ledAct(2,2,4) # blink LED 2 at 4 Hz
 			sample_num = int(commands[1])
-			spacing = float(commands[2])
+			spacing    = float(commands[2])
 			pulse_duration = float(commands[3])
-			padding = float(commands[4])
-			period=pulse_duration
-			duration=sample_num*spacing
+			period = pulse_duration
+			duration = sample_num*spacing
 
-                        #init array to store data
-			data = np.zeros([sample_num,channels],dtype='int32')
+            #init array to store data
+			data = np.zeros([sample_num, channels], dtype='int32')
 
-			#start thread to generate pattern
-##			if tx_pattern!= None:
-			t = threading.Thread(target=pulser,args=(duration, period,padding))
+		#start thread to generate pattern
+		if tx_pattern != None:
+			t = threading.Thread(target=pulser_thread, args=(duration, period, padding))
 			if not t.isAlive():
 				t.start()
 				print('started pulser')
@@ -128,14 +113,14 @@ while not end_flag:
 				print('collecting %s'%i)
 
 				print("Sampling...")
-				sam_1 = ads.getADCsample(ads.MUX_AIN0,ads.MUX_AINCOM)
-				sam_2 = ads.getADCsample(ads.MUX_AIN1,ads.MUX_AINCOM)
-				sam_3 = ads.getADCsample(ads.MUX_AIN2,ads.MUX_AINCOM)
-				sam_4 = ads.getADCsample(ads.MUX_AIN3,ads.MUX_AINCOM)
-				sam_5 = ads.getADCsample(ads.MUX_AIN4,ads.MUX_AINCOM)
-				sam_6 = ads.getADCsample(ads.MUX_AIN5,ads.MUX_AINCOM)
-				sam_7 = ads.getADCsample(ads.MUX_AIN6,ads.MUX_AINCOM)
-				sam_8 = ads.getADCsample(ads.MUX_AIN7,ads.MUX_AINCOM)
+				sam_1 = ads.getADCsample(ads.MUX_AIN0, ads.MUX_AINCOM)
+				sam_2 = ads.getADCsample(ads.MUX_AIN1, ads.MUX_AINCOM)
+				sam_3 = ads.getADCsample(ads.MUX_AIN2, ads.MUX_AINCOM)
+				sam_4 = ads.getADCsample(ads.MUX_AIN3, ads.MUX_AINCOM)
+				sam_5 = ads.getADCsample(ads.MUX_AIN4, ads.MUX_AINCOM)
+				sam_6 = ads.getADCsample(ads.MUX_AIN5, ads.MUX_AINCOM)
+				sam_7 = ads.getADCsample(ads.MUX_AIN6, ads.MUX_AINCOM)
+				sam_8 = ads.getADCsample(ads.MUX_AIN7, ads.MUX_AINCOM)
 				# print("Sampled all")
 				sample = np.array([sam_1,sam_2,sam_3,sam_4,sam_5,sam_6,sam_7,sam_8], dtype='int32')
 				# print("sample array created")
@@ -144,50 +129,49 @@ while not end_flag:
 
 				elapsed_time = time.time() - start_time
 				elapsed.append(elapsed_time)
-				print('elapsed: %s, spacing: %s, sleep: %s'%(elapsed_time,spacing,spacing-elapsed_time))
+				print('elapsed: %s, spacing: %s, sleep: %s'%(elapsed_time,spacing, spacing-elapsed_time))
 ## :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :)
-				start_time = time.time()
-				samps = ads.CycleReadADC(sel_list)
-				cycle_time = time.time() - start_time
-				print('Cycle Method:')
-				print('elapsed time: ' + str(cycle_time))
-				print('Data: ' + str(samps))
-				elapsed_cycle.append(cycle_time)
-
-				ads.chip_select()
-				start_time = time.time()
-				samps = ads.CycleReadADC_quick(sel_list)
-				cycle_time = time.time() - start_time
-				print('Cycle Quick Method:')
-				print('elapsed time: ' + str(cycle_time))
-				print('Data: ' + str(samps))
-				ads.chip_release()
-				elapsed_cycle_quick.append(cycle_time)
+				# start_time = time.time()
+				# samps = ads.CycleReadADC(sel_list)
+				# cycle_time = time.time() - start_time
+				# print('Cycle Method:')
+				# print('elapsed time: ' + str(cycle_time))
+				# print('Data: ' + str(samps))
+				# elapsed_cycle.append(cycle_time)
+				#
+				# ads.chip_select()
+				# start_time = time.time()
+				# samps = ads.CycleReadADC_quick(sel_list)
+				# cycle_time = time.time() - start_time
+				# print('Cycle Quick Method:')
+				# print('elapsed time: ' + str(cycle_time))
+				# print('Data: ' + str(samps))
+				# ads.chip_release()
+				# elapsed_cycle_quick.append(cycle_time)
 ## :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :)
 				time.sleep(spacing-elapsed_time) #TODO: change back to spacing-elapsed_time
 				print("loop end")
 			#record end time
 			end_time = time.time()
 
-			print('average elapsed cycle time:       ' + str(sum(elapsed_cycle)/float(len(elapsed_cycle))))
-			print('average elapsed cycle quick time: ' + str(sum(elapsed_cycle_quick)/float(len(elapsed_cycle_quick))))
+			# print('average elapsed cycle time:       ' + str(sum(elapsed_cycle)/float(len(elapsed_cycle))))
+			# print('average elapsed cycle quick time: ' + str(sum(elapsed_cycle_quick)/float(len(elapsed_cycle_quick))))
 
-			print("adding to log")
 			#add info to logfile
+			print("adding to log")
 			log['Data'] = data
 			log['Start Time'] = experiment_start_time
 			log['End Time'] = end_time
-			log['Duration'] = experiment_start_time - end_time
+			log['Duration'] = end_time - experiment_start_time
 			log['Average Elapsed'] = sum(elapsed)/float(len(elapsed))
 			log['PID'] = os.getpid()
-			#log['TxPattern'] = tx_pattern
+			log['TxPattern'] = tx_pattern
 
 			#serialize data to be sent over network
 			print(log)
 			with open('/home/pi/TruffleBot/log/sendfile.pickle','wb') as f:
 				pickle.dump(log,f)
 				print('pickled!')
-
 
 			#send the end flag to trigger data collection on host
 			s.sendto('end_flag'.encode('utf-8'),address)
