@@ -112,23 +112,22 @@ while not end_flag:
 
 		if commands[0] == b'collect':
 			sb.ledAct(2,2,4) # blink LED 2 at 4 Hz
-			sample_num = int(commands[1])
-			spacing    = float(commands[2])
-			pulse_duration = float(commands[3])
-			period = pulse_duration
-			duration = sample_num*spacing
+			sample_count =   int(commands[1])
+			samplerate = float(commands[2])
+			pulsewidth = float(commands[3])
+			spacing    = 1/samplerate
 
             #init array to store data
-			data = np.zeros([sample_num, channels], dtype='int32')
+			data = np.zeros([sample_count, channels], dtype='int32')
 
 		#start thread to generate pattern
 		if tx_pattern != None:
-			t = threading.Thread(target=pulser_thread, args=(duration, period, padding))
+			t = threading.Thread(target=pulser_thread, args=(tx_pattern, pulsewidth))
 			if not t.isAlive():
 				t.start()
 				print('started pulser')
 			experiment_start_time = time.time()
-			for i in range(sample_num):
+			for i in range(sample_count):
 				start_time = time.time()
 				# collect samples from feach sensor on board
 				print('collecting %s'%i)

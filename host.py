@@ -78,13 +78,11 @@ DAC_SPI_CHANNEL   = int(config.get('DAC', 'DAC_SPI_CHANNEL'))
 DAC_SPI_FREQUENCY = int(config.get('DAC', 'DAC_SPI_FREQUENCY'))
 
 # Set parameters
-trials      = int(config.get('experiment-parameters', 'trials')) #trials
-duration    = int(config.get('experiment-parameters', 'duration'))   #seconds
-padding     = int(config.get('experiment-parameters', 'padding')) #pulses of silence at beginning and end
+trials      =   int(config.get('experiment-parameters', 'trials'))   #trials
+duration    =   int(config.get('experiment-parameters', 'duration')) #seconds
+padding     =   int(config.get('experiment-parameters', 'padding'))  #pulses of silence at beginning and end
 pulsewidth  = float(config.get('experiment-parameters', 'pulsewidth')) #seconds
 samplerate  = float(config.get('experiment-parameters', 'samplerate')) #hz
-# num_samples = duration*samplerate+ 2*padding*samplerate
-# period     = 1/samplerate
 
 print('Starting experiment with the following parameters:')
 print('\ttrials:       {} runs'.format(trials))
@@ -92,7 +90,6 @@ print('\tduration:     {} seconds per run'.format(duration))
 print('\tpadding:      {} seconds'.format(padding))
 print('\tpulsewidth    {} second'.format(pulsewidth))
 print('\tsamplerate:   {} Hz'.format(samplerate))
-
 
 ip_list = ast.literal_eval(config.get('ip-addresses', 'ip_list'))
 print('\tip addresses: ' , end = '')
@@ -196,7 +193,7 @@ pe.add_source_parameter('Source 1', 'Pulsewidth', pulsewidth)
 pe.add_source_parameter('Source 1', 'Padding', padding)
 #pe.add_source_parameter('Source 1', 'Bitrate', bitrate)
 
-with open('txpattern.pickle','wb') as f:
+with open('log/txpattern.pickle','wb') as f:
 	tx_string = ' '.join([str(n) for n in tx_pattern])
 	pickle.dump(tx_string, f, protocol=2)
 pm.upload_file('txpattern.pickle', addr=transmit_ip)
@@ -223,7 +220,8 @@ for trial in range(trials): # number of times to do experiment
 
 	#===========================================================================
 	#send command to the client to collect data
-	command = 'collect %s %s %s %s'%(tx_pattern, pulsewidth)
+	sample_count = len(tx_pattern)*pulsewidth*samplerate
+	command = 'collect %s %s %s'%(sample_count, samplerate, pulsewidth)
 	s.sendto(command.encode('utf-8'), dest)
 	print('sending command: ' + command)
 
