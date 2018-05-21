@@ -3,12 +3,14 @@ clc; close all; clear variables; set(0,'DefaultFigureWindowStyle','docked')
 
 filename='log/plumelog_20180521.hdf5';
 
-info = h5info(filename); % get group information
-trial_count = length(info.Groups); % get number of datasets
+info = h5info(filename) % get group information
+numrun=length(info.Groups) % get number of datasets
 
-run = trial_count; %Last run in file
+numrun = 1;
+include_runs = [1];
+run=include_runs;
 
-fprintf('Loading run %d/%d. \n', run, trial_count);
+fprintf('Loading run %d/%d. \n',run,numrun);
 
 name=info.Groups(run).Name;
 

@@ -119,7 +119,7 @@ pm.kill_processes(client_file)
 #set up instances of Experiment and Log classes, set start time for log
 pe = lib.savefile.PlumeExperiment()
 pl = lib.savefile.PlumeLog(log_dir)
-pe.set_parameter('Comment', 'trials with raspberry pi sensor boards and humidifier source')
+pe.set_parameter('Comment', 'trials with raspberry pi collector boards and humidifier trasnmitter')
 
 #set up socket
 dest = ('<broadcast>', broadcast_port)
@@ -134,7 +134,8 @@ print('\tboard list: ' + str(ip_serial))
 # kernel_time = 4 # in seconds. PN code will repeat after this much time.
 
 #add transmitter
-pe.add_source('Source 1')
+#TODO - name transmitter by ip or serial
+pe.add_trasnmitter('Trasnmitter 1')
 #transmit_pi = 2#board number for transmitter
 
 #== Start Client ===============================================================
@@ -168,7 +169,7 @@ tx_pattern = np.concatenate([pad, message, pad])
 
 #tweak the message into a form that can be saved and reconstructed easily
 #    this essentially translates the message into an array constrained by
-#    the samplerate of the Sensors
+#    the samplerate of the Collectors
 tx_pattern_upsampled = tx_pattern.repeat(pulsewidth * samplerate)
 # element_len = int(pulsewidth * samplerate)
 # for element in message:
@@ -180,11 +181,11 @@ print('\ttx_pattern:           ' + str(tx_pattern))
 print('\ttx_pattern_upsampled: ' + str(tx_pattern_upsampled))
 print('\tshape of upsampled:   ' + str(tx_pattern_upsampled.shape))
 
-pe.add_data('Source 1', message,  datatype='Message')
-pe.add_data('Source 1', tx_pattern_upsampled, datatype='Tx Pattern')
-pe.add_source_parameter('Source 1', 'Pulsewidth', pulsewidth)
-pe.add_source_parameter('Source 1', 'Padding', padding)
-#pe.add_source_parameter('Source 1', 'Bitrate', bitrate)
+pe.add_data('Trasnmitter 1', message,  datatype='Message')
+pe.add_data('Trasnmitter 1', tx_pattern_upsampled, datatype='Tx Pattern')
+pe.add_trasnmitter_parameter('Trasnmitter 1', 'Pulsewidth', pulsewidth)
+pe.add_trasnmitter_parameter('Trasnmitter 1', 'Padding', padding)
+#pe.add_trasnmitter_parameter('Trasnmitter 1', 'Bitrate', bitrate)
 
 with open('log/txpattern.pickle','wb') as f:
 	tx_string = ' '.join([str(n) for n in tx_pattern])
@@ -205,11 +206,11 @@ for trial in range(trials): # number of times to do experiment
 	#sanitize client-directory
 	pm.exec_commands(['rm %s/sendfile.pickle'%pm.client_dir,'rm %s/txpattern.pickle'%pm.client_dir])
 
-	# add sensors to experiment
+	# add collectors to experiment
 	for ip in pm.ip_list:
-		pe.add_sensor('Board #'+str(ip_serial[ip]), samplerate=samplerate)
-		pe.add_sensor_parameter('Board #'+str(ip_serial[ip]),'Serial Number',str(ip_serial[ip]))
-		pe.add_sensor_parameter('Board #'+str(ip_serial[ip]),'Type','MOX')
+		pe.add_collector('Board #'+str(ip_serial[ip]), samplerate=samplerate)
+		pe.add_collector_parameter('Board #'+str(ip_serial[ip]),'Serial Number',str(ip_serial[ip]))
+		pe.add_collector_parameter('Board #'+str(ip_serial[ip]),'Type','MOX')
 
 	#===========================================================================
 	#send command to the client to collect data
@@ -261,7 +262,7 @@ for trial in range(trials): # number of times to do experiment
 			#print('TxPattern: ' + str(data[ip]['TxPattern']))
 
 		#save data in log file, scale the data
-		for board in pe.sensors.keys():
+		for board in pe.collectors.keys():
 			print(board)
 			serial = board[7:]
 			# print('  >board serial: ' + str(serial))
@@ -273,15 +274,15 @@ for trial in range(trials): # number of times to do experiment
 				 n[...] = np.mod(n-2**23,2**24)/2**24
 			print('    >data :\n' + textwrap.indent(str(savedata), '          '))
 			pe.add_data(board,savedata)
-			pe.add_sensor_parameter(board,'End Time',data[ip]['End Time'])
+			pe.add_collector_parameter(board,'End Time',data[ip]['End Time'])
 			print('    >end time: %s, avg elapse: %s'%(data[ip]['End Time'],data[ip]['Average Elapsed']))
 
 		#=======================================================================
 
 
-		# add number of sources, sensors to experiment parameters
-		pe.set_parameter('# Sensors',responses_received)
-		pe.set_parameter('# Sources',1)
+		# add number of trasnmitters, collectors to experiment parameters
+		pe.set_parameter('# Collectors',responses_received)
+		pe.set_parameter('# Trasnmitters',1)
 		pe.set_parameter('Wind Speed (m/s)', 2.1)
 
 		# save log
