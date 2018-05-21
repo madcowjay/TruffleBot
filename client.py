@@ -34,13 +34,13 @@ def pulser_thread(tx_pattern, pulsewidth):
 		current_time = time.time()
 		time_log.append(current_time - start_time)
 		print("Bit " + str(tx_pattern[i]))
-		#p.setVoltage(tx_pattern[i]*12) # sets voltage to bits*12V
+		p.setVoltage(tx_pattern[i]*12) # sets voltage to bits*12V
 		while time.time() - current_time < pulsewidth:
 			pass
 	p.setOutput("OFF")
 	p.closePort()
 	print("Transfer completed")
-	print(time_log)
+	print('time log: ' + str(time_log))
 
 	# # this is the worker thread if the pi is registered to transmit
 	# pcomm = None
@@ -106,7 +106,7 @@ try:
 	print(tx_pattern)
 except Exception as e:
 	print(e)
-	tx_pattern = None
+	tx_pattern = 'None'
 
 #== Listen for commands ========================================================
 print('Listening for broadcasts...')
@@ -130,7 +130,7 @@ while not end_flag:
 			data = np.zeros([sample_count, channels], dtype='int32')
 
 		#start thread to generate pattern
-		if tx_pattern != None:
+		if tx_pattern != 'None':
 			t = threading.Thread(target=pulser_thread, args=(tx_pattern, pulsewidth))
 			if not t.isAlive():
 				t.start()
@@ -195,6 +195,7 @@ while not end_flag:
 			log['Average Elapsed'] = sum(elapsed)/float(len(elapsed))
 			log['PID'] = os.getpid()
 			log['TxPattern'] = tx_pattern
+			log['Time Log'] = time_log
 
 			#serialize data to be sent over network
 			print(log)

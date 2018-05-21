@@ -296,5 +296,7 @@ for trial in range(trials): # number of times to do experiment
 		# dv.visualize(logname)
 
 	#== Cleanup ================================================================
+	print('Cleaning up...')
 	#kill processes on remote machines
 	pm.kill_processes(client_file)
+	print('press "q" to quit')
