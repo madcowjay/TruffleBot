@@ -1,7 +1,7 @@
 """
 Updated
   -log files now required
-  
+
 Updated 2018/05/02
   -kill_processes now takes a file instead of an ip list. It will kill all copies
    of that program on all ips in PiManager's ip list that were launched from
@@ -74,7 +74,7 @@ class PiManager:
 					debug_print('%s: executed "%s"'%(ip,command))
 				self.ssh.close()
 		except Exception as e:
-			print(e)
+			print('Error in exec_command: ' + str(e))
 
 	def exec_commands(self, commands, addr=None):
 		#executes multiple commands on each client
@@ -94,7 +94,7 @@ class PiManager:
 						debug_print('%s: executed "%s"'%(ip,command))
 					self.ssh.close()
 		except Exception as e:
-			print(e)
+			print('Error in exec_commands: ' + str(e))
 
 	def run_script(self, client_file, log_file='log.txt'):
 		#takes the file to to run as argument, and runs it on each client as sudo
@@ -102,13 +102,13 @@ class PiManager:
 		try:
 			for ip in self.ip_list:
 				self.ssh.connect(ip, username='pi', password='raspberryB1oE3')
-				command = 'cd %s && python3 -u %s & > log/%s'%(self.client_dir,client_file,log_file)
+				command = 'cd %s && python3 -u %s &> log/%s'%(self.client_dir,client_file,log_file)
 				debug_print(command)
 				stdin, stdout, stderr = self.ssh.exec_command(command)
 				debug_print('%s: starting client file, writing stdout and stderr to %s'%(ip,log_file))
 			self.ssh.close()
 		except Exception as e:
-			print(e)
+			print('Error in run_script: ' + str(e))
 
 	def kill_processes(self, client_file):
 		#takes a dictionary of form: ip:PID and iterates through it, killing each PID
@@ -125,7 +125,7 @@ class PiManager:
 						debug_print('%s: killed "%s"'%(ip,pid))
 			self.ssh.close()
 		except Exception as e:
-			print(e)
+			print('Error in kill_processes: ' + str(e))
 
 	def upload_file(self, file_path, addr=None):
 		#uploads a file from the host to the client project directory on the remote machines
@@ -133,7 +133,7 @@ class PiManager:
 			if addr:
 				self.ssh.connect(addr, username='pi', password='raspberryB1oE3')
 				sftp = self.ssh.open_sftp()
-				client_path = '%s/%s'%(self.client_project_dir,file_path)
+				client_path = '%s/%s'%(self.client_dir,file_path)
 				sftp.put(file_path,client_path)
 				print("%s: transferred - %s"%(addr,file_path))
 				self.ssh.close()
@@ -142,10 +142,10 @@ class PiManager:
 				for ip in self.ip_list:
 					self.ssh.connect(ip, username='pi', password='raspberryB1oE3')
 					sftp = self.ssh.open_sftp()
-					client_path = '%s/%s'%(self.client_project_dir,file_path)
+					client_path = '%s/%s'%(self.client_dir,file_path)
 					sftp.put(file_path,client_path)
 					print("%s: transferred - %s"%(ip,file_path))
 					self.ssh.close()
 				sftp.close()
 		except Exception as e:
-			print(e)
+			print('Error in upload_file: ' + str(e))

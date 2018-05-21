@@ -11,8 +11,7 @@ sb = lib.sensor_board.SENSOR_BOARD(LED1_PIN=8, LED2_PIN=10, TX0_PIN=29, TX1_PIN=
 sb.ledAct(1,0) # turn them both off to start
 sb.ledAct(2,0)
 
-p = TB_pulser.pulser() # get pulser instance
-
+p = lib.TB_pulser.pulser() # get pulser instance
 
 def pulser_thread(tx_pattern, pulsewidth):
 	p.openPort() #Open communication port

@@ -16,6 +16,12 @@ Updated 2018/05/03
 import os, sys, platform, time, textwrap
 import socket, pickle, tempfile, configparser, ast
 import numpy as np
+from   lib.getch import *
+
+# Function to get keyboard interrupts (cross-platform)
+def input_thread(stop_event):
+	c = getch()
+	if c == 'q': stop_event.set()
 
 #== Setup ======================================================================
 remoteInstallFlag = False
@@ -96,7 +102,7 @@ print('\tip addresses: ' , end = '')
 print(*ip_list, sep = ', ')
 
 try:
-	transmit_ip = config.get('ip-addresses', 'transmit_ip')
+	transmit_ip = ast.literal_eval(config.get('ip-addresses', 'transmit_ip'))
 	print('\ttransmitter:  {}'.format(transmit_ip))
 except:
 	print('\tno transmitter')
@@ -196,7 +202,7 @@ pe.add_source_parameter('Source 1', 'Padding', padding)
 with open('log/txpattern.pickle','wb') as f:
 	tx_string = ' '.join([str(n) for n in tx_pattern])
 	pickle.dump(tx_string, f, protocol=2)
-pm.upload_file('txpattern.pickle', addr=transmit_ip)
+pm.upload_file('log/txpattern.pickle', addr=transmit_ip)
 time.sleep(1)
 
 #== Main Loop ==================================================================
@@ -227,26 +233,31 @@ for trial in range(trials): # number of times to do experiment
 
 	#start lsitening until all responses are in
 	start_time = time.time()
-	print(time.strftime('%H:%M:%S',time.localtime(start_time)) + ' : listener started')
-	s.settimeout(1)#shorter timeout for recieving to work in long loop+
-	responses_received = 0
-	while responses_received < responses_requested:
-		curr_time = time.time() - start_time
-		try:
-			(buf, address) = s.recvfrom(8192)
-			response = buf.decode('utf-8')
-			if response!='unknown':
-				if response == 'end_flag':
-					responses_received += 1
-					print('    {0:>4} : received response from: {1}'.format(int(curr_time), address))
-					print('    {0:>4} : total responses: {1}'.format(int(curr_time), responses_received))
-				else: pass
-		except Exception as e:
-			print('    {0:>4} : {1}'.format(int(curr_time), e))
-	print('    {0:>4} : listener ended'.format(int(curr_time)))
+	print(time.strftime('%H:%M:%S',time.localtime(start_time)) + ' : listener started, press "q" to quit)
 
-	#end experiment
-	pe.set_end_time()
+	t_stop = threading.Event()
+	t = threading.Thread(target=input_thread, args=(t_stop,))
+	t.start()
+	while not ( t_stop.is_set() ):
+		s.settimeout(1)#shorter timeout for recieving to work in long loop+
+		responses_received = 0
+		while responses_received < len(ip_list):
+			curr_time = time.time() - start_time
+			try:
+				(buf, address) = s.recvfrom(8192)
+				response = buf.decode('utf-8')
+				if response!='unknown':
+					if response == 'end_flag':
+						responses_received += 1
+						print('    {0:>4} : received response from: {1}'.format(int(curr_time), address))
+						print('    {0:>4} : total responses: {1}'.format(int(curr_time), responses_received))
+					else: pass
+			except Exception as e:
+				print('    {0:>4} : {1}'.format(int(curr_time), e))
+		print('    {0:>4} : listener ended'.format(int(curr_time)))
+
+		#end experiment
+		pe.set_end_time()
 
 	#===========================================================================
 	# get data from pis, reassemble data
