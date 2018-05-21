@@ -111,7 +111,7 @@ while not end_flag:
 
 		if commands[0] == b'collect':
 			sb.ledAct(2,2,4) # blink LED 2 at 4 Hz
-			sample_count =   int(commands[1])
+			sample_count = int(float((commands[1])))
 			samplerate = float(commands[2])
 			pulsewidth = float(commands[3])
 			spacing    = 1/samplerate

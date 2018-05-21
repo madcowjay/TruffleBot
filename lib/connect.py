@@ -122,7 +122,7 @@ class PiManager:
 				for pid in pids.split('\n'):
 					if pid != '':
 						self.ssh.exec_command('sudo kill %s'%pid)
-						debug_print('%s: killed "%s"'%(ip,pid))
+						print('%s: killed "%s"'%(ip,pid))
 			self.ssh.close()
 		except Exception as e:
 			print('Error in kill_processes: ' + str(e))

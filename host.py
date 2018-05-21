@@ -13,7 +13,7 @@ Updated 2018/05/03
 									-JW
 """
 
-import os, sys, platform, time, textwrap
+import os, sys, platform, time, textwrap, threading
 import socket, pickle, tempfile, configparser, ast
 import numpy as np
 from   lib.getch import *
@@ -21,7 +21,9 @@ from   lib.getch import *
 # Function to get keyboard interrupts (cross-platform)
 def input_thread(stop_event):
 	c = getch()
-	if c == 'q': stop_event.set()
+	if c == 'q':
+		print('uitting...')
+		stop_event.set()
 
 #== Setup ======================================================================
 remoteInstallFlag = False
@@ -233,78 +235,81 @@ for trial in range(trials): # number of times to do experiment
 
 	#start lsitening until all responses are in
 	start_time = time.time()
-	print(time.strftime('%H:%M:%S',time.localtime(start_time)) + ' : listener started, press "q" to quit)
+	print(time.strftime('%H:%M:%S',time.localtime(start_time)) + ' : listener started, press "q" to quit')
 
 	t_stop = threading.Event()
 	t = threading.Thread(target=input_thread, args=(t_stop,))
 	t.start()
-	while not ( t_stop.is_set() ):
-		s.settimeout(1)#shorter timeout for recieving to work in long loop+
-		responses_received = 0
-		while responses_received < len(ip_list):
-			curr_time = time.time() - start_time
-			try:
-				(buf, address) = s.recvfrom(8192)
-				response = buf.decode('utf-8')
-				if response!='unknown':
-					if response == 'end_flag':
-						responses_received += 1
-						print('    {0:>4} : received response from: {1}'.format(int(curr_time), address))
-						print('    {0:>4} : total responses: {1}'.format(int(curr_time), responses_received))
-					else: pass
-			except Exception as e:
-				print('    {0:>4} : {1}'.format(int(curr_time), e))
-		print('    {0:>4} : listener ended'.format(int(curr_time)))
+	s.settimeout(1)#shorter timeout for recieving to work in long loop+
+	responses_received = 0
+	while responses_received < len(ip_list) and not ( t_stop.is_set() ):
+		curr_time = time.time() - start_time
+		try:
+			(buf, address) = s.recvfrom(8192)
+			response = buf.decode('utf-8')
+			if response!='unknown':
+				if response == 'end_flag':
+					responses_received += 1
+					print('    {0:>4} : received response from: {1}'.format(int(curr_time), address))
+					print('    {0:>4} : total responses: {1}'.format(int(curr_time), responses_received))
+				else: pass
+		except Exception as e:
+			print('    {0:>4} : {1}'.format(int(curr_time), e))
+	print('    {0:>4} : listener ended'.format(int(curr_time)))
 
-		#end experiment
-		pe.set_end_time()
+	#end experiment
+	pe.set_end_time()
 
-	#===========================================================================
-	# get data from pis, reassemble data
-	data = {}
-	sample_times = {}
-	for ip in pm.ip_list:
-		pm.ssh.connect(ip, username=username, password=password)
-		sftp = pm.ssh.open_sftp()
-		with tempfile.TemporaryFile() as fp:
-			sftp.getfo('/home/pi/TruffleBot/log/sendfile.pickle',fp)
-			fp.seek(0)
-			log = pickle.load(fp,encoding='latin1') #incompatibility of np arrays between python 2(clients) and 3(host) so use latin1 encoding
-			data[ip] = log
-		#print('TxPattern: ' + str(data[ip]['TxPattern']))
+	if not t_stop.is_set():
+		#===========================================================================
+		# get data from pis, reassemble data
+		data = {}
+		sample_times = {}
+		for ip in pm.ip_list:
+			pm.ssh.connect(ip, username=username, password=password)
+			sftp = pm.ssh.open_sftp()
+			with tempfile.TemporaryFile() as fp:
+				sftp.getfo('/home/pi/TruffleBot/log/sendfile.pickle',fp)
+				fp.seek(0)
+				log = pickle.load(fp,encoding='latin1') #incompatibility of np arrays between python 2(clients) and 3(host) so use latin1 encoding
+				data[ip] = log
+			#print('TxPattern: ' + str(data[ip]['TxPattern']))
 
-	#save data in log file, scale the data
-	for board in pe.sensors.keys():
-		print(board)
-		serial = board[7:]
-		# print('  >board serial: ' + str(serial))
-		ip = ip_serial.inv[serial]
-		ret_data = data[ip]['Data']
-		savedata = ret_data.astype('float32')
-		#scale data to reference 0 = 2**23
-		for n in np.nditer(savedata, op_flags=['readwrite']):
-			 n[...] = np.mod(n-2**23,2**24)/2**24
-		print('    >data :\n' + textwrap.indent(str(savedata), '          '))
-		pe.add_data(board,savedata)
-		pe.add_sensor_parameter(board,'End Time',data[ip]['End Time'])
-		print('    >end time: %s, avg elapse: %s'%(data[ip]['End Time'],data[ip]['Average Elapsed']))
+		#save data in log file, scale the data
+		for board in pe.sensors.keys():
+			print(board)
+			serial = board[7:]
+			# print('  >board serial: ' + str(serial))
+			ip = ip_serial.inv[serial]
+			ret_data = data[ip]['Data']
+			savedata = ret_data.astype('float32')
+			#scale data to reference 0 = 2**23
+			for n in np.nditer(savedata, op_flags=['readwrite']):
+				 n[...] = np.mod(n-2**23,2**24)/2**24
+			print('    >data :\n' + textwrap.indent(str(savedata), '          '))
+			pe.add_data(board,savedata)
+			pe.add_sensor_parameter(board,'End Time',data[ip]['End Time'])
+			print('    >end time: %s, avg elapse: %s'%(data[ip]['End Time'],data[ip]['Average Elapsed']))
 
-	#===========================================================================
+		#=======================================================================
+
+
+		# add number of sources, sensors to experiment parameters
+		pe.set_parameter('# Sensors',responses_received)
+		pe.set_parameter('# Sources',1)
+		pe.set_parameter('Wind Speed (m/s)', 2.1)
+
+		# save log
+		try:
+			log_path, date_time = pl.save_file(pe)
+		except Exception as e:
+			print('error'+str(e))
+
+		#visualize returned data
+		# logname = log_path.split('/')[1]
+		# print('visualizing')
+		# dv.visualize(logname)
+
+	#== Cleanup ================================================================
 	#kill processes on remote machines
 	pm.kill_processes(client_file)
-
-	# add number of sources, sensors to experiment parameters
-	pe.set_parameter('# Sensors',responses_received)
-	pe.set_parameter('# Sources',1)
-	pe.set_parameter('Wind Speed (m/s)', 2.1)
-
-	# save log
-	try:
-		log_path, date_time = pl.save_file(pe)
-	except Exception as e:
-		print('error'+str(e))
-
-	#visualize returned data
-	# logname = log_path.split('/')[1]
-	# print('visualizing')
-	# dv.visualize(logname)
