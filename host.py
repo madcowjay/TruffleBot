@@ -87,24 +87,25 @@ samplerate  = float(config.get('experiment-parameters', 'samplerate')) #hz
 # period     = 1/samplerate
 
 print('Starting experiment with the following parameters:')
-print('    trials:       {} runs'.format(trials))
-print('    duration:     {} seconds per run'.format(duration))
-print('    padding:      {} seconds'.format(padding))
-print('    pulsewidth    {} second'.format(pulsewidth))
-print('    samplerate:   {} Hz'.format(samplerate))
+print('\ttrials:       {} runs'.format(trials))
+print('\tduration:     {} seconds per run'.format(duration))
+print('\tpadding:      {} seconds'.format(padding))
+print('\tpulsewidth    {} second'.format(pulsewidth))
+print('\tsamplerate:   {} Hz'.format(samplerate))
 
 
 ip_list = ast.literal_eval(config.get('ip-addresses', 'ip_list'))
-print('    ip addresses: ' , end = '')
+print('\tip addresses: ' , end = '')
 print(*ip_list, sep = ', ')
 
 try:
 	transmit_ip = config.get('ip-addresses', 'transmit_ip')
-	print('Transmitter:  {}'.format(transmit_ip))
+	print('\ttransmitter:  {}'.format(transmit_ip))
 except:
-	print('No Transmitter')
+	print('\tno transmitter')
 
 randomFlag = int(config.get('message', 'random'))
+print('\trandom : ' + str(randomFlag))
 if not randomFlag:
 	message_array = ast.literal_eval(config.get('message', 'message_array'))
 
@@ -138,7 +139,7 @@ s.settimeout(5.0)
 
 #get identifying dictionaries from pm
 ip_serial = pm.identifpi()
-print('board list: ' + str(ip_serial))
+print('\tboard list: ' + str(ip_serial))
 
 # kernel_time = 4 # in seconds. PN code will repeat after this much time.
 
@@ -183,11 +184,12 @@ tx_pattern_upsampled = tx_pattern.repeat(pulsewidth * samplerate)
 # for element in message:
 #     for n in range(element_len):
 #         tx_pattern_upsampled.append(element)
-print(tx_pattern_upsampled)
-print(tx_pattern_upsampled.shape)
 
-print(message)
-print(tx_pattern)
+print('\tmessage:              ' + str(message))
+print('\ttx_pattern:           ' + str(tx_pattern))
+print('\ttx_pattern_upsampled: ' + str(tx_pattern_upsampled))
+print('\tshape of upsampled:   ' + str(tx_pattern_upsampled.shape))
+
 pe.add_data('Source 1', message,  datatype='Message')
 pe.add_data('Source 1', tx_pattern_upsampled, datatype='Tx Pattern')
 pe.add_source_parameter('Source 1', 'Pulsewidth', pulsewidth)
@@ -221,7 +223,7 @@ for trial in range(trials): # number of times to do experiment
 
 	#===========================================================================
 	#send command to the client to collect data
-	command = 'collect %s %s %s %s'%(num_samples, period, pulsewidth, padding)
+	command = 'collect %s %s %s %s'%(tx_pattern, pulsewidth)
 	s.sendto(command.encode('utf-8'), dest)
 	print('sending command: ' + command)
 

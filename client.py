@@ -11,23 +11,44 @@ sb = lib.sensor_board.SENSOR_BOARD(LED1_PIN=8, LED2_PIN=10, TX0_PIN=29, TX1_PIN=
 sb.ledAct(1,0) # turn them both off to start
 sb.ledAct(2,0)
 
-def pulser_thread(pattern, duration, padding):
-	# this is the worker thread if the pi is registered to transmit
-	pcomm = None
-	# while not pcomm=='stop':
-	for i in pattern:
-		start_time = time.time()
-		if i==1:
-			print('pulse on')
-			global sb
-			sb.pulse(1,duration)
-		else:
-			time.sleep(duration)
-		if not pulseq.empty():
-			pcomm = pulseq.get()
-			if pcomm=='stop':
-				break
-	print('pulser ended')
+p = TB_pulser.pulser() # get pulser instance
+
+
+def pulser_thread(tx_pattern, pulsewidth):
+	p.openPort() #Open communication port
+	p.setVoltage(0) #sets voltage and current to 0V and 1A
+	p.setCurrent(1)
+	p.setOutput("ON")
+	time_log = []
+	start_time = time.time()
+	for i in range(len(tx_pattern)):
+		current_time = time.time()
+		time_log.append(current_time - start_time)
+		print("Bit " + str(tx_pattern[i]))
+		#p.setVoltage(tx_pattern[i]*12) # sets voltage to bits*12V
+		while time.time() - current_time < pulsewidth:
+			pass
+	p.setOutput("OFF")
+	p.closePort()
+	print("Transfer completed")
+	print(time_log)
+
+	# # this is the worker thread if the pi is registered to transmit
+	# pcomm = None
+	# # while not pcomm=='stop':
+	# start_time = time.time()
+	# for i in pattern:
+	# 	if i==1:
+	# 		print('pulse on')
+	# 		global sb
+	# 		sb.pulse(1,duration)
+	# 	else:
+	# 		time.sleep(duration)
+	# 	if not pulseq.empty():
+	# 		pcomm = pulseq.get()
+	# 		if pcomm=='stop':
+	# 			break
+	# print('pulser ended')
 
 #== Setup ======================================================================
 print('\n\n\n') # for logfile
