@@ -13,6 +13,7 @@ sb.ledAct(1,0) # turn them both off to start
 sb.ledAct(2,0)
 
 p = lib.TB_pulser.pulser() # get pulser instance
+time_log = []
 
 # Process command line arguments
 usage = 'python3 client.py [OPTION]...'
@@ -28,7 +29,7 @@ def pulser_thread(tx_pattern, pulsewidth):
 	p.setVoltage(0) #sets voltage and current to 0V and 1A
 	p.setCurrent(1)
 	p.setOutput("ON")
-	time_log = []
+	global time_log
 	start_time = time.time()
 	for i in range(len(tx_pattern)):
 		current_time = time.time()
