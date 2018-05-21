@@ -406,7 +406,7 @@ class ADS1256:
 
 		byte1 = self.CMD_WREG | 0x00        # start write at addr 0x00
 		byte2 = self.REG_DRATE              # end write at addr REG_DRATE
-		byte3 = self.STATUS_AUTOCAL_ENABLE  # status register
+		byte3 = self.STATUS_AUTOCAL_ENABLE + self.STATUS_BUFFER_ENABLE
 		byte4 = 0x08                        # input channel parameters
 		byte5 = self.AD_GAIN_2              # ADCON control register, gain
 		byte6 = self.DRATE_500              # data rate
@@ -460,12 +460,12 @@ class ADS1256:
 	def SyncAndWakeup_quick(self):
 		debug_print('sync+wakeup (quickly (no chip select or release))')
 
-		# self.chip_select()
+		#self.chip_select()
 		self.__SendBytes(bytearray((self.CMD_SYNC,)))
 		self.__delayMicroseconds(4)
 		self.__SendBytes(bytearray((self.CMD_WAKEUP,)))
 		#self.chip_release()
-		# self.__delayMicroseconds(4)
+		#self.__delayMicroseconds(4)
 
 
 	def SetGPIOoutputs(self, D0, D1, D2, D3):
@@ -576,7 +576,7 @@ class ADS1256:
 		self.WaitDRDY()
 		data[i] = self.ReadADC_quick()
 		self.chip_release()
-		#return data
+		return data
 
 
 	def getADCsample(self, a_pos, a_neg):
