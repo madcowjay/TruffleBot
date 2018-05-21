@@ -16,6 +16,7 @@ Updated 2018/05/03
 import os, sys, platform, time, textwrap, threading
 import socket, pickle, tempfile, configparser, ast
 import numpy as np
+from   optparse import OptionParser
 from   lib.getch import *
 
 # Function to get keyboard interrupts (cross-platform)
@@ -26,43 +27,23 @@ def input_thread(stop_event):
 		stop_event.set()
 
 #== Setup ======================================================================
-remoteInstallFlag = False
-configFlag = False
-
 # Process command line arguments
-index = 0
-for arg in sys.argv[1:]:
-	index += 1
-	if arg == '-d' or arg == '--debug':
-		os.environ['DEBUG'] = 'True'
-	elif arg == '-c' or arg == '--config-file':
-		configFlag = True
-		configFilePath = sys.argv[index+1]
-		index += 1
-	elif arg[0:14] == '--config-file=':
-		configFlag = True
-		configFilePath = arg[14:]
-	elif arg == '-r' or arg == '--remote-install':
-		remoteInstallFlag = True
-	elif arg == '--help':
-		print('Usage: python3 host.py [OPTION]...')
-		print('  -d, --debug                         display debug messages while running')
-		print('  -r, --remote-install                install all necessary files on clients')
-		print('  -c, --config-file=CONFIG.CFG        use the indicated configuration file, if not invoked, default.cfg is used')
-		sys.exit()
-	else:
-		print("host.py: invalid option -- '{0}'".format(arg[1:]))
-		print("Try 'host.py --help' for more information.")
-		sys.exit()
+usage = 'python3 host.py [OPTION]...'
+parser = OptionParser(usage)
+parser.add_option('-d','--debug',action='store_true',dest='debugFlag',help='display debug messages while running',default=False)
+parser.add_option('-r','--remote-install',action='store_true',dest='remoteInstallFlag',help='install all necessary files on clients',default=False)
+parser.add_option('-c','--config-file',dest='configfile',help='use the indicated configuration file, if not invoked, default.cfg is used',default='default.cfg')
+(options, args) = parser.parse_args()
+configFilePath = options.configfile
+if options.debugFlag: os.environ['DEBUG'] = 'True'
 
 # Load these after DEBUG status has been determined
 import lib.savefile
 import lib.connect
 
-if not configFlag:
-	configFilePath = 'default.cfg'
 config = configparser.RawConfigParser()
 config.read(configFilePath)
+
 print('\nLoading config file: ' + configFilePath)
 
 LED1_PIN = int(config.get('GPIO', 'LED1_PIN'))
@@ -118,7 +99,7 @@ print('\trandom : ' + str(randomFlag))
 if not randomFlag:
 	message_array = ast.literal_eval(config.get('message', 'message_array'))
 
-if remoteInstallFlag:
+if options.remoteInstallFlag:
 	print('TODO')
 	# sync files, run client on the remote machines
 #host_dir='pi_utils'

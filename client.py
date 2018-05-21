@@ -1,6 +1,7 @@
 import os, sys, time, socket, pickle, threading
 import numpy as np
 from   multiprocessing import Queue
+from   optparse import OptionParser
 
 import lib.pyads1256
 import lib.pydac8532
@@ -14,26 +15,13 @@ sb.ledAct(2,0)
 p = lib.TB_pulser.pulser() # get pulser instance
 
 # Process command line arguments
-index = 0
-for arg in sys.argv[1:]:
-	index += 1
-	if arg == '-d' or arg == '--debug':
-		os.environ['DEBUG'] = 'True'
-	elif arg == '-p' or arg == '--port':
-		broadcast_port = int(sys.argv[index+1])
-		index += 1
-	elif arg[0:7] == '--port=':
-		configFlag = True
-		configFilePath = int(arg[7:])
-	elif arg == '--help':
-		print('Usage: python3 client.py [OPTION]...')
-		print('  -d, --debug                         display debug messages while running')
-		print('  -p, --port=PORT_NUM                 specifies which port to listen on')
-		sys.exit()
-	else:
-		print("client.py: invalid option -- '{0}'".format(arg[1:]))
-		print("Try 'client.py --help' for more information.")
-		sys.exit()
+usage = 'python3 client.py [OPTION]...'
+parser = OptionParser(usage)
+parser.add_option('-d','--debug',action='store_true',dest='debugFlag',help='display debug messages while running',default=False)
+parser.add_option('-p','--port',action='store',type='int',dest='port_number',help='the port to listen for commands on',default=5000)
+(options, args) = parser.parse_args()
+if options.debugFlag: os.environ['DEBUG'] = 'True'
+broadcast_port = options.port_number
 
 def pulser_thread(tx_pattern, pulsewidth):
 	p.openPort() #Open communication port

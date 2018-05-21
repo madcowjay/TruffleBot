@@ -7,6 +7,7 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from   lib.getch import *
+from   optparse import OptionParser
 
 # console colors
 init() #colorama
@@ -15,30 +16,14 @@ fg  = Fore.GREEN; fr  = Fore.RED; fb  = Fore.BLUE; fy  = Fore.YELLOW; fc  = Fore
 fbk = Fore.BLACK; fw  = Fore.WHITE
 sr  = Style.RESET_ALL
 
-configFlag = False
-
 # Process command line arguments
-index = 0
-for arg in sys.argv[1:]:
-	index += 1
-	if arg == '-d' or arg == '--debug':
-		os.environ['DEBUG'] = 'True'
-	elif arg == '-c' or arg == '--config-file':
-		configFlag = True
-		configFilePath = sys.argv[index+1]
-		index += 1
-	elif arg[0:14] == '--config-file=':
-		configFlag = True
-		configFilePath = arg[14:]
-	elif arg == '--help':
-		print('Usage: python3 test.py [OPTION]...')
-		print('  -d, --debug                         display debug messages while running')
-		print('  -c, --config-file=CONFIG.CFG        use the indicated configuration file, if not invoked, default.cfg is used')
-		sys.exit()
-	else:
-		print("test.py: invalid option -- '{0}'".format(arg[1:]))
-		print("Try 'test.py --help' for more information.")
-		sys.exit()
+usage = 'python3 test.py [OPTION]...'
+parser = OptionParser(usage)
+parser.add_option('-d','--debug',action='store_true',dest='debugFlag',help='display debug messages while running',default=False)
+parser.add_option('-c','--config-file',dest='configfile',help='use the indicated configuration file, if not invoked, default.cfg is used',default='default.cfg')
+(options, args) = parser.parse_args()
+configFilePath = options.configfile
+if options.debugFlag: os.environ['DEBUG'] = 'True'
 
 # Load these after DEBUG status has been determined
 import lib.pyads1256
@@ -46,8 +31,6 @@ import lib.pydac8532
 import lib.pylps22hb
 import lib.sensor_board
 
-if not configFlag:
-	configFilePath = 'default.cfg'
 config = configparser.RawConfigParser()
 config.read(configFilePath)
 print('\nLoading config file: ' + configFilePath)
