@@ -195,8 +195,8 @@ while not end_flag:
 			log['Average Elapsed'] = sum(elapsed)/float(len(elapsed))
 			log['PID'] = os.getpid()
 			log['TxPattern'] = tx_pattern
-			log['Time Log'] = time_log
-			log['Total Tx Package'] = numpy.vstack((tx_pattern,time_log))
+			log['Time Log']  = time_log
+			log['Total Tx Package'] = np.vstack((tx_pattern,time_log))
 
 			#serialize data to be sent over network
 			print(log)
