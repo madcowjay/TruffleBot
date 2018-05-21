@@ -102,7 +102,7 @@ lps_mode = 0 # 0 = temperature and pressure, 1 = registers
 ads = lib.pyads1256.ADS1256()
 if ads.ReadID()==3:
 	adc_status = fg+' ADC UP '+sr
-else: adc_status = fr+'ADC DOWN'+str
+else: adc_status = fr+'ADC DOWN'+sr
 ads.ConfigADC()
 ads.SyncAndWakeup()
 adc_ref_voltage = 2.5

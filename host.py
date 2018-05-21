@@ -146,12 +146,12 @@ print('board list: ' + str(ip_serial))
 pe.add_source('Source 1')
 #transmit_pi = 2#board number for transmitter
 
-#== Start Client ===========================================================
+#== Start Client ===============================================================
 pm.run_script(client_file, log_file)
 # pm.exec_command('sudo strace -p $(pgrep python) -o strace.txt')
 time.sleep(4) # wait for remote programs to start
 
-#== Transmit ===============================================================
+#== Transmit ===================================================================
 # generate transmit pattern, add to log, and send to transmitter board
 # message must be a np array to be saved in hdf5 correctly
 if randomFlag:
@@ -174,21 +174,22 @@ tx_pattern = np.concatenate([pad, message, pad])
 #             break
 #         else:
 #             tx_pattern[n*tx_pattern_bit_len + i] = 0
+
 #tweak the message into a form that can be saved and reconstructed easily
-#this essentially translates the message into an array constrained by the samplerate of the Sensors
-# msg_plot = []
+#    this essentially translates the message into an array constrained by
+#    the samplerate of the Sensors
+tx_pattern_upsampled = tx_pattern.repeat(pulsewidth * samplerate)
 # element_len = int(pulsewidth * samplerate)
 # for element in message:
 #     for n in range(element_len):
-#         msg_plot.append(element)
-# msg_plot = np.pad(msg_plot,samplerate*padding,'constant',constant_values=0)
-# print(msg_plot)
-# print(msg_plot.shape)
+#         tx_pattern_upsampled.append(element)
+print(tx_pattern_upsampled)
+print(tx_pattern_upsampled.shape)
 
 print(message)
 print(tx_pattern)
 pe.add_data('Source 1', message,  datatype='Message')
-#pe.add_data('Source 1', msg_plot, datatype='Tx Pattern')
+pe.add_data('Source 1', tx_pattern_upsampled, datatype='Tx Pattern')
 pe.add_source_parameter('Source 1', 'Pulsewidth', pulsewidth)
 pe.add_source_parameter('Source 1', 'Padding', padding)
 #pe.add_source_parameter('Source 1', 'Bitrate', bitrate)
@@ -196,13 +197,11 @@ pe.add_source_parameter('Source 1', 'Padding', padding)
 with open('txpattern.pickle','wb') as f:
 	tx_string = ' '.join([str(n) for n in tx_pattern])
 	pickle.dump(tx_string, f, protocol=2)
-#transmit_ip = boardnum_ip[transmit_pi]
 pm.upload_file('txpattern.pickle', addr=transmit_ip)
 time.sleep(1)
 
 #== Main Loop ==================================================================
 for trial in range(trials): # number of times to do experiment
-	# set start time of experiment
 	print('\n*** trial %s started ***' %(trial))
 	pe.set_start_time()
 
