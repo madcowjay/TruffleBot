@@ -89,7 +89,7 @@ sel_list = [[ads.MUX_AIN0, ads.MUX_AINCOM], [ads.MUX_AIN1, ads.MUX_AINCOM],
 			[ads.MUX_AIN6, ads.MUX_AINCOM], [ads.MUX_AIN7, ads.MUX_AINCOM]]
 
 try:
-	with open('txpattern.pickle', 'rb') as f:
+	with open('log/txpattern.pickle', 'rb') as f:
 		tx_message = pickle.load(f)
 	tx_pattern = np.array([int(n) for n in tx_message.split()])
 	print('tx recieved')
