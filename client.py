@@ -34,7 +34,6 @@ def pulser_thread(tx_pattern, pulsewidth):
 	for i in range(len(tx_pattern)):
 		current_time = time.time()
 		time_log.append(current_time - start_time)
-		print("Bit " + str(tx_pattern[i]))
 		p.setVoltage(tx_pattern[i]*12) # sets voltage to bits*12V
 		while time.time() - current_time < pulsewidth:
 			pass
@@ -122,10 +121,10 @@ while not end_flag:
 
 		if commands[0] == b'collect':
 			sb.ledAct(2,2,4) # blink LED 2 at 4 Hz
-			sample_count = int(float((commands[1])))
-			samplerate = float(commands[2])
-			pulsewidth = float(commands[3])
-			spacing    = 1/samplerate
+			sample_count = int(float(commands[1]))
+			samplerate   =     float(commands[2])
+			pulsewidth   =     float(commands[3])
+			spacing      = 1/samplerate
 
             #init array to store data
 			data = np.zeros([sample_count, channels], dtype='int32')
@@ -197,6 +196,7 @@ while not end_flag:
 			log['PID'] = os.getpid()
 			log['TxPattern'] = tx_pattern
 			log['Time Log'] = time_log
+			log['Total Tx Package'] = numpy.vstack((tx_pattern,time_log))
 
 			#serialize data to be sent over network
 			print(log)

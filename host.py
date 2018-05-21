@@ -92,10 +92,10 @@ except:
 	print('\tno transmitter')
 
 broadcast_port = int(config.get('ports', 'broadcast_port'))
-print('\tbroadcast port: {}'.format(broadcast_port))
+print('\tbrdcst port:  {}'.format(broadcast_port))
 
 randomFlag = int(config.get('message', 'random'))
-print('\trandom : ' + str(randomFlag))
+print('\trandom:      ' + str(randomFlag))
 if not randomFlag:
 	message_array = ast.literal_eval(config.get('message', 'message_array'))
 
