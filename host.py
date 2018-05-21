@@ -38,6 +38,7 @@ for arg in sys.argv[1:]:
 	elif arg == '-c' or arg == '--config-file':
 		configFlag = True
 		configFilePath = sys.argv[index+1]
+		index += 1
 	elif arg[0:14] == '--config-file=':
 		configFlag = True
 		configFilePath = arg[14:]
