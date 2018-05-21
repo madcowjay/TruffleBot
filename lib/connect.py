@@ -96,13 +96,13 @@ class PiManager:
 		except Exception as e:
 			print('Error in exec_commands: ' + str(e))
 
-	def run_script(self, client_file, log_file='log.txt'):
+	def run_script(self, client_file, log_file='log.txt', port=5000):
 		#takes the file to to run as argument, and runs it on each client as sudo
 		debug_print('run_script started')
 		try:
 			for ip in self.ip_list:
 				self.ssh.connect(ip, username='pi', password='raspberryB1oE3')
-				command = 'cd %s && python3 -u %s &> log/%s'%(self.client_dir,client_file,log_file)
+				command = 'cd %s && python3 -u %s -p %s &> log/%s'%(self.client_dir,client_file,port,log_file)
 				debug_print(command)
 				stdin, stdout, stderr = self.ssh.exec_command(command)
 				debug_print('%s: starting client file, writing stdout and stderr to %s'%(ip,log_file))

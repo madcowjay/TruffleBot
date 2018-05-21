@@ -109,6 +109,9 @@ try:
 except:
 	print('\tno transmitter')
 
+broadcast_port = int(config.get('ports', 'broadcast_port'))
+print('\tbroadcast port: {}'.format(broadcast_port))
+
 randomFlag = int(config.get('message', 'random'))
 print('\trandom : ' + str(randomFlag))
 if not randomFlag:
@@ -137,7 +140,7 @@ pl = lib.savefile.PlumeLog(log_dir)
 pe.set_parameter('Comment', 'trials with raspberry pi sensor boards and humidifier source')
 
 #set up socket
-dest = ('<broadcast>', 5000)
+dest = ('<broadcast>', broadcast_port)
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 s.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
 s.settimeout(5.0)
@@ -153,7 +156,7 @@ pe.add_source('Source 1')
 #transmit_pi = 2#board number for transmitter
 
 #== Start Client ===============================================================
-pm.run_script(client_file, log_file)
+pm.run_script(client_file, log_file, broadcast_port)
 # pm.exec_command('sudo strace -p $(pgrep python) -o strace.txt')
 time.sleep(4) # wait for remote programs to start
 

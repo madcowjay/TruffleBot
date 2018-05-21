@@ -13,6 +13,24 @@ sb.ledAct(2,0)
 
 p = lib.TB_pulser.pulser() # get pulser instance
 
+# Process command line arguments
+index = 0
+for arg in sys.argv[1:]:
+	index += 1
+	if arg == '-d' or arg == '--debug':
+		os.environ['DEBUG'] = 'True'
+	elif arg == '-p' or arg == '--port':
+		broadcast_port = int(sys.argv[index+1])
+	elif arg == '--help':
+		print('Usage: python3 client.py [OPTION]...')
+		print('  -d, --debug                         display debug messages while running')
+		print('  -p, --port                          specifies which port to listen on')
+		sys.exit()
+	else:
+		print("client.py: invalid option -- '{0}'".format(arg[1:]))
+		print("Try 'client.py --help' for more information.")
+		sys.exit()
+
 def pulser_thread(tx_pattern, pulsewidth):
 	p.openPort() #Open communication port
 	p.setVoltage(0) #sets voltage and current to 0V and 1A
@@ -71,7 +89,7 @@ pulseq = Queue()
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 s.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
-s.bind(('', 5000))
+s.bind(('', broadcast_port))
 
 # init variables
 outstring = ''
