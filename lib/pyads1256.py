@@ -604,3 +604,10 @@ class ADS1256:
 		myid  = idInBytes[0] >> 4
 		debug_print("myid = " + str(myid))
 		return (myid)
+
+	def SelfCalibrate(self):
+		debug_print('SelfCalibrate')
+		self.chip_select()
+		self.__SendBytes(bytearray((self.CMD_SELFCAL,)))
+		self.chip_release()
+		self.__delayMicroseconds(4)

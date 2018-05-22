@@ -135,7 +135,7 @@ print('\tboard list: ' + str(ip_serial))
 
 #add transmitter
 #TODO - name transmitter by ip or serial
-pe.add_trasnmitter('Trasnmitter 1')
+pe.add_transmitter('Trasnmitter 1')
 #transmit_pi = 2#board number for transmitter
 
 #== Start Client ===============================================================
@@ -183,9 +183,9 @@ print('\tshape of upsampled:   ' + str(tx_pattern_upsampled.shape))
 
 pe.add_data('Trasnmitter 1', message,  datatype='Message')
 pe.add_data('Trasnmitter 1', tx_pattern_upsampled, datatype='Tx Pattern')
-pe.add_trasnmitter_parameter('Trasnmitter 1', 'Pulsewidth', pulsewidth)
-pe.add_trasnmitter_parameter('Trasnmitter 1', 'Padding', padding)
-#pe.add_trasnmitter_parameter('Trasnmitter 1', 'Bitrate', bitrate)
+pe.add_transmitter_parameter('Trasnmitter 1', 'Pulsewidth', pulsewidth)
+pe.add_transmitter_parameter('Trasnmitter 1', 'Padding', padding)
+#pe.add_transmitter_parameter('Trasnmitter 1', 'Bitrate', bitrate)
 
 with open('log/txpattern.pickle','wb') as f:
 	tx_string = ' '.join([str(n) for n in tx_pattern])
@@ -247,28 +247,26 @@ for trial in range(trials): # number of times to do experiment
 	pe.set_end_time()
 
 	if not t_stop.is_set():
-		#===========================================================================
-		# get data from pis, reassemble data
+		#== get data from pis, reassemble data =================================
 		data = {}
-		sample_times = {}
 		for ip in pm.ip_list:
 			pm.ssh.connect(ip, username=username, password=password)
 			sftp = pm.ssh.open_sftp()
 			with tempfile.TemporaryFile() as fp:
 				sftp.getfo('/home/pi/TruffleBot/log/sendfile.pickle',fp)
 				fp.seek(0)
-				log = pickle.load(fp,encoding='latin1') #incompatibility of np arrays between python 2(clients) and 3(host) so use latin1 encoding
-				data[ip] = log
-			#print('TxPattern: ' + str(data[ip]['TxPattern']))
+				#log = pickle.load(fp,encoding='latin1') #incompatibility of np arrays between python 2(clients) and 3(host) so use latin1 encoding
+				#log =
+				data[ip] = pickle.load(fp)
 
-		#save data in log file, scale the data
+		#save data in hdf5 file, scale the data
 		for board in pe.collectors.keys():
 			print(board)
 			serial = board[7:]
-			# print('  >board serial: ' + str(serial))
 			ip = ip_serial.inv[serial]
-			ret_data = data[ip]['Data']
-			savedata = ret_data.astype('float32')
+			# ret_data = data[ip]['Data']
+			# savedata = ret_data.astype('float32')
+			savedata = data[ip]['Data'].astype('float32')
 			#scale data to reference 0 = 2**23
 			for n in np.nditer(savedata, op_flags=['readwrite']):
 				 n[...] = np.mod(n-2**23,2**24)/2**24
@@ -276,6 +274,9 @@ for trial in range(trials): # number of times to do experiment
 			pe.add_data(board,savedata)
 			pe.add_collector_parameter(board,'End Time',data[ip]['End Time'])
 			print('    >end time: %s, avg elapse: %s'%(data[ip]['End Time'],data[ip]['Average Elapsed']))
+
+			time_log = data[ip]['Time Log']
+			pe.add_data(board,time_log)
 
 		#=======================================================================
 

@@ -1,4 +1,3 @@
-group# -*- coding: utf-8 -*-
 """
 @author: Michael
 
@@ -84,8 +83,8 @@ class PlumeLog:
 
 		date_time = experiment.parameters['End Time']
 
-		logdirname=self.logdirname
-		logname = self.h5filename + '_' + experiment.parameters['End Time'][:8] + '.hdf5'
+		logdirname = self.logdirname
+		logname = self.h5filename + '_' + experiment.parameters['End Time'][:10] + '.hdf5'
 		writelogfilename = os.path.join(os.getcwd(),logdirname,logname)
 		os.makedirs(os.path.dirname(writelogfilename), exist_ok=True)
 
