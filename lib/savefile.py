@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+group# -*- coding: utf-8 -*-
 """
 @author: Michael
 
@@ -8,7 +8,7 @@ File module to save, delete and read datasets. Contains two classes:
 PlumeExperiment:
 	This class is used to store information about an experiment as it runs.
 	General experiment parameters, collectors, and transmitters can be added to
-	the class. Transmitters and collectors have datasets associated with each 
+	the class. Transmitters and collectors have datasets associated with each
 	instance.
 
 PlumeLog:
@@ -28,8 +28,8 @@ class PlumeExperiment:
 	#initializes the empty dictionaries that will be filled by the methods below
 	def __init__(self):
 		self.parameters   = {}
-		self.transmitters      = {}
-		self.collectors = {}
+		self.transmitters = {}
+		self.collectors   = {}
 
 	# general function to set a parameter of the experiment, will be stored as a .hdf5 attribute at the highest level
 	def set_parameter(self, paramName, paramValue):
@@ -40,7 +40,7 @@ class PlumeExperiment:
 		self.collectors[name] = {'gain':gain, 'pumpspeed':pumpspeed, 'location':location, 'samplerate':samplerate}
 
 	# used to add a miscellaneous parameter to a collector
-	def add_collector_parameter(self, sensor_name, param, value):
+	def add_collector_parameter(self, collector_name, param, value):
 		self.collectors[collector_name][param] = value
 
 	# adds a transmitter to the experiment, can be initialized with various parameters which will be stored as attributes
@@ -61,11 +61,11 @@ class PlumeExperiment:
 
 	# sets the start time of the experiment, will be saved as high-level attribute
 	def set_start_time(self):
-		self.parameters['Start Time'] = datetime.now().strftime("%Y%m%d_%H%M%S")
+		self.parameters['Start Time'] = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 
 	# sets the end time of the experiment, will be saved as high-level attribute
 	def set_end_time(self):
-		self.parameters['End Time'] = datetime.now().strftime("%Y%m%d_%H%M%S")
+		self.parameters['End Time'] = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 
 
 class PlumeLog:
@@ -73,6 +73,7 @@ class PlumeLog:
 		debug_print('init started')
 		self.logdirname = logdirname
 		self.h5filename = h5filename
+
 
 	# takes a PlumeExperiment object as an argument and saves to an .hdf5 dataset. the logfile is named the YearMonthDay.hdf5,
 	# the experiment is saved as a group within the .hdf5 named YearMonthDayTime and the collector/transmitter data is saved to groups within this
@@ -89,44 +90,42 @@ class PlumeLog:
 		os.makedirs(os.path.dirname(writelogfilename), exist_ok=True)
 
 		with h5py.File(writelogfilename, "a") as f:
-			f.attrs['description'] = 'Plume communications control framework'
+			f.attrs['description']   = 'Plume communications control framework'
 			f.attrs['formatversion'] = 1.0
-			f.attrs['workingdir'] = os.getcwd()
-			f.attrs['platform'] = sys.platform
-			f.attrs['platform_system'] = platform.system()
-			f.attrs['platform_release'] = platform.release()
-			f.attrs['platform_version'] = platform.version()
+			f.attrs['workingdir']    = os.getcwd()
+			f.attrs['platform']      = sys.platform
+			f.attrs['platform_system']   = platform.system()
+			f.attrs['platform_release']  = platform.release()
+			f.attrs['platform_version']  = platform.version()
 			f.attrs['Created timestamp'] = experiment.parameters['Start Time']
 			f.attrs['Updated timestamp'] = experiment.parameters['End Time']
 
-
-			groupname='/'+date_time
-			grp=f.create_group(groupname)
-			for attr in experiment.parameters.keys():
+			group = '/' + date_time # this is the trial
+			grp = f.create_group(group)
+			for attr in experiment.parameters.keys(): # add trial parameters
 				grp.attrs[attr] = experiment.parameters[attr]
 
-			filename = groupname +'/transmitterData'
-			f.create_group(filename)
+			subgroup = group + '/transmitterData'
+			f.create_group(subgroup)
 
 			for transmitter in experiment.transmitters.keys():
-				subgroup = filename+'/'+transmitter
-				grp = f.create_group(subgroup)
+				subsubgroup = subgroup + '/' + transmitter
+				grp = f.create_group(subsubgroup)
 				for key in experiment.transmitters[transmitter].keys():
 					if type(experiment.transmitters[transmitter][key]) == np.ndarray:
-						signalname = subgroup+'/'+key
-						savearray = experiment.transmitters[transmitter][key]
+						signalname = subsubgroup + '/' + key
+						savearray  = experiment.transmitters[transmitter][key]
 						dset = f.create_dataset(signalname, savearray.shape, savearray.dtype.name)
 						dset[...] = savearray
 					else:
 						grp.attrs[key] = str(experiment.transmitters[transmitter][key])
 
-
-			filename = groupname+'/collectorData'
-			f.create_group(filename)
+			subgroup = group + '/collectorData'
+			f.create_group(subgroup)
 
 			for collector in experiment.collectors.keys():
 				#create dataset and save data
-				signalname = filename+'/'+collector
+				signalname = subgroup + '/' + collector
 				savearray  = experiment.collectors[collector]['data']
 				dset = f.create_dataset(signalname, savearray.shape, savearray.dtype.name)
 				dset[...] = savearray
@@ -139,8 +138,7 @@ class PlumeLog:
 
 		print("All data saved to:",logname)
 
-		return '%s/%s'%(logdirname,logname),date_time
-
+		return '%s/%s'%(logdirname,logname), date_time
 
 	# returns a dataset, must specify logfile and full path to dataset. Ex: read_dataset('20170614.hdf5','/20170614_120400/collector 1')
 	def read_dataset(self, logfile, dset_name):
