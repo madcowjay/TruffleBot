@@ -1,6 +1,6 @@
 """
 Updated 2018/05/03
-  -Implemented config files for experiment parameters and IPs of clients
+  -Implemented config files for experiment attributes and IPs of clients
 
   -kill_processes now takes a client file as an argument
 	 and is called at the beginning of the program to clean up
@@ -67,14 +67,14 @@ ADC_PDWN_PIN  = int(config.get('GPIO', 'ADC_PDWN_PIN'))
 DAC_SPI_CHANNEL   = int(config.get('DAC', 'DAC_SPI_CHANNEL'))
 DAC_SPI_FREQUENCY = int(config.get('DAC', 'DAC_SPI_FREQUENCY'))
 
-# Set parameters
+# Set attributes
 trials      =   int(config.get('experiment-parameters', 'trials'))   #trials
 duration    =   int(config.get('experiment-parameters', 'duration')) #seconds
 padding     =   int(config.get('experiment-parameters', 'padding'))  #pulses of silence at beginning and end
 pulsewidth  = float(config.get('experiment-parameters', 'pulsewidth')) #seconds
 samplerate  = float(config.get('experiment-parameters', 'samplerate')) #hz
 
-print('Starting experiment with the following parameters:')
+print('Starting experiment with the following attributes:')
 print('\ttrials:       {} runs'.format(trials))
 print('\tduration:     {} seconds per run'.format(duration))
 print('\tpadding:      {} seconds'.format(padding))
@@ -90,7 +90,9 @@ log_file    = config.get('files', 'log_file')
 #set up instances of Experiment and Log classes, set start time for log
 pe = lib.savefile.PlumeExperiment()
 pl = lib.savefile.PlumeLog(log_dir)
-pe.set_parameter('Comment', 'Trials with Raspberry Pi collectors and trasnmitter')
+experiment_attributes = ast.literal_eval(config.get('hdf5', 'experiment-attributes'))
+for key in experiment_attributes:
+	pe.set_attribute(key, experiment_attributes[key])
 
 collector_ip_list = ast.literal_eval(config.get('ip-addresses', 'collector_ip_list'))
 print('\tcollector ip addresses:   ' , end = '')
@@ -122,6 +124,7 @@ password    = config.get('client-login', 'password')
 # PiManager sends commands to all Pis
 pm = lib.connect.PiManager(client_dir, collector_ip_list)
 pm.kill_processes(client_file)
+
 
 #set up socket
 dest = ('<broadcast>', broadcast_port)
@@ -280,9 +283,9 @@ for trial in range(trials): # number of times to do experiment
 		#=======================================================================
 
 
-		# add number of trasnmitters, collectors to experiment parameters
-		pe.set_parameter('# Collectors', responses_received)
-		pe.set_parameter('# Trasnmitters', len(transmitter_ip_list))
+		# add number of trasnmitters, collectors to experiment attributes
+		pe.set_attribute('# Collectors', responses_received)
+		pe.set_attribute('# Trasnmitters', len(transmitter_ip_list))
 
 		# save log
 		try:

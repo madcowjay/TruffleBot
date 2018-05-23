@@ -6,7 +6,7 @@ File module to save, delete and read datasets. Contains two classes:
 
 PlumeExperiment:
 	This class is used to store information about an experiment as it runs.
-	General experiment parameters, collectors, and transmitters can be added to
+	General experiment attributes, collectors, and transmitters can be added to
 	the class. Transmitters and collectors have datasets associated with each
 	instance.
 
@@ -26,14 +26,14 @@ import h5py
 class PlumeExperiment:
 	#initializes the empty dictionaries that will be filled by the methods below
 	def __init__(self):
-		self.parameters   = {}
+		self.attributes   = {}
 		self.transmitters = {}
 		self.collectors   = {}
 
 
-	def set_parameter(self, paramName, paramValue):
-		# general function to set a parameter of the experiment, will be stored as a .hdf5 attribute at the highest level
-		self.parameters[paramName] = paramValue
+	def set_attribute(self, paramName, paramValue):
+		# general function to set a attribute of the experiment, will be stored as a .hdf5 attribute at the highest level
+		self.attributes[paramName] = paramValue
 
 
 	def add_collector(self, name, gain=None, location=None):
@@ -42,29 +42,29 @@ class PlumeExperiment:
 
 
 	def add_collector_element(self, collector_name, title, value):
-		# adds a parameter or data set to a collector
+		# adds a attribute or data set to a collector
 		self.collectors[collector_name][title] = value
 
 
 	def add_transmitter(self, name, gain=None, chemical=None, message=None, coding=None, location=None, bitrate=None):
-		# adds a transmitter to the experiment, can be initialized with various parameters which will be stored as attributes
+		# adds a transmitter to the experiment, can be initialized with various attributes which will be stored as attributes
 		self.transmitters[name] = {'gain':gain, 'chemical':chemical, 'message':message, 'coding':coding, 'location':location, 'bitrate':bitrate}
 
 
 	def add_transmitter_element(self, transmitter_name, title, value):
-		# adds a parameter or data set to a transmitter
+		# adds a attribute or data set to a transmitter
 		debug_print('add_transmitter_data started')
 		self.transmitters[transmitter_name][title] = value
 
 
 	def set_start_time(self):
 		# sets the start time of the experiment, will be saved as high-level attribute
-		self.parameters['Start Time'] = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+		self.attributes['Start Time'] = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 
 
 	def set_end_time(self):
 		# sets the end time of the experiment, will be saved as high-level attribute
-		self.parameters['End Time'] = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+		self.attributes['End Time'] = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 
 
 
@@ -78,14 +78,14 @@ class PlumeLog:
 	def save_file(self, experiment):
 		# takes a PlumeExperiment object as an argument and saves to an .hdf5 dataset. the logfile is named the YearMonthDay.hdf5,
 		# the experiment is saved as a group within the .hdf5 named YearMonthDayTime and the collector/transmitter data is saved to groups within this
-		# the general experiment parameters are saved as attributes of the highest level group (/YearMonthDay) of the experiment. collector or transmitter
-		# parameters are saved as attributes of the associated lower level groups
+		# the general experiment attributes are saved as attributes of the highest level group (/YearMonthDay) of the experiment. collector or transmitter
+		# attributes are saved as attributes of the associated lower level groups
 		debug_print('save_file started')
 
-		date_time = experiment.parameters['End Time']
+		date_time = experiment.attributes['End Time']
 
 		logdirname = self.logdirname
-		logname = self.h5filename + '_' + experiment.parameters['End Time'][:10] + '.hdf5'
+		logname = self.h5filename + '_' + experiment.attributes['End Time'][:10] + '.hdf5'
 		writelogfilename = os.path.join(os.getcwd(),logdirname,logname)
 		os.makedirs(os.path.dirname(writelogfilename), exist_ok=True)
 
@@ -97,15 +97,15 @@ class PlumeLog:
 			f.attrs['platform_system']   = platform.system()
 			f.attrs['platform_release']  = platform.release()
 			f.attrs['platform_version']  = platform.version()
-			f.attrs['Created timestamp'] = experiment.parameters['Start Time']
-			f.attrs['Updated timestamp'] = experiment.parameters['End Time']
+			f.attrs['Created timestamp'] = experiment.attributes['Start Time']
+			f.attrs['Updated timestamp'] = experiment.attributes['End Time']
 
 			group = '/' + date_time # this is the trial
 			grp = f.create_group(group)
 			debug_print('made group: {}'.format(group))
 
-			for attr in experiment.parameters.keys(): # add trial parameters
-				grp.attrs[attr] = experiment.parameters[attr]
+			for attr in experiment.attributes.keys(): # add trial attributes
+				grp.attrs[attr] = experiment.attributes[attr]
 
 			subgroup = group + '/Transmitters'
 			f.create_group(subgroup)
