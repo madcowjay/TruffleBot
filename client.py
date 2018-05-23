@@ -130,7 +130,7 @@ while not end_flag:
 
 		#start thread to generate pattern
 		if tx_pattern != 'None':
-			time_log = np.zeros([len(tx_pattern), channels], dtype='int32')
+			time_log = np.zeros([len(tx_pattern), channels], dtype='float32')
 			t = threading.Thread(target=pulser_thread, args=(tx_pattern, pulsewidth, time_log))
 			if not t.isAlive():
 				t.start()
@@ -196,7 +196,6 @@ while not end_flag:
 			log['PID'] = os.getpid()
 			log['TxPattern'] = tx_pattern
 			log['Time Log']  = time_log
-			log['Total Tx Package'] = np.vstack((tx_pattern, time_log))
 
 			#serialize data to be sent over network
 			print(log)

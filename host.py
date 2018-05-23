@@ -88,6 +88,7 @@ print(*ip_list, sep = ', ')
 try:
 	transmit_ip = ast.literal_eval(config.get('ip-addresses', 'transmit_ip'))
 	print('\ttransmitter:  {}'.format(transmit_ip))
+	pe.add_transmitter(transmit_ip)
 except:
 	print('\tno transmitter')
 
@@ -130,13 +131,6 @@ s.settimeout(5.0)
 #get identifying dictionaries from pm
 ip_serial = pm.identifpi()
 print('\tboard list:   ' + str(ip_serial))
-
-# kernel_time = 4 # in seconds. PN code will repeat after this much time.
-
-#add transmitter
-#TODO - name transmitter by ip or serial
-pe.add_transmitter('Trasnmitter 1')
-#transmit_pi = 2#board number for transmitter
 
 #== Start Client ===============================================================
 pm.run_script(client_file, log_file, broadcast_port)
@@ -181,11 +175,10 @@ print('\ttx_pattern:           ' + str(tx_pattern))
 print('\ttx_pattern_upsampled: ' + str(tx_pattern_upsampled))
 print('\tshape of upsampled:   ' + str(tx_pattern_upsampled.shape))
 
-pe.add_data('Trasnmitter 1', message,  datatype='Message')
-pe.add_data('Trasnmitter 1', tx_pattern_upsampled, datatype='Tx Pattern')
-pe.add_transmitter_parameter('Trasnmitter 1', 'Pulsewidth', pulsewidth)
-pe.add_transmitter_parameter('Trasnmitter 1', 'Padding', padding)
-#pe.add_transmitter_parameter('Trasnmitter 1', 'Bitrate', bitrate)
+pe.add_transmitter_element('Trasnmitter 1', 'Message', message)
+pe.add_transmitter_element('Trasnmitter 1', 'Tx Pattern', tx_pattern_upsampled)
+pe.add_transmitter_element('Trasnmitter 1', 'Pulsewidth', pulsewidth)
+pe.add_transmitter_element('Trasnmitter 1', 'Padding', padding)
 
 with open('log/txpattern.pickle','wb') as f:
 	tx_string = ' '.join([str(n) for n in tx_pattern])
@@ -209,8 +202,8 @@ for trial in range(trials): # number of times to do experiment
 	# add collectors to experiment
 	for ip in pm.ip_list:
 		pe.add_collector('Board #'+str(ip_serial[ip]), samplerate=samplerate)
-		pe.add_collector_parameter('Board #'+str(ip_serial[ip]),'Serial Number',str(ip_serial[ip]))
-		pe.add_collector_parameter('Board #'+str(ip_serial[ip]),'Type','MOX')
+		pe.add_collector_element('Board #'+str(ip_serial[ip]),'Serial Number',str(ip_serial[ip]))
+		pe.add_collector_element('Board #'+str(ip_serial[ip]),'Type','MOX')
 
 	#===========================================================================
 	#send command to the client to collect data
@@ -267,23 +260,16 @@ for trial in range(trials): # number of times to do experiment
 			# ret_data = data[ip]['Data']
 			# savedata = ret_data.astype('float32')
 			savedata = data[ip]['Data'].astype('float32')
-			print(savedata)
-			print(type(savedata))
-			savedata1 = data[ip]['Data']
-			print(savedata1)
-			print(type(savedata1))
 			#scale data to reference 0 = 2**23
 			for n in np.nditer(savedata, op_flags=['readwrite']):
 				 n[...] = np.mod(n-2**23,2**24)/2**24
 			print('    >data :\n' + textwrap.indent(str(savedata), '          '))
-			pe.add_data(board, savedata)
-			pe.add_collector_parameter(board,'End Time',data[ip]['End Time'])
+			pe.add_collector_element(board, 'MOX Data', savedata)
+			pe.add_collector_element(board,'End Time',data[ip]['End Time'])
 			print('    >end time: %s, avg elapse: %s'%(data[ip]['End Time'],data[ip]['Average Elapsed']))
 
 			time_log = data[ip]['Time Log']
-			print(time_log)
-			print(type(time_log))
-			pe.add_data(board, time_log)
+			pe.add_transmitter_element(board, 'Time Log', time_log)
 
 		#=======================================================================
 
