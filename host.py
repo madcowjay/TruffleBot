@@ -261,7 +261,7 @@ for trial in range(trials): # number of times to do experiment
 			ip = board
 			# ret_data = data[ip]['Data']
 			# savedata = ret_data.astype('float32')
-			savedata = data[ip]['Data'].astype('float32')
+			savedata = data[ip]['MOX Data'].astype('float32')
 			#scale data to reference 0 = 2**23
 			for n in np.nditer(savedata, op_flags=['readwrite']):
 				 n[...] = np.mod(n-2**23,2**24)/2**24
@@ -270,7 +270,11 @@ for trial in range(trials): # number of times to do experiment
 			pe.add_collector_element(board,'End Time',data[ip]['End Time'])
 			print('    >end time: %s, avg elapse: %s'%(data[ip]['End Time'],data[ip]['Average Elapsed']))
 
+			temp_data = data[ip]['Temperature Data']
+			press_data = data[ip]['Pressure Data']
 			time_log = data[ip]['Time Log']
+			pe.add_collector_element(board, 'Temperature Data', temp_data)
+			pe.add_collector_element(board, 'Pressure Data', press_data)
 			pe.add_transmitter_element(board, 'Time Log', time_log)
 
 		#=======================================================================

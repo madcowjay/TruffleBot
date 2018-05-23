@@ -217,7 +217,7 @@ while not end_flag:
 			# add info to logfile
 			print("adding to log")
 			log['Mox Data'] = mox_data
-			log['Temp Data'] = temp_data
+			log['Temperature Data'] = temp_data
 			log['Pressure Data'] = press_data
 			log['Start Time'] = experiment_start_time
 			log['End Time'] = end_time
