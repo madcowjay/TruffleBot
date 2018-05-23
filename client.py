@@ -176,7 +176,7 @@ while not end_flag:
 				# sam_8 = ads.getADCsample(ads.MUX_AIN7, ads.MUX_AINCOM)
 
 				# sample = np.array([sam_1,sam_2,sam_3,sam_4,sam_5,sam_6,sam_7,sam_8], dtype='int32')
-				sample = np.array([0,1,2,3,4,5,6,7,8], dtype='int32')
+				sample = np.array([0,1,2,3,4,5,6,7], dtype='int32')
 				mox_data[i] = sample # save the array of samples to the data dict, with key as sample num
 
 				for index in range(len(lps)):
@@ -206,9 +206,7 @@ while not end_flag:
 				# ads.chip_release()
 				# elapsed_cycle_quick.append(cycle_time)
 ## :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :)
-				gap = spacing-elapsed_time
-				if gap < 0: gap = 0
-				time.sleep(gap)
+				time.sleep(spacing-elapsed_time)
 				print("loop end")
 			# record end time
 			end_time = time.time()
