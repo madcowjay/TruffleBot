@@ -95,7 +95,7 @@ broadcast_port = int(config.get('ports', 'broadcast_port'))
 print('\tbrdcst port:  {}'.format(broadcast_port))
 
 randomFlag = int(config.get('message', 'random'))
-print('\trandom:      ' + str(randomFlag))
+print('\trandom:       ' + str(randomFlag))
 if not randomFlag:
 	message_array = ast.literal_eval(config.get('message', 'message_array'))
 
@@ -129,7 +129,7 @@ s.settimeout(5.0)
 
 #get identifying dictionaries from pm
 ip_serial = pm.identifpi()
-print('\tboard list: ' + str(ip_serial))
+print('\tboard list:   ' + str(ip_serial))
 
 # kernel_time = 4 # in seconds. PN code will repeat after this much time.
 
@@ -267,16 +267,23 @@ for trial in range(trials): # number of times to do experiment
 			# ret_data = data[ip]['Data']
 			# savedata = ret_data.astype('float32')
 			savedata = data[ip]['Data'].astype('float32')
+			print(savedata)
+			print(type(savedata))
+			savedata1 = data[ip]['Data']
+			print(savedata1)
+			print(type(savedata1))
 			#scale data to reference 0 = 2**23
 			for n in np.nditer(savedata, op_flags=['readwrite']):
 				 n[...] = np.mod(n-2**23,2**24)/2**24
 			print('    >data :\n' + textwrap.indent(str(savedata), '          '))
-			pe.add_data(board,savedata)
+			pe.add_data(board, savedata)
 			pe.add_collector_parameter(board,'End Time',data[ip]['End Time'])
 			print('    >end time: %s, avg elapse: %s'%(data[ip]['End Time'],data[ip]['Average Elapsed']))
 
 			time_log = data[ip]['Time Log']
-			pe.add_data(board,time_log)
+			print(time_log)
+			print(type(time_log))
+			pe.add_data(board, time_log)
 
 		#=======================================================================
 

@@ -13,7 +13,6 @@ sb.ledAct(1,0) # turn them both off to start
 sb.ledAct(2,0)
 
 p = lib.TB_pulser.pulser() # get pulser instance
-time_log = []
 
 # Process command line arguments
 usage = 'python3 client.py [OPTION]...'
@@ -24,16 +23,15 @@ parser.add_option('-p','--port',action='store',type='int',dest='port_number',hel
 if options.debugFlag: os.environ['DEBUG'] = 'True'
 broadcast_port = options.port_number
 
-def pulser_thread(tx_pattern, pulsewidth):
+def pulser_thread(tx_pattern, pulsewidth, time_log):
 	p.openPort() #Open communication port
 	p.setVoltage(0) #sets voltage and current to 0V and 1A
 	p.setCurrent(1)
 	p.setOutput("ON")
-	global time_log
 	start_time = time.time()
 	for i in range(len(tx_pattern)):
 		current_time = time.time()
-		time_log.append(current_time - start_time)
+		time_log[i] = (current_time - start_time)
 		p.setVoltage(tx_pattern[i]*12) # sets voltage to bits*12V
 		while time.time() - current_time < pulsewidth:
 			pass
@@ -41,6 +39,7 @@ def pulser_thread(tx_pattern, pulsewidth):
 	p.closePort()
 	print("Transfer completed")
 	print('time log: ' + str(time_log))
+
 
 	# # this is the worker thread if the pi is registered to transmit
 	# pcomm = None
@@ -131,7 +130,8 @@ while not end_flag:
 
 		#start thread to generate pattern
 		if tx_pattern != 'None':
-			t = threading.Thread(target=pulser_thread, args=(tx_pattern, pulsewidth))
+			time_log = np.zeros([len(tx_pattern), channels], dtype='int32')
+			t = threading.Thread(target=pulser_thread, args=(tx_pattern, pulsewidth, time_log))
 			if not t.isAlive():
 				t.start()
 				print('started pulser')
@@ -139,7 +139,7 @@ while not end_flag:
 			for i in range(sample_count):
 				start_time = time.time()
 				# collect samples from feach sensor on board
-				print('collecting %s'%i)
+				print('starting trial #%s'%i)
 
 				print("Sampling...")
 				sam_1 = ads.getADCsample(ads.MUX_AIN0, ads.MUX_AINCOM)
@@ -196,7 +196,7 @@ while not end_flag:
 			log['PID'] = os.getpid()
 			log['TxPattern'] = tx_pattern
 			log['Time Log']  = time_log
-			log['Total Tx Package'] = np.vstack((tx_pattern,time_log))
+			log['Total Tx Package'] = np.vstack((tx_pattern, time_log))
 
 			#serialize data to be sent over network
 			print(log)
