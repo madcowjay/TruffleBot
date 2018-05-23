@@ -156,7 +156,7 @@ while not end_flag:
 
 		# start thread to generate pattern
 		if tx_pattern != 'None':
-			time_log = np.zeros([len(tx_pattern), channels], dtype='float32')
+			time_log = np.zeros([len(tx_pattern)], dtype='float32')
 			t = threading.Thread(target=pulser_thread, args=(tx_pattern, pulsewidth, time_log))
 			if not t.isAlive():
 				t.start()
@@ -205,7 +205,9 @@ while not end_flag:
 				# ads.chip_release()
 				# elapsed_cycle_quick.append(cycle_time)
 ## :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :)
-				time.sleep(spacing-elapsed_time)
+				gap = spacing-elapsed_time
+				if gap < 0: gap = 0
+				time.sleep(gap)
 				print("loop end")
 			# record end time
 			end_time = time.time()
