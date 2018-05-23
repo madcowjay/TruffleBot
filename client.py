@@ -76,6 +76,14 @@ dac.SendDACAValue(0.62 * 2**16)
 
 # set up pressure sensors - if you don't use all of them, you should still set all
 #    of the pins as output and high
+PRESS0_PIN = 33 #TODO - read these from config file
+PRESS1_PIN = 32
+PRESS2_PIN = 40
+PRESS3_PIN = 22
+PRESS4_PIN = 35
+PRESS5_PIN = 36
+PRESS6_PIN = 7
+PRESS7_PIN = 18
 all_cs = [PRESS0_PIN, PRESS1_PIN, PRESS2_PIN, PRESS3_PIN, PRESS4_PIN, PRESS5_PIN, PRESS6_PIN, PRESS7_PIN]
 for cs in all_cs:
 	wp.pinMode(cs, wp.OUTPUT)
