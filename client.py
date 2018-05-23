@@ -84,7 +84,7 @@ lps = []
 for index in range(len(all_cs)):
 	lps.append(lib.pylps22hb.LPS22HB(LPS_SPI_CHANNEL, LPS_SPI_FREQUENCY, all_cs[index]))
 	lps[index].OneShot()
-	
+
 # pulsing queue
 pulseq = Queue()
 
@@ -139,7 +139,9 @@ while not end_flag:
 			spacing      = 1/samplerate
 
             # init array to store data
-			data = np.zeros([sample_count, channels], dtype='int32')
+			mox_data   = np.zeros([sample_count, channels], dtype='int32')
+			temp_data  = np.zeros([sample_count, channels], dtype='float32')
+			press_data = np.zeros([sample_count, channels], dtype='float32')
 
 		# start thread to generate pattern
 		if tx_pattern != 'None':
@@ -163,7 +165,12 @@ while not end_flag:
 				sam_8 = ads.getADCsample(ads.MUX_AIN7, ads.MUX_AINCOM)
 
 				sample = np.array([sam_1,sam_2,sam_3,sam_4,sam_5,sam_6,sam_7,sam_8], dtype='int32')
-				data[i] = sample # save the array of samples to the data dict, with key as sample num
+				mox_data[i] = sample # save the array of samples to the data dict, with key as sample num
+
+				for index in range(len(lps)):
+					lps[index].OneShot()
+					temp_data[i]  = lps[index].ReadTemp()
+					press_data[i] = lps[index].ReadPress()
 
 				elapsed_time = time.time() - start_time
 				elapsed.append(elapsed_time)
@@ -197,7 +204,9 @@ while not end_flag:
 
 			# add info to logfile
 			print("adding to log")
-			log['Data'] = data
+			log['Mox Data'] = mox_data
+			log['Temp Data'] = temp_data
+			log['Pressure Data'] = press_data
 			log['Start Time'] = experiment_start_time
 			log['End Time'] = end_time
 			log['Duration'] = end_time - experiment_start_time

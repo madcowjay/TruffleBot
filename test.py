@@ -66,7 +66,8 @@ wp.pinMode(26, wp.INPUT) #I actually snipped this pin off the header, but in cas
 led1_freq = 1 #Hz
 led2_freq = 1 #Hz
 
-# set up pressure sensors: currently just nullify them so they don't talk on the line
+# set up pressure sensors - if you don't use all of them, you should still set all
+#    of the pins as output and high
 all_cs = [PRESS0_PIN, PRESS1_PIN, PRESS2_PIN, PRESS3_PIN, PRESS4_PIN, PRESS5_PIN, PRESS6_PIN, PRESS7_PIN]
 for cs in all_cs:
 	wp.pinMode(cs, wp.OUTPUT)
