@@ -1,5 +1,6 @@
 import os, sys, time, socket, pickle, threading
 import numpy as np
+import wiringpi as wp
 from   multiprocessing import Queue
 from   optparse import OptionParser
 
