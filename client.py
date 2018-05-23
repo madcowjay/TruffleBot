@@ -166,16 +166,17 @@ while not end_flag:
 				start_time = time.time()
 				# collect samples from feach sensor on board
 				print('starting trial #%s'%i)
-				sam_1 = ads.getADCsample(ads.MUX_AIN0, ads.MUX_AINCOM)
-				sam_2 = ads.getADCsample(ads.MUX_AIN1, ads.MUX_AINCOM)
-				sam_3 = ads.getADCsample(ads.MUX_AIN2, ads.MUX_AINCOM)
-				sam_4 = ads.getADCsample(ads.MUX_AIN3, ads.MUX_AINCOM)
-				sam_5 = ads.getADCsample(ads.MUX_AIN4, ads.MUX_AINCOM)
-				sam_6 = ads.getADCsample(ads.MUX_AIN5, ads.MUX_AINCOM)
-				sam_7 = ads.getADCsample(ads.MUX_AIN6, ads.MUX_AINCOM)
-				sam_8 = ads.getADCsample(ads.MUX_AIN7, ads.MUX_AINCOM)
+				# sam_1 = ads.getADCsample(ads.MUX_AIN0, ads.MUX_AINCOM)
+				# sam_2 = ads.getADCsample(ads.MUX_AIN1, ads.MUX_AINCOM)
+				# sam_3 = ads.getADCsample(ads.MUX_AIN2, ads.MUX_AINCOM)
+				# sam_4 = ads.getADCsample(ads.MUX_AIN3, ads.MUX_AINCOM)
+				# sam_5 = ads.getADCsample(ads.MUX_AIN4, ads.MUX_AINCOM)
+				# sam_6 = ads.getADCsample(ads.MUX_AIN5, ads.MUX_AINCOM)
+				# sam_7 = ads.getADCsample(ads.MUX_AIN6, ads.MUX_AINCOM)
+				# sam_8 = ads.getADCsample(ads.MUX_AIN7, ads.MUX_AINCOM)
 
-				sample = np.array([sam_1,sam_2,sam_3,sam_4,sam_5,sam_6,sam_7,sam_8], dtype='int32')
+				# sample = np.array([sam_1,sam_2,sam_3,sam_4,sam_5,sam_6,sam_7,sam_8], dtype='int32')
+				sample = np.array([0,1,2,3,4,5,6,7,8], dtype='int32')
 				mox_data[i] = sample # save the array of samples to the data dict, with key as sample num
 
 				for index in range(len(lps)):
