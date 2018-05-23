@@ -5,6 +5,7 @@ from   optparse import OptionParser
 
 import lib.pyads1256
 import lib.pydac8532
+import lib.pylps22hb
 import lib.TB_pulser
 import lib.sensor_board
 
@@ -14,7 +15,7 @@ sb.ledAct(2,0)
 
 p = lib.TB_pulser.pulser() # get pulser instance
 
-# Process command line arguments
+# process command line arguments
 usage = 'python3 client.py [OPTION]...'
 parser = OptionParser(usage)
 parser.add_option('-d','--debug',action='store_true',dest='debugFlag',help='display debug messages while running',default=False)
@@ -24,15 +25,15 @@ if options.debugFlag: os.environ['DEBUG'] = 'True'
 broadcast_port = options.port_number
 
 def pulser_thread(tx_pattern, pulsewidth, time_log):
-	p.openPort() #Open communication port
-	p.setVoltage(0) #sets voltage and current to 0V and 1A
+	p.openPort() # open communication port
+	p.setVoltage(0) # set voltage and current to 0V and 1A
 	p.setCurrent(1)
 	p.setOutput("ON")
 	start_time = time.time()
 	for i in range(len(tx_pattern)):
 		current_time = time.time()
 		time_log[i] = (current_time - start_time)
-		p.setVoltage(tx_pattern[i]*12) # sets voltage to bits*12V
+		p.setVoltage(tx_pattern[i] * 12) # set voltage to bits * 12V
 		while time.time() - current_time < pulsewidth:
 			pass
 	p.setOutput("OFF")
@@ -69,10 +70,21 @@ print('ADS1256 ID = ' + hex(myid))
 ads.ConfigADC()
 ads.SyncAndWakeup()
 
-# Turn heater on for duration of experiment
+# turn heater on for duration of experiment
 dac = lib.pydac8532.DAC8532(SPI_CHANNEL=0, SPI_FREQUENCY=250000, CS_PIN=16)
 dac.SendDACAValue(0.62 * 2**16)
 
+# set up pressure sensors - if you don't use all of them, you should still set all
+#    of the pins as output and high
+all_cs = [PRESS0_PIN, PRESS1_PIN, PRESS2_PIN, PRESS3_PIN, PRESS4_PIN, PRESS5_PIN, PRESS6_PIN, PRESS7_PIN]
+for cs in all_cs:
+	wp.pinMode(cs, wp.OUTPUT)
+	wp.digitalWrite(cs, wp.HIGH)
+lps = []
+for index in range(len(all_cs)):
+	lps.append(lib.pylps22hb.LPS22HB(LPS_SPI_CHANNEL, LPS_SPI_FREQUENCY, all_cs[index]))
+	lps[index].OneShot()
+	
 # pulsing queue
 pulseq = Queue()
 
@@ -82,7 +94,7 @@ s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 s.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
 s.bind(('', broadcast_port))
 
-# init variables
+# initialize variables
 outstring = ''
 chunk_num = 0
 data_len = 0
@@ -97,6 +109,7 @@ sel_list = [[ads.MUX_AIN0, ads.MUX_AINCOM], [ads.MUX_AIN1, ads.MUX_AINCOM],
 			[ads.MUX_AIN4, ads.MUX_AINCOM], [ads.MUX_AIN5, ads.MUX_AINCOM],
 			[ads.MUX_AIN6, ads.MUX_AINCOM], [ads.MUX_AIN7, ads.MUX_AINCOM]]
 
+# open the txpattern if it was sent (which it would be if this is a transmitter)
 try:
 	with open('log/txpattern.pickle', 'rb') as f:
 		tx_message = pickle.load(f)
@@ -113,7 +126,7 @@ sb.ledAct(1,1) # turn on LED 1
 end_flag = False
 while not end_flag:
 	try:
-		#get commands
+		# get commands
 		message, address = s.recvfrom(8192)
 		commands = message.split()
 		print(commands)
@@ -125,10 +138,10 @@ while not end_flag:
 			pulsewidth   =     float(commands[3])
 			spacing      = 1/samplerate
 
-            #init array to store data
+            # init array to store data
 			data = np.zeros([sample_count, channels], dtype='int32')
 
-		#start thread to generate pattern
+		# start thread to generate pattern
 		if tx_pattern != 'None':
 			time_log = np.zeros([len(tx_pattern), channels], dtype='float32')
 			t = threading.Thread(target=pulser_thread, args=(tx_pattern, pulsewidth, time_log))
@@ -140,8 +153,6 @@ while not end_flag:
 				start_time = time.time()
 				# collect samples from feach sensor on board
 				print('starting trial #%s'%i)
-
-				print("Sampling...")
 				sam_1 = ads.getADCsample(ads.MUX_AIN0, ads.MUX_AINCOM)
 				sam_2 = ads.getADCsample(ads.MUX_AIN1, ads.MUX_AINCOM)
 				sam_3 = ads.getADCsample(ads.MUX_AIN2, ads.MUX_AINCOM)
@@ -150,11 +161,9 @@ while not end_flag:
 				sam_6 = ads.getADCsample(ads.MUX_AIN5, ads.MUX_AINCOM)
 				sam_7 = ads.getADCsample(ads.MUX_AIN6, ads.MUX_AINCOM)
 				sam_8 = ads.getADCsample(ads.MUX_AIN7, ads.MUX_AINCOM)
-				# print("Sampled all")
+
 				sample = np.array([sam_1,sam_2,sam_3,sam_4,sam_5,sam_6,sam_7,sam_8], dtype='int32')
-				# print("sample array created")
 				data[i] = sample # save the array of samples to the data dict, with key as sample num
-				# print('saved to dict')
 
 				elapsed_time = time.time() - start_time
 				elapsed.append(elapsed_time)
@@ -178,15 +187,15 @@ while not end_flag:
 				# ads.chip_release()
 				# elapsed_cycle_quick.append(cycle_time)
 ## :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :)
-				time.sleep(spacing-elapsed_time) #TODO: change back to spacing-elapsed_time
+				time.sleep(spacing-elapsed_time)
 				print("loop end")
-			#record end time
+			# record end time
 			end_time = time.time()
 
 			# print('average elapsed cycle time:       ' + str(sum(elapsed_cycle)/float(len(elapsed_cycle))))
 			# print('average elapsed cycle quick time: ' + str(sum(elapsed_cycle_quick)/float(len(elapsed_cycle_quick))))
 
-			#add info to logfile
+			# add info to logfile
 			print("adding to log")
 			log['Data'] = data
 			log['Start Time'] = experiment_start_time
@@ -197,18 +206,18 @@ while not end_flag:
 			log['TxPattern'] = tx_pattern
 			log['Time Log']  = time_log
 
-			#serialize data to be sent over network
+			# serialize data to be sent over network
 			print(log)
 			with open('/home/pi/TruffleBot/log/sendfile.pickle','wb') as f:
 				pickle.dump(log,f)
 				print('pickled!')
 
-			#send the end flag to trigger data collection on host
+			# send the end flag to trigger data collection on host
 			s.sendto('end_flag'.encode('utf-8'),address)
 			pulseq.put('stop')
 			print('end')
 			end_flag=True
-			sb.ledAct(2,0) #turn off LED 2
+			sb.ledAct(2,0) # turn off LED 2
 
 	except Exception as e:
 			print(e)

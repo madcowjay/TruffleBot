@@ -44,7 +44,7 @@ import lib.connect
 config = configparser.RawConfigParser()
 config.read(configFilePath)
 
-print('\nLoading config file: ' + configFilePath)
+print('\nLoading config file: ' + configFilePath + '\n')
 
 LED1_PIN = int(config.get('GPIO', 'LED1_PIN'))
 LED2_PIN = int(config.get('GPIO', 'LED2_PIN'))
@@ -81,16 +81,29 @@ print('\tpadding:      {} seconds'.format(padding))
 print('\tpulsewidth    {} second'.format(pulsewidth))
 print('\tsamplerate:   {} Hz'.format(samplerate))
 
-ip_list = ast.literal_eval(config.get('ip-addresses', 'ip_list'))
-print('\tip addresses: ' , end = '')
-print(*ip_list, sep = ', ')
+host_dir    = config.get('paths', 'host_dir')
+client_dir  = config.get('paths', 'client_dir')
+log_dir     = config.get('paths', 'log_dir')
+client_file = config.get('files', 'client_file')
+log_file    = config.get('files', 'log_file')
+
+#set up instances of Experiment and Log classes, set start time for log
+pe = lib.savefile.PlumeExperiment()
+pl = lib.savefile.PlumeLog(log_dir)
+pe.set_parameter('Comment', 'Trials with Raspberry Pi collectors and trasnmitter')
+
+collector_ip_list = ast.literal_eval(config.get('ip-addresses', 'collector_ip_list'))
+print('\tcollector ip addresses:   ' , end = '')
+print(*collector_ip_list, sep = ', ')
 
 try:
-	transmit_ip = ast.literal_eval(config.get('ip-addresses', 'transmit_ip'))
-	print('\ttransmitter:  {}'.format(transmit_ip))
-	pe.add_transmitter(transmit_ip)
+	transmitter_ip_list = ast.literal_eval(config.get('ip-addresses', 'transmitter_ip_list'))
+	print('\ttransmitter ip addresses: ' , end = '')
+	print(*transmitter_ip_list, sep = ', ')
+	for transmitter in transmitter_ip_list:
+		pe.add_transmitter(transmitter)
 except:
-	print('\tno transmitter')
+	print('\tno transmitters indicated in configuration file')
 
 broadcast_port = int(config.get('ports', 'broadcast_port'))
 print('\tbrdcst port:  {}'.format(broadcast_port))
@@ -102,25 +115,13 @@ if not randomFlag:
 
 if options.remoteInstallFlag:
 	print('TODO')
-	# sync files, run client on the remote machines
-#host_dir='pi_utils'
-host_dir    = config.get('paths', 'host_dir')
-client_dir  = config.get('paths', 'client_dir')
-log_dir     = config.get('paths', 'log_dir')
-client_file = config.get('files', 'client_file')
-log_file    = config.get('files', 'log_file')
 
 username    = config.get('client-login', 'username')
 password    = config.get('client-login', 'password')
 
 # PiManager sends commands to all Pis
-pm = lib.connect.PiManager(client_dir, ip_list)
+pm = lib.connect.PiManager(client_dir, collector_ip_list)
 pm.kill_processes(client_file)
-
-#set up instances of Experiment and Log classes, set start time for log
-pe = lib.savefile.PlumeExperiment()
-pl = lib.savefile.PlumeLog(log_dir)
-pe.set_parameter('Comment', 'trials with raspberry pi collector boards and humidifier trasnmitter')
 
 #set up socket
 dest = ('<broadcast>', broadcast_port)
@@ -173,17 +174,18 @@ tx_pattern_upsampled = tx_pattern.repeat(pulsewidth * samplerate)
 print('\tmessage:              ' + str(message))
 print('\ttx_pattern:           ' + str(tx_pattern))
 print('\ttx_pattern_upsampled: ' + str(tx_pattern_upsampled))
-print('\tshape of upsampled:   ' + str(tx_pattern_upsampled.shape))
+print('')
 
-pe.add_transmitter_element('Trasnmitter 1', 'Message', message)
-pe.add_transmitter_element('Trasnmitter 1', 'Tx Pattern', tx_pattern_upsampled)
-pe.add_transmitter_element('Trasnmitter 1', 'Pulsewidth', pulsewidth)
-pe.add_transmitter_element('Trasnmitter 1', 'Padding', padding)
+pe.add_transmitter_element(transmitter_ip_list[0], 'Message', message)
+pe.add_transmitter_element(transmitter_ip_list[0], 'Tx Pattern', tx_pattern_upsampled)
+pe.add_transmitter_element(transmitter_ip_list[0], 'Pulsewidth', pulsewidth)
+pe.add_transmitter_element(transmitter_ip_list[0], 'Padding', padding)
 
 with open('log/txpattern.pickle','wb') as f:
 	tx_string = ' '.join([str(n) for n in tx_pattern])
 	pickle.dump(tx_string, f, protocol=2)
-pm.upload_file('log/txpattern.pickle', addr=transmit_ip)
+for transmitter in transmitter_ip_list:
+	pm.upload_file('log/txpattern.pickle', addr=transmitter)
 time.sleep(1)
 
 #== Main Loop ==================================================================
@@ -201,9 +203,9 @@ for trial in range(trials): # number of times to do experiment
 
 	# add collectors to experiment
 	for ip in pm.ip_list:
-		pe.add_collector('Board #'+str(ip_serial[ip]), samplerate=samplerate)
-		pe.add_collector_element('Board #'+str(ip_serial[ip]),'Serial Number',str(ip_serial[ip]))
-		pe.add_collector_element('Board #'+str(ip_serial[ip]),'Type','MOX')
+		pe.add_collector(ip)
+		#pe.add_collector_element(ip,'Serial Number',str(ip_serial[ip]))
+		#pe.add_collector_element(ip,'Type','MOX')
 
 	#===========================================================================
 	#send command to the client to collect data
@@ -221,7 +223,7 @@ for trial in range(trials): # number of times to do experiment
 	t.start()
 	s.settimeout(1)#shorter timeout for recieving to work in long loop+
 	responses_received = 0
-	while responses_received < len(ip_list) and not ( t_stop.is_set() ):
+	while responses_received < len(collector_ip_list) and not ( t_stop.is_set() ):
 		curr_time = time.time() - start_time
 		try:
 			(buf, address) = s.recvfrom(8192)
@@ -256,7 +258,7 @@ for trial in range(trials): # number of times to do experiment
 		for board in pe.collectors.keys():
 			print(board)
 			serial = board[7:]
-			ip = ip_serial.inv[serial]
+			ip = board
 			# ret_data = data[ip]['Data']
 			# savedata = ret_data.astype('float32')
 			savedata = data[ip]['Data'].astype('float32')
@@ -275,15 +277,15 @@ for trial in range(trials): # number of times to do experiment
 
 
 		# add number of trasnmitters, collectors to experiment parameters
-		pe.set_parameter('# Collectors',responses_received)
-		pe.set_parameter('# Trasnmitters',1)
-		pe.set_parameter('Wind Speed (m/s)', 2.1)
+		pe.set_parameter('# Collectors', responses_received)
+		pe.set_parameter('# Trasnmitters', len(transmitter_ip_list))
 
 		# save log
 		try:
 			log_path, date_time = pl.save_file(pe)
 		except Exception as e:
-			print('error'+str(e))
+			print('error: ' + str(e) )
+			print (e.value)
 
 		#visualize returned data
 		# logname = log_path.split('/')[1]

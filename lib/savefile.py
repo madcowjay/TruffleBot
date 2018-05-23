@@ -36,9 +36,9 @@ class PlumeExperiment:
 		self.parameters[paramName] = paramValue
 
 
-	def add_collector(self, name, gain=None, pumpspeed=None, location=None, samplerate=None):
+	def add_collector(self, name, gain=None, location=None):
 		# adds a collector to the experiment, can be initialized with various attributes
-		self.collectors[name] = {'gain':gain, 'pumpspeed':pumpspeed, 'location':location, 'samplerate':samplerate}
+		self.collectors[name] = {'gain':gain, 'location':location}
 
 
 	def add_collector_element(self, collector_name, title, value):
@@ -91,7 +91,7 @@ class PlumeLog:
 
 		with h5py.File(writelogfilename, "a") as f:
 			f.attrs['description']   = 'Plume communications control framework'
-			f.attrs['formatversion'] = 1.0
+			f.attrs['formatversion'] = 2.0
 			f.attrs['workingdir']    = os.getcwd()
 			f.attrs['platform']      = sys.platform
 			f.attrs['platform_system']   = platform.system()
@@ -102,38 +102,50 @@ class PlumeLog:
 
 			group = '/' + date_time # this is the trial
 			grp = f.create_group(group)
+			debug_print('made group: {}'.format(group))
+
 			for attr in experiment.parameters.keys(): # add trial parameters
 				grp.attrs[attr] = experiment.parameters[attr]
 
-			subgroup = group + '/transmitterData'
+			subgroup = group + '/Transmitters'
 			f.create_group(subgroup)
+			debug_print('  made subgroup: {}'.format(subgroup))
 
 			for transmitter in experiment.transmitters.keys():
 				subsubgroup = subgroup + '/' + transmitter
 				grp = f.create_group(subsubgroup)
+				debug_print('    made subsubgroup: {}'.format(subsubgroup))
 				for key in experiment.transmitters[transmitter].keys():
 					if type(experiment.transmitters[transmitter][key]) == np.ndarray:
 						signalname = subsubgroup + '/' + key
 						savearray  = experiment.transmitters[transmitter][key]
 						dset = f.create_dataset(signalname, savearray.shape, savearray.dtype.name)
 						dset[...] = savearray
+						debug_print('      logged **data set**: {}'.format(key))
 					else:
 						grp.attrs[key] = str(experiment.transmitters[transmitter][key])
+						debug_print('      logged attribute   : {}'.format(key))
 
-			subgroup = group + '/collectorData'
+			subgroup = group + '/Collectors'
 			f.create_group(subgroup)
+			debug_print('  made subgroup: {}'.format(subgroup))
 
 			for collector in experiment.collectors.keys():
-				#create dataset and save data
-				signalname = subgroup + '/' + collector
-				savearray  = experiment.collectors[collector]['data']
-				dset = f.create_dataset(signalname, savearray.shape, savearray.dtype.name)
-				dset[...] = savearray
+				print(collector)
+				subsubgroup = subgroup + '/' + collector
+				grp = f.create_group(subsubgroup)
+				debug_print('    made subsubgroup: {}'.format(subsubgroup))
+				for key in experiment.collectors[collector].keys():
+					if type(experiment.collectors[collector][key]) == np.ndarray:
+						signalname = subsubgroup + '/' + key
+						savearray  = experiment.collectors[collector][key]
+						dset = f.create_dataset(signalname, savearray.shape, savearray.dtype.name)
+						dset[...] = savearray
+						debug_print('      logged **data set**: {}'.format(key))
+					else:
+						grp.attrs[key] = str(experiment.collectors[collector][key])
+						debug_print('      logged attribute   : {}'.format(key))
 
-				#add attributes to dataset
-				for attr in experiment.collectors[collector].keys():
-					if attr != 'data':
-						dset.attrs[attr] = str(experiment.collectors[collector][attr])
 			f.close()
 		print("All data saved to:",logname)
 		return '%s/%s'%(logdirname,logname), date_time
@@ -163,20 +175,21 @@ class PlumeLog:
 				times[time] = {}
 				data = {}
 				for transmitter in f['/%s/transmitterData' % (time)].keys():
-					for key in f['/%s/transmitterData/%s' % (time,transmitter)].keys():
-						dset = f['/%s/transmitterData/%s/%s' % (time,transmitter,key)]
+					for key in f['/%s/transmitterData/%s' % (time, transmitter)].keys():
+						dset = f['/%s/transmitterData/%s/%s' % (time, transmitter, key)]
 						data[key]= np.array(dset)
 					attributes={}
-					for key in f['/%s/transmitterData/%s' % (time,transmitter)].attrs.keys():
-						attributes[key] = f['/%s/transmitterData/%s' % (time,transmitter)].attrs[key]
+					for key in f['/%s/transmitterData/%s' % (time, transmitter)].attrs.keys():
+						attributes[key] = f['/%s/transmitterData/%s' % (time, transmitter)].attrs[key]
 					times[time][transmitter] = {'data':data, 'attributes':attributes}
 
 				for collector in f['/%s/collectorData' % (time)].keys():
-					dset = f['/%s/collectorData/%s' % (time,collector)]
-					data = np.array(dset)
+					for key in f['/%s/collectorData/%s' % (time, collector)].keys():
+						dset = f['/%s/collectorData/%s/%s' % (time, collector, key)]
+						data[key]= np.array(dset)
 					attributes={}
-					for key in dset.attrs.keys():
-						attributes[key] = dset.attrs[key]
+					for key in f['/%s/collectorData/%s' % (time, collector)].attrs.keys():
+						attributes[key] = f['/%s/collectorData/%s' % (time, collector)].attrs[key]
 					times[time][collector] = {'data':data, 'attributes':attributes}
 			return times
 
