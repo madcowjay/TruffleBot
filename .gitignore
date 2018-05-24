@@ -3,6 +3,11 @@
 log/*
 !log/.gitkeep
 
+# Config files #
+################
+*.cfg
+!default.cfg
+
 # OS generated files #
 ######################
 .DS_Store

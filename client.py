@@ -41,9 +41,15 @@ ADC_DRDY_PIN  = int(config.get('GPIO', 'ADC_DRDY_PIN'))
 ADC_RESET_PIN = int(config.get('GPIO', 'ADC_RESET_PIN'))
 ADC_PDWN_PIN  = int(config.get('GPIO', 'ADC_PDWN_PIN'))
 
+ADC_SPI_CHANNEL     =   int(config.get('ADC', 'ADC_SPI_CHANNEL'))
+ADC_SPI_FREQUENCY   =   int(config.get('ADC', 'ADC_SPI_FREQUENCY'))
+
 DAC_SPI_CHANNEL     =   int(config.get('DAC', 'DAC_SPI_CHANNEL'))
 DAC_SPI_FREQUENCY   =   int(config.get('DAC', 'DAC_SPI_FREQUENCY'))
 DAC_voltage_percent = float(config.get('DAC', 'voltage_percent'))
+
+LPS_SPI_CHANNEL     =   int(config.get('LPS', 'LPS_SPI_CHANNEL'))
+LPS_SPI_FREQUENCY   =   int(config.get('LPS', 'LPS_SPI_FREQUENCY'))
 
 trials      =   int(config.get('experiment-parameters', 'trials'))   #trials
 duration    =   int(config.get('experiment-parameters', 'duration')) #seconds
