@@ -221,8 +221,9 @@ while not end_flag:
 				if include_press_temp:
 					for index in range(len(lps)):
 						lps[index].OneShot()
-						temp_data[index]  = lps[index].ReadTemp()
-						press_data[index] = lps[index].ReadPress()
+						sleep(.001)
+						temp_data[i]  = lps[index].ReadTemp()
+						press_data[i] = lps[index].ReadPress()
 
 				elapsed_time = time.time() - start_time
 				elapsed.append(elapsed_time)
