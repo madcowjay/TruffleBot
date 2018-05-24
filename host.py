@@ -105,11 +105,6 @@ s.settimeout(5.0)
 ip_serial = pm.identifpi()
 print('\tboard list:   ' + str(ip_serial))
 
-#== Start Client ===============================================================
-pm.run_script(client_file)
-# pm.exec_command('sudo strace -p $(pgrep python) -o strace.txt')
-time.sleep(3) # wait for remote programs to start
-
 #== Transmitter Handling =======================================================
 # generate transmit pattern, add to log, and send to transmitter board
 # message must be a np array to be saved in hdf5 correctly
@@ -133,10 +128,14 @@ print('')
 with open(host_log_dir + '/txpattern.pickle', 'wb') as f:
 	tx_string = ' '.join([str(n) for n in tx_pattern])
 	pickle.dump(tx_string, f, protocol=2)
+	
 for transmitter in transmitter_ip_list:
 	pm.upload_file(host_log_dir + '/txpattern.pickle', addr=transmitter)
 time.sleep(1)
 
+#== Start Client ===============================================================
+pm.run_script(client_file)
+time.sleep(3) # wait for remote programs to start
 
 #== Main Loop ==================================================================
 for trial in range(trials): # number of times to do experiment

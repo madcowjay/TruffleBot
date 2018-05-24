@@ -117,7 +117,7 @@ class PiManager:
 				sftp = self.ssh.open_sftp()
 				client_path = '%s/%s'%(self.client_dir,file_path)
 				sftp.put(file_path,client_path)
-				print("%s: transferred - %s"%(addr,file_path))
+				debug_print("%s: transferred - %s"%(addr,file_path))
 				self.ssh.close()
 				sftp.close()
 			else:
@@ -126,7 +126,7 @@ class PiManager:
 					sftp = self.ssh.open_sftp()
 					client_path = '%s/%s'%(self.client_dir,file_path)
 					sftp.put(file_path,client_path)
-					print("%s: transferred - %s"%(ip,file_path))
+					debug_print("%s: transferred - %s"%(ip,file_path))
 					self.ssh.close()
 				sftp.close()
 		except Exception as e:

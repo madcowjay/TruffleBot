@@ -13,6 +13,10 @@ parser.add_option('-c','--config-file',dest='configfile',help='use the indicated
 config_file = options.configfile
 if options.debugFlag: os.environ['DEBUG'] = 'True'
 
+
+print(config_file)
+
+
 # Load these after DEBUG status has been determined
 import lib.pyads1256
 import lib.pydac8532
