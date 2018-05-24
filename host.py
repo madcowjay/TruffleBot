@@ -39,11 +39,11 @@ pulsewidth  = float(config.get('experiment-parameters', 'pulsewidth')) # seconds
 samplerate  = float(config.get('experiment-parameters', 'samplerate')) # hz
 
 print('Starting experiment with the following attributes:')
-print('\ttrials:                  {} runs'.format(trials))
-print('\tduration:                {} seconds per run'.format(duration))
-print('\tpadding:                 {} seconds'.format(padding))
-print('\tpulsewidth               {} second'.format(pulsewidth))
-print('\tsamplerate:              {} Hz'.format(samplerate))
+print('\ttrials:                   {} runs'.format(trials))
+print('\tduration:                 {} seconds per run'.format(duration))
+print('\tpadding:                  {} seconds'.format(padding))
+print('\tpulsewidth                {} second'.format(pulsewidth))
+print('\tsamplerate:               {} Hz'.format(samplerate))
 
 client_dir     = config.get('paths', 'client_dir')
 host_log_dir   = config.get('paths', 'host_log_dir')
@@ -59,22 +59,22 @@ for key in experiment_attributes:
 	pe.set_attribute(key, experiment_attributes[key])
 
 collector_ip_list = ast.literal_eval(config.get('ip-addresses', 'collector_ip_list'))
-print('\tcollector ip addresses:  ', end = '')
+print('\tcollector ip addresses:   ', end = '')
 print(*collector_ip_list, sep = ', ')
 
 include_MOX        = config.getboolean('include-sensor-types', 'MOX')
 include_press_temp = config.getboolean('include-sensor-types', 'press/temp')
-print('\tinclude MOX:             {}'.format(include_MOX))
-print('\tinclude press/temp:      {}'.format(include_press_temp))
+print('\tinclude MOX:              {}'.format(include_MOX))
+print('\tinclude press/temp:       {}'.format(include_press_temp))
 
 broadcast_port = int(config.get('ports', 'broadcast_port'))
-print('\tbrdcst port:             {}'.format(broadcast_port))
+print('\tbrdcst port:              {}'.format(broadcast_port))
 
 if options.remoteInstallFlag:
 	print('TODO')
 
 randomFlag = config.getboolean('message', 'random')
-print('\trandom:            ' + str(randomFlag))
+print('\trandom:                  {}'.format(randomFlag))
 if not randomFlag:
 	message_array = ast.literal_eval(config.get('message', 'message_array'))
 
@@ -89,6 +89,10 @@ pm.kill_processes(client_file)
 pm.upload_file(config_file)
 # sanitize client by removing previous pickles
 pm.exec_commands(['rm %s/sendfile.pickle'%client_log_dir, 'rm %s/txpattern.pickle'%pm.client_log_dir])
+
+# get identifying dictionaries from pm
+ip_serial = pm.identifpi()
+print('\tboard list:                ' + str(ip_serial))
 
 # determine which pis are transmitters if any
 try:
@@ -105,10 +109,6 @@ dest = ('<broadcast>', broadcast_port)
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 s.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
 s.settimeout(5.0)
-
-# get identifying dictionaries from pm
-ip_serial = pm.identifpi()
-print('\tboard list:        ' + str(ip_serial))
 
 #== Transmitter Handling =======================================================
 # generate transmit pattern, add to log, and send to transmitter board

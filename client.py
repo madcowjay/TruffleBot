@@ -219,6 +219,7 @@ while not end_flag:
 					mox_data[i] = sample # save the array of samples to the data dict, with key as sample num
 
 				if include_press_temp:
+					print('here')
 					for index in range(len(lps)):
 						lps[index].OneShot()
 						temp_data[i]  = lps[index].ReadTemp()
