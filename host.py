@@ -74,7 +74,7 @@ if options.remoteInstallFlag:
 	print('TODO')
 
 randomFlag = config.getboolean('message', 'random')
-print('\trandom:                  {}'.format(randomFlag))
+print('\trandom:                   {}'.format(randomFlag))
 if not randomFlag:
 	message_array = ast.literal_eval(config.get('message', 'message_array'))
 
@@ -92,7 +92,7 @@ pm.exec_commands(['rm %s/sendfile.pickle'%client_log_dir, 'rm %s/txpattern.pickl
 
 # get identifying dictionaries from pm
 ip_serial = pm.identifpi()
-print('\tboard list:                ' + str(ip_serial))
+print('\tboard list:               ' + str(ip_serial))
 
 # determine which pis are transmitters if any
 try:
@@ -125,9 +125,9 @@ pad        = np.zeros(padding,     dtype='uint8')
 tx_pattern = np.concatenate([pad, message, pad])
 tx_pattern_upsampled = tx_pattern.repeat(pulsewidth * samplerate)
 
-print('\tmessage:              ' + str(message))
-print('\ttx_pattern:           ' + str(tx_pattern))
-print('\ttx_pattern_upsampled: ' + str(tx_pattern_upsampled))
+print('\tmessage:                  ' + str(message))
+print('\ttx_pattern:               ' + str(tx_pattern))
+print('\ttx_pattern_upsampled:     ' + str(tx_pattern_upsampled))
 print('')
 
 with open(host_log_dir + '/txpattern.pickle', 'wb') as f:

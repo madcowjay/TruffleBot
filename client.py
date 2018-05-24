@@ -219,11 +219,10 @@ while not end_flag:
 					mox_data[i] = sample # save the array of samples to the data dict, with key as sample num
 
 				if include_press_temp:
-					print('here')
 					for index in range(len(lps)):
 						lps[index].OneShot()
-						temp_data[i]  = lps[index].ReadTemp()
-						press_data[i] = lps[index].ReadPress()
+						temp_data[index]  = lps[index].ReadTemp()
+						press_data[index] = lps[index].ReadPress()
 
 				elapsed_time = time.time() - start_time
 				elapsed.append(elapsed_time)
