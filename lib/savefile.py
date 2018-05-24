@@ -36,9 +36,9 @@ class PlumeExperiment:
 		self.attributes[paramName] = paramValue
 
 
-	def add_collector(self, name, gain=None, location=None):
+	def add_collector(self, name, serial):
 		# adds a collector to the experiment, can be initialized with various attributes
-		self.collectors[name] = {'gain':gain, 'location':location}
+		self.collectors[name] = {'Serial Number' : serial}
 
 
 	def add_collector_element(self, collector_name, title, value):
@@ -46,9 +46,9 @@ class PlumeExperiment:
 		self.collectors[collector_name][title] = value
 
 
-	def add_transmitter(self, name, gain=None, chemical=None, message=None, coding=None, location=None, bitrate=None):
+	def add_transmitter(self, name, serial):
 		# adds a transmitter to the experiment, can be initialized with various attributes which will be stored as attributes
-		self.transmitters[name] = {'gain':gain, 'chemical':chemical, 'message':message, 'coding':coding, 'location':location, 'bitrate':bitrate}
+		self.transmitters[name] = {'Serial Number' : serial}
 
 
 	def add_transmitter_element(self, transmitter_name, title, value):
@@ -90,13 +90,13 @@ class PlumeLog:
 		os.makedirs(os.path.dirname(writelogfilename), exist_ok=True)
 
 		with h5py.File(writelogfilename, "a") as f:
-			f.attrs['description']   = 'Plume communications control framework'
-			f.attrs['formatversion'] = 2.0
-			f.attrs['workingdir']    = os.getcwd()
-			f.attrs['platform']      = sys.platform
-			f.attrs['platform_system']   = platform.system()
-			f.attrs['platform_release']  = platform.release()
-			f.attrs['platform_version']  = platform.version()
+			f.attrs['Description']       = 'Plume communications control framework'
+			f.attrs['Format Version']    = 2.0
+			f.attrs['Working Directory'] = os.getcwd()
+			f.attrs['Platform']          = sys.platform
+			f.attrs['Platform System']   = platform.system()
+			f.attrs['Platform Release']  = platform.release()
+			f.attrs['Platform Version']  = platform.version()
 			f.attrs['Created timestamp'] = experiment.attributes['Start Time']
 			f.attrs['Updated timestamp'] = experiment.attributes['End Time']
 

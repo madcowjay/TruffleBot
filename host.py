@@ -62,15 +62,7 @@ collector_ip_list = ast.literal_eval(config.get('ip-addresses', 'collector_ip_li
 print('\tcollector ip addresses:   ' , end = '')
 print(*collector_ip_list, sep = ', ')
 
-# determine which pis are transmitters if any
-try:
-	transmitter_ip_list = ast.literal_eval(config.get('ip-addresses', 'transmitter_ip_list'))
-	print('\ttransmitter ip addresses: ' , end = '')
-	print(*transmitter_ip_list, sep = ', ')
-	for transmitter in transmitter_ip_list:
-		pe.add_transmitter(transmitter)
-except:
-	print('\tno transmitters indicated in configuration file')
+
 
 broadcast_port = int(config.get('ports', 'broadcast_port'))
 print('\tbrdcst port:  {}'.format(broadcast_port))
@@ -94,6 +86,16 @@ pm.kill_processes(client_file)
 pm.upload_file(config_file)
 # sanitize client by removing previous pickles
 pm.exec_commands(['rm %s/sendfile.pickle'%client_log_dir, 'rm %s/txpattern.pickle'%pm.client_log_dir])
+
+# determine which pis are transmitters if any
+try:
+	transmitter_ip_list = ast.literal_eval(config.get('ip-addresses', 'transmitter_ip_list'))
+	print('\ttransmitter ip addresses: ' , end = '')
+	print(*transmitter_ip_list, sep = ', ')
+	for transmitter in transmitter_ip_list:
+		pe.add_transmitter(transmitter, str(ip_serial[transmitter]))
+except:
+	print('\tno transmitters indicated in configuration file')
 
 # set up socket for messaging
 dest = ('<broadcast>', broadcast_port)
@@ -128,7 +130,7 @@ print('')
 with open(host_log_dir + '/txpattern.pickle', 'wb') as f:
 	tx_string = ' '.join([str(n) for n in tx_pattern])
 	pickle.dump(tx_string, f, protocol=2)
-	
+
 for transmitter in transmitter_ip_list:
 	pm.upload_file(host_log_dir + '/txpattern.pickle', addr=transmitter)
 time.sleep(1)
@@ -144,8 +146,7 @@ for trial in range(trials): # number of times to do experiment
 
 	# add collectors to experiment
 	for ip in pm.ip_list:
-		pe.add_collector(ip)
-		pe.add_collector_element(ip,'Serial Number',str(ip_serial[ip]))
+		pe.add_collector(ip, str(ip_serial[ip]))
 
 	#===========================================================================
 	# send command to the client to collect data
@@ -211,7 +212,7 @@ for trial in range(trials): # number of times to do experiment
 			pe.add_collector_element(ip, 'Temperature Data', temp_data)
 			pe.add_collector_element(ip, 'Pressure Data', press_data)
 
-			if ip in pe.trasnmitters.keys():
+			if ip in pe.transmitters.keys():
 				tx_time_log = data[ip]['Tx Time Log']
 				pe.add_transmitter_element(ip, 'Time Log', tx_time_log)
 				pe.add_transmitter_element(ip, 'Message', message)
@@ -220,9 +221,9 @@ for trial in range(trials): # number of times to do experiment
 				pe.add_transmitter_element(ip, 'Padding', padding)
 		#=======================================================================
 
-		# add number of trasnmitters, collectors to experiment attributes
+		# add number of transmitters, collectors to experiment attributes
 		pe.set_attribute('# Collectors', responses_received)
-		pe.set_attribute('# Trasnmitters', len(transmitter_ip_list))
+		pe.set_attribute('# Transmitters', len(transmitter_ip_list))
 
 		# save log
 		try:

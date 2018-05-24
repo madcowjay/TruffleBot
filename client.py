@@ -12,10 +12,7 @@ parser.add_option('-c','--config-file',dest='configfile',help='use the indicated
 (options, args) = parser.parse_args()
 config_file = options.configfile
 if options.debugFlag: os.environ['DEBUG'] = 'True'
-
-
-print(config_file)
-
+print('loaded confgiuration file: {}'.format(config_file))
 
 # Load these after DEBUG status has been determined
 import lib.pyads1256
@@ -55,9 +52,9 @@ DAC_voltage_percent = float(config.get('DAC', 'voltage_percent'))
 LPS_SPI_CHANNEL     =   int(config.get('LPS', 'LPS_SPI_CHANNEL'))
 LPS_SPI_FREQUENCY   =   int(config.get('LPS', 'LPS_SPI_FREQUENCY'))
 
-trials      =   int(config.get('experiment-parameters', 'trials'))   #trials
-duration    =   int(config.get('experiment-parameters', 'duration')) #seconds
-padding     =   int(config.get('experiment-parameters', 'padding'))  #pulses of silence at beginning and end
+trials      =   int(config.get('experiment-parameters', 'trials'))    #trials
+duration    =   int(config.get('experiment-parameters', 'duration'))  #seconds
+padding     =   int(config.get('experiment-parameters', 'padding'))   #pulses of silence at beginning and end
 pulsewidth  = float(config.get('experiment-parameters', 'pulsewidth')) #seconds
 samplerate  = float(config.get('experiment-parameters', 'samplerate')) #hz
 
@@ -78,7 +75,7 @@ sb.ledAct(2,0)
 p = lib.TB_pulser.pulser() # get pulser instance
 
 def pulser_thread(tx_pattern, pulsewidth, tx_time_log):
-	p.openPort() # open communication port
+	p.openPort()    # open communication port
 	p.setVoltage(0) # set voltage and current to 0V and 1A
 	p.setCurrent(1)
 	p.setOutput("ON")
@@ -266,7 +263,6 @@ while not end_flag:
 			log['End Time'] = end_time
 			log['Duration'] = end_time - experiment_start_time
 			log['Average Elapsed'] = sum(elapsed)/float(len(elapsed))
-			log['PID'] = os.getpid()
 			log['TxPattern'] = tx_pattern
 			log['Tx Time Log']  = tx_time_log
 
