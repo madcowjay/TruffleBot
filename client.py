@@ -4,28 +4,71 @@ import wiringpi as wp
 from   multiprocessing import Queue
 from   optparse import OptionParser
 
+# process command line arguments
+usage = 'python3 client.py [OPTION]...'
+parser = OptionParser(usage)
+parser.add_option('-d','--debug',action='store_true',dest='debugFlag',help='display debug messages while running',default=False)
+parser.add_option('-c','--config-file',dest='configfile',help='use the indicated configuration file, if not invoked, default.cfg is used',default='default.cfg')
+(options, args) = parser.parse_args()
+config_file = options.configfile
+if options.debugFlag: os.environ['DEBUG'] = 'True'
+
+# Load these after DEBUG status has been determined
 import lib.pyads1256
 import lib.pydac8532
 import lib.pylps22hb
 import lib.TB_pulser
 import lib.sensor_board
 
-sb = lib.sensor_board.SENSOR_BOARD(LED1_PIN=8, LED2_PIN=10, TX0_PIN=29, TX1_PIN=31)
+config = configparser.RawConfigParser()
+config.read(config_file)
+
+LED1_PIN      = int(config.get('GPIO', 'LED1_PIN'))
+LED2_PIN      = int(config.get('GPIO', 'LED2_PIN'))
+TX0_PIN       = int(config.get('GPIO', 'TX0_PIN'))
+TX1_PIN       = int(config.get('GPIO', 'TX1_PIN'))
+PRESS0_PIN    = int(config.get('GPIO', 'PRESS0_PIN'))
+PRESS1_PIN    = int(config.get('GPIO', 'PRESS1_PIN'))
+PRESS2_PIN    = int(config.get('GPIO', 'PRESS2_PIN'))
+PRESS3_PIN    = int(config.get('GPIO', 'PRESS3_PIN'))
+PRESS4_PIN    = int(config.get('GPIO', 'PRESS4_PIN'))
+PRESS5_PIN    = int(config.get('GPIO', 'PRESS5_PIN'))
+PRESS6_PIN    = int(config.get('GPIO', 'PRESS6_PIN'))
+PRESS7_PIN    = int(config.get('GPIO', 'PRESS7_PIN'))
+DAC_CS_PIN    = int(config.get('GPIO', 'DAC_CS_PIN'))
+ADC_CS_PIN    = int(config.get('GPIO', 'ADC_CS_PIN'))
+ADC_DRDY_PIN  = int(config.get('GPIO', 'ADC_DRDY_PIN'))
+ADC_RESET_PIN = int(config.get('GPIO', 'ADC_RESET_PIN'))
+ADC_PDWN_PIN  = int(config.get('GPIO', 'ADC_PDWN_PIN'))
+
+DAC_SPI_CHANNEL     =   int(config.get('DAC', 'DAC_SPI_CHANNEL'))
+DAC_SPI_FREQUENCY   =   int(config.get('DAC', 'DAC_SPI_FREQUENCY'))
+DAC_voltage_percent = float(config.get('DAC', 'voltage_percent'))
+
+trials      =   int(config.get('experiment-parameters', 'trials'))   #trials
+duration    =   int(config.get('experiment-parameters', 'duration')) #seconds
+padding     =   int(config.get('experiment-parameters', 'padding'))  #pulses of silence at beginning and end
+pulsewidth  = float(config.get('experiment-parameters', 'pulsewidth')) #seconds
+samplerate  = float(config.get('experiment-parameters', 'samplerate')) #hz
+
+client_dir     = config.get('paths', 'client_dir')
+client_log_dir = config.get('paths', 'client_log_dir')
+client_file    = config.get('files', 'client_file')
+log_file       = config.get('files', 'log_file')
+
+broadcast_port = int(config.get('ports', 'broadcast_port'))
+
+include_MOX   = config.getboolean('include-sensor-types', 'MOX')
+include_press = config.getboolean('include-sensor-types', 'pressure')
+include_temp  = config.getboolean('include-sensor-types', 'temperature')
+
+sb = lib.sensor_board.SENSOR_BOARD(LED1_PIN, LED2_PIN, TX0_PIN, TX1_PIN)
 sb.ledAct(1,0) # turn them both off to start
 sb.ledAct(2,0)
 
 p = lib.TB_pulser.pulser() # get pulser instance
 
-# process command line arguments
-usage = 'python3 client.py [OPTION]...'
-parser = OptionParser(usage)
-parser.add_option('-d','--debug',action='store_true',dest='debugFlag',help='display debug messages while running',default=False)
-parser.add_option('-p','--port',action='store',type='int',dest='port_number',help='the port to listen for commands on',default=5000)
-(options, args) = parser.parse_args()
-if options.debugFlag: os.environ['DEBUG'] = 'True'
-broadcast_port = options.port_number
-
-def pulser_thread(tx_pattern, pulsewidth, time_log):
+def pulser_thread(tx_pattern, pulsewidth, tx_time_log):
 	p.openPort() # open communication port
 	p.setVoltage(0) # set voltage and current to 0V and 1A
 	p.setCurrent(1)
@@ -33,14 +76,14 @@ def pulser_thread(tx_pattern, pulsewidth, time_log):
 	start_time = time.time()
 	for i in range(len(tx_pattern)):
 		current_time = time.time()
-		time_log[i] = (current_time - start_time)
+		tx_time_log[i] = (current_time - start_time)
 		p.setVoltage(tx_pattern[i] * 12) # set voltage to bits * 12V
 		while time.time() - current_time < pulsewidth:
 			pass
 	p.setOutput("OFF")
 	p.closePort()
 	print("Transfer completed")
-	print('time log: ' + str(time_log))
+	print('tx time log: ' + str(tx_time_log))
 
 
 	# # this is the worker thread if the pi is registered to transmit
@@ -64,7 +107,7 @@ def pulser_thread(tx_pattern, pulsewidth, time_log):
 print('\n\n\n') # for logfile
 print(time.asctime(time.localtime(time.time())))
 
-## set up adc and dac
+# set up adc and dac
 ads = lib.pyads1256.ADS1256()
 myid = ads.ReadID()
 print('ADS1256 ID = ' + hex(myid))
@@ -72,21 +115,11 @@ ads.ConfigADC()
 ads.SyncAndWakeup()
 
 # turn heater on for duration of experiment
-dac = lib.pydac8532.DAC8532(SPI_CHANNEL=0, SPI_FREQUENCY=250000, CS_PIN=16)
-dac.SendDACAValue(0.62 * 2**16)
+dac = lib.pydac8532.DAC8532(DAC_SPI_CHANNEL, DAC_SPI_FREQUENCY, DAC_CS_PIN)
+dac.SendDACAValue(DAC_voltage_percent * 2**16 - 1)
 
 # set up pressure sensors - if you don't use all of them, you should still set all
 #    of the pins as output and high
-PRESS0_PIN = 33 #TODO - read these from config file
-PRESS1_PIN = 32
-PRESS2_PIN = 40
-PRESS3_PIN = 22
-PRESS4_PIN = 35
-PRESS5_PIN = 36
-PRESS6_PIN = 7
-PRESS7_PIN = 18
-LPS_SPI_CHANNEL = 0
-LPS_SPI_FREQUENCY = 10000000
 all_cs = [PRESS0_PIN, PRESS1_PIN, PRESS2_PIN, PRESS3_PIN, PRESS4_PIN, PRESS5_PIN, PRESS6_PIN, PRESS7_PIN]
 for cs in all_cs:
 	wp.pinMode(cs, wp.OUTPUT)
@@ -115,10 +148,10 @@ elapsed_cycle = []
 elapsed_cycle_quick = []
 channels = 8 # change for other boards
 
-sel_list = [[ads.MUX_AIN0, ads.MUX_AINCOM], [ads.MUX_AIN1, ads.MUX_AINCOM],
-			[ads.MUX_AIN2, ads.MUX_AINCOM], [ads.MUX_AIN3, ads.MUX_AINCOM],
-			[ads.MUX_AIN4, ads.MUX_AINCOM], [ads.MUX_AIN5, ads.MUX_AINCOM],
-			[ads.MUX_AIN6, ads.MUX_AINCOM], [ads.MUX_AIN7, ads.MUX_AINCOM]]
+sel_list = [[ads.MUX_AIN1, ads.MUX_AINCOM], [ads.MUX_AIN2, ads.MUX_AINCOM],
+			[ads.MUX_AIN5, ads.MUX_AINCOM], [ads.MUX_AIN6, ads.MUX_AINCOM],
+			[ads.MUX_AIN0, ads.MUX_AINCOM], [ads.MUX_AIN3, ads.MUX_AINCOM],
+			[ads.MUX_AIN4, ads.MUX_AINCOM], [ads.MUX_AIN7, ads.MUX_AINCOM]]
 
 # open the txpattern if it was sent (which it would be if this is a transmitter)
 try:
@@ -156,8 +189,8 @@ while not end_flag:
 
 		# start thread to generate pattern
 		if tx_pattern != 'None':
-			time_log = np.zeros([len(tx_pattern)], dtype='float32')
-			t = threading.Thread(target=pulser_thread, args=(tx_pattern, pulsewidth, time_log))
+			tx_time_log = np.zeros([len(tx_pattern)], dtype='float32')
+			t = threading.Thread(target=pulser_thread, args=(tx_pattern, pulsewidth, tx_time_log))
 			if not t.isAlive():
 				t.start()
 				print('started pulser')
@@ -166,18 +199,18 @@ while not end_flag:
 				start_time = time.time()
 				# collect samples from feach sensor on board
 				print('starting trial #%s'%i)
-				# sam_1 = ads.getADCsample(ads.MUX_AIN0, ads.MUX_AINCOM)
-				# sam_2 = ads.getADCsample(ads.MUX_AIN1, ads.MUX_AINCOM)
-				# sam_3 = ads.getADCsample(ads.MUX_AIN2, ads.MUX_AINCOM)
-				# sam_4 = ads.getADCsample(ads.MUX_AIN3, ads.MUX_AINCOM)
-				# sam_5 = ads.getADCsample(ads.MUX_AIN4, ads.MUX_AINCOM)
-				# sam_6 = ads.getADCsample(ads.MUX_AIN5, ads.MUX_AINCOM)
-				# sam_7 = ads.getADCsample(ads.MUX_AIN6, ads.MUX_AINCOM)
-				# sam_8 = ads.getADCsample(ads.MUX_AIN7, ads.MUX_AINCOM)
+				if include_MOX:
+					sam_1 = ads.getADCsample(ads.MUX_AIN1, ads.MUX_AINCOM)
+					sam_2 = ads.getADCsample(ads.MUX_AIN2, ads.MUX_AINCOM)
+					sam_3 = ads.getADCsample(ads.MUX_AIN5, ads.MUX_AINCOM)
+					sam_4 = ads.getADCsample(ads.MUX_AIN6, ads.MUX_AINCOM)
+					sam_5 = ads.getADCsample(ads.MUX_AIN0, ads.MUX_AINCOM)
+					sam_6 = ads.getADCsample(ads.MUX_AIN3, ads.MUX_AINCOM)
+					sam_7 = ads.getADCsample(ads.MUX_AIN4, ads.MUX_AINCOM)
+					sam_8 = ads.getADCsample(ads.MUX_AIN7, ads.MUX_AINCOM)
 
-				# sample = np.array([sam_1,sam_2,sam_3,sam_4,sam_5,sam_6,sam_7,sam_8], dtype='int32')
-				sample = np.array([0,1,2,3,4,5,6,7], dtype='int32')
-				mox_data[i] = sample # save the array of samples to the data dict, with key as sample num
+					sample = np.array([sam_1,sam_2,sam_3,sam_4,sam_5,sam_6,sam_7,sam_8], dtype='int32')
+					mox_data[i] = sample # save the array of samples to the data dict, with key as sample num
 
 				for index in range(len(lps)):
 					lps[index].OneShot()
@@ -225,7 +258,7 @@ while not end_flag:
 			log['Average Elapsed'] = sum(elapsed)/float(len(elapsed))
 			log['PID'] = os.getpid()
 			log['TxPattern'] = tx_pattern
-			log['Time Log']  = time_log
+			log['Tx Time Log']  = tx_time_log
 
 			# serialize data to be sent over network
 			print(log)
