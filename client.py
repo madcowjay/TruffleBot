@@ -1,4 +1,4 @@
-import os, sys, time, socket, pickle, threading
+import os, sys, time, socket, pickle, threading, configparser
 import numpy as np
 import wiringpi as wp
 from   multiprocessing import Queue
@@ -58,9 +58,8 @@ log_file       = config.get('files', 'log_file')
 
 broadcast_port = int(config.get('ports', 'broadcast_port'))
 
-include_MOX   = config.getboolean('include-sensor-types', 'MOX')
-include_press = config.getboolean('include-sensor-types', 'pressure')
-include_temp  = config.getboolean('include-sensor-types', 'temperature')
+include_MOX        = config.getboolean('include-sensor-types', 'MOX')
+include_press_temp = config.getboolean('include-sensor-types', 'press/temp')
 
 sb = lib.sensor_board.SENSOR_BOARD(LED1_PIN, LED2_PIN, TX0_PIN, TX1_PIN)
 sb.ledAct(1,0) # turn them both off to start
@@ -155,7 +154,7 @@ sel_list = [[ads.MUX_AIN1, ads.MUX_AINCOM], [ads.MUX_AIN2, ads.MUX_AINCOM],
 
 # open the txpattern if it was sent (which it would be if this is a transmitter)
 try:
-	with open('log/txpattern.pickle', 'rb') as f:
+	with open(client_log_dir + '/txpattern.pickle', 'rb') as f:
 		tx_message = pickle.load(f)
 	tx_pattern = np.array([int(n) for n in tx_message.split()])
 	print('tx recieved')
@@ -212,10 +211,11 @@ while not end_flag:
 					sample = np.array([sam_1,sam_2,sam_3,sam_4,sam_5,sam_6,sam_7,sam_8], dtype='int32')
 					mox_data[i] = sample # save the array of samples to the data dict, with key as sample num
 
-				for index in range(len(lps)):
-					lps[index].OneShot()
-					temp_data[i]  = lps[index].ReadTemp()
-					press_data[i] = lps[index].ReadPress()
+				if include_press_temp:
+					for index in range(len(lps)):
+						lps[index].OneShot()
+						temp_data[i]  = lps[index].ReadTemp()
+						press_data[i] = lps[index].ReadPress()
 
 				elapsed_time = time.time() - start_time
 				elapsed.append(elapsed_time)

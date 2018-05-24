@@ -20,8 +20,7 @@ class PiManager:
 		debug_print('   config_file     = {}'.format(self.config_file))
 		debug_print('   log_file        = {}'.format(self.log_file))
 		debug_print('   ip_list         = {}'.format(self.ip_list))
-		debug_print('   port            = {}'.format(self.port))
-		debug_print('   username        = {}'.format(self.username)
+		debug_print('   username        = {}'.format(self.username))
 		debug_print('   password        = {}'.format(self.password))
 		#init paramiko
 		self.ssh = paramiko.SSHClient()
@@ -88,7 +87,7 @@ class PiManager:
 				command = 'cd %s && python3 -u %s -c %s &> %s/%s'%(self.client_dir,client_file,self.config_file,self.client_log_dir,self.log_file)
 				debug_print(command)
 				stdin, stdout, stderr = self.ssh.exec_command(command)
-				debug_print('%s: starting client file, writing stdout and stderr to %s'%(ip,log_file))
+				debug_print('%s: starting client file, writing stdout and stderr to %s'%(ip,self.log_file))
 			self.ssh.close()
 		except Exception as e:
 			print('Error in run_script: ' + str(e))

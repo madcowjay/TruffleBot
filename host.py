@@ -45,7 +45,6 @@ print('\tpadding:      {} seconds'.format(padding))
 print('\tpulsewidth    {} second'.format(pulsewidth))
 print('\tsamplerate:   {} Hz'.format(samplerate))
 
-host_dir       = config.get('paths', 'host_dir')
 client_dir     = config.get('paths', 'client_dir')
 host_log_dir   = config.get('paths', 'host_log_dir')
 client_log_dir = config.get('paths', 'client_log_dir')
@@ -135,7 +134,7 @@ with open(host_log_dir + '/txpattern.pickle', 'wb') as f:
 	tx_string = ' '.join([str(n) for n in tx_pattern])
 	pickle.dump(tx_string, f, protocol=2)
 for transmitter in transmitter_ip_list:
-	pm.upload_file(client_log_dir + '/txpattern.pickle', addr=transmitter)
+	pm.upload_file(host_log_dir + '/txpattern.pickle', addr=transmitter)
 time.sleep(1)
 
 
