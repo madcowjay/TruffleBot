@@ -206,6 +206,7 @@ while not end_flag:
 				# collect samples from feach sensor on board
 				print('starting sample #%s'%i)
 				if include_MOX:
+					print('sampling MOXes')
 					sam_1 = ads.getADCsample(ads.MUX_AIN1, ads.MUX_AINCOM)
 					sam_2 = ads.getADCsample(ads.MUX_AIN2, ads.MUX_AINCOM)
 					sam_3 = ads.getADCsample(ads.MUX_AIN5, ads.MUX_AINCOM)
@@ -221,9 +222,9 @@ while not end_flag:
 				if include_press_temp:
 					for index in range(len(lps)):
 						lps[index].OneShot()
-						sleep(.001)
-						temp_data[i]  = lps[index].ReadTemp()
-						press_data[i] = lps[index].ReadPress()
+						time.sleep(.001)
+						temp_data[i][index]  = lps[index].ReadTemp()
+						press_data[i][index] = lps[index].ReadPress()
 
 				elapsed_time = time.time() - start_time
 				elapsed.append(elapsed_time)
