@@ -133,7 +133,7 @@ for cs in all_cs:
 lps = []
 for index in range(len(all_cs)):
 	lps.append(lib.pylps22hb.LPS22HB(LPS_SPI_CHANNEL, LPS_SPI_FREQUENCY, all_cs[index]))
-	lps[index].OneShot()
+	lps[index].OneShot() # wake up the sensors
 
 # pulsing queue
 pulseq = Queue()
@@ -204,7 +204,7 @@ while not end_flag:
 			for i in range(sample_count):
 				start_time = time.time()
 				# collect samples from feach sensor on board
-				print('starting trial #%s'%i)
+				print('starting sample #%s'%i)
 				if include_MOX:
 					sam_1 = ads.getADCsample(ads.MUX_AIN1, ads.MUX_AINCOM)
 					sam_2 = ads.getADCsample(ads.MUX_AIN2, ads.MUX_AINCOM)
@@ -256,15 +256,15 @@ while not end_flag:
 
 			# add info to logfile
 			print("adding to log")
-			log['MOX Data'] = mox_data
+			log['MOX Data']         = mox_data
 			log['Temperature Data'] = temp_data
-			log['Pressure Data'] = press_data
-			log['Start Time'] = experiment_start_time
-			log['End Time'] = end_time
-			log['Duration'] = end_time - experiment_start_time
-			log['Average Elapsed'] = sum(elapsed)/float(len(elapsed))
-			log['TxPattern'] = tx_pattern
-			log['Tx Time Log']  = tx_time_log
+			log['Pressure Data']    = press_data
+			log['Start Time']       = experiment_start_time
+			log['End Time']         = end_time
+			log['Duration']         = end_time - experiment_start_time
+			log['Average Elapsed']  = sum(elapsed)/float(len(elapsed))
+			log['TxPattern']        = tx_pattern
+			log['Tx Time Log']      = tx_time_log
 
 			# serialize data to be sent over network
 			print(log)
