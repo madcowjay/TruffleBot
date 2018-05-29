@@ -70,7 +70,7 @@ include_press_temp = config.getboolean('include-sensor-types', 'press/temp')
 
 
 channel  = int(config.get('pulser', 'channel'))
-port     = ast.liter_eval(config.get('pulser', 'port'))
+port     = ast.literal_eval(config.get('pulser', 'port'))
 baudrate = int(config.get('pulser', 'baudrate'))
 parity   = ast.literal_eval(config.get('pulser', 'parity'))
 stopbits = ast.literal_eval(config.get('pulser', 'stopbits'))
