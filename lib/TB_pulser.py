@@ -5,7 +5,7 @@ class pulser():
 		self.channel  = channel
 		self.port     = port
 		self.baudrate = baudrate
-		
+
 		if   parity == 'NONE'  : self.parity = serial.PARITY_NONE
 		elif parity == 'EVEN'  : self.parity = serial.PARITY_EVEN
 		elif parity == 'ODD'   : self.parity = serial.PARITY_ODD
@@ -13,16 +13,24 @@ class pulser():
 		elif parity == 'SPACE' : self.parity = serial.PARITY_SPACE
 
 		if   stopbits == '1'   : self.stopbits = serial.STOPBITS_ONE
-		elif stopbits == '1.5' : serial.STOPBITS_ONE_POINT_FIVE
-		elif stopbits == '2'   : serial.STOPBITS_TWO
+		elif stopbits == '1.5' : self.stopbits = serial.STOPBITS_ONE_POINT_FIVE
+		elif stopbits == '2'   : self.stopbits = serial.STOPBITS_TWO
 
-		if   bytesize == '5'   : serial.FIVEBITS
-		elif bytesize == '6'   : serial.SIXBITS
-		elif bytesize == '7'   : serial.SEVENBITS
-		elif bytesize == '8'   : serial.EIGHTBITS
+		if   bytesize == '5'   : self.bytesize = serial.FIVEBITS
+		elif bytesize == '6'   : self.bytesize = serial.SIXBITS
+		elif bytesize == '7'   : self.bytesize = serial.SEVENBITS
+		elif bytesize == '8'   : self.bytesize = serial.EIGHTBITS
 
 	def openPort(self):
 		try:
+			print(self.channel, self.port, self.baudrate, self.parity, self.stopbits, self.bytesize)
+			print(type(self.channel))
+			print(type(self.port))
+			print(type(self.baudrate))
+			print(type(self.parity))
+			print(type(self.stopbits))
+			print(type(self.bytesize))
+
 			self.ser = serial.Serial(port=self.port,
 									 baudrate=self.baudrate,
 									 parity=self.parity,
