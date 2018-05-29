@@ -18,9 +18,9 @@ class pulser():
 			'2'     : serial.STOPBITS_TWO
 		}[stopbits]
 		self.bytesize = {
-			'5'     : serial.FIVEBITS
-			'6'     : serial.SIXBITS
-			'7'     : serial.SEVENBITS
+			'5'     : serial.FIVEBITS,
+			'6'     : serial.SIXBITS,
+			'7'     : serial.SEVENBITS,
 			'8'     : serial.EIGHTBITS
 		}[bytesize]
 
