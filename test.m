@@ -13,17 +13,28 @@ filename = strcat('log/', file)
 
 %process it
 info = h5info(filename); % get group information
-experiment_count = length(info.Groups); % get number of experiments
-
+experiment_count = numel(info.Groups); % get number of experiments
 experiment = experiment_count; %Last run in file
+exp_name = info.Groups(experiment).Name;
+
+trial_count = numel(info.Groups(experiment_count).Groups)
+trial = trial_count;
+trial_name = info.Groups(experiment).Groups(trial).Name
+
+collector_count = numel(info.Groups(experiment).Groups(trial).Groups(1).Groups)
+collector = collector_count
+collector_name = info.Groups(experiment).Groups(trial).Groups(1).Groups(collector).Name
+
+transmitter_count = numel(info.Groups(experiment).Groups(trial).Groups(2).Groups)
+transmitter = transmitter_count
+transmitter_name = info.Groups(experiment).Groups(trial).Groups(2).Groups(transmitter).Name
+
+%tx_time_log = info.Groups(experiment).Groups(trial).Groups(2).Groups.DataSets('Tx Time Log')
+
+
 
 fprintf('Loading run %d/%d. \n', experiment, experiment_count);
-
-name = info.Groups(experiment).Name;
-
 %sensor={'Board #0000000068c200c3','Board #00000000d7ef3031'};
-%sensor={'Board #0000000068c200c3'};
-%sensor={'Board #00000000d7ef3031'};
 %flow = h5read(filename,strcat(name,'/SourceData/Source 1/Flowrate'));
 
 % Rxbits=[];

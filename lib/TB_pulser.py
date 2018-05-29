@@ -23,14 +23,6 @@ class pulser():
 
 	def openPort(self):
 		try:
-			print(self.channel, self.port, self.baudrate, self.parity, self.stopbits, self.bytesize)
-			print(type(self.channel))
-			print(type(self.port))
-			print(type(self.baudrate))
-			print(type(self.parity))
-			print(type(self.stopbits))
-			print(type(self.bytesize))
-
 			self.ser = serial.Serial(port=self.port,
 									 baudrate=self.baudrate,
 									 parity=self.parity,

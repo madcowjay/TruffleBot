@@ -207,24 +207,26 @@ for trial in range(1, trials+1): # MATLAB indexed
 		for ip in pe.trials[trial_name]['collectors'].keys():
 			debug_print('ip: {}'.format(ip))
 			serial = ip[7:]
-			temp_data  = data[ip]['Temperature Data']
-			press_data = data[ip]['Pressure Data']
-			savedata   = data[ip]['MOX Data'].astype('float32')
+			rx_time_log = data[ip]['Rx Time Log']
+			temp_data   = data[ip]['Temperature Data']
+			press_data  = data[ip]['Pressure Data']
+			savedata    = data[ip]['MOX Data'].astype('float32')
 			# scale data to reference 0 = 2**23
 			for n in np.nditer(savedata, op_flags=['readwrite']):
 				 n[...] = np.mod(n-2**23,2**24)/2**24
 
 			debug_print('    >MOX data :\n' + textwrap.indent(str(savedata), '          '))
-			debug_print('    >end time: %s, avg elapse: %s'%(data[ip]['End Time'],data[ip]['Average Elapsed']))
+			#debug_print('    >end time: %s, avg elapse: %s'%(data[ip]['End Time'],data[ip]['Average Elapsed']))
 
 			pe.add_element_to_collector(trial_name, ip, 'MOX Data', savedata)
 			pe.add_element_to_collector(trial_name, ip, 'End Time', data[ip]['End Time'])
 			pe.add_element_to_collector(trial_name, ip, 'Temperature Data', temp_data)
 			pe.add_element_to_collector(trial_name, ip, 'Pressure Data', press_data)
+			pe.add_element_to_collector(trial_name, ip, 'Rx Time Log', rx_time_log)
 
 			if ip in pe.trials[trial_name]['transmitters'].keys():
 				tx_time_log = data[ip]['Tx Time Log']
-				pe.add_element_to_transmitter(trial_name, ip, 'Time Log', tx_time_log)
+				pe.add_element_to_transmitter(trial_name, ip, 'Tx Time Log', tx_time_log)
 				pe.add_element_to_transmitter(trial_name, ip, 'Message', message)
 				pe.add_element_to_transmitter(trial_name, ip, 'Tx Pattern', tx_pattern_upsampled)
 				pe.add_element_to_transmitter(trial_name, ip, 'Pulsewidth', pulsewidth)
