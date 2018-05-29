@@ -1,14 +1,7 @@
-import serial
-import time
+import serial, time
 
 class pulser():
-	def __init__(self,
-				 channel=1,
-				 port="/dev/ttyACM0",
-				 baudrate=9600,
-				 parity=serial.PARITY_NONE,
-				 stopbits=serial.STOPBITS_ONE,
-				 bytesize=serial.EIGHTBITS):
+	def __init__(self, channel, port, baudrate, parity, stopbits, bytesize):
 		self.channel=channel
 		self.port=port
 		self.baudrate=baudrate

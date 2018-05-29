@@ -68,17 +68,21 @@ broadcast_port = int(config.get('ports', 'broadcast_port'))
 include_MOX        = config.getboolean('include-sensor-types', 'MOX')
 include_press_temp = config.getboolean('include-sensor-types', 'press/temp')
 
+
+channel  = int(config.get('pulser', 'channel'))
+port     = config.get('pulser', 'port')
+baudrate = int(config.get('pulser', 'baudrate'))
+parity   = config.get('pulser', 'parity')
+stopbits = config.get('pulser', 'stopbits')
+bytesize = config.get('pulser', 'bytesize')
+
 sb = lib.sensor_board.SENSOR_BOARD(LED1_PIN, LED2_PIN, TX0_PIN, TX1_PIN)
 sb.ledAct(1,0) # turn them both off to start
 sb.ledAct(2,0)
 
-p = lib.TB_pulser.pulser() # get pulser instance
+p = lib.TB_pulser.pulser(channel, port, baudrate, parity, stopbits, bytesize)
 
 def pulser_thread(tx_pattern, pulsewidth, tx_time_log):
-	p.openPort()    # open communication port
-	p.setVoltage(0) # set voltage and current to 0V and 1A
-	p.setCurrent(1)
-	p.setOutput("ON")
 	start_time = time.time()
 	for i in range(len(tx_pattern)):
 		current_time = time.time()
@@ -195,6 +199,10 @@ while not end_flag:
 
 		# start thread to generate pattern
 		if tx_pattern != 'None':
+			p.openPort()    # open communication port
+			p.setVoltage(0) # set voltage and current to 0V and 1A
+			p.setCurrent(1)
+			p.setOutput("ON")
 			tx_time_log = np.zeros([len(tx_pattern)], dtype='float32')
 			t = threading.Thread(target=pulser_thread, args=(tx_pattern, pulsewidth, tx_time_log))
 			if not t.isAlive():
