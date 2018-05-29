@@ -27,45 +27,54 @@ class PlumeExperiment:
 	#initializes the empty dictionaries that will be filled by the methods below
 	def __init__(self):
 		self.attributes   = {}
-		self.transmitters = {}
-		self.collectors   = {}
+		self.trials       = {}
 
-
-	def set_attribute(self, paramName, paramValue):
-		# general function to set a attribute of the experiment, will be stored as a .hdf5 attribute at the highest level
-		self.attributes[paramName] = paramValue
-
-
-	def add_collector(self, name, serial):
-		# adds a collector to the experiment, can be initialized with various attributes
-		self.collectors[name] = {'Serial Number' : serial}
-
-
-	def add_collector_element(self, collector_name, title, value):
-		# adds a attribute or data set to a collector
-		self.collectors[collector_name][title] = value
-
-
-	def add_transmitter(self, name, serial):
-		# adds a transmitter to the experiment, can be initialized with various attributes which will be stored as attributes
-		self.transmitters[name] = {'Serial Number' : serial}
-
-
-	def add_transmitter_element(self, transmitter_name, title, value):
-		# adds a attribute or data set to a transmitter
-		debug_print('add_transmitter_data started')
-		self.transmitters[transmitter_name][title] = value
-
-
-	def set_start_time(self):
-		# sets the start time of the experiment, will be saved as high-level attribute
+	#== Experiment Stuff =======================================================
+	def set_experiment_start_time(self):
+		# sets the start time of the experiment
 		self.attributes['Start Time'] = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 
-
-	def set_end_time(self):
-		# sets the end time of the experiment, will be saved as high-level attribute
+	def set_experiment_end_time(self):
+		# sets the end time of the experiment
 		self.attributes['End Time'] = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 
+	def add_attribute_to_experiment(self, title, value):
+		# general function to add an attribute of the experiment
+		self.attributes[title] = value
+
+	def add_trial_to_experiment(self, trial_name):
+		# adds a trial to the experiment
+		self.trials[trial_name] = {'Trial Name' : trial_name, 'attributes' : {}, 'collectors' : {}, 'transmitters': {}}
+
+	#== Trial Stuff ============================================================
+	def set_trial_start_time(self, trial_name):
+		# sets the start time of the trial
+		self.trials[trial_name]['attributes']['Start Time'] = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+
+	def set_trial_end_time(self, trial_name):
+		# sets the end time of the trial
+		self.trials[trial_name]['attributes']['End Time'] = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+
+	def add_attribute_to_trial(self, trial_name, title, value):
+		# general function to set an attribute of a trial
+		self.trials[trial_name]['attributes'][title] = value
+
+	def add_collector_to_trial(self, trial_name, collector_name, serial):
+		# adds a collector to a trial
+		self.trials[trial_name]['collectors'][collector_name] = {'Serial Number' : serial}
+
+	def add_transmitter_to_trial(self, trial_name, transmitter_name, serial):
+		# adds a transmitter to a trial
+		self.trials[trial_name]['transmitters'][transmitter_name] = {'Serial Number' : serial}
+
+	#== Collector / Transmitter Stuff ==========================================
+	def add_element_to_collector(self, trial_name, collector_name, title, value):
+		# adds an attribute or data set to a collector
+		self.trials[trial_name]['collectors'][collector_name][title] = value
+
+	def add_element_to_transmitter(self, trial_name, transmitter_name, title, value):
+		# adds an attribute or data set to a transmitter
+		self.trials[trial_name]['transmitters'][transmitter_name][title] = value
 
 
 class PlumeLog:
@@ -91,60 +100,65 @@ class PlumeLog:
 
 		with h5py.File(writelogfilename, "a") as f:
 			f.attrs['Description']       = 'Plume communications control framework'
-			f.attrs['Format Version']    = 2.0
+			f.attrs['Format Version']    = 3.0
 			f.attrs['Working Directory'] = os.getcwd()
 			f.attrs['Platform']          = sys.platform
 			f.attrs['Platform System']   = platform.system()
 			f.attrs['Platform Release']  = platform.release()
 			f.attrs['Platform Version']  = platform.version()
-			f.attrs['Created timestamp'] = experiment.attributes['Start Time']
-			f.attrs['Updated timestamp'] = experiment.attributes['End Time']
+			f.attrs['Created Timestamp'] = experiment.attributes['Start Time']
+			f.attrs['Updated Timestamp'] = experiment.attributes['End Time']
 
-			group = '/' + date_time # this is the trial
-			grp = f.create_group(group)
-			debug_print('made group: {}'.format(group))
+			exper = '/' + date_time
+			exp = f.create_group(exper)
+			debug_print('made experiment: {}'.format(exper))
 
-			for attr in experiment.attributes.keys(): # add trial attributes
-				grp.attrs[attr] = experiment.attributes[attr]
+			for attr in experiment.attributes.keys():
+				exp.attrs[attr] = experiment.attributes[attr]
 
-			subgroup = group + '/Transmitters'
-			f.create_group(subgroup)
-			debug_print('  made subgroup: {}'.format(subgroup))
+			for trial in experiment.trials.keys():
+				group = exper + '/' + experiment.trials[trial]['Trial Name']
+				f.create_group(group)
+				debug_print('  made group: {}'.format(group))
 
-			for transmitter in experiment.transmitters.keys():
-				subsubgroup = subgroup + '/' + transmitter
-				grp = f.create_group(subsubgroup)
-				debug_print('    made subsubgroup: {}'.format(subsubgroup))
-				for key in experiment.transmitters[transmitter].keys():
-					if type(experiment.transmitters[transmitter][key]) == np.ndarray:
-						signalname = subsubgroup + '/' + key
-						savearray  = experiment.transmitters[transmitter][key]
-						dset = f.create_dataset(signalname, savearray.shape, savearray.dtype.name)
-						dset[...] = savearray
-						debug_print('      logged **data set**: {}'.format(key))
-					else:
-						grp.attrs[key] = str(experiment.transmitters[transmitter][key])
-						debug_print('      logged attribute   : {}'.format(key))
+				subgroup = group + '/Transmitters'
+				f.create_group(subgroup)
+				debug_print('  made subgroup: {}'.format(subgroup))
 
-			subgroup = group + '/Collectors'
-			f.create_group(subgroup)
-			debug_print('  made subgroup: {}'.format(subgroup))
+				for transmitter in experiment.trials[trial]['transmitters'].keys():
+					subsubgroup = subgroup + '/' + transmitter
+					grp = f.create_group(subsubgroup)
+					debug_print('    made subsubgroup: {}'.format(subsubgroup))
+					for key in experiment.trials[trial]['transmitters'][transmitter].keys():
+						if type(experiment.trials[trial]['transmitters'][transmitter][key]) == np.ndarray:
+							signalname = subsubgroup + '/' + key
+							savearray  = experiment.trials[trial]['transmitters'][transmitter][key]
+							dset = f.create_dataset(signalname, savearray.shape, savearray.dtype.name)
+							dset[...] = savearray
+							debug_print('      logged **data set**: {}'.format(key))
+						else:
+							grp.attrs[key] = str(experiment.trials[trial]['transmitters'][transmitter][key])
+							debug_print('      logged attribute   : {}'.format(key))
 
-			for collector in experiment.collectors.keys():
-				print(collector)
-				subsubgroup = subgroup + '/' + collector
-				grp = f.create_group(subsubgroup)
-				debug_print('    made subsubgroup: {}'.format(subsubgroup))
-				for key in experiment.collectors[collector].keys():
-					if type(experiment.collectors[collector][key]) == np.ndarray:
-						signalname = subsubgroup + '/' + key
-						savearray  = experiment.collectors[collector][key]
-						dset = f.create_dataset(signalname, savearray.shape, savearray.dtype.name)
-						dset[...] = savearray
-						debug_print('      logged **data set**: {}'.format(key))
-					else:
-						grp.attrs[key] = str(experiment.collectors[collector][key])
-						debug_print('      logged attribute   : {}'.format(key))
+				subgroup = group + '/Collectors'
+				f.create_group(subgroup)
+				debug_print('  made subgroup: {}'.format(subgroup))
+
+				for collector in experiment.trials[trial]['collectors'].keys():
+					print(collector)
+					subsubgroup = subgroup + '/' + collector
+					grp = f.create_group(subsubgroup)
+					debug_print('    made subsubgroup: {}'.format(subsubgroup))
+					for key in experiment.trials[trial]['collectors'][collector].keys():
+						if type(experiment.trials[trial]['collectors'][collector][key]) == np.ndarray:
+							signalname = subsubgroup + '/' + key
+							savearray  = experiment.trials[trial]['collectors'][collector][key]
+							dset = f.create_dataset(signalname, savearray.shape, savearray.dtype.name)
+							dset[...] = savearray
+							debug_print('      logged **data set**: {}'.format(key))
+						else:
+							grp.attrs[key] = str(experiment.trials[trial]['collectors'][collector][key])
+							debug_print('      logged attribute   : {}'.format(key))
 
 			f.close()
 		print("All data saved to:",logname)

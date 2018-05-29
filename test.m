@@ -1,20 +1,29 @@
 
 clc; close all; clear variables; set(0,'DefaultFigureWindowStyle','docked')
 
-filename='log/plumelog_20180521.hdf5';
+%open latest log file
+d  = dir('log/*.hdf5');
+dd = zeros(length(d));
+for j = 1:length(d)
+    dd(j) = d(j).datenum;
+end
+[~, idx]= max(dd);
+file = d(idx).name
+filename = strcat('log/', file)
 
+%process it
 info = h5info(filename); % get group information
-trial_count = length(info.Groups); % get number of datasets
+trial_count = length(info.Groups); % get number of trials
 
-run = trial_count; %Last run in file
+trial = trial_count; %Last run in file
 
-fprintf('Loading run %d/%d. \n', run, trial_count);
+fprintf('Loading run %d/%d. \n', trial, trial_count);
 
-name=info.Groups(run).Name;
+name = info.Groups(trial).Name;
 
 %sensor={'Board #0000000068c200c3','Board #00000000d7ef3031'};
 %sensor={'Board #0000000068c200c3'};
-sensor={'Board #00000000d7ef3031'};
+%sensor={'Board #00000000d7ef3031'};
 %flow = h5read(filename,strcat(name,'/SourceData/Source 1/Flowrate'));
 
 Rxbits=[];

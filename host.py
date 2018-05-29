@@ -56,7 +56,7 @@ pe = lib.savefile.PlumeExperiment()
 pl = lib.savefile.PlumeLog(host_log_dir)
 experiment_attributes = ast.literal_eval(config.get('hdf5', 'experiment-attributes'))
 for key in experiment_attributes:
-	pe.set_attribute(key, experiment_attributes[key])
+	pe.add_attribute_to_experiment(key, experiment_attributes[key])
 
 collector_ip_list = ast.literal_eval(config.get('ip-addresses', 'collector_ip_list'))
 print('\tcollector ip addresses:   ', end = '')
@@ -71,7 +71,7 @@ broadcast_port = int(config.get('ports', 'broadcast_port'))
 print('\tbrdcst port:              {}'.format(broadcast_port))
 
 if options.remoteInstallFlag:
-	print('TODO')
+	print('TODO') #TODO
 
 randomFlag = config.getboolean('message', 'random')
 print('\trandom:                   {}'.format(randomFlag))
@@ -99,8 +99,6 @@ try:
 	transmitter_ip_list = ast.literal_eval(config.get('ip-addresses', 'transmitter_ip_list'))
 	print('\ttransmitter ip addresses: ' , end = '')
 	print(*transmitter_ip_list, sep = ', ')
-	for transmitter in transmitter_ip_list:
-		pe.add_transmitter(transmitter, str(ip_serial[transmitter]))
 except:
 	print('\tno transmitters indicated in configuration file')
 
@@ -138,18 +136,24 @@ for transmitter in transmitter_ip_list:
 	pm.upload_file(host_log_dir + '/txpattern.pickle', addr=transmitter)
 time.sleep(1)
 
-#== Start Client ===============================================================
-pm.run_script(client_file)
-time.sleep(3) # wait for remote programs to start
+pe.set_experiment_start_time()
 
 #== Main Loop ==================================================================
-for trial in range(trials): # number of times to do experiment
+for trial in range(1, trials+1): # number of identical trials to run
 	print('\n*** trial %s started ***' %(trial))
-	pe.set_start_time()
+	trial_name = 'Trial #{}'.format(trial)
+	pe.add_trial_to_experiment(trial_name)
+	pe.set_trial_start_time(trial_name)
 
-	# add collectors to experiment
+	# start clients
+	pm.run_script(client_file)
+	time.sleep(3) # wait for remote programs to start
+
 	for ip in pm.ip_list:
-		pe.add_collector(ip, str(ip_serial[ip]))
+		pe.add_collector_to_trial(trial_name, ip, str(ip_serial[ip]))
+
+	for transmitter in transmitter_ip_list:
+		pe.add_transmitter_to_trial(trial_name, transmitter, str(ip_serial[transmitter]))
 
 	#===========================================================================
 	# send command to the client to collect data
@@ -164,7 +168,9 @@ for trial in range(trials): # number of times to do experiment
 
 	t_stop = threading.Event()
 	t = threading.Thread(target=input_thread, args=(t_stop,))
-	t.start()
+	if not t.isAlive():
+		t.start()
+
 	s.settimeout(1) # shorter timeout for recieving to work in long loop+
 	responses_received = 0
 	while responses_received < len(collector_ip_list) and not ( t_stop.is_set() ):
@@ -183,7 +189,7 @@ for trial in range(trials): # number of times to do experiment
 	print('    {0:>4} : listener ended'.format(int(curr_time)))
 
 	# end experiment
-	pe.set_end_time()
+	pe.set_trial_end_time(trial_name)
 
 	if not t_stop.is_set():
 		#== Get data from pis, reassemble data =================================
@@ -197,12 +203,12 @@ for trial in range(trials): # number of times to do experiment
 				data[ip] = pickle.load(fp)
 
 		# save data in hdf5 file, scale the data
-		for ip in pe.collectors.keys():
+		for ip in pe.trials[trial_name]['collectors'].keys():
 			print('ip: {}'.format(ip))
 			serial = ip[7:]
 			temp_data  = data[ip]['Temperature Data']
 			press_data = data[ip]['Pressure Data']
-			savedata = data[ip]['MOX Data'].astype('float32')
+			savedata   = data[ip]['MOX Data'].astype('float32')
 			# scale data to reference 0 = 2**23
 			for n in np.nditer(savedata, op_flags=['readwrite']):
 				 n[...] = np.mod(n-2**23,2**24)/2**24
@@ -210,38 +216,37 @@ for trial in range(trials): # number of times to do experiment
 			print('    >data :\n' + textwrap.indent(str(savedata), '          '))
 			print('    >end time: %s, avg elapse: %s'%(data[ip]['End Time'],data[ip]['Average Elapsed']))
 
-			pe.add_collector_element(ip, 'MOX Data', savedata)
-			pe.add_collector_element(ip, 'End Time',data[ip]['End Time'])
-			pe.add_collector_element(ip, 'Temperature Data', temp_data)
-			pe.add_collector_element(ip, 'Pressure Data', press_data)
+			pe.add_element_to_collector(trial_name, ip, 'MOX Data', savedata)
+			pe.add_element_to_collector(trial_name, ip, 'End Time', data[ip]['End Time'])
+			pe.add_element_to_collector(trial_name, ip, 'Temperature Data', temp_data)
+			pe.add_element_to_collector(trial_name, ip, 'Pressure Data', press_data)
 
-			if ip in pe.transmitters.keys():
+			if ip in pe.trials[trial_name]['transmitters'].keys():
 				tx_time_log = data[ip]['Tx Time Log']
-				pe.add_transmitter_element(ip, 'Time Log', tx_time_log)
-				pe.add_transmitter_element(ip, 'Message', message)
-				pe.add_transmitter_element(ip, 'Tx Pattern', tx_pattern_upsampled)
-				pe.add_transmitter_element(ip, 'Pulsewidth', pulsewidth)
-				pe.add_transmitter_element(ip, 'Padding', padding)
-		#=======================================================================
+				pe.add_element_to_transmitter(trial_name, ip, 'Time Log', tx_time_log)
+				pe.add_element_to_transmitter(trial_name, ip, 'Message', message)
+				pe.add_element_to_transmitter(trial_name, ip, 'Tx Pattern', tx_pattern_upsampled)
+				pe.add_element_to_transmitter(trial_name, ip, 'Pulsewidth', pulsewidth)
+				pe.add_element_to_transmitter(trial_name, ip, 'Padding', padding)
 
-		# add number of transmitters, collectors to experiment attributes
-		pe.set_attribute('# Collectors', responses_received)
-		pe.set_attribute('# Transmitters', len(transmitter_ip_list))
+#== Trials Done ================================================================
+pe.set_experiment_end_time()
+pe.add_attribute_to_experiment('# Collectors', responses_received)
+pe.add_attribute_to_experiment('# Transmitters', len(transmitter_ip_list))
 
-		# save log
-		try:
-			log_path, date_time = pl.save_file(pe)
-		except Exception as e:
-			print('error: ' + str(e) )
-			print (e.value)
+# save log
+try:
+	log_path, date_time = pl.save_file(pe)
+except Exception as e:
+	print('error: ' + str(e) )
+	print (e.value)
 
-		# # visualize returned data
-		# logname = log_path.split('/')[1]
-		# print('visualizing')
-		# dv.visualize(logname)
+# # visualize returned data
+# logname = log_path.split('/')[1]
+# print('visualizing')
+# dv.visualize(logname)
 
-	#== Cleanup ================================================================
-	print('Cleaning up...')
-	# kill processes on remote machines
-	pm.kill_processes(client_file)
-	print('press "q" to quit')
+print('Cleaning up...')
+# kill processes on remote machines
+pm.kill_processes(client_file)
+print('press "q" to quit')
