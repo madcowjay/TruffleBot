@@ -23,6 +23,8 @@ class pulser():
 			'7'     : serial.SEVENBITS,
 			'8'     : serial.EIGHTBITS
 		}[bytesize]
+		print('{} {} {} {} {} {}'.format(channel, port, baudrate, parity, stopbits, bytesize))
+		print('{} {} {} {} {} {}'.format(self.channel, self.port, self.baudrate, self.parity, self.stopbits, self.bytesize))
 
 	def openPort(self):
 		try:
