@@ -83,7 +83,6 @@ class PlumeLog:
 		self.logdirname = logdirname
 		self.h5filename = h5filename
 
-
 	def save_file(self, experiment):
 		# takes a PlumeExperiment object as an argument and saves to an .hdf5 dataset. the logfile is named the YearMonthDay.hdf5,
 		# the experiment is saved as a group within the .hdf5 named YearMonthDayTime and the collector/transmitter data is saved to groups within this
@@ -106,10 +105,14 @@ class PlumeLog:
 			f.attrs['Platform System']   = platform.system()
 			f.attrs['Platform Release']  = platform.release()
 			f.attrs['Platform Version']  = platform.version()
-			f.attrs['Created Timestamp'] = experiment.attributes['Start Time']
+
+			if 'Created Timestamp' not in f.attrs:
+				f.attrs['Created Timestamp'] = experiment.attributes['Start Time']
 			f.attrs['Updated Timestamp'] = experiment.attributes['End Time']
 
-			exper = '/' + date_time
+			len([n for n in f.keys()])
+
+			exper = '/Experiment #{}'.format(len([n for n in f.keys()])+1)
 			exp = f.create_group(exper)
 			debug_print('made experiment: {}'.format(exper))
 
@@ -145,7 +148,6 @@ class PlumeLog:
 				debug_print('  made subgroup: {}'.format(subgroup))
 
 				for collector in experiment.trials[trial]['collectors'].keys():
-					print(collector)
 					subsubgroup = subgroup + '/' + collector
 					grp = f.create_group(subsubgroup)
 					debug_print('    made subsubgroup: {}'.format(subsubgroup))
@@ -164,7 +166,6 @@ class PlumeLog:
 		print("All data saved to:",logname)
 		return '%s/%s'%(logdirname,logname), date_time
 
-
 	def read_dataset(self, logfile, dset_name):
 		# returns a dataset, must specify logfile and full path to dataset. Ex: read_dataset('20170614.hdf5','/20170614_120400/collector 1')
 		debug_print('read_dataset started')
@@ -179,9 +180,9 @@ class PlumeLog:
 		except:
 			print(dset_name,' not found.\n')
 
-
 	def read_all_data(self, logfile):
 		# returns a dictionary with all the data in the logfile, must specifiy logfilename
+		#TODO hasn't been updated with all the changes to the logfile
 		debug_print('read_all_data started')
 		with h5py.File('%s/%s'%(self.logdirname,logfile)) as f:
 			times = {}
@@ -207,14 +208,12 @@ class PlumeLog:
 					times[time][collector] = {'data':data, 'attributes':attributes}
 			return times
 
-
 	def get_experiments(self, logfile):
-		# returns all of the experiment times saved within the logfile. Ex: ['20170614_120400', '20170614_130600','20170614_220560' ]
+		# returns all of the experiment names saved within the logfile. Ex: ['20170614_120400', '20170614_130600','20170614_220560' ]
 		debug_print('get_experiments started')
 		with h5py.File('%s/%s'%(self.logdirname,logfile)) as f:
-			times = [n for n in f.keys()]
-			return times
-
+			names = [n for n in f.keys()]
+			return names
 
 	def delete(self, logfile, element):
 		# deleltes an element of the logfile, must specify full path. Ex: delete('20170614.hdf5','/20170614_120400/transmitter 1/TxData')

@@ -183,10 +183,10 @@ while not end_flag:
 
 		if commands[0] == b'collect':
 			sb.ledAct(2,2,4) # blink LED 2 at 4 Hz
-			sample_count = int(float(commands[1]))
-			samplerate   =     float(commands[2])
-			pulsewidth   =     float(commands[3])
-			spacing      = 1/samplerate
+			sample_count =   int(commands[1])
+			samplerate   = float(commands[2])
+			pulsewidth   = float(commands[3])
+			period     = 1/samplerate
 
             # init array to store data
 			mox_data   = np.zeros([sample_count, channels], dtype='int32')
@@ -200,13 +200,15 @@ while not end_flag:
 			if not t.isAlive():
 				t.start()
 				print('started pulser')
-			experiment_start_time = time.time()
+
+			rx_time_log = np.zeros([len(tx_pattern)], dtype='float32')
+			trial_start_time = time.time()
 			for i in range(sample_count):
-				start_time = time.time()
+				sample_start_time = time.time()
+				rx_time_log[i] = (sample_start_time - trial_start_time)
 				# collect samples from feach sensor on board
-				print('starting sample #%s'%i)
+				print('starting sample #{}'.format(i))
 				if include_MOX:
-					print('sampling MOXes')
 					sam_1 = ads.getADCsample(ads.MUX_AIN1, ads.MUX_AINCOM)
 					sam_2 = ads.getADCsample(ads.MUX_AIN2, ads.MUX_AINCOM)
 					sam_3 = ads.getADCsample(ads.MUX_AIN5, ads.MUX_AINCOM)
@@ -226,9 +228,7 @@ while not end_flag:
 						temp_data[i][index]  = lps[index].ReadTemp()
 						press_data[i][index] = lps[index].ReadPress()
 
-				elapsed_time = time.time() - start_time
-				elapsed.append(elapsed_time)
-				print('elapsed: %s, spacing: %s, sleep: %s'%(elapsed_time,spacing, spacing-elapsed_time))
+				sample_end_time = time.time()
 ## :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :)
 				# start_time = time.time()
 				# samps = ads.CycleReadADC(sel_list)
@@ -248,10 +248,11 @@ while not end_flag:
 				# ads.chip_release()
 				# elapsed_cycle_quick.append(cycle_time)
 ## :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :)
-				time.sleep(spacing-elapsed_time)
-				print("loop end")
-			# record end time
-			end_time = time.time()
+				#time.sleep(period-elapsed_time)
+				while time.time() - sample_start_time < period:
+					pass
+
+			trial_end_time = time.time()
 
 			# print('average elapsed cycle time:       ' + str(sum(elapsed_cycle)/float(len(elapsed_cycle))))
 			# print('average elapsed cycle quick time: ' + str(sum(elapsed_cycle_quick)/float(len(elapsed_cycle_quick))))
@@ -261,12 +262,13 @@ while not end_flag:
 			log['MOX Data']         = mox_data
 			log['Temperature Data'] = temp_data
 			log['Pressure Data']    = press_data
-			log['Start Time']       = experiment_start_time
-			log['End Time']         = end_time
-			log['Duration']         = end_time - experiment_start_time
-			log['Average Elapsed']  = sum(elapsed)/float(len(elapsed))
+			log['Start Time']       = trial_start_time
+			log['End Time']         = trial_end_time
+			log['Duration']         = trial_end_time - trial_start_time
+			#log['Average Elapsed']  = sum(elapsed)/float(len(elapsed))
 			log['TxPattern']        = tx_pattern
 			log['Tx Time Log']      = tx_time_log
+			log['Rx Time Log']      = rx_time_log
 
 			# serialize data to be sent over network
 			print(log)

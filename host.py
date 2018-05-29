@@ -23,6 +23,7 @@ config_file = options.configfile
 if options.debugFlag: os.environ['DEBUG'] = 'True'
 
 # load these after DEBUG status has been determined
+from   lib.debug_print import *
 import lib.savefile
 import lib.connect
 
@@ -36,7 +37,7 @@ trials      =   int(config.get('experiment-parameters', 'trials'))     # trials
 duration    =   int(config.get('experiment-parameters', 'duration'))   # seconds
 padding     =   int(config.get('experiment-parameters', 'padding'))    # pulses of silence at beginning and end
 pulsewidth  = float(config.get('experiment-parameters', 'pulsewidth')) # seconds
-samplerate  = float(config.get('experiment-parameters', 'samplerate')) # hz
+samplerate  =   int(config.get('experiment-parameters', 'samplerate')) # hz
 
 print('Starting experiment with the following attributes:')
 print('\ttrials:                   {} runs'.format(trials))
@@ -137,9 +138,11 @@ for transmitter in transmitter_ip_list:
 time.sleep(1)
 
 pe.set_experiment_start_time()
+t_stop = threading.Event()
+t = threading.Thread(target=input_thread, args=(t_stop,))
 
 #== Main Loop ==================================================================
-for trial in range(1, trials+1): # number of identical trials to run
+for trial in range(1, trials+1): # MATLAB indexed
 	print('\n*** trial %s started ***' %(trial))
 	trial_name = 'Trial #{}'.format(trial)
 	pe.add_trial_to_experiment(trial_name)
@@ -157,8 +160,8 @@ for trial in range(1, trials+1): # number of identical trials to run
 
 	#===========================================================================
 	# send command to the client to collect data
-	sample_count = len(tx_pattern)*pulsewidth*samplerate
-	command = 'collect %s %s %s'%(sample_count, samplerate, pulsewidth)
+	sample_count = int(len(tx_pattern)*pulsewidth*samplerate)
+	command = 'collect {} {} {}'.format(sample_count, samplerate, pulsewidth)
 	s.sendto(command.encode('utf-8'), dest)
 	print('sending command: ' + command)
 
@@ -166,8 +169,6 @@ for trial in range(1, trials+1): # number of identical trials to run
 	start_time = time.time()
 	print(time.strftime('%H:%M:%S',time.localtime(start_time)) + ' : listener started, press "q" to quit')
 
-	t_stop = threading.Event()
-	t = threading.Thread(target=input_thread, args=(t_stop,))
 	if not t.isAlive():
 		t.start()
 
@@ -204,7 +205,7 @@ for trial in range(1, trials+1): # number of identical trials to run
 
 		# save data in hdf5 file, scale the data
 		for ip in pe.trials[trial_name]['collectors'].keys():
-			print('ip: {}'.format(ip))
+			debug_print('ip: {}'.format(ip))
 			serial = ip[7:]
 			temp_data  = data[ip]['Temperature Data']
 			press_data = data[ip]['Pressure Data']
@@ -213,8 +214,8 @@ for trial in range(1, trials+1): # number of identical trials to run
 			for n in np.nditer(savedata, op_flags=['readwrite']):
 				 n[...] = np.mod(n-2**23,2**24)/2**24
 
-			print('    >data :\n' + textwrap.indent(str(savedata), '          '))
-			print('    >end time: %s, avg elapse: %s'%(data[ip]['End Time'],data[ip]['Average Elapsed']))
+			debug_print('    >MOX data :\n' + textwrap.indent(str(savedata), '          '))
+			debug_print('    >end time: %s, avg elapse: %s'%(data[ip]['End Time'],data[ip]['Average Elapsed']))
 
 			pe.add_element_to_collector(trial_name, ip, 'MOX Data', savedata)
 			pe.add_element_to_collector(trial_name, ip, 'End Time', data[ip]['End Time'])
