@@ -209,7 +209,7 @@ while not end_flag:
 				t.start()
 				print('started pulser')
 
-			rx_time_log = np.zeros([len(tx_pattern)], dtype='float32')
+			rx_time_log = np.zeros([sample_count], dtype='float32')
 			trial_start_time = time.time()
 			for i in range(sample_count):
 				sample_start_time = time.time()
