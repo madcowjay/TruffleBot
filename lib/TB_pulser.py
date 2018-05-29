@@ -2,12 +2,27 @@ import serial, time
 
 class pulser():
 	def __init__(self, channel, port, baudrate, parity, stopbits, bytesize):
-		self.channel=channel
-		self.port=port
-		self.baudrate=baudrate
-		self.parity=parity
-		self.stopbits=stopbits
-		self.bytesize=bytesize
+		self.channel  = channel
+		self.port     = port
+		self.baudrate = baudrate
+		self.parity   = {
+			'NONE'  : serial.PARITY_NONE,
+			'EVEN'  : serial.PARITY_EVEN,
+			'ODD'   : serial.PARITY_ODD,
+			'MARK'  : serial.PARITY_MARK,
+			'SPACE' : serial.PARITY_SPACE
+		}[parity]
+		self.stopbits = {
+			'1'     : serial.STOPBITS_ONE,
+			'1.5'   : serial.STOPBITS_ONE_POINT_FIVE,
+			'2'     : serial.STOPBITS_TWO
+		}[stopbits]
+		self.bytesize = {
+			'5'     : serial.FIVEBITS
+			'6'     : serial.SIXBITS
+			'7'     : serial.SEVENBITS
+			'8'     : serial.EIGHTBITS
+		}[bytesize]
 
 	def openPort(self):
 		try:

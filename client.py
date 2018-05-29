@@ -1,4 +1,4 @@
-import os, sys, time, socket, pickle, threading, configparser, ast
+import os, sys, time, socket, pickle, threading, configparser
 import numpy as np
 import wiringpi as wp
 from   multiprocessing import Queue
@@ -70,11 +70,11 @@ include_press_temp = config.getboolean('include-sensor-types', 'press/temp')
 
 
 channel  = int(config.get('pulser', 'channel'))
-port     = ast.literal_eval(config.get('pulser', 'port'))
+port     = config.get('pulser', 'port')
 baudrate = int(config.get('pulser', 'baudrate'))
-parity   = ast.literal_eval(config.get('pulser', 'parity'))
-stopbits = ast.literal_eval(config.get('pulser', 'stopbits'))
-bytesize = ast.literal_eval(config.get('pulser', 'bytesize'))
+parity   = config.get('pulser', 'parity')
+stopbits = config.get('pulser', 'stopbits')
+bytesize = config.get('pulser', 'bytesize')
 
 sb = lib.sensor_board.SENSOR_BOARD(LED1_PIN, LED2_PIN, TX0_PIN, TX1_PIN)
 sb.ledAct(1,0) # turn them both off to start
