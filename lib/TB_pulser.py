@@ -5,26 +5,21 @@ class pulser():
 		self.channel  = channel
 		self.port     = port
 		self.baudrate = baudrate
-		self.parity   = {
-			'NONE'  : serial.PARITY_NONE,
-			'EVEN'  : serial.PARITY_EVEN,
-			'ODD'   : serial.PARITY_ODD,
-			'MARK'  : serial.PARITY_MARK,
-			'SPACE' : serial.PARITY_SPACE
-		}[parity]
-		self.stopbits = {
-			'1'     : serial.STOPBITS_ONE,
-			'1.5'   : serial.STOPBITS_ONE_POINT_FIVE,
-			'2'     : serial.STOPBITS_TWO
-		}[stopbits]
-		self.bytesize = {
-			'5'     : serial.FIVEBITS,
-			'6'     : serial.SIXBITS,
-			'7'     : serial.SEVENBITS,
-			'8'     : serial.EIGHTBITS
-		}[bytesize]
-		print('{} {} {} {} {} {}'.format(channel, port, baudrate, parity, stopbits, bytesize))
-		print('{} {} {} {} {} {}'.format(self.channel, self.port, self.baudrate, self.parity, self.stopbits, self.bytesize))
+		
+		if   parity == 'NONE'  : self.parity = serial.PARITY_NONE
+		elif parity == 'EVEN'  : self.parity = serial.PARITY_EVEN
+		elif parity == 'ODD'   : self.parity = serial.PARITY_ODD
+		elif parity == 'MARK'  : self.parity = serial.PARITY_MARK
+		elif parity == 'SPACE' : self.parity = serial.PARITY_SPACE
+
+		if   stopbits == '1'   : self.stopbits = serial.STOPBITS_ONE
+		elif stopbits == '1.5' : serial.STOPBITS_ONE_POINT_FIVE
+		elif stopbits == '2'   : serial.STOPBITS_TWO
+
+		if   bytesize == '5'   : serial.FIVEBITS
+		elif bytesize == '6'   : serial.SIXBITS
+		elif bytesize == '7'   : serial.SEVENBITS
+		elif bytesize == '8'   : serial.EIGHTBITS
 
 	def openPort(self):
 		try:
