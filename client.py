@@ -236,6 +236,9 @@ while not end_flag:
 						press_data[i][index] = lps[index].ReadPress()
 
 				sample_end_time = time.time()
+				while time.time() - trial_start_time < (i+1)*period:
+					pass
+			trial_end_time = time.time()
 ## :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :)
 				# start_time = time.time()
 				# samps = ads.CycleReadADC(sel_list)
@@ -256,9 +259,7 @@ while not end_flag:
 				# elapsed_cycle_quick.append(cycle_time)
 ## :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :)
 				#time.sleep(period-elapsed_time)
-				while time.time() - sample_start_time < (i+1)*period:
-					pass
-			trial_end_time = time.time()
+
 
 			# print('average elapsed cycle time:       ' + str(sum(elapsed_cycle)/float(len(elapsed_cycle))))
 			# print('average elapsed cycle quick time: ' + str(sum(elapsed_cycle_quick)/float(len(elapsed_cycle_quick))))
