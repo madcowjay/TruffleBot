@@ -35,8 +35,9 @@ press_data  = h5read(filename, [collector_name   '/Pressure Data']);
 temp_data   = h5read(filename, [collector_name   '/Temperature Data']);
 tx_time_log = h5read(filename, [transmitter_name '/Tx Time Log']);
 tx_pattern  = h5read(filename, [transmitter_name '/Tx Pattern']);
+chemical    = info.Groups(experiment).Attributes(2).Value{1};
 
-fprintf('Loading experiment %d/%d, trial %d/%d from %s.\n', experiment, experiment_count, trial, trial_count, file);
+fprintf('Loading experiment %d/%d, trial %d/%d from %s which used %s.\n', experiment, experiment_count, trial, trial_count, file, chemical);
 
 
 
