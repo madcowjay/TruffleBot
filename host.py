@@ -236,6 +236,8 @@ for trial in range(1, trials+1): # MATLAB indexed
 pe.set_experiment_end_time()
 pe.add_attribute_to_experiment('# Collectors', responses_received)
 pe.add_attribute_to_experiment('# Transmitters', len(transmitter_ip_list))
+pe.add_attribute_to_experiment('Include MOX', include_MOX)
+pe.add_attribute_to_experiment('Include Press/Temp', include_press_temp)
 
 # save log
 try:

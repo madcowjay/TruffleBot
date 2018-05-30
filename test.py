@@ -412,7 +412,10 @@ def pressure_menu():
 		elif c == '3':
 			sensor = '3'
 			inp = input("How many samples ('c' for continuous)? ")
-			read_lps(inp, [3])
+			if inp == 'b':
+				lps[3].Boot()
+			else:
+				read_lps(inp, [3])
 		elif c == '4':
 			sensor = '4'
 			inp = input("How many samples ('c' for continuous)? ")

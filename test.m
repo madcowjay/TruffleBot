@@ -17,17 +17,17 @@ experiment_count = numel(info.Groups); % get number of experiments
 experiment = experiment_count; %Last run in file
 exp_name = info.Groups(experiment).Name;
 
-trial_count = numel(info.Groups(experiment_count).Groups)
+trial_count = numel(info.Groups(experiment_count).Groups);
 trial = trial_count;
-trial_name = info.Groups(experiment).Groups(trial).Name
+trial_name = info.Groups(experiment).Groups(trial).Name;
 
-collector_count = numel(info.Groups(experiment).Groups(trial).Groups(1).Groups)
-collector = collector_count
-collector_name = info.Groups(experiment).Groups(trial).Groups(1).Groups(collector).Name
+collector_count = numel(info.Groups(experiment).Groups(trial).Groups(1).Groups);
+collector = collector_count;
+collector_name = info.Groups(experiment).Groups(trial).Groups(1).Groups(collector).Name;
 
-transmitter_count = numel(info.Groups(experiment).Groups(trial).Groups(2).Groups)
-transmitter = transmitter_count
-transmitter_name = info.Groups(experiment).Groups(trial).Groups(2).Groups(transmitter).Name
+transmitter_count = numel(info.Groups(experiment).Groups(trial).Groups(2).Groups);
+transmitter = transmitter_count;
+transmitter_name = info.Groups(experiment).Groups(trial).Groups(2).Groups(transmitter).Name;
 
 %tx_time_log = info.Groups(experiment).Groups(trial).Groups(2).Groups.DataSets('Tx Time Log')
 
