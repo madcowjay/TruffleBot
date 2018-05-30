@@ -8,8 +8,8 @@ for j = 1:length(d)
     dd(j) = d(j).datenum;
 end
 [~, idx]= max(dd);
-file = d(idx).name
-filename = strcat('log/', file)
+file = d(idx).name;
+filename = strcat('log/', file);
 
 %process it
 info = h5info(filename); % get group information
@@ -29,11 +29,17 @@ transmitter_count = numel(info.Groups(experiment).Groups(trial).Groups(2).Groups
 transmitter = transmitter_count;
 transmitter_name = info.Groups(experiment).Groups(trial).Groups(2).Groups(transmitter).Name;
 
-%tx_time_log = info.Groups(experiment).Groups(trial).Groups(2).Groups.DataSets('Tx Time Log')
+rx_time_log = h5read(filename, [collector_name   '/Rx Time Log']);
+mox_data    = h5read(filename, [collector_name   '/MOX Data']);
+press_data  = h5read(filename, [collector_name   '/Pressure Data']);
+temp_data   = h5read(filename, [collector_name   '/Temperature Data']);
+tx_time_log = h5read(filename, [transmitter_name '/Tx Time Log']);
+tx_pattern  = h5read(filename, [transmitter_name '/Tx Pattern']);
+
+fprintf('Loading experiment %d/%d, trial %d/%d from %s.\n', experiment, experiment_count, trial, trial_count, file);
 
 
 
-fprintf('Loading run %d/%d. \n', experiment, experiment_count);
 %sensor={'Board #0000000068c200c3','Board #00000000d7ef3031'};
 %flow = h5read(filename,strcat(name,'/SourceData/Source 1/Flowrate'));
 

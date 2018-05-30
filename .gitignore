@@ -19,6 +19,7 @@ ehthumbs.db
 Thumbs.db
 .AppleDouble
 
-# Python intermediates #
+# Programming intermediates #
 ########################
 *.pyc
+*.m~

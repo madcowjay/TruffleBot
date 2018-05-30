@@ -88,7 +88,7 @@ def pulser_thread(tx_pattern, pulsewidth, tx_time_log):
 		current_time = time.time()
 		tx_time_log[i] = (current_time - start_time)
 		p.setVoltage(tx_pattern[i] * 12) # set voltage to bits * 12V
-		while time.time() - current_time < pulsewidth:
+		while time.time() - start_time < (i+1)*pulsewidth:
 			pass
 	p.setOutput("OFF")
 	p.closePort()
@@ -257,9 +257,8 @@ while not end_flag:
 				# elapsed_cycle_quick.append(cycle_time)
 ## :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :)
 				#time.sleep(period-elapsed_time)
-				while time.time() - sample_start_time < period:
+				while time.time() - sample_start_time < (i+1)*period:
 					pass
-
 			trial_end_time = time.time()
 
 			# print('average elapsed cycle time:       ' + str(sum(elapsed_cycle)/float(len(elapsed_cycle))))
