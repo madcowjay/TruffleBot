@@ -68,7 +68,6 @@ broadcast_port = int(config.get('ports', 'broadcast_port'))
 include_MOX        = config.getboolean('include-sensor-types', 'MOX')
 include_press_temp = config.getboolean('include-sensor-types', 'press/temp')
 
-
 channel  = int(config.get('pulser', 'channel'))
 port     = config.get('pulser', 'port')
 baudrate = int(config.get('pulser', 'baudrate'))
@@ -137,7 +136,7 @@ for cs in all_cs:
 lps = []
 for index in range(len(all_cs)):
 	lps.append(lib.pylps22hb.LPS22HB(LPS_SPI_CHANNEL, LPS_SPI_FREQUENCY, all_cs[index]))
-	lps[index].OneShot() # wake up the sensors
+	lps[index].Boot() # wake up the sensors
 
 # pulsing queue
 pulseq = Queue()
