@@ -371,7 +371,7 @@ def pressure_menu():
 		print(fm+ '---------------------------------------------------------------------------------------------' +sr)
 		print('   a: ADC MENU      ' +bm+fbk+ 'PRESSURE MENU' +sr+ '   d: DAC MENU   z: BOARD MENU   c: CONFIG MENU   x: EXIT        ')
 		print('')
-		print("                       {0}m{1}: toggle mode    {0}p{1}: set continuous polling rate".format(fm, sr))
+		print("            {0}m{1}: toggle mode    {0}p{1}: set continuous polling rate    {0}b{1}: boot".format(fm, sr))
 		print('      {0}0{1}: test #0    {0}1{1}: test #1    {0}2{1}: test #2    {0}3{1}: test #3    {0}4{1}: test #4    {0}5{1}: test #5'.format(fm, sr))
 		if lps_mode == 0:
 			print('      {0}6{1}: test #6    {0}7{1}: test #7           {0}l{1}: test all           {0}r{1}: repeat previous test'.format(fm, sr))
@@ -397,6 +397,13 @@ def pressure_menu():
 			else: lps_mode = 0
 		elif c == 'p':
 			lps_rate  = float(input('New frequency:'))
+		elif c == 'b':
+			try:
+				inp = int(input('Boot which sensor?'))
+				lps[inp].Boot()
+				time.sleep(.1)
+			except:
+				print('Invalid Entry')
 		elif c == '0':
 			sensor = '0'
 			inp = input("How many samples ('c' for continuous)? ")
@@ -412,10 +419,7 @@ def pressure_menu():
 		elif c == '3':
 			sensor = '3'
 			inp = input("How many samples ('c' for continuous)? ")
-			if inp == 'b':
-				lps[3].Boot()
-			else:
-				read_lps(inp, [3])
+			read_lps(inp, [3])
 		elif c == '4':
 			sensor = '4'
 			inp = input("How many samples ('c' for continuous)? ")
