@@ -33,6 +33,7 @@ config.read(config_file)
 print('\nLoading config file: ' + config_file + '\n')
 
 # set attributes
+voltage     =   int(config.get('pulser', 'voltage'))
 trials      =   int(config.get('experiment-parameters', 'trials'))     # trials
 duration    =   int(config.get('experiment-parameters', 'duration'))   # seconds
 padding     =   int(config.get('experiment-parameters', 'padding'))    # pulses of silence at beginning and end
@@ -40,6 +41,7 @@ pulsewidth  = float(config.get('experiment-parameters', 'pulsewidth')) # seconds
 samplerate  =   int(config.get('experiment-parameters', 'samplerate')) # hz
 
 print('Starting experiment with the following attributes:')
+print('\t**Pulser VOLTAGE**:       {} V'.format(voltage))
 print('\ttrials:                   {} runs'.format(trials))
 print('\tduration:                 {} seconds per run'.format(duration))
 print('\tpadding:                  {} seconds'.format(padding))

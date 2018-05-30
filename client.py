@@ -74,6 +74,7 @@ baudrate = int(config.get('pulser', 'baudrate'))
 parity   = config.get('pulser', 'parity')
 stopbits = config.get('pulser', 'stopbits')
 bytesize = config.get('pulser', 'bytesize')
+voltage  = int(config.get('pulser', 'voltage'))
 
 sb = lib.sensor_board.SENSOR_BOARD(LED1_PIN, LED2_PIN, TX0_PIN, TX1_PIN)
 sb.ledAct(1,0) # turn them both off to start
@@ -86,7 +87,7 @@ def pulser_thread(tx_pattern, pulsewidth, tx_time_log):
 	for i in range(len(tx_pattern)):
 		current_time = time.time()
 		tx_time_log[i] = (current_time - start_time)
-		p.setVoltage(tx_pattern[i] * 12) # set voltage to bits * 12V
+		p.setVoltage(tx_pattern[i] * voltage) # set voltage to bits * voltage
 		while time.time() - start_time < (i+1)*pulsewidth:
 			pass
 	p.setOutput("OFF")
