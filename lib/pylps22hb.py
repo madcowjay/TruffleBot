@@ -141,11 +141,11 @@ class LPS22HB:
 	def __delayMicroseconds(self, delayus):
 		wp.delayMicroseconds(delayus)
 
-	def __chip_select(self):
+	def ChipSelect(self):
 		debug_print('selecting pin ' + str(self.CS_PIN))
 		wp.digitalWrite(self.CS_PIN, wp.LOW)
 
-	def __chip_release(self):
+	def ChipRelease(self):
 		debug_print('releasing pin ' + str(self.CS_PIN))
 		wp.digitalWrite(self.CS_PIN, wp.HIGH)
 
@@ -167,11 +167,11 @@ class LPS22HB:
 		:returns: numeric identifier of the LPS chip
 		"""
 		debug_print("ReadID")
-		self.__chip_select()
+		self.ChipSelect()
 		byte1 = self.READ_MASK | self.REG_WHO_AM_I
 		byte2 = self.DUMMY_BYTE
 		result = self.__SendBytes(bytearray((byte1,byte2)))
-		self.__chip_release()
+		self.ChipRelease()
 		myid = hex((result[1]))
 		debug_print("myid = " + myid)
 		return (myid)
@@ -184,9 +184,9 @@ class LPS22HB:
 		debug_print("ReadRegisters")
 		byte1 = self.READ_MASK | self.REG_INTERRUPT_CFG
 		byte2 = self.DUMMY_BYTE
-		self.__chip_select()
+		self.ChipSelect()
 		result = self.__SendBytes(bytearray([byte1]+41*[byte2]))
-		self.__chip_release()
+		self.ChipRelease()
 		index = 0x0A
 		skip_registers = [0x0A, 0x0E, 0x13] + list(range(0x1B, 0x25)) + list(range(0x2D, 0x33))
 		for reg in result:
@@ -207,9 +207,9 @@ class LPS22HB:
 
 	def ReadTemp(self):
 		debug_print('ReadTemp')
-		self.__chip_select()
+		self.ChipSelect()
 		result = self.__SendBytes(bytearray([self.READ_MASK | self.REG_TEMP_OUT_L] + 2*[self.DUMMY_BYTE]))
-		self.__chip_release()
+		self.ChipRelease()
 		temp_c = (256*float(result[2]) + float(result[1]))/100
 		temp_f = 9*temp_c/5 + 32
 		debug_print('temperature in celcius: ' + str(temp_c) + ', temperature in farenheit: ' + str(temp_f))
@@ -217,9 +217,9 @@ class LPS22HB:
 
 	def ReadPress(self):
 		debug_print('ReadPress')
-		self.__chip_select()
+		self.ChipSelect()
 		result = self.__SendBytes(bytearray([self.READ_MASK | self.REG_PRESS_OUT_XL] + 3*[self.DUMMY_BYTE]))
-		self.__chip_release()
+		self.ChipRelease()
 		press_hPa = (256*256*float(result[3]) + 256*float(result[2]) + float(result[1]))/4096
 		press_atm = .000987 * press_hPa
 		debug_print('pressure in hPa: ' + str(press_hPa) + ', pressure in atmospheres: ' + str(press_atm))
@@ -227,21 +227,21 @@ class LPS22HB:
 
 	def OneShot(self):
 		debug_print('OneShot')
-		self.__chip_select()
+		self.ChipSelect()
 		result = self.__SendBytes(bytearray([self.WRITE_MASK | self.REG_CTRL_REG2]+[0x11]))
-		self.__chip_release()
+		self.ChipRelease()
 		return(result)
 
 	def SWReset(self):
 		debug_print('SWReset')
-		self.__chip_select()
+		self.ChipSelect()
 		result = self.__SendBytes(bytearray([self.WRITE_MASK | self.REG_CTRL_REG2]+[0x14]))
-		self.__chip_release()
+		self.ChipRelease()
 		return(result)
 
 	def Boot(self):
 		debug_print('Boot')
-		self.__chip_select()
+		self.ChipSelect()
 		result = self.__SendBytes(bytearray([self.WRITE_MASK | self.REG_CTRL_REG2]+[0x90]))
-		self.__chip_release()
+		self.ChipRelease()
 		return(result)

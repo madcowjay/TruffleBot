@@ -109,11 +109,11 @@ class DAC8532:
 		debug_print('SPI success: ' + str(spi_success))
 
 
-	def __chip_select(self):
+	def __ChipSelect(self):
 		wp.digitalWrite(self.CS_PIN, wp.LOW)
 
 
-	def __chip_release(self):
+	def __ChipRelease(self):
 		wp.digitalWrite(self.CS_PIN, wp.HIGH)
 
 
@@ -133,42 +133,42 @@ class DAC8532:
 	def SendDACAValue(self, newValue):
 		"Send DAC A a new value between 0 and 2^16-1"
 		debug_print('Send DAC A: ' + str(int(newValue)).rjust(16))
-		self.__chip_select() #only needed if not using CE0 or CE1, but doesn't hurt otherwise
+		self.__ChipSelect() #only needed if not using CE0 or CE1, but doesn't hurt otherwise
 		byte1 = ((self.LOAD_DACA | self.BUFFERSELECT_A) >> 16) & 0xFF
 		byte2 = (int(newValue) >> 8) & 0xFF
 		byte3 = (int(newValue)     ) & 0xFF
 		self.__SendBytes(bytearray((byte1,byte2,byte3)))
-		self.__chip_release() #only needed if not using CE0 or CE1, but doesn't hurt otherwise
+		self.__ChipRelease() #only needed if not using CE0 or CE1, but doesn't hurt otherwise
 
 
 	def SendDACBValue(self, newValue):
 		"Send DAC B a new value between 0 and 2^16-1"
 		debug_print('Send DAC B: ' + str(int(newValue)).rjust(16))
-		self.__chip_select() #only needed if not using CE0 or CE1, but doesn't hurt otherwise
+		self.__ChipSelect() #only needed if not using CE0 or CE1, but doesn't hurt otherwise
 		byte1 = ((self.LOAD_DACB | self.BUFFERSELECT_B) >> 16) & 0xFF
 		byte2 = (int(newValue) >> 8) & 0xFF
 		byte3 = (int(newValue)     ) & 0xFF
 		self.__SendBytes(bytearray((byte1,byte2,byte3)))
-		self.__chip_release() #only needed if not using CE0 or CE1, but doesn't hurt otherwise
+		self.__ChipRelease() #only needed if not using CE0 or CE1, but doesn't hurt otherwise
 
 
 	def PowerDownDACA(self):
 		"Powers down DAC A to high impedance"
 		debug_print('Powering down DAC A')
-		self.__chip_select() #only needed if not using CE0 or CE1, but doesn't hurt otherwise
+		self.__ChipSelect() #only needed if not using CE0 or CE1, but doesn't hurt otherwise
 		byte1 = (((self.LOAD_DACA | self.BUFFERSELECT_A | self.PD1 | self.PD0) >> 16) & 0xFF)
 		byte2 = (0 & 0xFF)
 		byte3 = (0 & 0xFF)
 		self.__SendBytes(bytearray((byte1,byte2,byte3)))
-		self.__chip_release() #only needed if not using CE0 or CE1, but doesn't hurt otherwise
+		self.__ChipRelease() #only needed if not using CE0 or CE1, but doesn't hurt otherwise
 
 
 	def PowerDownDACB(self):
 		"Powers down DAC B to high impedance"
 		debug_print('Powering down DAC B')
-		self.__chip_select() #only needed if not using CE0 or CE1, but doesn't hurt otherwise
+		self.__ChipSelect() #only needed if not using CE0 or CE1, but doesn't hurt otherwise
 		byte1 = (((self.LOAD_DACB | self.BUFFERSELECT_B | self.PD1 | self.PD0) >> 16) & 0xFF)
 		byte2 = (0 & 0xFF)
 		byte3 = (0 & 0xFF)
 		self.__SendBytes(bytearray((byte1,byte2,byte3)))
-		self.__chip_release() #only needed if not using CE0 or CE1, but doesn't hurt otherwise
+		self.__ChipRelease() #only needed if not using CE0 or CE1, but doesn't hurt otherwise

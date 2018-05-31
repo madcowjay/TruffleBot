@@ -36,7 +36,8 @@ print('\nLoading config file: ' + config_file + '\n')
 voltage     =   int(config.get('pulser', 'voltage'))
 trials      =   int(config.get('experiment-parameters', 'trials'))     # trials
 duration    =   int(config.get('experiment-parameters', 'duration'))   # seconds
-padding     =   int(config.get('experiment-parameters', 'padding'))    # pulses of silence at beginning and end
+prepadding  =   int(config.get('experiment-parameters', 'padding'))    # pulses of silence at beginning end
+postpadding =   int(config.get('experiment-parameters', 'padding'))    # pulses of silence at the end
 pulsewidth  = float(config.get('experiment-parameters', 'pulsewidth')) # seconds
 samplerate  =   int(config.get('experiment-parameters', 'samplerate')) # hz
 
@@ -44,7 +45,8 @@ print('Starting experiment with the following attributes:')
 print('\t**Pulser VOLTAGE**:       {} V'.format(voltage))
 print('\ttrials:                   {} runs'.format(trials))
 print('\tduration:                 {} seconds per run'.format(duration))
-print('\tpadding:                  {} seconds'.format(padding))
+print('\tprepadding:               {} seconds'.format(prepadding))
+print('\tpostpadding:              {} seconds'.format(postpadding))
 print('\tpulsewidth                {} second'.format(pulsewidth))
 print('\tsamplerate:               {} Hz'.format(samplerate))
 
@@ -122,9 +124,9 @@ if randomFlag:
 else:
 	message = np.asarray(message_array)
 
-pad        = np.zeros(padding,     dtype='uint8')
-tx_pattern = np.concatenate([pad, message, pad])
-tx_pattern_upsampled = tx_pattern.repeat(pulsewidth * samplerate)
+prepad     = np.zeros(prepadding,  dtype='uint8')
+postpad    = np.zeros(postpadding, dtype='uint8')
+tx_pattern = np.concatenate([prepad, message, postpad])
 
 print('\tmessage:                  ' + str(message))
 print('\ttx_pattern:               ' + str(tx_pattern))
@@ -146,7 +148,7 @@ t = threading.Thread(target=input_thread, args=(t_stop,))
 #== Main Loop ==================================================================
 for trial in range(1, trials+1): # MATLAB indexed
 	print('\n*** trial %s started ***' %(trial))
-	trial_name = 'Trial #{:03}'.format(trial)
+	trial_name = 'Trial #{:0{}}'.format(trial, len(str(trials+1)))
 	pe.add_trial_to_experiment(trial_name)
 	pe.set_trial_start_time(trial_name)
 
@@ -230,7 +232,7 @@ for trial in range(1, trials+1): # MATLAB indexed
 				tx_time_log = data[ip]['Tx Time Log']
 				pe.add_element_to_transmitter(trial_name, ip, 'Tx Time Log', tx_time_log)
 				pe.add_element_to_transmitter(trial_name, ip, 'Message', message)
-				pe.add_element_to_transmitter(trial_name, ip, 'Tx Pattern', tx_pattern_upsampled)
+				pe.add_element_to_transmitter(trial_name, ip, 'Tx Pattern', tx_pattern)
 				pe.add_element_to_transmitter(trial_name, ip, 'Pulsewidth', pulsewidth)
 				pe.add_element_to_transmitter(trial_name, ip, 'Padding', padding)
 

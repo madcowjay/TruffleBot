@@ -277,11 +277,11 @@ class ADS1256:
 		wp.delayMicroseconds(delayus)
 
 
-	def chip_select(self):
+	def ChipSelect(self):
 		wp.digitalWrite(self.CS_PIN, wp.LOW)
 
 
-	def chip_release(self):
+	def ChipRelease(self):
 		wp.digitalWrite(self.CS_PIN, wp.HIGH)
 
 
@@ -358,11 +358,11 @@ class ADS1256:
 		"""
 		debug_print("ReadReg")
 
-		self.chip_select()
+		self.ChipSelect()
 		self.__SendBytes(bytearray((self.CMD_RREG | start_reg, 0x00 | num_to_read-1)))
 		self.DataDelay()
 		read = self.__SendBytes(bytearray(num_to_read*(0x00,)))
-		self.chip_release()
+		self.ChipRelease()
 
 		return read
 
@@ -388,7 +388,7 @@ class ADS1256:
 		"""
 		debug_print("WriteReg")
 
-		self.chip_select()
+		self.ChipSelect()
 
 		byte1 = self.CMD_WREG | start_register  # Tell the ADS chip which register to start writing at
 		byte2 = 0x00                            # Tell the ADS chip how many additional registers to write
@@ -396,13 +396,13 @@ class ADS1256:
 
 		self.__SendBytes(bytearray((byte1,byte2,byte3)))
 
-		self.chip_release()
+		self.ChipRelease()
 
 
 	def ConfigADC(self):
 		debug_print("configuring ADC")
 
-		self.chip_select()
+		self.ChipSelect()
 
 		byte1 = self.CMD_WREG | 0x00        # start write at addr 0x00
 		byte2 = self.REG_DRATE              # end write at addr REG_DRATE
@@ -413,7 +413,7 @@ class ADS1256:
 
 		self.__SendBytes(bytearray((byte1,byte2,byte3,byte4,byte5,byte6)))
 
-		self.chip_release()
+		self.ChipRelease()
 
 		self.DataDelay()
 
@@ -421,7 +421,7 @@ class ADS1256:
 	def SetInputMux(self, possel, negsel):
 		debug_print('setting mux position')
 
-		self.chip_select()
+		self.ChipSelect()
 
 		byte1 = self.CMD_WREG | 0x01
 		byte2 = 0x00
@@ -429,13 +429,13 @@ class ADS1256:
 
 		self.__SendBytes(bytearray((byte1,byte2,byte3)))
 
-		self.chip_release()
+		self.ChipRelease()
 
 
 	def SetInputMux_quick(self, possel, negsel):
 		debug_print('setting mux position (quickly (no chip select or release))')
 
-		#self.chip_select()
+		#self.ChipSelect()
 
 		byte1 = self.CMD_WREG | 0x01
 		byte2 = 0x00
@@ -443,28 +443,28 @@ class ADS1256:
 
 		self.__SendBytes(bytearray((byte1,byte2,byte3)))
 
-		#self.chip_release()
+		#self.ChipRelease()
 
 
 	def SyncAndWakeup(self):
 		debug_print('sync+wakeup')
 
-		self.chip_select()
+		self.ChipSelect()
 		self.__SendBytes(bytearray((self.CMD_SYNC,)))
 		self.__delayMicroseconds(4)
 		self.__SendBytes(bytearray((self.CMD_WAKEUP,)))
-		self.chip_release()
+		self.ChipRelease()
 		self.__delayMicroseconds(4)
 
 
 	def SyncAndWakeup_quick(self):
 		debug_print('sync+wakeup (quickly (no chip select or release))')
 
-		#self.chip_select()
+		#self.ChipSelect()
 		self.__SendBytes(bytearray((self.CMD_SYNC,)))
 		self.__delayMicroseconds(4)
 		self.__SendBytes(bytearray((self.CMD_WAKEUP,)))
-		#self.chip_release()
+		#self.ChipRelease()
 		#self.__delayMicroseconds(4)
 
 
@@ -494,12 +494,12 @@ class ADS1256:
 		"""
 		debug_print('ReadADC')
 
-		self.chip_select()
+		self.ChipSelect()
 		self.WaitDRDY()
 		self.__SendBytes(bytearray((self.CMD_RDATA,)))
 		self.DataDelay()
 		result = self.__SendBytes(bytearray(3*(0x00,))) # The result is 24 bits
-		self.chip_release()
+		self.ChipRelease()
 
 		return (result[0] << 16) + (result[1] << 8) + result[2]
 
@@ -519,12 +519,12 @@ class ADS1256:
 		"""
 		debug_print('ReadADC (quickly (no chip select or release))')
 
-		# self.chip_select()
+		# self.ChipSelect()
 		# self.WaitDRDY()
 		self.__SendBytes(bytearray((self.CMD_RDATA,)))
 		self.DataDelay()
 		result = self.__SendBytes(bytearray(3*(0x00,))) # The result is 24 bits
-		# self.chip_release()
+		# self.ChipRelease()
 
 		return (result[0] << 16) + (result[1] << 8) + result[2]
 
@@ -538,7 +538,7 @@ class ADS1256:
 		"""
 
 		data = np.zeros(len(sel_list), dtype='int32') #create an array to hold the sample vars
-		self.chip_select()
+		self.ChipSelect()
 
 		self.SetInputMux_quick(sel_list[0][0],sel_list[0][1])
 		for i in range(1, len(sel_list)):
@@ -550,7 +550,7 @@ class ADS1256:
 			data[i-1] = self.ReadADC_quick()
 		self.WaitDRDY()
 		data[i] = self.ReadADC_quick()
-		self.chip_release()
+		self.ChipRelease()
 		return data
 
 
@@ -563,7 +563,7 @@ class ADS1256:
 		"""
 
 		data = np.zeros(len(sel_list), dtype='int32') #create an array to hold the sample vars
-		#self.chip_select()
+		#self.ChipSelect()
 
 		self.SetInputMux_quick(sel_list[0][0],sel_list[0][1])
 		for i in range(1, len(sel_list)):
@@ -575,7 +575,7 @@ class ADS1256:
 			data[i-1] = self.ReadADC_quick()
 		self.WaitDRDY()
 		data[i] = self.ReadADC_quick()
-		self.chip_release()
+		self.ChipRelease()
 		return data
 
 
@@ -607,7 +607,7 @@ class ADS1256:
 
 	def SelfCalibrate(self):
 		debug_print('SelfCalibrate')
-		self.chip_select()
+		self.ChipSelect()
 		self.__SendBytes(bytearray((self.CMD_SELFCAL,)))
-		self.chip_release()
+		self.ChipRelease()
 		self.__delayMicroseconds(4)

@@ -215,7 +215,6 @@ while not end_flag:
 				sample_start_time = time.time()
 				rx_time_log[i] = (sample_start_time - trial_start_time)
 				# collect samples from feach sensor on board
-				print('starting sample #{}'.format(i))
 				if include_MOX:
 					sam_1 = ads.getADCsample(ads.MUX_AIN1, ads.MUX_AINCOM)
 					sam_2 = ads.getADCsample(ads.MUX_AIN2, ads.MUX_AINCOM)
@@ -226,15 +225,17 @@ while not end_flag:
 					sam_7 = ads.getADCsample(ads.MUX_AIN4, ads.MUX_AINCOM)
 					sam_8 = ads.getADCsample(ads.MUX_AIN7, ads.MUX_AINCOM)
 
-					sample = np.array([sam_1,sam_2,sam_3,sam_4,sam_5,sam_6,sam_7,sam_8], dtype='int32')
-					mox_data[i] = sample # save the array of samples to the data dict, with key as sample num
+					mox_data[i] = np.array([sam_1,sam_2,sam_3,sam_4,sam_5,sam_6,sam_7,sam_8], dtype='int32')
 
 				if include_press_temp:
 					for index in range(len(lps)):
-						lps[index].OneShot()
-						time.sleep(.001)
+						lps[index].ChipSelect()   # select all chips
+					lps[0].OneShot()              # sample concurently
+					time.sleep(.001)
+					for index in range(len(lps)): # read concurrent samples sequentially
 						temp_data[i][index]  = lps[index].ReadTemp()
 						press_data[i][index] = lps[index].ReadPress()
+						lps[index].ChipRelease()
 
 				sample_end_time = time.time()
 				while time.time() - trial_start_time < (i+1)*period:
@@ -249,14 +250,14 @@ while not end_flag:
 				# print('Data: ' + str(samps))
 				# elapsed_cycle.append(cycle_time)
 				#
-				# ads.chip_select()
+				# ads.ChipSelect()
 				# start_time = time.time()
 				# samps = ads.CycleReadADC_quick(sel_list)
 				# cycle_time = time.time() - start_time
 				# print('Cycle Quick Method:')
 				# print('elapsed time: ' + str(cycle_time))
 				# print('Data: ' + str(samps))
-				# ads.chip_release()
+				# ads.ChipRelease()
 				# elapsed_cycle_quick.append(cycle_time)
 ## :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :)
 				#time.sleep(period-elapsed_time)
