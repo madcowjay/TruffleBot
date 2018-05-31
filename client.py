@@ -52,11 +52,10 @@ DAC_voltage_percent = float(config.get('DAC', 'voltage_percent'))
 LPS_SPI_CHANNEL     =   int(config.get('LPS', 'LPS_SPI_CHANNEL'))
 LPS_SPI_FREQUENCY   =   int(config.get('LPS', 'LPS_SPI_FREQUENCY'))
 
-trials      =   int(config.get('experiment-parameters', 'trials'))    #trials
-duration    =   int(config.get('experiment-parameters', 'duration'))  #seconds
-padding     =   int(config.get('experiment-parameters', 'padding'))   #pulses of silence at beginning and end
-pulsewidth  = float(config.get('experiment-parameters', 'pulsewidth')) #seconds
-samplerate  = float(config.get('experiment-parameters', 'samplerate')) #hz
+trials      =   int(config.get('experiment-parameters', 'trials'))       #trials
+duration    =   int(config.get('experiment-parameters', 'duration'))     #seconds
+pulsewidth  = float(config.get('experiment-parameters', 'pulsewidth'))   #seconds
+samplerate  = float(config.get('experiment-parameters', 'samplerate'))   #hz
 
 client_dir     = config.get('paths', 'client_dir')
 client_log_dir = config.get('paths', 'client_log_dir')
