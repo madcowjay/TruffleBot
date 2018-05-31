@@ -94,24 +94,6 @@ def pulser_thread(tx_pattern, pulsewidth, tx_time_log):
 	print("Transfer completed")
 	print('tx time log: ' + str(tx_time_log))
 
-
-	# # this is the worker thread if the pi is registered to transmit
-	# pcomm = None
-	# # while not pcomm=='stop':
-	# start_time = time.time()
-	# for i in pattern:
-	# 	if i==1:
-	# 		print('pulse on')
-	# 		global sb
-	# 		sb.pulse(1,duration)
-	# 	else:
-	# 		time.sleep(duration)
-	# 	if not pulseq.empty():
-	# 		pcomm = pulseq.get()
-	# 		if pcomm=='stop':
-	# 			break
-	# print('pulser ended')
-
 #== Setup ======================================================================
 print('\n\n\n') # for logfile
 print(time.asctime(time.localtime(time.time())))

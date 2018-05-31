@@ -18,8 +18,7 @@ experiment = experiment_count; %Last run in file
 exp_name = info.Groups(experiment).Name;
 
 trial_count = numel(info.Groups(experiment_count).Groups);
-%trial = trial_count;
-trial = 1
+trial = trial_count;
 trial_name = info.Groups(experiment).Groups(trial).Name;
 
 collector_count = numel(info.Groups(experiment).Groups(trial).Groups(1).Groups);
