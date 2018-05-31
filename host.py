@@ -146,7 +146,7 @@ t = threading.Thread(target=input_thread, args=(t_stop,))
 #== Main Loop ==================================================================
 for trial in range(1, trials+1): # MATLAB indexed
 	print('\n*** trial %s started ***' %(trial))
-	trial_name = 'Trial #{}'.format(trial)
+	trial_name = 'Trial #{:03}'.format(trial)
 	pe.add_trial_to_experiment(trial_name)
 	pe.set_trial_start_time(trial_name)
 
