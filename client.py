@@ -228,14 +228,19 @@ while not end_flag:
 					mox_data[i] = np.array([sam_1,sam_2,sam_3,sam_4,sam_5,sam_6,sam_7,sam_8], dtype='int32')
 
 				if include_press_temp:
-					for index in range(4,len(lps)):
-						lps[index].ChipSelect()   # select all chips
-					lps[0].OneShot()              # sample concurently
-					time.sleep(.001)
-					for index in range(4,len(lps)): # read concurrent samples sequentially
+					for index in range(len(lps)):
+						lps[index].OneShot()
+						time.sleep(.001)
 						temp_data[i][index]  = lps[index].ReadTemp()
 						press_data[i][index] = lps[index].ReadPress()
-						lps[index].ChipRelease()
+					# for index in range(4,len(lps)):
+					# 	lps[index].ChipSelect()   # select all chips
+					# lps[0].OneShot()              # sample concurently
+					# time.sleep(.001)
+					# for index in range(4,len(lps)): # read concurrent samples sequentially
+					# 	temp_data[i][index]  = lps[index].ReadTemp()
+					# 	press_data[i][index] = lps[index].ReadPress()
+					# 	lps[index].ChipRelease()
 
 				sample_end_time = time.time()
 				while time.time() - trial_start_time < (i+1)*period:
