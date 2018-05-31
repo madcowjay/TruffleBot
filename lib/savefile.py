@@ -99,7 +99,7 @@ class PlumeLog:
 
 		with h5py.File(writelogfilename, "a") as f:
 			f.attrs['Description']       = 'Plume communications control framework'
-			f.attrs['Format Version']    = 3.0
+			f.attrs['Format Version']    = 3.1
 			f.attrs['Working Directory'] = os.getcwd()
 			f.attrs['Platform']          = sys.platform
 			f.attrs['Platform System']   = platform.system()
@@ -112,7 +112,7 @@ class PlumeLog:
 
 			len([n for n in f.keys()])
 
-			exper = '/Experiment #{}'.format(len([n for n in f.keys()])+1)
+			exper = '/Experiment #{:02}'.format(len([n for n in f.keys()])+1)
 			exp = f.create_group(exper)
 			debug_print('made experiment: {}'.format(exper))
 

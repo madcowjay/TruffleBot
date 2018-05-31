@@ -136,6 +136,7 @@ for cs in all_cs:
 lps = []
 for index in range(len(all_cs)):
 	lps.append(lib.pylps22hb.LPS22HB(LPS_SPI_CHANNEL, LPS_SPI_FREQUENCY, all_cs[index]))
+	time.sleep(.05)
 	lps[index].Boot() # wake up the sensors
 
 # pulsing queue
