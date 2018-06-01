@@ -144,6 +144,8 @@ def read_adc(n, channels):
 			while j:
 				read_adc_once(channels)
 				j -= 1
+				global adc_rate
+				time.sleep(1/adc_rate)
 		except ValueError:
 			print('Please enter a valid selection')
 
@@ -185,6 +187,8 @@ def read_lps(n, channels):
 			while j:
 				read_lps_once(channels)
 				j -= 1
+				global lps_rate
+				time.sleep(1/lps_rate)
 		except ValueError:
 			print('Please enter a valid selection')
 
@@ -366,11 +370,11 @@ def pressure_menu():
 		print(fm)
 		print_status()
 		print(fm+ '---------------------------------------------------------------------------------------------' +sr)
-		print(    '          mode: {2}{0:^24}{3}      continuous polling rate: {2}{1:>3} Hz{3}'.format(mode, lps_rate, fm, sr))
+		print(    '                  mode: {2}{0:^24}{3}       polling rate: {2}{1:>3} Hz{3}'.format(mode, lps_rate, fm, sr))
 		print(fm+ '---------------------------------------------------------------------------------------------' +sr)
 		print('   a: ADC MENU      ' +bm+fbk+ 'PRESSURE MENU' +sr+ '   d: DAC MENU   z: BOARD MENU   c: CONFIG MENU   x: EXIT        ')
 		print('')
-		print("            {0}m{1}: toggle mode      {0}p{1}: set continuous polling rate      {0}b{1}: boot".format(fm, sr))
+		print("            {0}m{1}: toggle mode      {0}p{1}: set polling rate      {0}b{1}: boot".format(fm, sr))
 		print('')
 		print('      {0}0{1}: test #0    {0}1{1}: test #1    {0}2{1}: test #2    {0}3{1}: test #3    {0}4{1}: test #4    {0}5{1}: test #5'.format(fm, sr))
 		if lps_mode == 0:

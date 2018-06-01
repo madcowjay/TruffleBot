@@ -237,7 +237,7 @@ class LPS22HB:
 		result = self.__SendBytes(bytearray([byte1]+6*[byte2]))
 		# analyze status register
 		if result[1] & 0x03 != 0x03:
-			debug_print('Invalid data')
+			print('Invalid data')
 		# return converted values
 		temp_c = (256*float(result[6]) + float(result[5]))/100
 		press_hPa = (256*256*float(result[4]) + 256*float(result[3]) + float(result[2]))/4096
