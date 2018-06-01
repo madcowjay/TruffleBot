@@ -399,8 +399,11 @@ def pressure_menu():
 			lps_rate  = float(input('New frequency:'))
 		elif c == 'b':
 			try:
-				inp = int(input('Boot which sensor?'))
-				lps[inp].Boot()
+				#inp = int(input('Boot which sensor?'))
+				print('Boot which sensor?')
+				c = getch()
+				lps[int(c)].Boot()
+				#lps[inp].Boot()
 				time.sleep(.1)
 			except:
 				print('Invalid Entry')

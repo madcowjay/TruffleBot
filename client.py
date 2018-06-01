@@ -211,18 +211,7 @@ while not end_flag:
 
 				if include_press_temp:
 					for index in range(len(lps)):
-						lps[index].OneShot()
-						time.sleep(.001)
-						temp_data[i][index]  = lps[index].ReadTemp()
-						press_data[i][index] = lps[index].ReadPress()
-					# for index in range(4,len(lps)):
-					# 	lps[index].ChipSelect()   # select all chips
-					# lps[0].OneShot()              # sample concurently
-					# time.sleep(.001)
-					# for index in range(4,len(lps)): # read concurrent samples sequentially
-					# 	temp_data[i][index]  = lps[index].ReadTemp()
-					# 	press_data[i][index] = lps[index].ReadPress()
-					# 	lps[index].ChipRelease()
+						press_data[i][index], temp_data[i][index]  = lps[index].ReadPressAndTemp()
 
 				sample_end_time = time.time()
 				while time.time() - trial_start_time < (i+1)*period:
@@ -261,7 +250,6 @@ while not end_flag:
 			log['Start Time']       = trial_start_time
 			log['End Time']         = trial_end_time
 			log['Duration']         = trial_end_time - trial_start_time
-			#log['Average Elapsed']  = sum(elapsed)/float(len(elapsed))
 			log['TxPattern']        = tx_pattern
 			log['Tx Time Log']      = tx_time_log
 			log['Rx Time Log']      = rx_time_log

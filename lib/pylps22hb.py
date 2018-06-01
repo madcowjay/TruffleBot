@@ -227,12 +227,9 @@ class LPS22HB:
 
 	def ReadPressAndTemp(self):
 		debug_print('ReadPressAndTemp')
-		self.ChipSelect()
-		# OneShot
-		self.__SendBytes(bytearray([self.WRITE_MASK | self.REG_CTRL_REG2]+[0x11]))
-		# wait for data to be ready
-		self.ChipRelease()
-		#time.sleep(.001)
+		# perform one shot to get new data
+		#    note: chip release and select needed between commands
+		self.OneShot()
 		self.ChipSelect()
 		# read status, pressure, and temperature registers
 		byte1 = self.READ_MASK | self.REG_STATUS
@@ -240,7 +237,7 @@ class LPS22HB:
 		result = self.__SendBytes(bytearray([byte1]+6*[byte2]))
 		# analyze status register
 		if result[1] & 0x03 != 0x03:
-			print('Invalid data')
+			debug_print('Invalid data')
 		# return converted values
 		temp_c = (256*float(result[6]) + float(result[5]))/100
 		press_hPa = (256*256*float(result[4]) + 256*float(result[3]) + float(result[2]))/4096
