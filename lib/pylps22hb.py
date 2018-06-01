@@ -225,6 +225,28 @@ class LPS22HB:
 		debug_print('pressure in hPa: ' + str(press_hPa) + ', pressure in atmospheres: ' + str(press_atm))
 		return(press_hPa)
 
+	def ReadPressAndTemp(self):
+		debug_print('ReadPressAndTemp')
+		self.ChipSelect()
+		# OneShot
+		self.__SendBytes(bytearray([self.WRITE_MASK | self.REG_CTRL_REG2]+[0x11]))
+		# wait for data to be ready
+		self.ChipRelease()
+		#time.sleep(.001)
+		self.ChipSelect()
+		# read status, pressure, and temperature registers
+		byte1 = self.READ_MASK | self.REG_STATUS
+		byte2 = self.DUMMY_BYTE
+		result = self.__SendBytes(bytearray([byte1]+6*[byte2]))
+		# analyze status register
+		if result[1] & 0x03 != 0x03:
+			print('Invalid data')
+		# return converted values
+		temp_c = (256*float(result[6]) + float(result[5]))/100
+		press_hPa = (256*256*float(result[4]) + 256*float(result[3]) + float(result[2]))/4096
+		self.ChipRelease()
+		return(press_hPa, temp_c)
+
 	def OneShot(self):
 		debug_print('OneShot')
 		self.ChipSelect()

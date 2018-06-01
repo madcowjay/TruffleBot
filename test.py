@@ -193,12 +193,14 @@ def read_lps_once(channels):
 	global lps_mode
 	if len(channels) == 1:
 		i = channels[0]
-		lps[i].OneShot()
-		time.sleep(.001)
-		if lps_mode == 0:
-			print('{0:<17} hPa    {1:<5} \xb0C'.format(lps[i].ReadPress(), lps[i].ReadTemp()))
-		else:
-			lps[i].ReadRegisters()
+		(press, temp) = lps[i].ReadPressAndTemp()
+		print('{0:<17} hPa    {1:<5} \xb0C'.format(press, temp))
+		#lps[i].OneShot()
+		#time.sleep(.001)
+		#if lps_mode == 0:
+		#	print('{0:<17} hPa    {1:<5} \xb0C'.format(lps[i].ReadPress(), lps[i].ReadTemp()))
+		#else:
+		#	lps[i].ReadRegisters()
 
 	else:
 		readings = []
