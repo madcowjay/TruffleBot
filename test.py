@@ -193,23 +193,20 @@ def read_lps_once(channels):
 	global lps_mode
 	if len(channels) == 1:
 		i = channels[0]
-		(press, temp) = lps[i].ReadPressAndTemp()
-		print('{0:<17} hPa    {1:<5} \xb0C'.format(press, temp))
-		#lps[i].OneShot()
-		#time.sleep(.001)
-		#if lps_mode == 0:
-		#	print('{0:<17} hPa    {1:<5} \xb0C'.format(lps[i].ReadPress(), lps[i].ReadTemp()))
-		#else:
-		#	lps[i].ReadRegisters()
-
+		if lps_mode == 0:
+			(press, temp) = lps[i].ReadPressAndTemp()
+			print('{0:<17} hPa    {1:<5} \xb0C'.format(press, temp))
+		else:
+			lps[i].OneShot()
+			lps[i].ReadRegisters()
 	else:
 		readings = []
 		for channel in channels:
-			lps[channel].OneShot()
-			time.sleep(.001)
 			if lps_mode == 0:
-				readings.append('  {0:<17} {1:<5}'.format(lps[channel].ReadPress(), lps[channel].ReadTemp()))
+				(press, temp) = lps[channel].ReadPressAndTemp()
+				readings.append('  {0:<17} {1:<5}'.format(press, temp))
 			else:
+				lps[channel].OneShot()
 				readings.append(lps[channel].ReadRegisters())
 		for reading in readings:
 			print(reading, end='')
@@ -373,7 +370,8 @@ def pressure_menu():
 		print(fm+ '---------------------------------------------------------------------------------------------' +sr)
 		print('   a: ADC MENU      ' +bm+fbk+ 'PRESSURE MENU' +sr+ '   d: DAC MENU   z: BOARD MENU   c: CONFIG MENU   x: EXIT        ')
 		print('')
-		print("            {0}m{1}: toggle mode    {0}p{1}: set continuous polling rate    {0}b{1}: boot".format(fm, sr))
+		print("            {0}m{1}: toggle mode      {0}p{1}: set continuous polling rate      {0}b{1}: boot".format(fm, sr))
+		print('')
 		print('      {0}0{1}: test #0    {0}1{1}: test #1    {0}2{1}: test #2    {0}3{1}: test #3    {0}4{1}: test #4    {0}5{1}: test #5'.format(fm, sr))
 		if lps_mode == 0:
 			print('      {0}6{1}: test #6    {0}7{1}: test #7           {0}l{1}: test all           {0}r{1}: repeat previous test'.format(fm, sr))
