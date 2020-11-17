@@ -2,14 +2,14 @@
 clc; close all; clear variables; set(0,'DefaultFigureWindowStyle','docked')
 
 %open latest log file
-d  = dir('log/*.hdf5');
+d  = dir('../log/*.hdf5');
 dd = zeros(length(d));
 for j = 1:length(d)
     dd(j) = d(j).datenum;
 end
 [~, idx]= max(dd);
 file = d(idx).name;
-filename = strcat('log/', file);
+filename = strcat('../log/', file);
 
 %process it
 info = h5info(filename); % get group information
@@ -56,9 +56,9 @@ fprintf('Loading experiment %d/%d, trial %d/%d from %s which used %s.\n', experi
 % %sensor = [2]
 % values=[];
 % figure;
-% 
+%
 % for i=1:8
-%     hold on 
+%     hold on
 %     values(i,:)=Rxbits(sensor(i),:);
 %     plot(values(i,:))
 % end

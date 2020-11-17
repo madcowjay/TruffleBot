@@ -1,4 +1,4 @@
-import pi_utils.savefile
+import lib.savefile
 # import matplotlib
 # matplotlib.use('TkAgg') # to fix MacOsX backend error
 import matplotlib.pyplot as plt
@@ -7,7 +7,7 @@ import os
 from sklearn.preprocessing import normalize
 
 def visualize(logname):
-	pl = pi_utils.savefile.PlumeLog(logdirname='gascommlogs')
+	pl = lib.savefile.PlumeLog(logdirname='gascommlogs')
 	data = pl.read_all_data(logname)
 	# pl.delete('plumelog_20170705.hdf5','Source 1')
 	last_e = max(data.keys())
